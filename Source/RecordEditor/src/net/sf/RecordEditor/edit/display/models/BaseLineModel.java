@@ -11,7 +11,7 @@ import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.External.ExternalConversion;
+import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.RecordEditor.re.file.FieldMapping;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.IGetView;

@@ -39,6 +39,12 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 
+
+/**
+ * Create a Csv File
+ * @author Bruce Martin
+ *
+ */
 public class NewCsvFile {
 
 	private static int[][] STRUCTURES = {
@@ -59,8 +65,8 @@ public class NewCsvFile {
 
 	private JCheckBox  namesChk		 = new JCheckBox();
 	private JCheckBox  unicodeChk	 = new JCheckBox();
-	private FontCombo  fontCombo		 = new FontCombo();
-	private DelimiterCombo fieldSep = DelimiterCombo.NewDelimCombo();
+	private FontCombo  fontCombo	 = new FontCombo();
+	private DelimiterCombo fieldSep  = DelimiterCombo.NewDelimCombo();
 	private JComboBox  quote		 = new JComboBox(Common.QUOTE_LIST);
     private BmKeyedComboBox parser   = new BmKeyedComboBox(styleModel, false);
 
@@ -93,29 +99,25 @@ public class NewCsvFile {
 
 	private void init_200_LayoutScreen() {
 
-		panel.setGapRE(BasePanel.GAP2);
-		panel.addLineRE("Rows", rowFld.field);
-		panel.addLineRE("Cols", colFld.field);
-		panel.addLineRE("Names on First Line", namesChk);
-		panel.addLineRE("Unicode", unicodeChk);
-		panel.addLineRE("Font", fontCombo);
-		panel.addLineRE("Field Seperator", fieldSep);
-		panel.addLineRE("Quote", quote);
-		panel.addLineRE("Parser", parser);
-		panel.setGapRE(BasePanel.GAP1);
-
-		//panel.addLine(colNamesLbl, null);
-
-		panel.addComponentRE(1, 3, SwingUtils.TABLE_ROW_HEIGHT * 10,
-		        BasePanel.GAP,
+		panel	.setGapRE(BasePanel.GAP2)
+			.addLineRE(               "Rows", rowFld.field)
+			.addLineRE(               "Cols", colFld.field)
+			.addLineRE("Names on First Line", namesChk)
+			.addLineRE(            "Unicode", unicodeChk)
+			.addLineRE(               "Font", fontCombo)
+			.addLineRE(    "Field Seperator", fieldSep)
+			.addLineRE(              "Quote", quote)
+			.addLineRE(             "Parser", parser)
+				//.setGapRE(BasePanel.GAP1)
+			
+			.addComponentRE(1, 3, SwingUtils.TABLE_ROW_HEIGHT * 10,
+		        BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
-		        colNamesTbl);
-
-		//panel.setGap(BasePanel.GAP1);
-		panel.addLineRE(null, null, goBtn);
-		panel.setGapRE(BasePanel.GAP1);
-		panel.addMessage(msgTxt);
-		panel.setHeightRE(BasePanel.HEIGHT_1P6);
+		        colNamesTbl)
+			.addLineRE(null, null, goBtn)
+				.setGapRE(BasePanel.GAP1)
+			.addMessage(msgTxt)
+				.setHeightRE(BasePanel.HEIGHT_1P6);
 
 		frame.addMainComponent(panel);
 		frame.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -174,7 +176,7 @@ public class NewCsvFile {
 		byte[] eol = Common.SYSTEM_EOL_BYTES;
 		String font = fontCombo.getText();
 		String q   = Common.QUOTE_VALUES[quote.getSelectedIndex()];
-		String sep = fieldSep.getSelectedEnglish();
+		String sep = fieldSep.getDelimiter();
 		int structure = STRUCTURES[toInt(unicodeChk.isSelected())]
 		                          [toInt(namesChk.isSelected())];
 		RecordDetail.FieldDetails[] flds = new RecordDetail.FieldDetails[colFld.value];

@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.zTest.Cobol;
 
 import java.io.ByteArrayInputStream;
@@ -84,14 +109,14 @@ public class TstCobol1 extends TestCase {
 			Type t = m.getType(field.getType());
 
 			assertTrue("Field: " + field.getName(), t instanceof TypeNum && ((TypeNum) t).isPositive());
-			assertEquals(types[i], field.getType());
+			assertEquals("Index: " + i, types[i], field.getType());
 		}
 
 	}
 
 
 	public void testSignedConversion() throws RecordException {
-		int[] intelTypes = {41, 31, 15, 15, 7, 24, 6, 29, 6, 29, };
+		int[] intelTypes = {46, 31, 15, 15, 7, 24, 6, 29, 6, 29, };
 		int[] mainframeTypes = {32, 31, 35, 35, 7, 24, 6, 29, 6, 29, };
 
 		System.out.println();
@@ -124,7 +149,7 @@ public class TstCobol1 extends TestCase {
 			Type t = m.getType(field.getType());
 
 			assertTrue("Field: " + field.getName(), (t instanceof TypeNum && (! ((TypeNum) t).isPositive())));
-			assertEquals("Field Type: " + field.getName(), types[i], field.getType());
+			assertEquals("Field Type: " + field.getName() + " " + cobolDialect, types[i], field.getType());
 		}
 
 	}

@@ -8,13 +8,11 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Common.XmlConstants;
-import net.sf.JRecord.CsvParser.BaseCsvLineParser;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
-import net.sf.JRecord.Details.RecordSelection;
 import net.sf.JRecord.Details.XmlLine;
 import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
@@ -25,8 +23,6 @@ import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.jibx.compare.CopyDefinition;
 import net.sf.RecordEditor.jibx.compare.Record;
-import net.sf.RecordEditor.re.fileWriter.BaseWriter;
-import net.sf.RecordEditor.re.fileWriter.CsvWriterSingleByteCharset;
 import net.sf.RecordEditor.re.fileWriter.FieldWriter;
 import net.sf.RecordEditor.re.fileWriter.WriterBuilder;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
@@ -256,7 +252,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 					out = LineIOProvider.getInstance().getLineProvider(dtl2).getLine(dtl2);
 
 					try {
-						RecordSelection sel = dtl2.getRecord(i2).getRecordSelection();
+						net.sf.JRecord.detailsSelection.RecordSelection sel = dtl2.getRecord(i2).getRecordSelection();
 						for (ExternalFieldSelection fs : sel.getAllFields()) {
 							if (fs != null) {
 								out.setField(fs.getFieldName() , fs.getFieldValue());

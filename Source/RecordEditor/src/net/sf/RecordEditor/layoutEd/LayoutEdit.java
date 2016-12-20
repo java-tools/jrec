@@ -26,7 +26,7 @@ import javax.swing.JMenuBar;
 import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
 import net.sf.RecordEditor.layoutEd.schema.ImportExport.SchemaBackup;
-import net.sf.RecordEditor.re.editProperties.EditOptions;
+import net.sf.RecordEditor.re.cobol.GenerateMenu;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
@@ -90,7 +90,7 @@ public class LayoutEdit extends ReMainFrame {
 
 		AbstractAction optionAction = new ReAbstractAction(	"Edit Options", Common.ID_PREF_ICON) {
 			public void actionPerformed(ActionEvent e) {
-				 new EditOptions(false, true, true);
+				 new net.sf.RecordEditor.re.editProperties.EditOptions(false, true, true);
 			}
 		};
     	AbstractAction[] toolbarActions = {
@@ -117,7 +117,6 @@ public class LayoutEdit extends ReMainFrame {
 	    UpgradeDB.checkForUpdate(idx);
 	    Common.freeConnection(idx);
 
-
         if (Common.OPTIONS.showRecordEditorTips.isSelected() && TipsManager.tipsModulePresent()) {
         	TipsManager.startTips(this, Parameters.getSytemJarFileDirectory() + "/LayoutEditor_TipOfTheDay.properties",
         					  Parameters.SHOW_RECORDEDITOR_TIPS);
@@ -134,6 +133,12 @@ public class LayoutEdit extends ReMainFrame {
 	protected void addProgramSpecificMenus(JMenuBar menubar) {
 
 		menubar.add(layoutMenu);
+		
+		GenerateMenu genMenu = new GenerateMenu();
+
+	    menubar.add(genMenu.generateMenu);
+	    
+	    genMenu.bldMenu(this);
 	}
 
 

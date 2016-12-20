@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Numeric;
 
 import net.sf.JRecord.Types.Type;
@@ -5,7 +30,7 @@ import net.sf.JRecord.Types.Type;
 public class CommonCode {
 
 	public static int commonTypeChecks(
-			int binaryFormat, String usage, String picture, boolean signed, boolean signSeperate,
+			int dialect, String usage, String picture, boolean signed, boolean signSeperate,
 			String signPosition) {
 		int iType = 0;
 		if (signed ||  picture.startsWith("S")) {
@@ -22,10 +47,11 @@ public class CommonCode {
 					iType = Type.ftSignSepTrailActualDecimal;
 				}
 			} else {
-				if (binaryFormat == ICopybookDialects.FMT_MAINFRAME) {
-					iType = Type.ftZonedNumeric;
-				} else {
-					iType = Type.ftFjZonedNumeric;
+				iType = Type.ftGnuCblZonedNumeric;
+				switch (dialect) {
+				case ICopybookDialects.FMT_MAINFRAME: 				iType = Type.ftZonedNumeric;		break;
+				case ICopybookDialects.FMT_FUJITSU:
+				case ICopybookDialects.FMT_FUJITSU_COMMA_DECIMAL:	iType = Type.ftFjZonedNumeric;		break;		
 				}
 			}
 		} else {

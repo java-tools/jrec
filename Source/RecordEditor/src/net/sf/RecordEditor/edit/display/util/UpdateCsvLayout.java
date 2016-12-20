@@ -89,7 +89,8 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 	private MenuPopupListener popupListner = new MenuPopupListener();
 	private ReFrame frame;
 
-	private int delimiterIdx, quoteIdx, newFieldCount;
+	private String delimiter;
+	private int /*delimiterIdx,*/ quoteIdx, newFieldCount;
 	private boolean allowTypeUpdates = true;
 
 	//private boolean showSourceColumn = false;
@@ -137,7 +138,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
 	private void init_setupScreen() {
 		BasePanel pnl = new BasePanel();
-		String delim  = layout.getDelimiter();
+		delimiter  = layout.getDelimiter();
 		String quote  = layout.getRecord(0).getQuote();
 
 		init_setupTablePopup();
@@ -150,7 +151,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 		}
 
 //		System.out.println(" ~~!!~~ 1 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
-		delimiterIdx = delimiterCombo.getAddEnglish(delim, true);// getIndex(delim, Common.FIELD_SEPARATOR_LIST1_VALUES, delimiterCombo);
+		delimiterCombo.ensureDelimitierExists(delimiter);// getIndex(delim, Common.FIELD_SEPARATOR_LIST1_VALUES, delimiterCombo);
 //		System.out.println(" ~~!!~~ 2 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
 		quoteIdx =  quoteCombo.getAddEnglish(quote, true);
 				//getIndex(quote, Common.QUOTE_VALUES, quoteCombo);
@@ -281,9 +282,9 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 		boolean ret = true;
 		FieldDef f;
 
-		System.out.println( " !!! 1 " + delimiterIdx + " " + delimiterCombo.getSelectedIndex());
+		System.out.println( " !!! 1 " + delimiter + " " + delimiterCombo.getDelimiter());
 		System.out.println( " !!! 2 " + quoteIdx + " " + quoteCombo.getSelectedIndex());
-		if (delimiterIdx != delimiterCombo.getSelectedIndex()
+		if (delimiter != delimiterCombo.getDelimiter()
 		||  quoteIdx != quoteCombo.getSelectedIndex()) {
 			ret = false;
 		} else {
@@ -344,7 +345,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
         recs[0] = new RecordDetail(
         		rec.getRecordName(), "", "", rec.getRecordType(),
-        		delimiterCombo.getSelectedEnglish(), quote,
+        		delimiterCombo.getDelimiter(), quote,
         		layout.getFontName(), flds, rec.getRecordStyle(), 0);
 
         return

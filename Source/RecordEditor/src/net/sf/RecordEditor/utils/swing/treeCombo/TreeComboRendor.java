@@ -99,8 +99,9 @@ public class TreeComboRendor extends AbstractCellEditor implements
 		} else if (value instanceof Integer) {
 			combo.setSelectedKey((Integer) value);
 		} else if (value instanceof String) {
-			combo.setOnlySelectedItem(TreeComboItem.BLANK_ITEM);
-			combo.setText((String) value);
+			combo.setSelectedString((String) value); 
+			//combo.setOnlySelectedItem(TreeComboItem.BLANK_ITEM);
+			//combo.setText((String) value);
 		} else {
 			combo.setSelectedItem(TreeComboItem.BLANK_ITEM);
 		}

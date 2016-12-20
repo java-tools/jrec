@@ -40,7 +40,7 @@ public class TblCellAdapter implements ITableCellAdapter  {
 		TableCellRenderer[] iCellRenders = display.cellRenders;
 		
 		JTable jTable = display.getJTable();
-		if (jTable != null && jTable.getColumnModel() != null) {
+		if (jTable != null && jTable.getColumnModel() != null && column < jTable.getColumnModel().getColumnCount() ) {
 			try {
 				int recordIndex = getPreferedIdx(row);
 				if (recordIndex >= 0) {

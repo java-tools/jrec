@@ -23,6 +23,18 @@ public class BuildTypeComboList {
 	}
 
 	public static TreeComboItem[] getList(AbsRowList typeList) {
+		return getList(false, typeList);
+	}
+
+	
+
+	public static TreeComboItem[] getTextTypes(AbsRowList typeList) {
+		return getList(true, typeList);
+	}
+
+	
+	@SuppressWarnings("deprecation")
+	private static TreeComboItem[] getList(boolean onlyTextFields, AbsRowList typeList) {
 		//TypeList typeList = new TypeList(connectionIdx, false, false);
 		TypeManager m = TypeManager.getInstance();
 		TreeComboItem[] ret;
@@ -37,7 +49,10 @@ public class BuildTypeComboList {
 		MenuDtls charTypes = new MenuDtls("", new  ArrayList<MenuDtls>());
 
 		MenuDtls numericTypes = new MenuDtls("Numeric Types", subMenus);
-		MenuDtls binTypes = new MenuDtls("Binary Numeric Types", subMenus);
+		MenuDtls binTypes = null;
+		if (! onlyTextFields) {
+			binTypes = new MenuDtls("Binary Numeric Types", subMenus);
+		}
 		MenuDtls leftJustifiedTypes = new MenuDtls("Left Justified Numeric Types", subMenus);
 		MenuDtls spacePaddedTypes = new MenuDtls("Right Justified Space padded Types", subMenus);
 		MenuDtls commaDecimalTypes = new MenuDtls("Numeric Decimal point=','", subMenus);
@@ -52,7 +67,8 @@ public class BuildTypeComboList {
 		String foreignLookUpId = Common.getTblLookupKey(Common.TI_FIELD_TYPE);
 //		Type typeChar = m.getType(Type.ftChar);
 
-		for (int i = 0; i < typeList.getSize(); i++) {
+		int size = typeList.getSize();
+		for (int i = 0; i < size; i++) {
 			key = ((Integer) typeList.getKeyAt(i));
 			fld = typeList.getFieldAt(i);
 			valid = typeList.getFieldAt(i, VALID_IDX);
@@ -76,7 +92,9 @@ public class BuildTypeComboList {
 //				if (key == Type.ftDateDMY) {
 //					System.out.print('.');
 //				}
-				if (key >= Type.USER_RANGE_START) {
+				if (onlyTextFields && t.isBinary()) {
+					
+				} else if (key >= Type.USER_RANGE_START) {
 					if (t instanceof TypeDateWrapper) {
 						dateTypes.add(tc);
 					} else {
@@ -93,10 +111,13 @@ public class BuildTypeComboList {
 	                case Type.ftCharMultiLine:	
 					case Type.ftMultiLineChar:
 					case Type.ftArrayField:
+					case Type.ftRecordEditorType:
 						specialTypes.add(tc);
 						break;
 					case Type.ftFjZonedNumeric:
 					case Type.ftZonedNumeric:
+					case Type.ftGnuCblZonedNumeric:
+					case Type.ftNumOrEmpty:
 						numericTypes.add(tc);
 						break;
 					case Type.ftCheckBoxTrue:

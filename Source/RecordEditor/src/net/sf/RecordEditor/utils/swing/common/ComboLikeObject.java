@@ -30,7 +30,7 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
 	private static final int FIELD_WIDTH = 20;
 
-	private final JTextComponent valueTxt;
+	protected final JTextComponent valueTxt;
 
 	protected final JButton showListBtn = new ArrowButton(ArrowButton.SOUTH);
 
@@ -149,6 +149,11 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 			}
 		});
 	}
+	
+	protected final void setTextFieldWidth(int width) {
+		Dimension d = valueTxt.getPreferredSize();
+		valueTxt.setPreferredSize(new Dimension(Math.max(d.width, width), d.height));
+	}
 
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -223,6 +228,16 @@ public class ComboLikeObject extends JPanel implements ActionListener {
     		this.currentPopup = newPopup;
      	}
 	}
+	
+	public void setEditable(boolean editable) {
+		valueTxt.setEditable(editable);
+		
+		if (buttons != null) {
+			for (JButton b : buttons) {
+				b.setEnabled(editable);
+			}
+		}
+	}
 
 	public JPopupMenu getPopup() {
 		return currentPopup;
@@ -235,14 +250,27 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 	 * @see javax.swing.text.JTextComponent#setText(java.lang.String)
 	 */
 	public void setText(String t) {
+		setTextSilently(t);
+		fireValueChangeListner(null);
+	}
+
+	/**
+	 * @param t
+	 * @see javax.swing.text.JTextComponent#setText(java.lang.String)
+	 */
+	protected final void setTextInternal(String t) {
 		valueTxt.setText(t);
 		fireValueChangeListner(null);
 	}
-	
+
 	public void setTextSilently(String t) {
 		valueTxt.setText(t);
 	}
 
+
+	protected final void setTextSilentlyInternal(String t) {
+		valueTxt.setText(t);
+	}
 
 	/**
 	 * @return

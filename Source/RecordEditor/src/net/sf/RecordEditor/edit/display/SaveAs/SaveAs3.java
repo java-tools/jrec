@@ -441,7 +441,7 @@ public final class SaveAs3 extends ReFrame
         				activePnl.extensionType,
         				activePnl.template.getText(),
         				ext,
-        				activePnl.extension);
+        				activePnl.getExtension());
         	}
         	activePnl.save(selection, outFile);
 
@@ -543,12 +543,12 @@ public final class SaveAs3 extends ReFrame
 
     private String getExtension(int idx) {
     	if (pnls[idx].template == null) {
-    		return pnls[idx].extension;
+    		return pnls[idx].getExtension();
     	}
     	return RecentFiles.getLast().getFileExtension(
     			pnls[idx].extensionType,
     			pnls[idx].template.getText(),
-    			pnls[idx].extension);
+    			pnls[idx].getExtension());
     }
 
 

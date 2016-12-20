@@ -160,7 +160,9 @@ public abstract class AbstractCompareDisplay extends ReFrame {
 
 		init(primary);
 		prefferedIndex = layoutList.getPreferedIndex();
-		layoutList.setSelectedIndex(prefferedIndex);
+		if (prefferedIndex < layoutList.getItemCount()) {
+			layoutList.setSelectedIndex(prefferedIndex);
+		}
 	}
 
 

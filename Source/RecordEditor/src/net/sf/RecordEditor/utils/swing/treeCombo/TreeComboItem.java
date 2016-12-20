@@ -45,9 +45,7 @@ public class TreeComboItem extends ComboStdOption<Integer> {
 
 
 	private String getFullName() {
-		if (parentItem == null) {
-			return super.string;
-		} else if (showParent) {
+		if (showParent && parentItem != null) {
 			return parentItem.getFullName() + "." + super.string;
 		}
 		return super.string;

@@ -4,6 +4,31 @@
  *
  * Purpose:
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.AbstractFieldValue;
@@ -155,7 +180,8 @@ public interface AbstractLine extends AbstractIndexedLine {
      */
     public abstract AbstractFieldValue getFieldValue(final int recordIdx, final int fieldIdx);
 
-    /**
+
+   /**
      * Get a fields value
      *
      * @param field field to retrieve
@@ -172,6 +198,15 @@ public interface AbstractLine extends AbstractIndexedLine {
      * @return fields Value
      */
     public abstract AbstractFieldValue getFieldValue(String fieldName);
+
+    /**
+     * Get a fields value
+     *
+     * @param fieldName field to retrieve
+     *
+     * @return fields Value
+     */
+    public abstract AbstractFieldValue getFieldValueIfExists(String fieldName);
 
     /**
      * Set a field via its name

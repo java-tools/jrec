@@ -170,7 +170,7 @@ public class CobolCopybookDocView extends PlainView {
 				int fontHeight = fontMetrics.getHeight();
 	
 				int tabbedTextWidth = Utilities.getTabbedTextWidth(segment, fontMetrics, x, this, t1);
-				g.fillRect(x, y - y % fontHeight, tabbedTextWidth, fontHeight);
+				g.fillRect(x, y - Math.max(0, y - 1) % fontHeight, tabbedTextWidth, fontHeight);
 			}
 			
 			if (foreground == null) {

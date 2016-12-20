@@ -15,19 +15,19 @@ public class SortParent {
 		notifyList.add(new WeakReference<ISortNotify>(notify));
 	}
 	
-	public <L extends AbstractLine> int[] sort(IDataStore<L> store, Comparator<AbstractLine> compare) {
+	public <L extends AbstractLine> int[] sort(IDataStore<L> store, Comparator<? super AbstractLine> compare) {
 		DataStoreLargeView lv = new DataStoreLargeView(store, false).addRange(0, store.size() - 1);
 		
 		return doSort(lv, compare, null, store.size());
 	}
 	
-	public final <L extends AbstractLine> int[] sort(IDataStore<L> store, int[] rows, Comparator<AbstractLine> compare) {
+	public final <L extends AbstractLine> int[] sort(IDataStore<L> store, int[] rows, Comparator<? super AbstractLine> compare) {
 		DataStoreLargeView lv = new DataStoreLargeView(store, false, rows);
 		
 		return doSort(lv, compare, rows, store.size());  
 	}
 	
-	private  int[] doSort(DataStoreLargeView lv, Comparator<AbstractLine> compare, int[] rows, int mapSize) {
+	private  int[] doSort(DataStoreLargeView lv, Comparator<? super AbstractLine> compare, int[] rows, int mapSize) {
 		lv.sortRE(compare);
 		
 		checkListIsActive();

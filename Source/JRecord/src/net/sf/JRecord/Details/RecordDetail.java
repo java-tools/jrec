@@ -6,6 +6,31 @@
  * # Version 0.56 Bruce Martin 2007/01/16
  *   - remove unused field editorStatus
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Details;
 
 import java.util.ArrayList;
@@ -19,9 +44,12 @@ import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.ParserManager;
-import net.sf.JRecord.External.ExternalConversion;
+import net.sf.JRecord.External.base.ExternalConversion;
+import net.sf.JRecord.Option.IRecordPositionOption;
 import net.sf.JRecord.Types.TypeManager;
+import net.sf.JRecord.cgen.defc.IRecordDetail4gen;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
+import net.sf.JRecord.detailsSelection.RecordSelection;
 
 
 
@@ -53,7 +81,7 @@ import net.sf.JRecord.detailsSelection.FieldSelectX;
  * @version 0.55
  */
 public class RecordDetail extends BasicRecordDetail<RecordDetail.FieldDetails, RecordDetail, AbstractChildDetails<RecordDetail>>
-implements AbstractRecordDetail,  ICsvDefinition {
+implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 
 
 	private static final byte UNDEFINED = -121;
@@ -69,12 +97,14 @@ implements AbstractRecordDetail,  ICsvDefinition {
 
 	//private String selectionField;
 	//private String selectionValue;
-	private RecordSelection recordSelection = new RecordSelection(this);
+	private RecordSelection recordSelection = new RecordSelection();
 
+	private String  delimiterUneditted;
 	private String  delimiter;
 	private int     length = 0;
+//	private int     minumumPossibleLength;
 	private String  fontName;
-	private String  quote;
+	private final String quote, quoteUneditted;
 
 	private int     recordStyle;
 
@@ -208,7 +238,8 @@ implements AbstractRecordDetail,  ICsvDefinition {
 		this.recordType = pRecordType;
 
 		this.fields   = pFields;
-		this.quote    = pQuote;
+		this.quote    = decodeUnicodeChar(pQuote);
+		this.quoteUneditted = pQuote;
 		this.fontName = pFontName;
 		this.recordStyle = pRecordStyle;
 		this.childId = childId;
@@ -219,6 +250,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 		    fieldCount -= 1;
 		}
 
+		delimiterUneditted = pDelim;
 		delimiter = convertFieldDelim(pDelim);
 
 		//System.out.println("Quote 1 ==>" + pQuote + "<==");
@@ -229,6 +261,7 @@ implements AbstractRecordDetail,  ICsvDefinition {
 		    	length = l;
 		    }
 		}
+//		minumumPossibleLength = length;
 
 		ICsvLineParser parser = ParserManager.getInstance().get(pRecordStyle);
 		if (parser != null && parser instanceof BasicCsvLineParser) {
@@ -422,16 +455,32 @@ implements AbstractRecordDetail,  ICsvDefinition {
     }
 
     protected void setDelimiter(String delimiter) {
-		this.delimiter = delimiter;
+		this.delimiter = convertFieldDelim(delimiter);
+		this.delimiterUneditted = delimiter;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getQuote()
+	/**
+	 * @return the delimiterUneditted
+	 */
+	public final String getDelimiterUneditted() {
+		return delimiterUneditted;
+	}
+
+	/**
+	 * @see net.sf.JRecord.Common.AbstractRecord#getQuote()
 	 */
     public String getQuote() {
         return quote;
     }
+
+
+	/**
+	 * @return the quoteUneditted
+	 */
+	public final String getQuoteUneditted() {
+		return quoteUneditted;
+	}
 
 
 	/* (non-Javadoc)
@@ -459,14 +508,41 @@ implements AbstractRecordDetail,  ICsvDefinition {
 
 	public final static String convertFieldDelim(String pDelim) {
 		String delimiter = pDelim;
-		if ((pDelim == null) || (pDelim.trim().equalsIgnoreCase("<tab>"))) {
+
+		if ((pDelim == null) || pDelim == "\t" || ((pDelim = pDelim.trim()).equalsIgnoreCase("<tab>"))) {
 			delimiter = "\t";
-		} else if (pDelim.trim().equalsIgnoreCase("<space>")) {
+		} else if (pDelim.equalsIgnoreCase("<space>")) {
 			delimiter = " ";
+		} else if (pDelim.length() == 0) {
+			
+		} else {
+			delimiter = decodeUnicodeChar(pDelim);
 		}
 		return delimiter;
 	}
 
+	/**
+	 * The input to this method can be either:<ul>
+	 * <li>A single character
+	 * <li>A character represented in unicode format: \\u0001
+	 * (\\u followed by the character code in hex format).
+	 * </ul>
+	 * 
+	 * @param charId character id to be decoded
+	 * @return character decoded character.
+	 * @throws NumberFormatException
+	 */
+	public static String decodeUnicodeChar(String charId) {
+		char ch;
+		int charLength = charId.length();
+		
+		if (charLength > 2 && charLength < 7 && charId.charAt(0) == '\\'
+		&&((ch = charId.charAt(1)) == 'u' || ch == 'U')) {
+			char[] chars = { (char)Integer.parseInt(charId.substring(2), 16) };
+			charId = new String(chars);
+		}
+		return charId;
+	}
 
 	/**
 	 * @return the recordSelection
@@ -489,6 +565,18 @@ implements AbstractRecordDetail,  ICsvDefinition {
 			return Options.getValue(recordSelection != null);
 		}
 		return Options.UNKNOWN;
+	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.cgen.defc.IRecordDetail4gen#getRecordPositionOption()
+	 * 
+	 * added to implement IRecordDetail4gen
+	 */
+	@Override
+	public IRecordPositionOption getRecordPositionOption() {
+		return null;
 	}
 
 	/* (non-Javadoc)

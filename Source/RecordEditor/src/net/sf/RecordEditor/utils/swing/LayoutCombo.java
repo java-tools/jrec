@@ -29,7 +29,7 @@ public class LayoutCombo extends JComboBox {
 	private  int preferedIndex;
 	private  int fullLineIndex;
 
-	private boolean addFullLine, fullList, prefered, addHex;
+	private final boolean addFullLine, fullList, prefered, addHex;
 
 	private AbstractLayoutDetails recordLayout;
 

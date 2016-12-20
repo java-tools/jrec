@@ -165,22 +165,20 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
         recentList = new RecentFilesList(recent, this, true);
         csvTabDtls = new CsvTabPane(msgTxt, fixedXmlTabs, true);
 
-        boolean filePresent = true;
+        //boolean filePresent = true;
         //File file;
         String fname = fileName;
         URL helpname = Common.formatHelpURL(Common.HELP_CSV_EDITOR);
-        if (fname == null && Common.OPTIONS.useLastDir.isSelected()) {
-        	fname = recent.getLastDirectory();
-        }
-        if (fname == null || "".equals(fname)) {
-            fname = defaultDirectory;
-            filePresent = false;
-        }
+//        if (fname == null && Common.OPTIONS.useLastDir.isSelected()) {
+//        	fname = recent.getLastDirectory();
+//        }
+//        if (fname == null || "".equals(fname)) {
+//            fname = defaultDirectory;
+//            filePresent = false;
+//        }
 
-        File file = null;
-        if (fname != null) {
-	        file = adjustForDirectory(fname);
- 	        
+        File file = OpenCommon.getOpenDirectory(recent, fname, defaultDirectory);
+        if (file != null) {
 	        fname = file.getPath();
         }
 
@@ -192,7 +190,8 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
         setTab(csvTabDtls.unicodeCsvDetails, helpname);
 
         if (fixedXmlTabs) {
-            setTab(csvTabDtls.fixedSelectionPanel, helpname);
+            setTab(csvTabDtls.fixedWidthPanel, helpname);
+            setTab(csvTabDtls.schemaSelectionPanel, helpname);
             setTab(csvTabDtls.xmlSelectionPanel, helpname);
             setTab(csvTabDtls.otherSelectionPanel, helpname);
         }
@@ -233,7 +232,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
         }
         csvTabDtls.tab.addChangeListener(tabListner);
 
-        if (filePresent && fname != null && file.isFile()) {
+        if (file != null && file.isFile()) {
             readFilePreview(file, true);
         }
     }
@@ -344,7 +343,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 			fc.removePropertyChangeListener(chgListner);
 			csvTabDtls.tab.removeChangeListener(tabListner);
 
-			File file = adjustForDirectory(filename);
+			File file = OpenCommon.adjustForDirectory(filename);
 			fc.setSelectedFile(file);
     		if (layoutName == null || "".equals(layoutName)) {
 
@@ -380,14 +379,6 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
         }
     }
     
-    private File adjustForDirectory(String filenmae) {
-    	File file = new File(filenmae);
-    	if (file.isDirectory()) {
-    		String pathname = file.getPath() + Common.FILE_SEPERATOR +  "*";
-			file = new File(pathname);
-    	}
-    	return file;
-    }
 
     private void readFilePreview(File f, boolean allowTabSwap) {
         String layoutDtls = null;

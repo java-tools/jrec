@@ -6,15 +6,19 @@
  */
 package net.sf.RecordEditor.utils.swing;
 
+import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.JMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -460,7 +464,7 @@ public class FixedColumnScrollPane extends JScrollPane  {
 		}
 	}
 	
-	public void setupLineFields(int rowCount, int numControlColumns, TableCellRenderer headerRender) {
+	public void setupLineFields(int rowCount, int numControlColumns, TableCellRenderer headerRender, boolean lineCommandField) {
 
 		int width = SwingUtils.CHAR_FIELD_WIDTH;
 		//System.out.println("Setup fixed columns ... " + width);
@@ -481,6 +485,10 @@ public class FixedColumnScrollPane extends JScrollPane  {
 			}
 			tc.setPreferredWidth(SwingUtils.STANDARD_FONT_WIDTH * width);
 			tc.setResizable(false);
+			
+			if (lineCommandField) {
+				tc.setCellEditor(new LineNumberCellEditor());
+			}
 
 			correctFixedSize();
 		}
@@ -503,4 +511,25 @@ public class FixedColumnScrollPane extends JScrollPane  {
     public JMenu getShowFieldsMenu() {
     	return showFields.getMenu();
     }
+    
+    private static class LineNumberCellEditor extends AbstractCellEditor implements TableCellEditor {
+    	JTextField textField = new JTextField();
+
+    	
+		@Override
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			textField.setText("");
+			return textField;
+		}
+
+
+
+		@Override
+		public Object getCellEditorValue() {
+			return textField.getText();
+		}
+    }
+
+
 }

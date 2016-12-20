@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
+import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.IGetSchema;
 import net.sf.RecordEditor.layoutEd.Record.SearchArgAction;
 import net.sf.RecordEditor.layoutEd.panels.RecordListPnl;
 import net.sf.RecordEditor.layoutEd.panels.RecordPnl;
@@ -56,7 +58,8 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public class RecordEdit extends    ReFrame
-						implements SearchArgAction, ReActionHandlerWithSave, BasicLayoutCallback {
+						implements SearchArgAction, ReActionHandlerWithSave, BasicLayoutCallback,
+						           IGetSchema{
 
     private static final int MAIN_PANEL_HEIGHT_ADJUSTMET =  SwingUtils.STANDARD_FONT_HEIGHT * 5;
  	private RecordListPnl pnlRecordList;
@@ -348,6 +351,7 @@ public class RecordEdit extends    ReFrame
 	        }
 	        break;
 	    case ReActionHandler.SAVE_LAYOUT_XML:
+	    	//TODO
 	        RecordRec rec1 = saveRecord(true);
 
 	        if (rec1 != null && rec1.isUpdateSuccessful()) {
@@ -379,6 +383,34 @@ public class RecordEdit extends    ReFrame
         }
         return ret;
     }
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.IGetSchema#getSchema()
+	 */
+	@Override
+	public AbstractLayoutDetails getSchema() {
+        RecordRec rec1 = saveRecord(true);
+
+        if (rec1 != null && rec1.isUpdateSuccessful()) {
+        	RecordRec recr = ExtendedRecordDB.getRecord(connectionIdx, rec1.getRecordId());
+        	if (recr != null) {
+        		return recr.getValue().asLayoutDetail();
+        	}
+        }
+		return null;
+	}
+
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.IGetSchema#schemaAvailable4checking()
+	 */
+	@Override
+	public boolean schemaAvailable4checking() {
+		return false;
+	}
+
 
 
 	@Override

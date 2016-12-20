@@ -5,7 +5,6 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
-import net.sf.RecordEditor.utils.swing.BmKeyedComboBoxRender;
 import net.sf.RecordEditor.utils.swing.interfaces.ITableCellAdapter;
 
 @SuppressWarnings("serial")

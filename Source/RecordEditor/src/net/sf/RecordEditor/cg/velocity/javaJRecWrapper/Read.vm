@@ -1,0 +1,69 @@
+#incl("javaJRec/Header.pvm")
+#incl("$std.schema/CommonMacros.vm")
+
+import net.sf.JRecord.def.IO.builders.IIOBuilder;
+import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.IO.AbstractLineReader;
+import ${generateOptions.packageId}.data.FieldNames${generateOptions.schemaDefinition.extensionName};
+#*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()})
+import ${generateOptions.packageId}.data.Line${r.extensionName}JR;
+#*  *##end
+
+public class Read${generateOptions.schemaDefinition.extensionName} {
+
+    public static void main(String[] args) {
+
+       String filename = "${generateOptions.getDataFileName().getJavaFileName()}";
+       int lineNum = 0;
+       try {
+#*  *##if(${generateOptions.schemaDefinition.areFieldNamesOnTheFirstLine()})
+          IIOBuilder iob = FieldNames${generateOptions.schemaDefinition.extensionName}.newIoBuilderForReading();
+#*  *##else
+          IIOBuilder iob = FieldNames${generateOptions.schemaDefinition.extensionName}.newIoBuilder();
+#*  *##end
+
+###*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()})
+##         FieldNames${generateOptions.schemaDefinition.extensionName}.Record${r.extensionName} r${r.extensionName} = FieldNames${generateOptions.schemaDefinition.extensionName}.RECORD_${r.constantName};
+###*  *##end
+          AbstractLineReader reader = iob.newReader(filename);
+          AbstractLine line;
+#*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()})
+          Line${r.extensionName}JR line${r.extensionName}JR = new Line${r.extensionName}JR();
+#*  *##end
+
+
+###macro (printFields)
+###*  *##set( $sep = "        ")
+###*  *##foreach($f in ${r.getFields(11)})
+###*      *##if (! ${f.isArrayItem()})
+##                      ${sep}line.getFieldValue(r${r.extensionName}.${f.javaName}).asString()
+###*            *##set( $sep = '+ " " + ')
+###*      *##end
+###*  *##end
+###*  *##foreach($a in ${r.getArrayDetailsList()})
+###*      *##if (! ${f.isArrayItem()})
+##                      ${sep}line.getFieldValue(r${r.extensionName}.${a.getFirstElement().javaName}.get(${a.getZeroArrayIndex()})).asString()
+###*      *##end
+###*  *##end
+###end
+          while ((line = reader.read()) != null) {
+              lineNum += 1;
+#*  *##if (${generateOptions.schemaDefinition.getRecords().size()} == 1)
+#*      *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()})
+              line${r.extensionName}JR.setLine(line);
+              System.out.println(
+#*          *##printFieldsWrapper()
+              );
+#*      *##end
+#*  *##end
+          }
+          reader.close();
+       } catch (Exception e) {
+          System.out.println("~~> " + lineNum + " " + e);
+          System.out.println();
+
+          e.printStackTrace();
+       }
+
+    }
+}

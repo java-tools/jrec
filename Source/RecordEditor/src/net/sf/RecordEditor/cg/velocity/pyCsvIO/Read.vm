@@ -1,0 +1,32 @@
+import csv
+#set ($schemaDef = ${generateOptions.schemaDefinition})
+#set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+
+#incl("pyCsvIO/CsvCommonPy.vm")
+
+#if (${generateOptions.schemaDefinition.areThereColumnNames()})
+#indexClassPy()
+
+idx = indexs()
+with open('${generateOptions.getDataFileName().getEscapedFileName()}', 'rb') as csvfile:
+    csvReader = csv.reader(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q})
+    next(csvReader)
+
+    for row in csvReader:
+#*  *##if ( ${r.getFields().size()} == 0 )
+        print row
+#*  *##elseif ( ${r.getFields().size()} == 1 )
+        print row[idx.${r.getFields().get(0).javaName}]
+#*  *##elseif ( ${r.getFields().size()} == 2 )
+        print row[idx.${r.getFields().get(0).javaName}], row[idx.${r.getFields().get(1).javaName}]
+#*  *##else
+        print row[idx.${r.getFields().get(0).javaName}], row[idx.${r.getFields().get(1).javaName}], row[idx.${r.getFields().get(2).javaName}]
+#*  *##end
+#else
+with open('${generateOptions.getDataFileName().getEscapedFileName()}', 'rb') as csvfile:
+    csvReader = csv.reader(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q})
+    next(csvReader)
+
+    for row in csvReader:
+        print row
+#end

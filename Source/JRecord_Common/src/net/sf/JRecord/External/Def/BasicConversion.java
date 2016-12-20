@@ -1,5 +1,31 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.External.Def;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import net.sf.JRecord.Common.Constants;
@@ -9,12 +35,14 @@ import net.sf.JRecord.Numeric.Convert;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 
+@SuppressWarnings("deprecation")
 public class BasicConversion implements AbstractConversion {
 
 	private static final int numberOfEntries;
 	private static String[] names = new String [30] ;
     private static String[] externalNames = new String [30] ;
     private static int[] keys = new int[40];
+    private static int[] keysIdx = new int[200];
 
     static {
        int i = 0; 
@@ -24,7 +52,7 @@ public class BasicConversion implements AbstractConversion {
  	   String rdLineBin = "Line based Binary";
  	   String rdVb = "Mainframe VB (rdw based) Binary";
  	   String rdVbDump = "Mainframe VB Dump: includes Block length";
-   	   String rdOcVb = "Open Cobol VB";
+//   	   String rdOcVb = "Open Cobol VB";
 
     	
         keys[i] = Constants.IO_DEFAULT;                externalNames[i] = "Default";                 names[i++] = rdDefault;
@@ -37,7 +65,7 @@ public class BasicConversion implements AbstractConversion {
         keys[i] = Constants.IO_VB;                     externalNames[i] = "Mainframe_VB";            names[i++] = rdVb;
         keys[i] = Constants.IO_VB_DUMP;                externalNames[i] = "Mainframe_VB_As_RECFMU";  names[i++] = rdVbDump;
         keys[i] = Constants.IO_VB_FUJITSU;             externalNames[i] = "FUJITSU_VB";              names[i++] = "Fujitsu Variable Binary";
-        keys[i] = Constants.IO_VB_OPEN_COBOL;          externalNames[i] = "Open_Cobol_VB";           names[i++] = rdOcVb;
+        keys[i] = Constants.IO_VB_GNU_COBOL;           externalNames[i] = "Gnu_Cobol_VB";            names[i++] = "GNU Cobol VB";
         keys[i] = Constants.IO_MICROFOCUS;             externalNames[i] = "Microfocus_Format";       names[i++] = "Experimental Microfocus Header File";
         keys[i] = Constants.IO_UNKOWN_FORMAT;          externalNames[i] = "UNKOWN_FORMAT";           names[i++] = "Unknown File Format";
         keys[i] = Constants.IO_WIZARD;                 externalNames[i] = "FILE_WIZARD";             names[i++] = "File Wizard";
@@ -48,16 +76,28 @@ public class BasicConversion implements AbstractConversion {
         keys[i] = Constants.IO_BIN_NAME_1ST_LINE;      externalNames[i] = "Byte_Text_NAME_1ST_LINE"; names[i++] = "Text IO (byte Based) name 1st Line";
         keys[i] = Constants.IO_UNICODE_NAME_1ST_LINE;  externalNames[i] = "UNICODE_CSV_NAME_1ST_LINE";  names[i++] = "Unicode Name on 1st line";
         keys[i] = Constants.IO_UNICODE_CSV_NAME_1ST_LINE;externalNames[i] = "UNICODE_CSV_NAME_1ST_LINE_EMBEDDED_CR";      names[i++] = "Unicode Name on 1st line (Embedded Cr)";
-
+ 
         keys[i] = Constants.IO_UNICODE_NAME_1ST_LINE;  externalNames[i] = "UNICODE_CSV_NAME_1ST_LINE_"; names[i++] = "Unicode Name on 1st line";
         keys[i] = Constants.IO_GENERIC_CSV;            externalNames[i] = "CSV_GENERIC";            names[i++] = "Generic CSV (Choose details at run time)";
 
         keys[i] = Constants.IO_XML_USE_LAYOUT;         externalNames[i] = "XML_Use_Layout";         names[i++] = "XML - Existing Layout";
         keys[i] = Constants.IO_XML_BUILD_LAYOUT;       externalNames[i] = "XML_Build_Layout";       names[i++] = "XML - Build Layout";
         keys[i] = Constants.IO_CONTINOUS_NO_LINE_MARKER;       externalNames[i] = "Continuous";  		    names[i++] = "Continuous no eol marker";
+        keys[i] = Constants.IO_VBS;                    externalNames[i] = "Mainframe_VBS";            names[i++] = "Variable Block Spanned (VBS)";
+        keys[i] = Constants.IO_VB_GNU_COBOL;           externalNames[i] = "Open_Cobol_VB";           names[i++] = "Open Cobol VB";;
         keys[i] = Constants.NULL_INTEGER;              externalNames[i] = null;                     names[i] = null;
-        
+       
         numberOfEntries = i;
+        
+        Arrays.fill(keysIdx, -1);
+        
+        for (int j = 0; j < numberOfEntries; j++) {
+        	int idx = keys[j];
+        	if (idx >= 0 && keysIdx[idx] < 0) {
+        		keysIdx[idx] = j;
+ //       		System.out.println("---->>> " + idx + ", " + j + "\t" + externalNames[j] + "\t!\t" + names[j]);
+        	}
+        }
     }
     
 	private String[] typeNames ;
@@ -70,7 +110,6 @@ public class BasicConversion implements AbstractConversion {
 	 * Basic Type / Format conversion (for use in JRecord; RecordEditor has
 	 * its own (database based conversion).
 	 */
-	@SuppressWarnings("deprecation")
 	public BasicConversion() {
 		TypeManager manager = TypeManager.getInstance();
 		typeNames = new String[manager.getNumberOfTypes()];
@@ -82,10 +121,12 @@ public class BasicConversion implements AbstractConversion {
 
 		setName(Type.ftChar  , "Char");
 		setName(Type.ftNumAnyDecimal  , "Number any decimal", "NumAnyDecimal");
+		setName(Type.ftNumOrEmpty  , "Number any decimal or Empty", "NumberOrEmpty");
 		setName(Type.ftPositiveNumAnyDecimal  , "PositiveNumAnyDecimal", "Number (+ve) any decimal");
 		setName(Type.ftCharRightJust      , "Char (right justified)");
 		setName(Type.ftCharNullTerminated , "Char Null terminated");
 		setName(Type.ftCharNullPadded     , "Char Null padded");
+		setName(Type.ftCharNoTrim         , "Char (no Trim)");
 		setName(Type.ftHex                , "Hex Field");
 		setName(Type.ftNumLeftJustified   , "Num (Left Justified)");
 		setName(Type.ftNumRightJustified  , "Num (Right Justified space padded)");
@@ -121,6 +162,7 @@ public class BasicConversion implements AbstractConversion {
 		setName(Type.ftBinaryBigEndianPositive  , "Binary Integer Big Endian (only +ve)", "Binary Integer Big Endian (only +ve )");
 		setName(Type.ftPositiveBinaryBigEndian  , "Positive Integer Big Endian", "Positive Integer (Big Endian)");
 		setName(Type.ftFjZonedNumeric  , "Fujitsu Zoned Numeric");
+		setName(Type.ftGnuCblZonedNumeric  , "GNU Cobol Zoned Numeric");
 
 
 		setName(Type.ftRmComp, "Rm Cobol Comp");
@@ -149,6 +191,7 @@ public class BasicConversion implements AbstractConversion {
 		setName(Type.ftCharMultiLine  , "Char (Multi-Line)");
 		setName(Type.ftHtmlField  , "Html Field");
 		setName(Type.ftArrayField, "Array Field");
+		setName(Type.ftRecordEditorType, "RecordEditor_Type");
 		
 		ConversionManager dialectMgr = ConversionManager.getInstance();
 		
@@ -167,12 +210,14 @@ public class BasicConversion implements AbstractConversion {
 	 * @param type type Id
 	 * @param name Type Name
 	 */
-	private void setName(int type, String name) {
+	private Integer setName(int type, String name) {
 		typeNames[TypeManager.getInstance().getIndex(type)] = name;
-		typeNumbers.put(name.toLowerCase(), Integer.valueOf(type));
+		Integer typeId = Integer.valueOf(type);
+		typeNumbers.put(name.toLowerCase(), typeId);
 		if (name.length() > 40) {
-			typeNumbers.put(name.toLowerCase().substring(0, 40), Integer.valueOf(type));
+			typeNumbers.put(name.toLowerCase().substring(0, 40), typeId);
 		}
+		return typeId;
 	}
 
 	/**
@@ -181,10 +226,10 @@ public class BasicConversion implements AbstractConversion {
 	 * @param name Type Name
 	 */
 	private void setName(int type, String name, String altname) {
-		setName(type, name);
-		typeNumbers.put(altname.toLowerCase(), Integer.valueOf(type));
+		Integer typeId = setName(type, name);
+		typeNumbers.put(altname.toLowerCase(), typeId);
 		if (altname.length() > 40) {
-			typeNumbers.put(altname.toLowerCase().substring(0, 40), Integer.valueOf(type));
+			typeNumbers.put(altname.toLowerCase().substring(0, 40), typeId);
 		}
 	}
 
@@ -278,9 +323,16 @@ public class BasicConversion implements AbstractConversion {
 	 * @see net.sf.JRecord.IO.AbstractLineIOProvider#getStructureName(int)
 	 */
     public static String getStructureName(int fileStructure) {
-    	for (int i = 0; i < keys.length && keys[i] != Constants.NULL_INTEGER; i++) {
-    		if (keys[i] == fileStructure) {
-    			return externalNames[i];
+//    	for (int i = 0; i < keys.length && keys[i] != Constants.NULL_INTEGER; i++) {
+//    		if (keys[i] == fileStructure) {
+//    			return externalNames[i];
+//    		}
+//    	}
+    	if (fileStructure >= 0 && fileStructure < keysIdx.length ) {
+    		int idx = keysIdx[fileStructure];
+    		if (idx >= 0) {
+//    			System.out.println("===> " + fileStructure + ", " + idx + " " + externalNames[idx]);
+    			return externalNames[idx];
     		}
     	}
     	return "";

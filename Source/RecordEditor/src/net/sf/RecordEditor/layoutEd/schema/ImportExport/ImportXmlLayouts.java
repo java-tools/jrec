@@ -27,8 +27,8 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.External.CopybookLoader;
-import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.layoutEd.utils.LeMessages;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;

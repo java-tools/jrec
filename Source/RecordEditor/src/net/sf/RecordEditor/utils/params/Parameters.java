@@ -17,7 +17,11 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,6 +51,8 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static final String VAL_RECORD_EDITOR_DEFAULT = "RecordEditor_Default";
 
+    public static final String DELIMITER_CHARS = "DelimChars";
+
     public static final String PROPERTY_BIG_FILE_PERCENT = "BigFilePercentage";
     public static final String PROPERTY_BIG_FILE_CHUNK_SIZE = "BigFileChunkSize";
     public static final String PROPERTY_BIG_FILE_COMPRESS_OPT = "BigFileCompressOption";
@@ -71,8 +77,6 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static final String FIELD_COLORS  = "fieldColors.";
     public static final String SPECIAL_COLORS  = "specialColors.";
-
-    public static final String COBOL_DIALECT = "CobolDialect";
 
     public static final String FILE_CHOOSER_NORMAL      = "N";
 //    public static final String FILE_CHOOSER_OPTIONAL    = "O";
@@ -118,8 +122,10 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static final String SHOW_RECORDEDITOR_TIPS  ="showRecordEditorTips";
     public static final String BRING_LOG_TO_FRONT      = "LogToFront";
-    public static final String PREFERED_AS_DEFAULT      = "PreferedAsDefault";
+    public static final String PREFERED_AS_DEFAULT     = "PreferedAsDefault";
     public static final String WARN_BINARY_FIELDS_DEFAULT      = "WarnBinFieldsAndDefault";
+    
+    public static final String DEFAULT_COBOL_DIRECTORY = "DefaultCobolDirectory";
     public static final String COPYBOOK_DIRECTORY      = "CopybookDirectory";
     public static final String VELOCITY_COPYBOOK_DIRECTORY = "VelocityCopybookDirectory";
     public static final String VELOCITY_TEMPLATE_DIRECTORY = "VelocityTemplateDirectory";
@@ -144,6 +150,10 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static final String LAYOUT_EXPORT_DIRECTORY  = "LayoutExportDirectory";
     public static final String LAYOUT_EXPORT_DIRECTORY_DFLT  = "<reproperties>/User/LayoutExport/*";
+    public static final String CODEGEN_DIRECTORY             = "CodeGenDir";
+    public static final String CODEGEN_DIRECTORY_DFLT        = "<reproperties>/Export/*";
+    public static final String CODEGEN_DIRECTORY_EXTENSION   = "CodeGenExtension";
+    public static final String CODEGEN_DIRECTORY_EXTENSION_DFLT   = "$language./$schema._$template./";
 
     public static final String COMPARE_SAVE_DIRECTORY  = "CompareSaveDirectory";
 //    public static final String COMPARE_SAVE_FILE  	   = "CompareSaveFile";
@@ -160,8 +170,18 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String DEFAULT_COPYBOOK_WRITER = "CopyBookWriter";
     public static final String XSLT_ENGINE             = "XsltEngine";
 
+    public static final String CODEGEN_TEMPLATE        = "codegendTemplate";
+    public static final String CODEGEN_PACKAGEID       = "codegendPackageId";
+
+    public static final String DEFAULT_COBOL_DIALECT_NAME = "DefaultBin";
+    public static final String DEFAULT_COBOL_DIALECT   = "CobolDialect";
+
     public static final String COBOL_OPT_FILE      	   = "CobolOpt";
     
+    public static final String CODE_GEN_OUTPUT_LIST    = "CobGenOut.";
+    public static final String TEMPLATE_DIRECTORY      = "TemplateDir";
+    public static final String TEMPLATE_DIR_LIST       = "TemplateDirList.";
+   
     public static final String COBOL_COPYBOOK_LIST     = "CobolCpy.";
     public static final String SAMPLE_FILE_LIST        = "SampleFiles.";
     public static final String COBOL_COPYBOOK_DIRS     = "CobolDirs.";
@@ -181,8 +201,7 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static final String DEFAULT_DATABASE        = "DefaultDB";
     public static final String DEFAULT_IO       	   = "DefaultIO";
-    public static final String DEFAULT_BINARY		   = "DefaultBin";
-
+ 
     public static final String DB_READ_ONLY_SOURCE	   = "ReadOnly.";
     public static final String DB_EXPAND_VARS	       = "ExpandVars.";
     public static final String DB_CLOSE_AFTER_EXEC	   = "AutoClose.";
@@ -1128,22 +1147,23 @@ public final class Parameters implements ExternalReferenceConstants {
        new File(fileName).renameTo(fNew);
     }
 
-    private static boolean doDelete(String newName) {
+    public static boolean doDelete(String fileName) {
     	boolean b = false;
 		try {
+			File f;
 			if (JAVA_VERSION > 1.699) {
 				try {
-					java.nio.file.Path newPath = java.nio.file.Paths.get(newName);
+					java.nio.file.Path newPath = java.nio.file.Paths.get(fileName);
 				    Files.deleteIfExists(newPath);
 				    b = true;
 				   
 				} catch (IOException e) {
 					e.printStackTrace();
 					
-			        b = new File(newName).delete();
+			        b = new File(fileName).delete();
 				}
-			} else {
-				b = new File(newName).delete();
+			} else if ((f = new File(fileName)).exists()){
+				b = f.delete();
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -1152,6 +1172,46 @@ public final class Parameters implements ExternalReferenceConstants {
 
     	return b;
     }
+    
+    public static void doDeleteDirectory(String fileName) {
+    	
+    	File file = new File (fileName);
+		if (file . exists()) {
+	    	try {
+	    		if (JAVA_VERSION > 1.699) {
+	    			Path directory = Paths.get(fileName);
+	    			Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+	    			   @Override
+	    			   public FileVisitResult visitFile(Path file, java.nio.file.attribute.BasicFileAttributes attrs) throws IOException {
+	    			       Files.delete(file);
+	    			       return FileVisitResult.CONTINUE;
+	    			   }
+
+	    			   @Override
+	    			   public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+	    			       Files.delete(dir);
+	    			       return FileVisitResult.CONTINUE;
+	    			   }
+	    			});
+	    		} else {
+	    			delete6(file);
+	    		}
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+    	}
+   }
+    
+    private static void delete6(File f) throws IOException {
+    	  if (f.isDirectory()) {
+    	    for (File c : f.listFiles())
+    	      delete6(c);
+    	  }
+    	  
+    	  if (!f.delete()) {
+    	    throw new RuntimeException("Failed to delete file: " + f);
+    	  }
+    	}
 
     public static boolean isDefaultTrue(String s) {
     	return defaultTrue.contains(s);
@@ -1169,7 +1229,9 @@ public final class Parameters implements ExternalReferenceConstants {
 	}
 
 	public static String dropStar(String filename) {
-		if (filename != null && filename.endsWith("*")) {
+		if (filename == null) {
+			filename = "";
+		} else if (filename.endsWith("*")) {
 			filename = filename.substring(0, filename.length()-1);
 		}
 		return filename;

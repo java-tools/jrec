@@ -204,6 +204,8 @@ public class FileView	extends 			AbstractTableModel
 
 	private boolean textFile;
 	
+	private int initialFileStructure;
+	
 
 	/**
 	 * Notify File class that background save  has completed
@@ -239,6 +241,7 @@ public class FileView	extends 			AbstractTableModel
 		this.ioProvider = pIoProvider;
 		this.browse     = pBrowse;
 		this.baseFile   = this;
+		this.initialFileStructure = layout==null? 0 : layout.getFileStructure();
 		checkIfTextFile();
 
 		if (ioProvider == null) {
@@ -739,8 +742,44 @@ public class FileView	extends 			AbstractTableModel
 	 */
 	public void setValueAt(int layoutIdx, Object val, int row, int col) {
 
-		if ((row >= getRowCount()) || (col >= (getLayoutColumnCount(layoutIdx) + SPECIAL_FIELDS_AT_START))
-		|| (col <= LINE_NUMER_COLUMN)) {
+		if (col == LINE_NUMER_COLUMN) {
+			if (val != null) {
+				String s = val.toString().trim().toLowerCase();
+				if (s.length() == 0) { return; }
+				String numStr = s.substring(1).trim();
+				int num = 1;
+				if (numStr.length() > 0) {
+					num = 0;
+					try {
+						num = Integer.parseInt(numStr);
+					} catch (NumberFormatException e) {
+					}
+				}
+				
+				int end = Math.min(num, lines.size() - row);
+				switch (s.charAt(0)) {
+				case 'd': 
+					int[] linesToDel = new int[end];
+					for (int i = 0; i < end; i++) {
+						linesToDel[i] = row + i;
+					}
+					deleteLines(linesToDel);
+					break;
+				case 'r':
+					AbstractLine l = lines.getTempLineRE(row).getNewDataLine();
+					AbstractLine[] linesToIns = new AbstractLine[end];
+					for (int i = 0; i < end; i++) {
+						linesToIns[i] = l.getNewDataLine();
+					}
+					addLines(row, 0, linesToIns);
+					break;
+				case 'i': 
+					addLines(row, 0, createLines(num));
+					break;
+				}
+			}
+		} else if ((row >= getRowCount()) || (col >= (getLayoutColumnCount(layoutIdx) + SPECIAL_FIELDS_AT_START))
+		|| (col < LINE_NUMER_COLUMN)) {
 //			System.out.println("**Set Value 1 "
 //					+ row  + ">= " + getRowCount()
 //					+ " " + col + " >= " + (getLayoutColumnCount(layoutIdx) + 2)
@@ -798,6 +837,20 @@ public class FileView	extends 			AbstractTableModel
 	 */
 	public final void setDefaultPreferredIndex(int currentPreferredIndex) {
 		this.defaultPreferredIndex = Math.max(0, currentPreferredIndex);
+	}
+
+	/**
+	 * @return the initialFileStructure
+	 */
+	public final int getInitialFileStructure() {
+		return initialFileStructure;
+	}
+
+	/**
+	 * @param initialFileStructure the initialFileStructure to set
+	 */
+	public final void setInitialFileStructure(int initialFileStructure) {
+		this.initialFileStructure = initialFileStructure;
 	}
 
 	/**
@@ -1290,7 +1343,7 @@ public class FileView	extends 			AbstractTableModel
 	 * @see javax.swing.table.AbstractTableModel.isCellEditable
 	 */
 	public boolean isCellEditable(int row, int col) {
-		return col > 1
+		return col >= 1
 			&& (currLayoutIdx != layout.getRecordCount() + 1
 			  || (   (! getFileView().isBinaryFile())
 			    	 && Common.OPTIONS.allowTextEditting.isSelected())
@@ -1596,7 +1649,7 @@ public class FileView	extends 			AbstractTableModel
 			 Common.logMsg("No Physical Line, so can not repeat the line", null);
 		 } else if (isView() || (this.treeTableNotify == null && idx >= 0)) {
 			if (idx >= 0) {
-				 newLine = stdRepeatLine(idx);
+				newLine = stdRepeatLine(idx);
 			} else {
 				newLine = baseFile.repeatLine(line);
 			}
@@ -1724,7 +1777,7 @@ public class FileView	extends 			AbstractTableModel
 	    if (isView()) {
 	        int l = baseFile.indexOf(lines.get(lineNumber));
 	        newLine = baseFile.repeatLine(l);
-		}else {
+		} else {
 	        newLine = lines.get(lineNumber).getNewDataLine();
 	        setChanged(true);
 	    }

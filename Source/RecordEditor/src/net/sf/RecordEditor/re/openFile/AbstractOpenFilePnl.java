@@ -283,7 +283,8 @@ implements ChangeListener, StartActionInterface {
 		} else {
 
 			File f = new File(sFileName).getParentFile();
-			if (! f.exists()) {
+			
+			if (f == null || ! f.exists()) {
 			    String s = LangConversion.convert("Directory Does not exist:") + " " + f.getPath();
 				Common.logMsgRaw(s, null);
 				message.setText(s);

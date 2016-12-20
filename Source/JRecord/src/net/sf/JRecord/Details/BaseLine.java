@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.AbstractFieldValue;
@@ -65,6 +90,59 @@ public abstract class BaseLine<Layout extends AbstractLayoutDetails>  implements
 		return new FieldValue(this, field);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractIndexedLine#getField(int, int)
+	 */
+	@Override
+	public Object getField(int recordIdx, int fieldIdx) {
+		return getFieldValue(recordIdx, fieldIdx);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractIndexedLine#getField(net.sf.JRecord.Common.IFieldDetail)
+	 */
+	@Override
+	public Object getField(IFieldDetail field) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractIndexedLine#getPreferredLayoutIdx()
+	 */
+	@Override
+	public int getPreferredLayoutIdx() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractIndexedLine#setField(int, int, java.lang.Object)
+	 */
+	@Override
+	public void setField(int recordIdx, int fieldIdx, Object val) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.AbstractIndexedLine#setField(net.sf.JRecord.Common.IFieldDetail, java.lang.Object)
+	 */
+	@Override
+	public void setField(IFieldDetail field, Object value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+//	/* (non-Javadoc)
+//	 * @see net.sf.JRecord.Details.AbstractLine#getFieldValueIfExists(int, int)
+//	 */
+//	@Override
+//	public AbstractFieldValue getFieldValueIfExists(int recordIdx, int fieldIdx) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 	@Override
 	public final  AbstractFieldValue getFieldValue(int recordIdx, int fieldIdx) {
 		return new FieldValue(this, recordIdx, fieldIdx);
@@ -73,6 +151,14 @@ public abstract class BaseLine<Layout extends AbstractLayoutDetails>  implements
 	@Override
 	public final AbstractFieldValue getFieldValue(String fieldName) {
 		return  getFieldValue(layout.getFieldFromName(fieldName));
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.AbstractLine#getFieldValueIfExists(java.lang.String)
+	 */
+	@Override
+	public AbstractFieldValue getFieldValueIfExists(String fieldName) {
+		return getFieldValue(fieldName);
 	}
 
 	/**

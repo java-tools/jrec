@@ -53,7 +53,7 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 
 
 	public void save(String selection, String outFile) throws IOException, RecordException {
-		String fieldSeperator = delimiterCombo.getSelectedEnglish();
+		String fieldSeperator = delimiterCombo.getDelimiter();
 		String fontname = getCharset();
 
 		if (fieldSeperator != null && fieldSeperator.toLowerCase().startsWith("x'") && Conversion.isMultiByte(fontname)) {
@@ -85,7 +85,7 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 
 		if (namesFirstLine.isSelected()) {
      	   ret = genLayout.getCsvLayoutNamesFirstLine(
-     			   			delimiterCombo.getSelectedEnglish(),
+     			   			delimiterCombo.getDelimiter(),
      			   			charsetCombo.getText(),
      			   			getQuote(),
      			   			EmbeddedCr);
@@ -105,7 +105,7 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 	    	ret = genLayout.getCsvLayout( 
 	    							ef,
 	    							"Default", 
-	    							delimiterCombo.getSelectedEnglish(),
+	    							delimiterCombo.getDelimiter(),
 	    							charsetCombo.getText(),
 	        			   			getQuote(),
 	        			   			EmbeddedCr);

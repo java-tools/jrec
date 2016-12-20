@@ -14,6 +14,7 @@ import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.util.FileStructureDtls;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;

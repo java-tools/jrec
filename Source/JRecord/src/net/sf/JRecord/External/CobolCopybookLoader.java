@@ -4,6 +4,31 @@
  *
  * Purpose:
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.External;
 
 import java.io.File;
@@ -29,20 +54,20 @@ public class CobolCopybookLoader implements CopybookLoader {
 	private static boolean available = true;
     private static boolean toCheck = true;
 
-    private XmlCopybookLoader xmlLoader;
+    private Cb2xmlLoader xmlLoader;
 
     /**
      * Create Cobol Copybook loader
      */
     public CobolCopybookLoader() {
-        this(new XmlCopybookLoader());
+        this(new Cb2xmlLoader());
     }
 
     /**
      * Create Cobol Copybook loader
      * @param loader4xml class to load a Cb2Xml XML file
      */
-    public CobolCopybookLoader(XmlCopybookLoader loader4xml) {
+    public CobolCopybookLoader(Cb2xmlLoader loader4xml) {
         super();
 
         xmlLoader = loader4xml;
@@ -201,18 +226,18 @@ public class CobolCopybookLoader implements CopybookLoader {
 
 	/**
 	 * @param dropCopybookFromFieldNames
-	 * @see net.sf.JRecord.External.XmlCopybookLoader#setDropCopybookFromFieldNames(boolean)
+	 * @see net.sf.JRecord.External.Cb2xmlLoader#setDropCopybookFromFieldNames(boolean)
 	 */
 	public final void setDropCopybookFromFieldNames(
 			boolean dropCopybookFromFieldNames) {
 		xmlLoader.setDropCopybookFromFieldNames(dropCopybookFromFieldNames);
 	}
 
-	/**
-	 * @param useJRecordNaming
-	 * @see net.sf.JRecord.External.XmlCopybookLoader#setUseJRecordNaming(boolean)
-	 */
-	public final void setUseJRecordNaming(boolean useJRecordNaming) {
-		xmlLoader.setUseJRecordNaming(useJRecordNaming);
-	}
+//	/**
+//	 * @param useJRecordNaming
+//	 * @see net.sf.JRecord.External.Cb2xmlLoader#setUseJRecordNaming(boolean)
+//	 */
+//	public final void setUseJRecordNaming(boolean useJRecordNaming) {
+//		xmlLoader.setUseJRecordNaming(useJRecordNaming);
+//	}
 }

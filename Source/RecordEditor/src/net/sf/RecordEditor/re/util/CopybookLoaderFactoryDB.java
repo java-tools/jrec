@@ -15,10 +15,10 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.CopybookLoaderFactory;
-import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.External.Def.AbstractConversion;
 import net.sf.JRecord.External.Def.BasicConversion;
+import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.RecordEditor.re.db.Table.TableList;
 import net.sf.RecordEditor.re.db.Table.TypeList;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
@@ -102,11 +102,11 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
        String copybookLoaderName;
        String copybookloaderClass;
 
-       register("cb2xml XML Copybook (DB)", XmlCopybookLoaderDB.class, "");
+       register("cb2xml XML Copybook (DB)", Cb2xmlLoaderDB.class, "");
        if (CobolCopybookLoader.isAvailable()) {
            register("Cobol Copybook (DB)", CobolCopybookLoaderDB.class, "");
        } else {
-    	   register("Empty - Cobol placeholder", XmlCopybookLoaderDB.class, "");
+    	   register("Empty - Cobol placeholder", Cb2xmlLoaderDB.class, "");
        }
  	   register("RecordEditor XML Copybook",RecordEditorXmlLoader.class, "");
 
@@ -329,7 +329,7 @@ public class CopybookLoaderFactoryDB extends CopybookLoaderFactory
         * for the copybook
         */
        public CobolCopybookLoaderDB() {
-           super(new XmlCopybookLoaderDB());
+           super(new Cb2xmlLoaderDB());
        }
    }
 

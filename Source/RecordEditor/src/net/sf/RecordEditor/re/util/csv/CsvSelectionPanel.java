@@ -129,8 +129,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
    	   }
     };
 
-    private ActionListener sepChanged  = new ActionListener() {
-    	public void actionPerformed(ActionEvent e) {
+    private ChangeListener sepChanged  = new ChangeListener() {
+    	public void stateChanged(ChangeEvent e)  {
 	 		if (doAction) {
 	 			String seperator = getSeperator();
 	 			if ((! seperator.equals(lastSeperator))
@@ -425,7 +425,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	private void init_100_SetupFields() {
 
 		nameLineNoTxt.setText("1");
-		fieldSeparatorCombo.addFocusListener(focusHandler);
+		//fieldSeparatorCombo.addFocusListener(focusHandler);
 		fieldSepTxt.addFocusListener(focusHandler);
 		quoteCombo.addFocusListener(focusHandler);
 		quoteTxt.addFocusListener(focusHandler);
@@ -435,7 +435,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		nameLineNoTxt.addFocusListener(focusHandler);
 		embeddedCrJCheck.addFocusListener(focusHandler);
 
-		fieldSeparatorCombo.addActionListener(sepChanged);
+		fieldSeparatorCombo.addTextChangeListner(sepChanged);
 		quoteCombo.addActionListener(changedAction);
 		quoteTxt.addActionListener(changedAction);
 		parseType.addActionListener(changedAction);
@@ -450,7 +450,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		JPanel quotePnl = init_200_bld2fieldPnl(quoteCombo, quoteTxt, "Quote");
 		//pnl1.add(BorderLayout.WEST, pnl);
 		
-		super.setFieldToActualSize();
+		super.setFieldsToActualSize();
 		super.setAddFillToEnd(true);
 		BasePanel.setToCommonWidth(1, 10, fieldSeparatorCombo, quoteCombo);
 		BasePanel.setToCommonWidth(1, 15, fieldSeperatorPnl, quotePnl, charsetCombo);
@@ -611,7 +611,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		String sep = fieldSepTxt.getText();
 
 		if (sep == null || "".equals(sep) || ! isSepValid()) {
-			sep = fieldSeparatorCombo.getSelectedEnglish();
+			sep = fieldSeparatorCombo.getDelimiter();
 		}
 
 		if ("<Space>".equals(sep)) {
@@ -740,17 +740,12 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getColumnCount()
-	 */
-	@Override
+
 	public int getColumnCount() {
 		return tblMdl.getColumnCount();
 	}
 
 
-
-	@Override
 	public String getColumnName(int idx) {
 		return tblMdl.getColumnName(idx);
 	}
@@ -844,7 +839,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		}
 
 
-		return csv	+ SEP + fieldSeparatorCombo.getSelectedIndex()
+		return csv	+ SEP + fieldSeparatorCombo.getDelimiter()
 					+ SEP + getStr(fieldSepTxt.getText())
 					+ SEP + quoteCombo.getSelectedEnglish()
 					+ SEP + parseType.getSelectedIndex()
@@ -868,7 +863,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		try {
 			doAction = false;
 			System.out.print(tok.nextToken());
-			fieldSeparatorCombo.setSelectedIndex(getIntTok(tok));
+			fieldSeparatorCombo.setDelimiter(getStringTok(tok));
 			fieldSepTxt.setText(getStringTok(tok));
 			quoteCombo.setEnglish(getStringTok(tok));
 			parseType.setSelectedIndex(getIntTok(tok));

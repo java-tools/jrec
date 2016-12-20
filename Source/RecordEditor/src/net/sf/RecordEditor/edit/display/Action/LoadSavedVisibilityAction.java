@@ -2,8 +2,7 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
-import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 
 @SuppressWarnings("serial")
@@ -23,17 +22,19 @@ extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 	 */
 	@Override
 	public void checkActionEnabled() {
-		super.setEnabled(getDisplay(AbstractFileDisplayWithFieldHide.class) != null);
+		super.setEnabled(getDisplay(net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide.class) != null);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		AbstractFileDisplayWithFieldHide sourcePnl = getDisplay(AbstractFileDisplayWithFieldHide.class);
+		net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide sourcePnl
+					= getDisplay(net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide.class);
 		if (sourcePnl != null) {
 			try {
 				net.sf.RecordEditor.edit.display.util.SaveRestoreHiddenFields.restoreHiddenFields(sourcePnl);
 			} catch (NoClassDefFoundError e) {
-				Common.logMsg("Unable to loaved saved definition: jibx not present ???", null);
+				net.sf.RecordEditor.utils.common.Common
+						.logMsg("Unable to loaved saved definition: jibx not present ???", null);
 			}
 		}
 	}}

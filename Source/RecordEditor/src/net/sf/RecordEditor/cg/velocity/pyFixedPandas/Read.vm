@@ -1,0 +1,24 @@
+import pandas as pd
+#set ($schemaDef = ${generateOptions.schemaDefinition})
+#set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+#set ( $sep = "             " )
+#set ( $count = 1 )
+colspecs = [
+#foreach ($f in ${r.getFields()})${sep}(${f.fieldDetail.getPos()},${f.fieldDetail.getEnd()})#*
+  *##set ( $sep = "," )#*
+  *##set ( $count = $count + 1 )#*
+  *##if ( $count > 5 )
+
+        #*
+        *##set ( $count = 1 )
+    #end
+#end
+   ]
+#set ( $sep = " " )
+header = [
+#foreach($f in ${r.getFields()})
+          ${sep}'${f.getSqlName()}'
+#*  *##set ( $sep = "," )
+#end
+         ]
+df = pd.read_fwf("${generateOptions.getDataFileName().getEscapedFileName()}",colspecs=colspecs, names=header)

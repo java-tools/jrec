@@ -74,13 +74,13 @@ extends DataStoreBase {
 
 
 	@Override
-	public void sortRE(Comparator<AbstractLine> compare) {
+	public void sortRE(Comparator<? super AbstractLine> compare) {
 		 throw new RuntimeException("Sort is not allowed");
 	}
 
 	
 	@Override
-	public void sortRE(int[] rows, Comparator<AbstractLine> compare) {
+	public void sortRE(int[] rows, Comparator<? super AbstractLine> compare) {
 		 throw new RuntimeException("Sort is not allowed");
 	}
 

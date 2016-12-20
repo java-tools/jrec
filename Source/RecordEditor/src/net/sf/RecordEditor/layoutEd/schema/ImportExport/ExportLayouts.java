@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,11 +26,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
-import net.sf.JRecord.External.CopybookWriter;
-import net.sf.JRecord.External.RecordEditorXmlWriter;
+import net.sf.JRecord.External.base.CopybookWriter;
+import net.sf.JRecord.External.base.RecordEditorXmlWriter;
 import net.sf.RecordEditor.layoutEd.utils.LeMessages;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
-import net.sf.RecordEditor.re.db.Record.RecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
@@ -286,6 +287,14 @@ public class ExportLayouts {
 		if (dir != null && (! "".equals(dir)) && (! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
 			dir = dir + Common.FILE_SEPERATOR;
 		}
+		
+		if (! Parameters.exists(dir)) {
+			try {
+				Common.createDirectory(new File(dir));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		for (int i = 0; i < selected.length; i++) {
 			if (selected[i] == Boolean.TRUE) {	
@@ -296,7 +305,7 @@ public class ExportLayouts {
 					
 					exported += 1;
 				} catch (Exception e) {
-					m.append("\n      ").append(LeMessages.SCHEMA_EXPORT_FAILURE)
+					m.append("\n      ").append(LeMessages.SCHEMA_EXPORT_FAILURE.get())
 					 .append(selectedRecords.get(i).getRecordName())
 					 .append(": ").append(e);
 					

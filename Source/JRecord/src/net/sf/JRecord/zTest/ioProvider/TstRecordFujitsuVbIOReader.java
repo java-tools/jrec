@@ -4,6 +4,31 @@
  *
  * Purpose:
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.zTest.ioProvider;
 
 import java.io.IOException;
@@ -11,6 +36,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -97,7 +123,7 @@ public class TstRecordFujitsuVbIOReader extends TestCase {
     	LayoutDetail copyBook = ToLayoutDetail.getInstance().getLayout(
                 copybookInt.loadCopyBook(
                         TstConstants.COBOL_DIRECTORY + copybookName + ".cbl",
-                        CopybookLoader.SPLIT_NONE, 0, "",
+                        CopybookLoader.SPLIT_NONE, 0, Conversion.DEFAULT_ASCII_CHARSET,
                         ICopybookDialects.FMT_MAINFRAME, 0, null
                 ));
 
@@ -127,7 +153,9 @@ public class TstRecordFujitsuVbIOReader extends TestCase {
     private void binReadCheck(String id,  String fileName, LayoutDetail copyBook,
             byte[][] lines2Test)
     throws IOException, RecordException {
-        AbstractLineReader tReader = LineIOProvider.getInstance().getLineReader(Constants.IO_VB_FUJITSU);
+        LineIOProvider lp = LineIOProvider.getInstance();
+		AbstractLineReader tReader = lp.getLineReader(
+				Constants.IO_VB_FUJITSU, lp.getLineProvider(Constants.IO_VB_FUJITSU, copyBook.getFontName()));
         AbstractLine line;
         int i = 0;
         boolean b;
@@ -142,8 +170,8 @@ public class TstRecordFujitsuVbIOReader extends TestCase {
                 System.out.println("");
                 System.out.println(id + "Error Line " + i
                         + " lengths > " + lines2Test[i].length + " " + line.getData().length);
-                System.out.println("  Expected: " + new String(lines2Test[i],  "CP037"));
-                System.out.println("       Got: " + new String(line.getData(), "CP037"));
+                System.out.println("  Expected: " + new String(lines2Test[i],  copyBook.getFontName()));
+                System.out.println("       Got: " + new String(line.getData(), copyBook.getFontName()));
                 System.out.println("");
 
                 assertTrue(id + "Bin Line " + i + " is not correct ", b);

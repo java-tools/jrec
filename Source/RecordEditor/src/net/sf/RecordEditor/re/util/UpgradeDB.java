@@ -28,8 +28,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.External.CopybookLoaderFactory;
 import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.External.RecordEditorCsvLoader;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.External.Def.BasicConversion;
 import net.sf.JRecord.Log.AbsSSLogger;
@@ -70,8 +70,10 @@ public final class UpgradeDB {
 	private static String VERSION_95E = "0095003";
 	private static String VERSION_96Ha = "0096001";
 	private static String VERSION_96H = "0096002";
+	private static String VERSION_98  = "0098000";
+	private static String VERSION_981 = "0098001";
 
-	private static String LATEST_VERSION = VERSION_96H;
+	private static String LATEST_VERSION = VERSION_981;
 	private static String VERSION_KEY  = "-101";
 
 	private List<LayoutDef> holdLayoutDetails = new ArrayList<UpgradeDB.LayoutDef>();
@@ -84,8 +86,11 @@ public final class UpgradeDB {
 
 	private int[] unknownStructure = {
 		Constants.IO_VB, Constants.IO_VB_DUMP,
-		Constants.IO_VB_OPEN_COBOL, Constants.IO_VB_FUJITSU,
+		Constants.IO_VB_GNU_COBOL, Constants.IO_VB_FUJITSU,
 		Constants.IO_BIN_TEXT, Constants.IO_UNICODE_TEXT
+	};
+	private int[] unknownStructure1 = {
+			Constants.IO_VB_GNU_COBOL,
 	};
 	private String[] unknownFonts = {
 		"cp037", "cp037", "", "", "", "utf-8", "utf-16",
@@ -93,11 +98,14 @@ public final class UpgradeDB {
 	private String[] unknownNames ={
 		"Mainframe VB",
 		"Mainframe VB Dump",
-		"Open Cobol VB",
+		"GNU Cobol VB",
 		"Fujitsu VB",
 		"Text IO",
 		"Text UTF-8",
 		"Text UTF-16",
+	};
+	private String[] unknownNames1 ={
+			"GNU Cobol VB",
 	};
 	private String unknownLine1Pt1 = "Record\t";
 	private String unknownLine1Pt2 ="\t1\t<Tab>\t0\t\tY\t";
@@ -276,17 +284,17 @@ public final class UpgradeDB {
 //    private String[] sql67 = {
 //    	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftPositiveBinaryBigEndian + ","
 //    	                           + Type.ftBinaryBigEndian + ")",
-//    	deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL +")",
+//    	deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_GNU_COBOL +")",
 //    	insertSQL + "(1," + Type.ftBinaryBigEndian + ",'Binary Integer Big Endian (Mainframe, AIX etc)');",
 //       	insertSQL + "(1," + Type.ftPositiveBinaryBigEndian + ",'Positive Integer (Big Endian)');",
-//       	insertSQL + "(4," + Constants.IO_VB_OPEN_COBOL +",'Open Cobol VB');",
+//       	insertSQL + "(4," + Constants.IO_VB_GNU_COBOL +",'GNU Cobol VB');",
 //   };
 
     private String[] sql69 = {
     	deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftPositiveBinaryBigEndian + ","
             + Type.ftBinaryBigEndian
             + "," + Type.ftNumAnyDecimal + "," + Type.ftPositiveNumAnyDecimal + ")",
-        deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_OPEN_COBOL
+        deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_GNU_COBOL
         	+ "," + Constants.IO_UNICODE_NAME_1ST_LINE
         	+ "," + Constants.IO_BIN_NAME_1ST_LINE
         	+")",
@@ -298,7 +306,7 @@ public final class UpgradeDB {
  //      	insertSQL + "(1," + Type.ftCharRestOfFixedRecord + ",'Char Rest of Fixed Length');",
       	insertSQL + "(1," + Type.ftBinaryBigEndian + ",'Binary Integer Big Endian (Mainframe?)');",
        	insertSQL + "(1," + Type.ftPositiveBinaryBigEndian + ",'Positive Integer (Big Endian)');",
-       	insertSQL + "(4," + Constants.IO_VB_OPEN_COBOL +",'Open Cobol VB');",
+       	insertSQL + "(4," + Constants.IO_VB_GNU_COBOL +",'GNU Cobol VB');",
        	insertSQL + "(4," + Constants.IO_UNICODE_NAME_1ST_LINE + ",'Unicode Csv Names o First Line');",
        	insertSQL + "(4," + Constants.IO_BIN_NAME_1ST_LINE     + ",'Bin Csv Names o First Line ');",
        	insertSQL + "(1," + Type.ftCharRestOfRecord + ",'Char Rest of Record');",
@@ -448,6 +456,22 @@ public final class UpgradeDB {
     private String[] sql96h_1= {
     		"ALTER TABLE TBL_TI_INTTBLS alter column DETAILS VARCHAR(75);",
     };
+    
+    private BasicConversion basicConversion = new BasicConversion();
+    private String[] sql98 = {
+   	      deleteTbl + "TBLID = 4 and TBLKEY in (" + Constants.IO_VB_GNU_COBOL +");",
+   	      deleteTbl + "TBLID = 1 and TBLKEY in (" + Type.ftGnuCblZonedNumeric
+   	      			+ ", " + Type.ftNumOrEmpty
+   	      			+ ", " + Type.ftRecordEditorType
+   	      			+ ", " + Type.ftCharNoTrim
+  	      			+");",
+
+   	      insertSQL + "(4," + Constants.IO_VB_GNU_COBOL +",'GNU Cobol VB');",
+  	      insertSQL + "(1," + Type.ftGnuCblZonedNumeric +",'" + basicConversion.getTypeAsString(0, Type.ftGnuCblZonedNumeric)+ "');",
+  	      insertSQL + "(1," + Type.ftNumOrEmpty +",'" + basicConversion.getTypeAsString(0, Type.ftNumOrEmpty)+ "');",
+  	      insertSQL + "(1," + Type.ftRecordEditorType +",'" + basicConversion.getTypeAsString(0, Type.ftRecordEditorType)+ "');",
+  	      insertSQL + "(1," + Type.ftCharNoTrim +",'" + basicConversion.getTypeAsString(0, Type.ftCharNoTrim)+ "');",
+	        };
 
    @SuppressWarnings("deprecation")
    private String[] sql96h_2= {
@@ -697,7 +721,8 @@ public final class UpgradeDB {
         			0);
     }
 
-    private void addLayout(int dbIdx, String name, String txt, String font, int system) {
+    @SuppressWarnings("deprecation")
+	private void addLayout(int dbIdx, String name, String txt, String font, int system) {
      	byte[] bytes = txt.getBytes();
     	ByteArrayInputStream in = new ByteArrayInputStream(bytes);
     	ExternalRecord ext;
@@ -720,7 +745,7 @@ public final class UpgradeDB {
                 font);
         ext.setSystem(system);
 
-     	(new RecordEditorCsvLoader("\t"))
+     	(new CopybookLoaderFactory.Tab())
      			.insertFields(Common.getLogger(), ext, new InputStreamReader(in), name, dbIdx);
 
      	rec = new RecordRec(ext);
@@ -947,7 +972,19 @@ public final class UpgradeDB {
        	} catch (Exception e) {
 			Common.logMsg("Error updating version flag", e);
 		}
+//       	upgrade98(dbIdx);
     }
+    
+//    public void upgrade98(int dbIdx) {
+//
+//       	try {
+//       		genericUpgrade(dbIdx, sql98, VERSION_98);
+//       		
+//       		//upgrade98(dbIdx);
+//       	} catch (Exception e) {
+//			Common.logMsg("Error updating version flag", e);
+//		}
+//    }
     public void upgrade96a(int dbIdx) {
 
     	genericUpgrade(dbIdx, sql95c, null);
@@ -956,12 +993,33 @@ public final class UpgradeDB {
 
    		updateTypeNames(dbIdx, types96h);
    		genericUpgrade(dbIdx, sql96h_2, VERSION_96H);
+   		
+   		upgrade98(dbIdx);
 
    }
 
+    public void upgrade98(int dbIdx) {
+
+		for (int i =0; i < unknownStructure1.length; i++) {
+        	addLayout(
+        			dbIdx,
+        			"Unknown " + unknownNames1[i],
+        			unknownLine1Pt1 + unknownStructure1[i]
+        	   +	unknownLine1Pt2 + unknownNames1[i]
+        	   +	"\n" + unknownLine2,
+        	   		"",
+        	   		0);
+        }
+
+		upgrade981(dbIdx);
+    }
+    public void upgrade981(int dbIdx) {
+
+	   	genericUpgrade(dbIdx, sql98, VERSION_981);
+    }
 
     public void updateTypeNames(int dbIdx, int[] types) {
-    	BasicConversion b = new BasicConversion();
+    	BasicConversion b = basicConversion;
      	String sql = "";
         	try {
         		int n;
@@ -1053,7 +1111,8 @@ public final class UpgradeDB {
 		}
     }
 
-    private void loadALayout(LayoutDef l) throws Exception {
+    @SuppressWarnings("deprecation")
+	private void loadALayout(LayoutDef l) throws Exception {
 
 		ExternalRecord rec = RecordEditorXmlLoader.getExternalRecord(l.xml, "FileWizard");
 		ExtendedRecordDB db = new ExtendedRecordDB();
@@ -1278,6 +1337,10 @@ public final class UpgradeDB {
         			db.upgrade96(dbIndex);
     			} else if (VERSION_96Ha.equals(version)) {
         			db.upgrade96a(dbIndex);
+    			} else if (VERSION_96H.equals(version) || VERSION_98.equals(version)) {
+        			db.upgrade98(dbIndex);
+//       			} else if (VERSION_96H.equals(version)) {
+//        			db.upgrade98(dbIndex);
     			} else if (version.compareTo(LATEST_VERSION) > 0) {
     				String message = UtMessages.NEWER_DB.get(Common.formatVersion(version), Common.currentVersion());
     				

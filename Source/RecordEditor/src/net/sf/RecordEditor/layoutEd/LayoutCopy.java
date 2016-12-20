@@ -17,10 +17,10 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
-import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.base.CopybookWriter;
+import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;

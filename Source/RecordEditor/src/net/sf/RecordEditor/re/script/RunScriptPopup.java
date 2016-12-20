@@ -4,10 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
-import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
 
 @SuppressWarnings("serial")
@@ -77,12 +75,14 @@ public class RunScriptPopup extends FilePopup implements Runnable {
 
 
 			try {
-				ScriptData  data = ScriptData.getScriptData( ReFrame.getActiveFrame(), filePathName);
+				ScriptData  data = ScriptData.getScriptData( 
+						net.sf.RecordEditor.utils.screenManager.ReFrame.getActiveFrame(), 
+						filePathName);
 
 				(new net.sf.RecordEditor.re.script.ScriptMgr()).runScript(filePathName, data);
 			} catch (Exception ex) {
 				Common.logMsg(
-						AbsSSLogger.ERROR,
+						net.sf.JRecord.Log.AbsSSLogger.ERROR,
 						"Script execution failed !!!",
 						ex.getClass().getName() + " " + ex.getMessage(),
 						ex);

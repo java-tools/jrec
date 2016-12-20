@@ -183,7 +183,8 @@ public class DisplayCobolCopybook implements ActionListener {
 
 		return new LayoutDetail("XML Document",
 				recs ,
-    			"", Constants.RT_XML, null, null, "", null, Constants.IO_XML_BUILD_LAYOUT
+    			"", Constants.RT_XML, null, null, "", null, Constants.IO_XML_BUILD_LAYOUT,
+    			-1
 		);
 
 	}

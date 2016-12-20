@@ -8,7 +8,6 @@ package net.sf.RecordEditor.re.db.Table;
 
 import java.util.ArrayList;
 
-import net.sf.JRecord.External.Def.BasicConversion;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.params.Parameters;
 

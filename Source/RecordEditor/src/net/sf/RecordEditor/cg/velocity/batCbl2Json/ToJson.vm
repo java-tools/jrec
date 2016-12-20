@@ -1,0 +1,16 @@
+rem * -------------------------------------------------------------------
+rem *
+rem *  Purpose:  Convert a cobol Data file using Cobol Copybook to Json
+#set ( $type = "Json")
+#incl("batCbl2Xml/XmlCommonBat.vm")
+rem *
+rem *  This script uses the Cobol2Json from the JRecord Package:
+rem *  https://sourceforge.net/projects/jrecord/
+rem *
+rem * -------------------------------------------------------------------
+
+rem  java -jar ../lib/Cobol2Json.jar -cobol ${generateOptions.getSchemaDefinition().getSchemaName()}
+../lib/Cobol2Json.bat  -cobol ${generateOptions.getSchemaDefinition().getSchemaName()} ^
+#setXmlAttrBat()
+                       -input  ${generateOptions.getDataFileName().getJavaFileName()}   ^
+                       -output ${generateOptions.getDataFileName().getJavaFileName()}.json

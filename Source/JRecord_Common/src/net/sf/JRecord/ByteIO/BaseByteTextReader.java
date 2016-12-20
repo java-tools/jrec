@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.ByteIO;
 
 import java.io.IOException;
@@ -33,7 +58,7 @@ public abstract class BaseByteTextReader extends AbstractByteReader {
 			}
 		};
 	//private static int MAX_LINE_SIZE = 750;
-	private static int MAX_LINE_SIZE = BUFFER_SIZE*32;
+	private static int MAX_LINE_SIZE = BUFFER_SIZE*8;
 	private static final byte[] NO_EOL = EMPTY;
 	protected byte[] eol = null;
 
@@ -161,8 +186,9 @@ public abstract class BaseByteTextReader extends AbstractByteReader {
 
 	@Override
 	public final void close() throws IOException {
-		in.close();
-
+		if (in != null) {
+			in.close();
+		}
 		in=null;
 	}
 

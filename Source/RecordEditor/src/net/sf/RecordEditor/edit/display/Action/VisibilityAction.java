@@ -3,8 +3,7 @@ package net.sf.RecordEditor.edit.display.Action;
 import java.awt.event.ActionEvent;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
-import net.sf.RecordEditor.edit.display.util.HideFields;
-import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 
 
@@ -26,7 +25,8 @@ public class VisibilityAction extends ReSpecificScreenAction implements Abstract
 	@Override
 	public void checkActionEnabled() {
 		boolean enable = false;
-		AbstractFileDisplayWithFieldHide sourcePnl = getDisplay(AbstractFileDisplayWithFieldHide.class);
+		net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide sourcePnl 
+				= getDisplay(net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide.class);
 
 		if (sourcePnl != null) {
 	    	AbstractLayoutDetails layout = sourcePnl.getFileView().getLayout();
@@ -39,10 +39,11 @@ public class VisibilityAction extends ReSpecificScreenAction implements Abstract
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		AbstractFileDisplayWithFieldHide sourcePnl = getDisplay(AbstractFileDisplayWithFieldHide.class);
+		net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide sourcePnl 
+				= getDisplay(net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide.class);
 
 		if (sourcePnl != null) {
-			new HideFields(sourcePnl);
+			new net.sf.RecordEditor.edit.display.util.HideFields(sourcePnl);
 		}
 	}
 //

@@ -7,9 +7,6 @@ import net.sf.RecordEditor.edit.open.OpenCsvFilePnl;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
-import net.sf.RecordEditor.utils.params.Parameters;
-import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
-import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 @SuppressWarnings("serial")
 public class CsvOpenAction extends ReAbstractAction {
@@ -32,7 +29,8 @@ public class CsvOpenAction extends ReAbstractAction {
 		if (open == null) {
 			csvPnl = new OpenCsvFilePnl(
 								fileName,
-								Parameters.getApplicationDirectory() + "CsvFiles.txt",
+								net.sf.RecordEditor.utils.params.Parameters
+										.getApplicationDirectory() + "CsvFiles.txt",
 								ioProvider,
 								false);
 
@@ -46,12 +44,15 @@ public class CsvOpenAction extends ReAbstractAction {
 
 
 	private int getOpenHeight() {
-        return ReMainFrame.getMasterFrame().getDesktopHeight() * 4 / 5;
+        return net.sf.RecordEditor.utils.screenManager.ReMainFrame
+        				.getMasterFrame().getDesktopHeight() * 4 / 5;
 	}
 
 
 	private int getLogWidth() {
-        return ReMainFrame.getMasterFrame().getDesktop().getWidth() - SwingUtils.STANDARD_FONT_WIDTH;
+        return net.sf.RecordEditor.utils.screenManager.ReMainFrame
+        				.getMasterFrame().getDesktop().getWidth() - 
+        	   net.sf.RecordEditor.utils.swing.SwingUtils.STANDARD_FONT_WIDTH;
 	}
 
 }

@@ -126,7 +126,7 @@ public final class StandardLayouts {
 		
 		String xml = "<RECORD RECORDNAME=\"Fixed\" COPYBOOK=\"\" STYLE=\"0\""
 			+ "        FILESTRUCTURE=\"RecordLayout\" DELIMITER=\"\" " +  charsetTag
-			+ "		   DESCRIPTION=\"Fixed\" RECORDTYPE=\"Delimited\" RecSep=\"default\">"
+			+ "		   DESCRIPTION=\"Fixed\" RECORDTYPE=\"RecordLayout\" RecSep=\"default\">"
 			+ "	<FIELDS>"
 			+ "		<FIELD NAME=\"Dummy\" DESCRIPTION=\" \" POSITION=\"1\" TYPE=\"Char\"/>"
 			+ "	</FIELDS>"

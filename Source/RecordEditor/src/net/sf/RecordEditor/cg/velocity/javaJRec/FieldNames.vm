@@ -1,0 +1,98 @@
+#incl("javaJRec/Header.pvm")
+
+import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.JRecordInterface1;
+import net.sf.JRecord.Types.Type;	
+#*  *##if(${generateOptions.schemaDefinition.schema.isCsvLayout()})
+import net.sf.JRecord.def.IO.builders.ICsvIOBuilder;
+#*  *##else
+import net.sf.JRecord.def.IO.builders.IFixedWidthIOBuilder;
+#*  *##end
+
+
+public class FieldNames${generateOptions.schemaDefinition.extensionName} {
+
+#*  *##set ($schemaDef = ${generateOptions.schemaDefinition})
+#*  *##set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+###*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()}) 
+    public static final Record${r.extensionName} RECORD_${r.constantName} = new Record${r.extensionName}();
+###*  *##end    
+
+#*  *##if(${generateOptions.schemaDefinition.areFieldNamesOnTheFirstLine()})
+    public static ICsvIOBuilder newIoBuilderForReading() {
+        return JRecordInterface1.CSV
+                        .newIOBuilder("${generateOptions.schemaDefinition.getDelimiter()}", "${generateOptions.schemaDefinition.getQuote()}")
+#*      *##if (${generateOptions.font} != "")
+                                .setFont("${generateOptions.font}")
+#*      *##end                                           
+                                .setFileOrganization(${generateOptions.getFileStructureCode().code});                        
+    }
+#*  *##end
+	
+
+#*  *##if(${generateOptions.schemaDefinition.schema.isCsvLayout()})
+    public static ICsvIOBuilder newIoBuilder() {
+        Record${r.extensionName} r = RECORD_${r.constantName};
+        return JRecordInterface1.CSV
+                        .newIOBuilder("${generateOptions.schemaDefinition.getDelimiter()}", "${generateOptions.schemaDefinition.getQuote()}")
+#*      *##if (${generateOptions.font} != "")
+                                .setFont("${generateOptions.font}")
+#*      *##end                                           
+                                .setFileOrganization(${generateOptions.getFileStructureCode().code})                        
+                                .defineFields()
+#*      *##foreach($f in ${r.getFields()}) 
+#*          *##if ( ${f.isArrayItem()})
+                                    .addCsvField("${f.fieldDetail.getLookupName()}", ${f.getJRecordTypeId()}, ${f.fieldDetail.getDecimal()})
+#*          *##else
+                                    .addCsvField(r.${f.javaName}, ${f.getJRecordTypeId()}, ${f.fieldDetail.getDecimal()})
+#*          *##end 
+#*      *##end
+#*  *##else
+    public static IFixedWidthIOBuilder newIoBuilder() {
+        Record${r.extensionName} r = RECORD_${r.constantName};
+        return JRecordInterface1.FIXED_WIDTH.newIOBuilder()
+#*      *##if (${generateOptions.font} != "")
+                                .setFont("${generateOptions.font}")
+#*      *##end                                           
+                                .setFileOrganization(${generateOptions.getFileStructureCode().code})                        
+                                .defineFieldsByLength()
+#*      *##set($pos = 1)                                    
+#*      *##foreach($f in ${r.getFields()}) 
+###*      *##if (${f.alwaysIncludeField()})
+#*          *##if (${f.fieldDetail.getPos()} > $pos)
+#*              *##set($skip = ${f.fieldDetail.getPos()} - $pos)
+                                          .skipBytes($skip)
+#*          *##end 
+#*          *##if ( ${f.isArrayItem()})
+                                    .addFieldByLength("${f.fieldDetail.getLookupName()}", ${f.getJRecordTypeId()}, ${f.fieldDetail.getLen()}, ${f.fieldDetail.getDecimal()})
+#*          *##else
+                                    .addFieldByLength(r.${f.javaName}, ${f.getJRecordTypeId()}, ${f.fieldDetail.getLen()}, ${f.fieldDetail.getDecimal()})
+#*          *##end 
+#*          *##set($pos = $pos + ${f.fieldDetail.getLen()})                                        
+##       fld${f.extensionName} = createField(flds, i++, "${f.fieldDetail.getLookupName()}", ${f.getJRecordTypeId()}, ${f.fieldDetail.getPos()}, ${f.fieldDetail.getLen()}, ${f.fieldDetail.getDecimal()});
+#*      *##end
+#*     *##end
+###*  *##end
+                                .endOfRecord();    
+    }    
+
+###*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()}) 
+    public static class Record${r.extensionName} {
+#*    *##foreach($f in ${r.getFields()}) 	
+#*      *##if (! ${f.isArrayItem()})
+       public final String ${f.javaName} = "${f.fieldDetail.getLookupName()}";
+#*      *##end
+#*    *##end 
+#*    *##if (${r.getArrayDetailsList().size()} > 0)
+
+   // Array fields follow:	
+
+#*        *##foreach($a in ${r.getArrayDetailsList()}) 
+       public final IFieldName${a.getDimensionString()}Dimension ${a.getFirstElement().javaName} #*
+    *# = new ArrayFieldName("${a.getFirstElement().cobolName}");
+#*        *##end
+#*    *##end
+	
+    }  
+}
+

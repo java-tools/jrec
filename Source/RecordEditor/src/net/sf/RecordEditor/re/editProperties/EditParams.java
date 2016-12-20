@@ -271,7 +271,8 @@ public final class EditParams {
             properties.store(
                 new FileOutputStream(Parameters.getPropertyFileName()),
                 "RecordEditor");
-            Parameters.setProperties(properties);
+            
+             Parameters.setProperties(properties);
 
             if ((! lastLang.equals(lang)) || (! lastLangDir.equals(langDir))) {
             	String s, t;
@@ -334,6 +335,9 @@ public final class EditParams {
      * @return ...
      */
     public Object remove(Object key) {
-        return properties.remove(key);
+    	if (key != null && properties.containsKey(key)) {
+    		return properties.remove(key);
+    	}
+    	return null;
     }
 }

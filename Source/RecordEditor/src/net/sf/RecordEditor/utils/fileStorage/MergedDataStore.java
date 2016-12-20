@@ -166,7 +166,7 @@ implements IDataStore<AbstractLine> {
 	}
 
 	@Override
-	public void sortRE(Comparator<AbstractLine> compare) {
+	public void sortRE(Comparator<? super AbstractLine> compare) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -205,8 +205,8 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 			}
 
 			delimTxt.setText("");
-			delimCombo.setEnglish(values.delimiter);
-			if (values.delimiter != null && ! values.delimiter.equals(delimCombo.getSelectedEnglish())) {
+			delimCombo.setDelimiter(values.delimiter);
+			if (values.delimiter != null && ! values.delimiter.equals(delimCombo.getDelimiter())) {
 				delimTxt.setText(values.delimiter);
 			}
 			names1stLineChk.setSelected(values.namesOnFirstLine);
@@ -251,7 +251,7 @@ public class Copy2Delim extends AbstractWizard<CopyDefinition> {
 			String ret = delimTxt.getText();
 
 			if ("".equals(ret)) {
-				ret = delimCombo.getSelectedEnglish();
+				ret = delimCombo.getDelimiter();
 			} else {
 				String v = delimTxt.getText();
 

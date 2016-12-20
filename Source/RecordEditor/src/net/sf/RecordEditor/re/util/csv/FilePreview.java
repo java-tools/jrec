@@ -7,6 +7,7 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 
 public interface FilePreview {
 
+	public static final String SCHEMA_ID = "SCHEMA";
 	public static final int NO = 1;
 	public static final int MAYBE = 2;
 	public static final int YES = 3;
@@ -46,16 +47,6 @@ public interface FilePreview {
 	public abstract void setLines(String[] newLines, String font,
 			int numberOfLines);
 
-	/**
-	 * @return column count
-	 * @see net.sf.RecordEditor.re.util.csv.CsvSelectionTblMdl#getColumnCount()
-	 */
-	public abstract int getColumnCount();
-
-	/**
-	 * @return the Column Name
-	 */
-	public abstract String getColumnName(int idx);
 
 	public abstract LayoutDetail getLayout(String font, byte[] recordSep);
 

@@ -3,6 +3,31 @@
  *
  * This class stores the description of one field in a record.
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Common;
 
 import net.sf.JRecord.External.Def.DependingOnDtls;
@@ -46,6 +71,14 @@ public class FieldDetail implements IFieldDetail {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.JRecord.Common.AbstractRecord#getQuoteUneditted()
+		 */
+		@Override
+		public String getQuoteUneditted() {
+			return null;
+		}
+
 		/**
 		 * @see net.sf.JRecord.Common.AbstractRecord#getRecordStyle()
 		 */
@@ -79,6 +112,7 @@ public class FieldDetail implements IFieldDetail {
 	private final String paramater;
 	//private String quote;
 	private AbstractRecord record = DEFAULT_RECORD;
+	
 	private Object defaultValue = null;
 	private String groupName = "";
 	private boolean occursDependingOnValue = false;
@@ -350,7 +384,6 @@ public class FieldDetail implements IFieldDetail {
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Common.IFieldDetail#setRecord(net.sf.JRecord.Common.AbstractRecord)
 	 */
-	@Override
 	public void setRecord(AbstractRecord record) {
 		this.record = record;
 	}

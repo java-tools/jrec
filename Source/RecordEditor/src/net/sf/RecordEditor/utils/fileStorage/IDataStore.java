@@ -32,9 +32,9 @@ public interface IDataStore<L extends AbstractLine> extends List<L> {
 
 	public void setLayoutRE(AbstractLayoutDetails layout);
 	
-	public void sortRE(Comparator<AbstractLine> compare);
+	public void sortRE(Comparator<? super AbstractLine> compare);
 	
-	public void sortRE(int[] rows, Comparator<AbstractLine> compare);
+	public void sortRE(int[] rows, Comparator<? super AbstractLine> compare);
 	
 	public void addChildViewRE(ISortNotify notify);
 	

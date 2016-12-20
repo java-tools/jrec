@@ -31,7 +31,6 @@ import javax.swing.JMenuItem;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.edit.display.DisplayBuilderImp;
-import net.sf.RecordEditor.edit.display.DisplayCobolCopybook;
 import net.sf.RecordEditor.edit.display.DisplayFrame;
 import net.sf.RecordEditor.edit.display.Action.ChangeFileStructureAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
@@ -39,8 +38,6 @@ import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
 import net.sf.RecordEditor.edit.display.Action.ShowTextViewAction;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.externalInterface.Plugin;
-import net.sf.RecordEditor.re.display.AbstractFileDisplay;
-import net.sf.RecordEditor.re.editProperties.EditOptions;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
 import net.sf.RecordEditor.re.jrecord.types.TypeDateWrapper;
@@ -50,7 +47,6 @@ import net.sf.RecordEditor.re.script.RunScriptPopup;
 import net.sf.RecordEditor.re.script.VelocityPopup;
 import net.sf.RecordEditor.re.script.XsltPopup;
 import net.sf.RecordEditor.re.script.bld.RunScriptSkelPopup;
-import net.sf.RecordEditor.re.script.runScreen.ScriptRunFrame;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.CopyBookDbReader;
 import net.sf.RecordEditor.utils.CopyBookInterface;
@@ -60,6 +56,7 @@ import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.params.ProgramOptions.ProgramType;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReActionActiveScreen;
@@ -80,9 +77,9 @@ public class EditRec extends ReMainFrame  {
     private JMenu utilityMenu;
     private JMenu dataMenu;
     private JMenu viewMenu;
-    private AbstractAction newFileAction = null,
-    		               open2action = null,
-    		               new2action = null;
+    private AbstractAction	newFileAction = null,
+    						open2action = null,
+    						new2action = null;
 
     private boolean incJdbc;
     private boolean includeWizardOptions = true;
@@ -192,9 +189,11 @@ public class EditRec extends ReMainFrame  {
      */
 	protected final void initMenusToolBars(
 			final boolean includeJdbc,
-			AbstractAction open2Action, AbstractAction newAction, AbstractAction new2Action, AbstractAction schemaEdit) {
+			AbstractAction open2Action,
+			AbstractAction newAction, AbstractAction new2Action, 
+			AbstractAction schemaEdit) {
 
-    	newFileAction    = newAction;
+    	this.newFileAction  = newAction;
     	this.open2action = open2Action;
     	this.new2action  = new2Action;
     	incJdbc = includeJdbc;
@@ -227,7 +226,7 @@ public class EditRec extends ReMainFrame  {
 	 * @param filterAction
 	 * @param sortAction
 	 */
-	private void updateMenus( AbstractAction newAction, AbstractAction schemaEdit) {
+	private void updateMenus( AbstractAction newAction,  AbstractAction schemaEdit) {
 		
     	LoadSavedVisibilityAction savedVisibiltyAction = new LoadSavedVisibilityAction();
     	LoadSavedFieldSeqAction fieldSeqAction = new LoadSavedFieldSeqAction();
@@ -376,13 +375,8 @@ public class EditRec extends ReMainFrame  {
 
         if (copyAction != null) {
         	utilityMenu.add(new ReAbstractAction("Cobol Copybook Analysis") {
-
-					/**
-					 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-					 */
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						new DisplayCobolCopybook();
+					@Override public void actionPerformed(ActionEvent e) {
+						new net.sf.RecordEditor.edit.display.DisplayCobolCopybook();
 					}
 		        });
         	utilityMenu.addSeparator();
@@ -567,7 +561,10 @@ public class EditRec extends ReMainFrame  {
             	ReFrame activeFrame = ReFrame.getActiveFrame();
         		if (activeFrame != null && activeFrame.isActionAvailable(ReActionHandler.OPEN)) {
         			activeFrame.executeAction(ReActionHandler.OPEN);
+        		} else if (open.isVisible()) {
+        			ReFrame.moveFrameToFront(open);
         		} else {
+        			open.setVisible(true);
         			ReFrame.moveFrameToFront(open);
 
 //	                open.moveToFront();
@@ -638,7 +635,7 @@ public class EditRec extends ReMainFrame  {
 
 
     protected void editProperties(boolean includeJdbc, boolean includeWizardOptions) {
-    	new EditOptions(false, includeJdbc, includeWizardOptions);
+    	new net.sf.RecordEditor.re.editProperties.EditOptions(false, includeJdbc, includeWizardOptions);
     }
 
 	/**
@@ -665,7 +662,7 @@ public class EditRec extends ReMainFrame  {
     	    ReFrame actionHandler = ReFrame.getActiveFrame();
     	    if (actionHandler != null && actionHandler instanceof DisplayFrame) {
     	    	try {
-					AbstractFileDisplay display = ((DisplayFrame) actionHandler).getActiveDisplay();
+    	    		net.sf.RecordEditor.re.display.AbstractFileDisplay display = ((DisplayFrame) actionHandler).getActiveDisplay();
     	    		extension.execute(param, display.getFileView(), display.getSelectedRows());
     	    	} catch (Exception e) { }
     	    }
@@ -680,7 +677,7 @@ public class EditRec extends ReMainFrame  {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new ScriptRunFrame();
+			new net.sf.RecordEditor.re.script.runScreen.ScriptRunFrame();
 		}
 
 		/* (non-Javadoc)
@@ -732,6 +729,8 @@ public class EditRec extends ReMainFrame  {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 //JFrame.setDefaultLookAndFeelDecorated(true);
+    			Common.OPTIONS.programType = ProgramType.RECORD_EDITOR;
+
                 ParseArgs args = new ParseArgs(pgmArgs);
                 Common.setReadOnly(true);
                 new EditRec(args.getDfltFile(), args.getInitialRow(),

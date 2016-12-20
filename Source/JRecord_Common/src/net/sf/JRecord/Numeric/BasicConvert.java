@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Numeric;
 
 import net.sf.JRecord.Common.Constants;
@@ -11,9 +36,9 @@ import net.sf.cb2xml.def.Cb2xmlConstants;
  *
  */public class BasicConvert implements Convert {
 
-    private int identifier;
+    private final int identifier;
 
-    private int binId;
+    private final int binId;
     private boolean usePositiveInteger;
 
     private int defaultVbFileStructure = Constants.IO_DEFAULT;
@@ -42,9 +67,7 @@ import net.sf.cb2xml.def.Cb2xmlConstants;
  		}
     	identifier = id;
 
-
         binId = binaryId;
-
     }
 
 
@@ -151,7 +174,7 @@ import net.sf.cb2xml.def.Cb2xmlConstants;
     			||  picture.indexOf('.') >= 0) {
     		lType = Type.ftNumRightJustified;
     	} else {
-    		lType = CommonCode.commonTypeChecks(binId, usage, picture, signed, signSeperate, signPosition);
+    		lType = CommonCode.commonTypeChecks(identifier, usage, picture, signed, signSeperate, signPosition);
     	}
 
     	return lType;

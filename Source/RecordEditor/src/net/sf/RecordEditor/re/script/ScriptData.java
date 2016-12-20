@@ -20,7 +20,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineCompare;
 import net.sf.JRecord.Details.RecordDetail;
-import net.sf.JRecord.External.ExternalConversion;
+import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;

@@ -2,9 +2,9 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import net.sf.RecordEditor.edit.display.util.UpdateCsvLayout;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 
 @SuppressWarnings("serial")
@@ -41,7 +41,7 @@ extends ReSpecificScreenAction implements AbstractActiveScreenAction {
 	public void actionPerformed(ActionEvent arg0) {
 		AbstractFileDisplay sourcePnl = getDisplay(AbstractFileDisplay.class);
 		if (sourcePnl != null) {
-			new UpdateCsvLayout(sourcePnl);
+			new net.sf.RecordEditor.edit.display.util.UpdateCsvLayout(sourcePnl);
 		}
 	}
 }

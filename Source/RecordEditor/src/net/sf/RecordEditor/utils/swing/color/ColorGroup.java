@@ -7,6 +7,8 @@ import net.sf.RecordEditor.utils.params.Parameters;
 
 public class ColorGroup implements IColorGroup {
 
+	private static final Color STD_ALT_BACKGROUND = new Color(240, 240, 255); //Color.CYAN;
+
 	private static Color[] STD_FOREGROND_COLORS = {
 //		new Color(153,  0,   0), new Color(153, 51,   0), new Color(51, 51,   0), new Color(13, 26,   0), 
 //		new Color(0,  102, 102), new Color(0,   51, 153), new Color(0,     0, 153), new Color(102,  0, 204),
@@ -22,9 +24,13 @@ public class ColorGroup implements IColorGroup {
 	};
 	
 	private static Color[] STD_BACKGROND_COLORS = {
-		null, 	null,   null, null,  new Color(255, 255, 212), null, null, null, null, Color.BLUE
+		null, 	STD_ALT_BACKGROUND,   null, STD_ALT_BACKGROUND,  new Color(255, 255, 212),
+		STD_ALT_BACKGROUND, null, STD_ALT_BACKGROUND, null, Color.BLUE
 	};
 
+//	private static Color[] STD_BACKGROND_COLORS = {
+//			null, 	null,   null, null,  new Color(255, 255, 212), null, null, null, null, Color.BLUE
+//		};
 	
 	private static Color[] SPECIAL_FOREGROND_COLORS = {
 		Color.BLUE

@@ -77,7 +77,7 @@ public class FieldSearch {
     		boolean lookCompBigEndian, boolean lookCompLittleEndian) {
 
     	if (recordDef.records != null && recordDef.numRecords > 0) {
-    		int i, limit, limit1;
+    		int i;
     		int size = 0;
     		int[][] counts;
 
@@ -87,30 +87,82 @@ public class FieldSearch {
 
     		counts = new int[size][];
        		fieldId = 0;
+       		
+       		Limits limits = new Limits(recordDef.numRecords, 0, size);
+       		
        		ff100_determineByteTypes(recordDef.columnDtls, size, counts);
 
-        	limit = recordDef.numRecords;
-       		limit1 = recordDef.numRecords;
-
-      		if (limit > 3) {
-       			limit = (limit * 9 - 1) / 10;
-       		} else if (limit > 1) {
-       			limit = (limit * 7) / 10;
-       		}
+  
 
 //      		System.out.println(" >> RecLength: " + size + " " + recordDef.numRecords
 //      				+ " "  + size * recordDef.numRecords
 //      				+ " ~ " + limit + " ~ " + limit1 );
 
-       		ff200_checkForCobolNumericFields(limit, size, counts, lookMainframeZoned, lookPcZoned, lookComp3);
-       		ff300_checkForDateAndTime(limit, size, counts);
-       		ff400_checkForNumericFields(limit, size, counts, lookCompBigEndian, lookCompLittleEndian);
-       		ff500_checkForTextFields(limit, limit1, size, counts);
+       		ff200_checkForCobolNumericFields(limits, counts, lookMainframeZoned, lookPcZoned, lookComp3);
+       		ff300_checkForDateAndTime(limits.limit, size, counts);
+       		ff400_checkForNumericFields(limits, counts, lookCompBigEndian, lookCompLittleEndian);
+       		ff500_checkForTextFields(limits, counts);
 
        		ff600_createFields(counts);
-       		ff700_checkForSameChars(limit, limit1, size);
+       		ff700_checkForSameChars(limits.limit, limits.limit1, size);
     	}
     }
+
+
+	public int findType(
+			int start, int end,
+    		boolean lookMainframeZoned, boolean lookPcZoned,
+    		boolean lookComp3,
+    		boolean lookCompBigEndian, boolean lookCompLittleEndian) {
+
+    	if (recordDef.records == null || recordDef.numRecords == 0) {
+    		return Type.ftChar;
+    	}
+		int i;
+		int size = 0;
+		int[][] counts;
+
+		for (i = 0; i < recordDef.numRecords; i++) {
+			size = Math.max(size, recordDef.records[i].length);
+		}
+
+		counts = new int[size][];
+   		fieldId = 0;
+   		
+   		Limits limits = new Limits(recordDef.numRecords, start, Math.min(end, size));
+   		
+   		ff100_determineByteTypes(recordDef.columnDtls, size, counts);
+
+  
+
+//      		System.out.println(" >> RecLength: " + size + " " + recordDef.numRecords
+//      				+ " "  + size * recordDef.numRecords
+//      				+ " ~ " + limit + " ~ " + limit1 );
+
+   		ff200_checkForCobolNumericFields(limits, counts, lookMainframeZoned, lookPcZoned, lookComp3);
+    	ff400_checkForNumericFields(limits, counts, lookCompBigEndian, lookCompLittleEndian);
+   		ff500_checkForTextFields(limits, counts);
+
+   		ff600_createFields(counts);
+   		
+   		int lastType = charType[start];
+   		for (i = start + 1; i < end; i++) {
+   			if (charType[start] != lastType) {
+   				return Type.ftChar;
+   			}
+   		}
+   		
+   		if (lastType == Type.ftPackedDecimal) {
+   			int fld = fieldIdentifier[start];
+   			for (i = start +1; i < end; i++) {
+   				if (fld != fieldIdentifier[i]) {
+   					return Type.ftChar;
+   				}
+   			}
+   		}
+   		return lastType;
+    }
+
 
     public final void resetDetails(Details details, RecordDefinition recordDefinition) {
 
@@ -246,14 +298,16 @@ public class FieldSearch {
      * @param counts Byte Type counts
      */
     private void ff200_checkForCobolNumericFields(
-    		int limit, int size, int[][] counts,
+    		Limits limits, int[][] counts,
     		boolean lookMainframeZoned, boolean lookPcZoned,
     		boolean lookComp3) {
 
        		//boolean isComp3 = false;
+    	int limit = limits.limit;
     	boolean wasStartOfBin = false;
    		int type = NOT_IN_FIELD;
-   		for (int i = size -1; i >= 0; i--) {
+   		
+   		for (int i = limits.size -1; i >= limits.start; i--) {
    			if (fieldIdentifier[i] > 0) {
    				type = NOT_IN_FIELD;
    			} else if (lookComp3 && counts[i][TYPE_COMP3_FINAL_BYTE] >= limit) {
@@ -305,7 +359,8 @@ public class FieldSearch {
 
     private void ff300_checkForDateAndTime(int limit, int size, int[][] counts) {
 
-    	for (int i = 2; i < size - 5; i++) {
+    	int end = size - 5;
+		for (int i = 2; i < end; i++) {
      		if (fieldIdentifier[i] > 0) {
 
     		} else if ((counts[i][TYPE_SLASH1] >= limit && counts[i + 3][TYPE_SLASH1] >= limit)
@@ -380,22 +435,30 @@ public class FieldSearch {
     private boolean ff320_checkDayMthLast(int pos, int limit) {
     	//System.out.println("ff320_checkDayMthLast ");
     	return	(		ff350_checkRange(pos + 4, 2, 31, limit)
-    				&&	ff350_checkRange(pos +1, 2, 12, limit))
-				||  (		ff350_checkRange(pos + 4, 2, 12, limit)
-    				&&	ff350_checkRange(pos +1, 2, 31, limit));
+    				&&	ff350_checkRange(pos + 1, 2, 12, limit))
+				||  (	ff350_checkRange(pos + 4, 2, 12, limit)
+    				&&	ff350_checkRange(pos + 1, 2, 31, limit));
     }
 
     private boolean ff330_checkDayMthFirst(int pos, int limit) {
     	//System.out.println("ff330_checkDayMthFirst ");
     	return 	(		ff350_checkRange(pos - 2, 2, 31, limit)
-						&&	ff350_checkRange(pos +1, 2, 12, limit))
-					||  (		ff350_checkRange(pos - 2, 2, 12, limit)
-						&&	ff350_checkRange(pos +1, 2, 31, limit));
+					&&	ff350_checkRange(pos +1, 2, 12, limit))
+				||  (	ff350_checkRange(pos - 2, 2, 12, limit)
+					&&	ff350_checkRange(pos +1, 2, 31, limit));
     }
     private boolean ff340_checkTime(int pos, int limit) {
     	return 	(		ff350_checkRange(pos - 2, 2, 25, limit)
-    					&&	ff350_checkRange(pos +1, 2, 61, limit)
-						&&	ff350_checkRange(pos +4, 2, 61, limit));
+    				&&	ff350_checkRange(pos + 1 , 2, 61, limit)
+					&&	ff350_checkRange(pos + 4, 2, 61, limit));
+    }
+
+
+    private void ff340_setDateTimeField(int start, int len) {
+    	fieldId += 1;
+    	for (int i = start; i < start + len; i++) {
+			fieldIdentifier[i] = fieldId;
+    	}
     }
 
     private boolean ff350_checkRange(int start, int len, int maxValue, int limit) {
@@ -419,14 +482,7 @@ public class FieldSearch {
     	return count >= limit;
     }
 
-    private void ff340_setDateTimeField(int start, int len) {
-    	fieldId += 1;
-    	for (int i = start; i < start + len; i++) {
-			fieldIdentifier[i] = fieldId;
-    	}
-    }
-
-    private void ff400_checkForNumericFields(int limit, int size, int[][] counts,
+    private void ff400_checkForNumericFields(Limits limits, int[][] counts,
     		boolean lookCompBigEndian, boolean lookCompLittleEndian) {
     	int type = NOT_IN_FIELD;
     	int len = 0;
@@ -434,8 +490,9 @@ public class FieldSearch {
     	boolean allowDot = false;
     	boolean wasHexZero = false;
     	boolean holdWasHexZero = true;
+    	int limit = limits.limit;
 
-    	for (int i = 0; i < size; i++) {
+    	for (int i = limits.start; i < limits.size; i++) {
     		holdWasHexZero = false;
      		if (fieldIdentifier[i] > 0) {
     			type = NOT_IN_FIELD;
@@ -453,7 +510,7 @@ public class FieldSearch {
    	   			charType[i] = Type.ftBinaryBigEndian;
     			fieldIdentifier[i] = fieldId;
     		} else if ((lastCharNonZero && counts[i][TYPE_ZERO] >= limit
-    				&&  i < size-1 && counts[i+1][TYPE_NUMBER] >= limit)
+    				&&  i < limits.size-1 && counts[i+1][TYPE_NUMBER] >= limit)
     				|| ((type != IN_NUMERIC) && counts[i][TYPE_NUMBER] >= limit)) {
     			type = IN_NUMERIC;
   				fieldId += 1;
@@ -482,7 +539,7 @@ public class FieldSearch {
 
     	if (lookCompLittleEndian && ! lookCompBigEndian) {
 	  		type = NOT_IN_FIELD;
-	   		for (int i = size -1; i >= 0; i--) {
+	   		for (int i = limits.size -1; i >= limits.start; i--) {
 	   			if (fieldIdentifier[i] > 0) {
 	   				type = NOT_IN_FIELD;
 	   	   		} else if (counts[i][TYPE_HEX_ZERO] >= limit) {
@@ -502,11 +559,11 @@ public class FieldSearch {
     	}
     }
 
-    private void ff500_checkForTextFields(int limit, int limit1, int size, int[][] counts) {
+    private void ff500_checkForTextFields(Limits limits, int[][] counts) {
     	boolean wasSpace =false;
     	int type = NOT_IN_FIELD;
-
-    	for (int i = 0; i < size; i++) {
+    	int limit = limits.limit; //int limit1, int limit2
+    	for (int i = limits.start; i < limits.size; i++) {
     		if (fieldIdentifier[i] > 0) {
     			type = NOT_IN_FIELD;
     		} else if ((counts[i][TYPE_T] + counts[i][TYPE_F] >= limit
@@ -523,7 +580,9 @@ public class FieldSearch {
   				fieldId += 1;
    	   			charType[i] = Type.ftCheckBoxYN;
     			fieldIdentifier[i] = fieldId;
-    		} else if (wasSpace && counts[i][TYPE_TEXT] >= limit) {
+    		} else if (wasSpace 
+    			   && counts[i][TYPE_TEXT] >= limits.limit2
+    			   && (counts[i][TYPE_TEXT] + counts[i][TYPE_SPACE]/2) >= limit) {
    				type = IN_TEXT;
    				fieldId += 1;
    	   			charType[i] = Type.ftChar;
@@ -532,13 +591,18 @@ public class FieldSearch {
    				fieldIdentifier[i] = fieldId;
    				charType[i] = Type.ftChar;
     		}
-
+    		
+ 
 //      		System.out.println(" ~~> " + i + " " + type + " : " + counts[i][TYPE_TEXT]  + " ~ #"
 //       				+ " > " + fieldId + " > " + fieldIdentifier[i] + " " + wasSpace + " "
 //       				+ " " + (wasSpace && counts[i][TYPE_TEXT] >= limit)
 //       				+ " ~ " + counts[i][TYPE_LAST_SPACE] + " " + limit);
 
-    		wasSpace = counts[i][TYPE_LAST_SPACE] >= limit;
+    		wasSpace = counts[i][TYPE_SPACE] >= limit;
+//    		if (i > 80 && i < 86) {
+//    			System.out.println(i + " " + wasSpace + " " + counts[i][TYPE_TEXT] + " >= " + limit2
+//    					+ " spaceCount=" + counts[i][TYPE_SPACE] + " " + limit + " ~ " + counts[i][TYPE_LAST_SPACE]);
+//    		}
 
     	}
     }
@@ -785,5 +849,27 @@ public class FieldSearch {
     		}
     		return max;
     	}
+    }
+    
+    public static class Limits {
+		final int  limit, limit1, limit2, start, size;
+
+		Limits(int numRecords, int start, int size) {
+
+	   		this.limit1 = numRecords;
+	   		this.size = size;
+	   		this.start = start;
+	
+	  		if (numRecords > 3) {
+	   			limit = (numRecords * 9 - 1) / 10;
+	   			limit2 = (numRecords * 15 - 1) / 20;
+	   		} else if (numRecords > 1) {
+	   			limit = (numRecords * 7) / 10;
+	   			limit2 = limit;
+	   		} else {
+	   			limit = numRecords;
+	   			limit2 = numRecords;		
+	   		}
+		}
     }
 }

@@ -13,6 +13,31 @@
  *     all reference to the Common module and used a new Constants
  *     module
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.IO;
 
 import java.util.ArrayList;
@@ -55,9 +80,9 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
 
 
     //private  int numberOfEntries = 0;
-    private  ArrayList<String> names = new ArrayList<String>(20) ;
-    private  ArrayList<String> externalNames = new ArrayList<String>(20) ;
-    private  ArrayList<Integer>keys = new ArrayList<Integer>(20) ;
+    private  ArrayList<String> names = new ArrayList<String>(30) ;
+    private  ArrayList<String> externalNames = new ArrayList<String>(30) ;
+    private  ArrayList<Integer>keys = new ArrayList<Integer>(30) ;
 
 
 
@@ -323,11 +348,16 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
     }
 
     public final void registerNames(AbstractLineIOProvider newProvider) {
+//    	int idx = 0;
     	for (int i = 0; i < newProvider.getNumberOfEntries(); i++) {
-    		names.add(newProvider.getName(i));
-    		keys.add(Integer.valueOf(newProvider.getKey(i)));
-    		externalNames.add(newProvider.getStructureNameForIndex(i));
-    		//System.out.println(" --> " + keys.get(i) + " >> " + names.get(i) + " >> " + externalNames.get(i));
+    		Integer key = Integer.valueOf(newProvider.getKey(i));
+    		if (! keys.contains(key)) {
+	    		names.add(newProvider.getName(i));
+	    		keys.add(key);
+	    		externalNames.add(newProvider.getStructureNameForIndex(i));
+//	    		System.out.println(" --> " + keys.get(idx) + " >> " + names.get(idx) + " >> " + externalNames.get(idx));
+//	    		idx += 1;
+    		}
     	}
     }
 }

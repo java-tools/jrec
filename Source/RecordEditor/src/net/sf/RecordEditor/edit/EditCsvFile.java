@@ -17,13 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.swing.JMenu;
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
-import net.sf.RecordEditor.diff.CompareSingleLayout;
-import net.sf.RecordEditor.diff.CompareTwoLayouts;
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
 import net.sf.RecordEditor.edit.display.Action.LoadFileLayoutFromXml;
 import net.sf.RecordEditor.edit.display.Action.NewCsvAction;
@@ -33,9 +30,7 @@ import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.edit.display.util.ErrorScreen;
 import net.sf.RecordEditor.edit.open.OpenCsvFilePnl;
 import net.sf.RecordEditor.edit.open.OpenFile;
-import net.sf.RecordEditor.edit.util.NewCsvFile;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
-import net.sf.RecordEditor.re.openFile.LayoutSelectionCsvCreator;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionPoTipCreator;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.common.Common;
@@ -43,6 +38,7 @@ import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.CheckUserData;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.params.ProgramOptions.ProgramType;
 import net.sf.RecordEditor.utils.swingx.TipsManager;
 
 
@@ -57,7 +53,7 @@ import net.sf.RecordEditor.utils.swingx.TipsManager;
 @SuppressWarnings("serial")
 public class EditCsvFile extends EditRec {
 
-	private static final String RECENT_CSV_FILES = "CsvFiles.txt";
+	private static final String RECENT_CSV_FILES = Common.RECENT_CSV_FILES;
 	private final OpenFile open;
 	private final String recentFileName;
 	
@@ -101,16 +97,28 @@ public class EditCsvFile extends EditRec {
     public EditCsvFile(final String pInFile,
      	   final int pInitialRow,
     	   final AbstractLineIOProvider pIoProvider) {
-        super(false, "reCsv Editor", Common.CSV_PROGRAM_ID, new NewCsvAction(), true);
+        super(false, "reCsv Editor", Common.CSV_PROGRAM_ID, 
+        		new NewCsvAction(), 
+        		true);
         
+    	this.recentFileName = Parameters.getApplicationDirectory() + RECENT_CSV_FILES;
+
         JMenu compareMenu = new JMenu("Compare");
         JMenu newMenu = new JMenu("New Files");
         newMenu.add(new ReAbstractAction("New Csv file") { 		
  			@Override public void actionPerformed(ActionEvent e) {
- 				new NewCsvFile();
+ 				new net.sf.RecordEditor.edit.util.NewCsvFile();
  			}
  		});
-
+        newMenu.add(new ReAbstractAction("New File (using schema)") { 		
+			@Override public void actionPerformed(ActionEvent e) {
+				net.sf.RecordEditor.edit.util.NewFileSchemaControl.newFrame(
+						recentFileName, 
+						pIoProvider
+				);
+			}
+		});
+        
         newMenu.add(new ReAbstractAction("New GetText-PO file") { 		
 			@Override public void actionPerformed(ActionEvent e) {
 				DisplayBuilderFactory.startEditorNewFile(net.sf.RecordEditor.po.def.PoLayoutMgr.getPoLayout());
@@ -122,23 +130,23 @@ public class EditCsvFile extends EditRec {
 			}
 		});
 
-        recentFileName = Parameters.getApplicationDirectory() + RECENT_CSV_FILES;
         compareMenu.add(new ReAbstractAction("Csv Compare") { 
 			@Override public void actionPerformed(ActionEvent e) {
-				LayoutSelectionCsvCreator csvl = new LayoutSelectionCsvCreator();
-				new CompareTwoLayouts(csvl.create(), csvl.create(), RECENT_CSV_FILES, false);
+				net.sf.RecordEditor.re.openFile.LayoutSelectionCsvCreator csvl 
+					= new net.sf.RecordEditor.re.openFile.LayoutSelectionCsvCreator();
+				new net.sf.RecordEditor.diff.CompareTwoLayouts(csvl.create(), csvl.create(), RECENT_CSV_FILES, false);
 			}
 		});
         compareMenu.add(new ReAbstractAction("Get-Text PO Compare") { 
  			@Override public void actionPerformed(ActionEvent e) {
  				LayoutSelectionPoTipCreator newPoCreator = LayoutSelectionPoTipCreator.newPoCreator();
- 				new CompareSingleLayout("GetText-PO Compare Wizard -", newPoCreator.create(), RECENT_CSV_FILES);
+ 				new net.sf.RecordEditor.diff.CompareSingleLayout("GetText-PO Compare Wizard -", newPoCreator.create(), RECENT_CSV_FILES);
  			}
  		});
         compareMenu.add(new ReAbstractAction("Swingx-Tip Compare") { 
  			@Override public void actionPerformed(ActionEvent e) {
  				LayoutSelectionPoTipCreator newTipCreator = LayoutSelectionPoTipCreator.newTipCreator();
- 				new CompareSingleLayout("SwingX-Tip Compare Wizard -", newTipCreator.create(), RECENT_CSV_FILES);
+ 				new net.sf.RecordEditor.diff.CompareSingleLayout("SwingX-Tip Compare Wizard -", newTipCreator.create(), RECENT_CSV_FILES);
  			}
  		});
        
@@ -178,13 +186,14 @@ public class EditCsvFile extends EditRec {
 //	    System.out.println("Time 4 (set open): " + ((time3 - time2) / 100000000));
 
 
-        super.getEditMenu().addSeparator();
-        super.getEditMenu().add(addAction(new VisibilityAction()));
-        super.getEditMenu().add(addAction(new SaveFieldSequenceAction()));
-        super.getEditMenu().addSeparator();
-        super.getEditMenu().add(addAction(new CsvUpdateLayoutAction()));
-        super.getEditMenu().add(addAction(new SaveFileLayout2Xml()));
-        super.getEditMenu().add(addAction(new LoadFileLayoutFromXml()));
+        JMenu editMenu = super.getEditMenu();
+		editMenu.addSeparator();
+        editMenu.add(addAction(new VisibilityAction()));
+        editMenu.add(addAction(new SaveFieldSequenceAction()));
+        editMenu.addSeparator();
+        editMenu.add(addAction(new CsvUpdateLayoutAction()));
+        editMenu.add(addAction(new SaveFileLayout2Xml()));
+        editMenu.add(addAction(new LoadFileLayoutFromXml()));
 
         super.addComponentListener(resizeListner);
         
@@ -216,15 +225,15 @@ public class EditCsvFile extends EditRec {
 			helpMenu.add(
 					new ShowURI(
 							"ReCsvEditor Documentations",
-							Common.formatHelpURL("reCsvEdFR.htm").toURI()));
+							Common.formatHelpURI("reCsvEdFR.htm")));
 			helpMenu.add(
 					new ShowURI(
 							"HowTo Documentations",
-							Common.formatHelpURL("howTo.htm").toURI()));
+							Common.formatHelpURI("howTo.htm")));
 			helpMenu.addSeparator();
 			helpMenu.add(new ShowURI("ReCsvEditor Web Page", new URI("http://recsveditor.sourceforge.net/")));
 			helpMenu.add(new ShowURI("ReCsvEditor Forum", new URI("https://sourceforge.net/p/recsveditor/discussion/")));
-		} catch (URISyntaxException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -276,6 +285,9 @@ public class EditCsvFile extends EditRec {
 
 			    try {
 					ParseArgs args = new ParseArgs(pgmArgs);
+					
+					Common.OPTIONS.programType = ProgramType.CSV_EDITOR;
+
 					Common.OPTIONS.overWriteOutputFile.set(args.isOverWiteOutputFile());
 					//long time1 = System.nanoTime();
 					

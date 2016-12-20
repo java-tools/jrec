@@ -3,14 +3,10 @@ package net.sf.RecordEditor.edit.display.Action;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.sf.JRecord.Details.LayoutDetail;
-import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.External.RecordEditorXmlLoader;
-import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.RecordEditor.edit.display.util.Code;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;
@@ -93,16 +89,17 @@ public class LoadFileLayoutFromXml extends ReSpecificScreenAction implements Abs
 
 			try {
 
-				ExternalRecord rec = new RecordEditorXmlLoader()
+				net.sf.JRecord.External.ExternalRecord rec 
+					= new net.sf.JRecord.External.RecordEditorXmlLoader()
 						.loadCopyBook(super.getFileName(), 0, 0, "",
 									  0, 0, Common.getLogger());
-				LayoutDetail l = rec.asLayoutDetail();
+				net.sf.JRecord.Details.LayoutDetail l = rec.asLayoutDetail();
 
 
 				if (l == null || l.getRecordCount() < 1 || l.getRecord(0).getFieldCount() < 1) {
 					Common.logMsg("Error in the layout that was loaded", null);
 				} else {
-					Code.notifyFramesOfNewLayout(masterView, l);
+					net.sf.RecordEditor.edit.display.util.Code.notifyFramesOfNewLayout(masterView, l);
 				}
 
 				panel.getParentFrame().setToActiveFrame();
@@ -110,7 +107,7 @@ public class LoadFileLayoutFromXml extends ReSpecificScreenAction implements Abs
 				this.setVisible(false);
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				Common.logMsg(AbsSSLogger.ERROR, "Can not Load Xml Layout:", ex.getMessage(), ex);
+				Common.logMsg(net.sf.JRecord.Log.AbsSSLogger.ERROR, "Can not Load Xml Layout:", ex.getMessage(), ex);
 			}
 		}
 	}

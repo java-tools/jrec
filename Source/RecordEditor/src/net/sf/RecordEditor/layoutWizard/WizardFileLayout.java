@@ -5,10 +5,10 @@ import java.awt.Component;
 
 import javax.swing.RootPaneContainer;
 
-import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
-import net.sf.JRecord.External.ExternalConversion;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.base.CopybookWriter;
+import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.common.Common;

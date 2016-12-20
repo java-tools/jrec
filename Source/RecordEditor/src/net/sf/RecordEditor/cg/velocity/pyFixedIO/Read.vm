@@ -1,0 +1,22 @@
+#set ($schemaDef = ${generateOptions.schemaDefinition})
+#set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+
+#incl("pyFixedIO/FixedCommonPy.vm")
+
+#fixedClassPy()
+
+f = open('Ams_LocDownload_20041228.txt', 'r')
+for line in f:
+    record = ${schemaDef.getClassName()}(line)
+
+    print (
+#set ( $sep = "        " )
+#foreach($f in ${r.getFields()})
+#*      *##if (${f.isNumeric()})	
+            $sep str(record.${f.getJavaName()})   
+#*      *##else	
+            $sep record.${f.getJavaName()}.strip()  
+#*      *##end	
+#set ( $sep = "+ '\t' +" )
+#end
+          )

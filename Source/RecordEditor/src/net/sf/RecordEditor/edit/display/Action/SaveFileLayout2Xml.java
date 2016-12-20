@@ -3,12 +3,10 @@ package net.sf.RecordEditor.edit.display.Action;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.sf.JRecord.External.CopybookWriterManager;
-import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.External.ToExternalRecord;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -87,7 +85,8 @@ public class SaveFileLayout2Xml extends ReSpecificScreenAction implements Abstra
 		public void actionPerformed(ActionEvent arg0) {
 
 			FileView view = panel.getFileView().getBaseFile();
-			CopybookWriterManager writers = CopybookWriterManager.getInstance();
+			net.sf.JRecord.External.CopybookWriterManager writers
+					= net.sf.JRecord.External.CopybookWriterManager.getInstance();
 			String fname = super.getFileName();
 			String lname = Common.stripDirectory(fname);
 
@@ -98,10 +97,11 @@ public class SaveFileLayout2Xml extends ReSpecificScreenAction implements Abstra
 			}
 
 			try {
-				ExternalRecord rec = ToExternalRecord.getInstance()
-					.getExternalRecord(view.getLayout(), lname, 0);
+				net.sf.JRecord.External.ExternalRecord rec 
+					= net.sf.JRecord.External.ToExternalRecord.getInstance()
+						.getExternalRecord(view.getLayout(), lname, 0);
 				//rec.setDelimiter(loaders.getFieldDelim(loaderId));
-				writers.get(CopybookWriterManager.RECORD_EDITOR_XML_WRITER)
+				writers.get(net.sf.JRecord.External.CopybookWriterManager.RECORD_EDITOR_XML_WRITER)
 					.writeCopyBook(
 							super.getFile().getParent(),
 							rec,

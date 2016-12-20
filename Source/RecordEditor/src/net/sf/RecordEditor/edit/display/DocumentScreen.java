@@ -298,8 +298,8 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
     			fileView.repeatLine(popupRow);
     		}
     		break;
-		case ReActionHandler.INSERT_RECORDS_POPUP:	insertLine(0, true);							break;
-		case ReActionHandler.INSERT_RECORD_PRIOR_POPUP:	insertLine(-1, true);						break;
+		case ReActionHandler.INSERT_RECORDS_POPUP:	insertLine(0, true, false);						break;
+		case ReActionHandler.INSERT_RECORD_PRIOR_POPUP:	insertLine(-1, true, false);				break;
 
 //		case ReActionHandler.FIND:
 //			if (textDisplay instanceof JXEditorPane) {
@@ -332,7 +332,7 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 	 * @see net.sf.RecordEditor.edit.display.BaseDisplay#insertLine(int)
 	 */
 	@Override
-	public void insertLine(int adj, boolean popup) {
+	public void insertLine(int adj, boolean popup, boolean showNewLineScreen) {
 		if (fileMaster.getTreeTableNotify() == null) {
 			insertLine_101_FlatFile(adj, popup);
 		} else {

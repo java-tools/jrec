@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import net.sf.RecordEditor.edit.display.common.AbstractFieldSequencePnl;
-import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;
@@ -55,11 +55,11 @@ public class SaveFieldSequenceAction extends ReSpecificScreenAction implements A
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			EditorTask task = new EditorTask();
-			task.type = EditorTask.TASK_FIELD_SEQUENCE;
+			net.sf.RecordEditor.jibx.compare.EditorTask task = new net.sf.RecordEditor.jibx.compare.EditorTask();
+			task.type = net.sf.RecordEditor.jibx.compare.EditorTask.TASK_FIELD_SEQUENCE;
 			task.fieldSequence = panel.getFieldSequence();
 			try {
-				(new net.sf.RecordEditor.jibx.JibxCall<EditorTask>(task.getClass()))
+				(new net.sf.RecordEditor.jibx.JibxCall<net.sf.RecordEditor.jibx.compare.EditorTask>(task.getClass()))
 					.unmarshal(getFileName(), task);
 				this.setVisible(false);
 			} catch (Exception ex) {

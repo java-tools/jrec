@@ -12,7 +12,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import java.util.HashMap;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JDesktopPane;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
@@ -467,7 +465,7 @@ public class ReMainFrame extends JFrame
 	    return ret;
 	}
 
-	protected final AbstractActiveScreenAction addAction(AbstractActiveScreenAction action) {
+	public final AbstractActiveScreenAction addAction(AbstractActiveScreenAction action) {
 		 activeScreenActions[numActiveScreenActions++] = action;
 		 return action;
 	}
@@ -675,19 +673,21 @@ public class ReMainFrame extends JFrame
 			helpMenu.add(
 					new ShowURI(
 							"RecordEditor Manual",
-							Common.formatHelpURL("RecordEdit.htm").toURI()));
+							Common.formatHelpURI("RecordEdit.htm")));
 			helpMenu.add(
 					new ShowURI(
 							"RecordEditor How To",
-							Common.formatHelpURL("HowTo.htm").toURI()));
+							Common.formatHelpURI("HowTo.htm")));
 			helpMenu.add(
 					new ShowURI(
 							"RecordEditor Documentation",
-							Common.formatHelpURL("Documents.htm").toURI()));
+							Common.formatHelpURI("Documents.htm")));
+			helpMenu.add(new ReMainFrame.ShowURI("Generate Documentation", Common.formatHelpURI(Common.HELP_GENERATE)));
+
 			helpMenu.addSeparator();
 			helpMenu.add(new ShowURI("RecordEditor Web Page", new URI("http://record-editor.sourceforge.net/")));
 			helpMenu.add(new ShowURI("RecordEditor Forum", new URI("https://sourceforge.net/projects/record-editor/forums")));
-		} catch (URISyntaxException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -719,7 +719,7 @@ public class ReMainFrame extends JFrame
 	}
 
 	protected final void showAbout(String s) {
-		showHtmlPnl("About", s);
+		SmCode.showHtmlPnl("About", s);
 	}
 
 //	protected void showOnlineHelp() {
@@ -734,14 +734,14 @@ public class ReMainFrame extends JFrame
 //		);
 //	}
 
-	protected void showHtmlPnl(String name, String s) {
-		ReFrame aboutFrame = new ReFrame("", name, null, null);
-		JEditorPane aboutText = new JEditorPane("text/html", s);
-
-		aboutFrame.getContentPane().add(aboutText);
-		aboutFrame.pack();
-		aboutFrame.setVisible(true);
-	}
+//	protected void showHtmlPnl(String name, String s) {
+//		ReFrame aboutFrame = new ReFrame("", name, null, null);
+//		JEditorPane aboutText = new JEditorPane("text/html", s);
+//
+//		aboutFrame.getContentPane().add(aboutText);
+//		aboutFrame.pack();
+//		aboutFrame.setVisible(true);
+//	}
 
 	/**
 	 * Add a item to the toolbar / menubar to initialise the height

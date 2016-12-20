@@ -168,7 +168,7 @@ implements TableModelListener, TreeModelListener {
 		popupListner.setTable(tblDetails);
 		setRowHeight();
 
-		if (fileMaster.isBinaryFile()) {
+		if (super.showHexOptions(layout, fileMaster)) {
 		    TableColumn tc = tblDetails.getColumnModel().getColumn(record.hexColumn);
 
 		    stdCellHeight   = tblDetails.getRowHeight();
@@ -298,8 +298,10 @@ implements TableModelListener, TreeModelListener {
 	        tc.setPreferredWidth(180);
 
 	        if (fileView != null && fileView.isBinaryFile()) {
-	            tc = table.getColumnModel().getColumn(col++);
-	            tc.setPreferredWidth(180);
+	        	if (col + 1 < table.getColumnModel().getColumnCount()) {
+		            tc = table.getColumnModel().getColumn(col++);
+		            tc.setPreferredWidth(180);
+	        	}
 	        }
 	    }
 	}
@@ -334,7 +336,7 @@ implements TableModelListener, TreeModelListener {
 
 	    AbstractLine l = record.getCurrentLine();
 	    if (l == null) {
-	    } else if (fileMaster.isBinaryFile() || layout.isBinCSV()) {
+	    } else if (hexLine != null && (fileMaster.isBinaryFile() || layout.isBinCSV())) {
 	    	hexLine.setHex(l.getData());
 	    } else {
 	        fullLine.setText(l.getFullLine());

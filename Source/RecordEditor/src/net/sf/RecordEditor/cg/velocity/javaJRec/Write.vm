@@ -1,0 +1,85 @@
+#incl("javaJRec/Header.pvm")
+##
+##   Write Example JRecord with Generated class
+##
+##   Author: Bruce Martin
+##
+
+import java.io.IOException;
+
+import net.sf.JRecord.JRecordInterface1;
+import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.def.IO.builders.IIOBuilder;
+
+import net.sf.JRecord.IO.AbstractLineWriter;
+
+
+/**
+ * Write Cobol file using a Cobol Copybook (${generateOptions.schemaDefinition.extensionName}).
+ *
+ * This Generated program is intended as an example of using JRecord
+ * rather than a useful program (that compiles - it wont).
+ * You should regard it as a starting point and modify
+ * it according to needs
+ */
+public final class Write${generateOptions.schemaDefinition.extensionName} {
+
+
+
+    /**
+     * Example of LineReader  classes
+     */
+    public Write${generateOptions.schemaDefinition.extensionName}() {
+        super();
+
+        String filename = "${generateOptions.getDataFileName().getJavaFileName()}_out";
+
+        try {
+            IIOBuilder iob = FieldNames${generateOptions.schemaDefinition.extensionName}.newIoBuilder();
+            AbstractLineWriter writer = iob.newWriter(filename);
+
+#*  *##set( $sep = "        ")
+#*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()})
+            writer.write(create${r.extensionName}(iob, data));
+#*  *##end
+
+            writer.close();
+        } catch (Exception e) {
+             System.out.println();
+
+            e.printStackTrace();
+        }
+    }
+
+#*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()})
+    private AbstractLine create${r.extensionName}(IIOBuilder iob, UserData data) throws IOException {
+        AbstractLine line = iob.newLine();
+        line${r.extensionName}JR.setLine(line);
+
+#*      *##foreach($f in ${r.getFields()})
+#*          *##if (! ${f.isArrayItem()})
+#*              *##if (${f.getValue()})
+#*                  *##if (${f.isPrimitiveNumeric()})
+        line.getFieldValue(r${r.extensionName}.${f.javaName}).set(${f.getValue()});
+#*                  *##else
+        line.getFieldValue(r${r.extensionName}.${f.javaName}).set("${f.getValue()}");
+#*                  *##end
+#*              *##else
+        line.getFieldValue(r${r.extensionName}.${f.javaName}).set(data. ...);
+#*              *##end
+#*          *##end
+#*      *##end
+
+#*      *##foreach($a in ${r.getArrayDetailsList()})
+        line${r.extensionName}JR.set${a.getFirstElement().extensionName}(${a.getZeroArrayIndex()}, data. ...);
+#*      *##end
+
+        return line;
+    }
+
+#*  *##end
+    public static void main(String[] args) {
+        new Write${generateOptions.schemaDefinition.extensionName}();
+    }
+}
+

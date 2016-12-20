@@ -69,7 +69,7 @@ public class CobolOptionPnl {
 		fileStructure  = new BmKeyedComboBox(structureModel, false);
 		numericFormat  = new ComputerOptionCombo();
 
-		numericFormat.setSelectedValue(Common.OPTIONS.cobolDialect.get());
+//		numericFormat.setSelectedValue(Common.OPTIONS.cobolDialect.get());
 		if (use01) {
 			levelChk.setSelected(true);
 		}

@@ -17,6 +17,31 @@
  *  Version 0.60 Bruce Martin
  *    - Added getFieldType to help with sorting etc
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2005, Bruce Martin / Jean-Francois Gagnon, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.IFieldDetail;
@@ -36,9 +61,9 @@ public interface Type {
 
     public static final int BASE_16 = 16;
 
-    public  static final int USER_RANGE_START    = 1000;
-    public  static final int DEFAULT_USER_RANGE_SIZE = 75;
-    public  static final int LAST_SYSTEM_TYPE    = 150;
+    public static final int USER_RANGE_START    = 1000;
+    public static final int DEFAULT_USER_RANGE_SIZE = 75;
+    public static final int LAST_SYSTEM_TYPE    = 150;
 
 	public static final int NULL_INT             = -121;
 
@@ -88,6 +113,7 @@ public interface Type {
 	public static final int ftFjZonedNumeric     = 41;
 	public static final int ftNumRightJustCommaDp   = 42;
 	public static final int ftNumRightJustCommaDpPN = 43;
+	public static final int ftGnuCblZonedNumeric    = 46;
 	
 	/**
 	 * Use ftMultiLineChar instead
@@ -104,6 +130,7 @@ public interface Type {
 
 	public static final int ftCharRestOfFixedRecord = 80;
 	public static final int ftCharRestOfRecord   = 81;
+	public static final int ftCharNoTrim		 = 82;
 
 	public static final int ftProtoField         = 91;
 	public static final int ftAvroField          = 91;
@@ -122,6 +149,9 @@ public interface Type {
 	public static final int ftMultiLineEdit      = 117;
 	public static final int ftMultiLineChar      = 118; /* used in PO / Tip Files */
 	public static final int ftHtmlField          = 119;
+	
+	public static final int ftRecordEditorType   = 130;
+	public static final int ftNumOrEmpty         = 131;
 
 	public static final int NT_TEXT              = 1;
 	public static final int NT_DATE              = 11;

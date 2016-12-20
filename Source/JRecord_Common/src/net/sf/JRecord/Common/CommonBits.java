@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Common;
 
 import java.nio.charset.Charset;
@@ -134,6 +159,19 @@ public class CommonBits {
 		CommonBits.dropCopybookFromFieldNames = dropCopybookFromFieldNames;
 	}
 
+	public static boolean areFieldNamesOnTheFirstLine(int fileStructure) {
+		boolean ret = false;
+		switch (fileStructure) {
+		case Constants.IO_CSV_NAME_1ST_LINE:
+        case Constants.IO_BIN_NAME_1ST_LINE:
+        case Constants.IO_NAME_1ST_LINE:
+        case Constants.IO_BIN_CSV_NAME_1ST_LINE:
+        case Constants.IO_UNICODE_NAME_1ST_LINE:
+        case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
+        	 ret = true;
+		}
+		return ret;
+	}
 	
 	public static int getLineType(int fileStructure) {
     	switch (fileStructure) {

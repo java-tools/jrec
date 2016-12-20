@@ -9,6 +9,7 @@ import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.file.filter.AbstractExecute;
 import net.sf.RecordEditor.re.file.filter.ExecuteSavedFile;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 
@@ -43,10 +44,10 @@ implements AbstractActiveScreenAction {
 				FileView fileView = sourcePnl.getFileView();
 
 				SetFields setFields = new SetFields(sourcePnl);
-				new ExecuteSavedFile<EditorTask>(
+				new ExecuteSavedFile<net.sf.RecordEditor.jibx.compare.EditorTask>(
 						fileView.getBaseFile().getFileNameNoDirectory(), "Execute Saved Filter", fileView,
 						Parameters.getFileName(Parameters.FIELD_SAVE_DIRECTORY),
-						setFields, EditorTask.class);
+						setFields, net.sf.RecordEditor.jibx.compare.EditorTask.class);
 			} catch (NoClassDefFoundError e) {
 				Common.logMsg("Unable to load saved definition: jibx not present ???", null);
 			}
@@ -55,7 +56,7 @@ implements AbstractActiveScreenAction {
 
 
 
-	public static class SetFields implements AbstractExecute<EditorTask>{
+	public static class SetFields implements AbstractExecute<net.sf.RecordEditor.jibx.compare.EditorTask>{
 
 		private AbstractFieldSequencePnl lineList;
 

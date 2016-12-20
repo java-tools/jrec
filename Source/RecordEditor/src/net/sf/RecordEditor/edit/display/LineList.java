@@ -27,6 +27,7 @@
  */
 package net.sf.RecordEditor.edit.display;
 
+import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -39,9 +40,11 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JMenu;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
@@ -168,7 +171,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
                     final FileView viewOfFile,
                     final FileView masterFile) {
         super(screenName, viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
-        		 true, group.isBinary(), true);
+        		 true, showHexOptions(group, viewOfFile), true);
 
         fieldMapping = new FieldMapping(getFieldCounts());
 
@@ -584,7 +587,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
        setKeylistner(tbl);
         
        if (scrollPane != null) {
-    	   scrollPane.setupLineFields(view.getRowCount(), NUMBER_OF_CONTROL_COLUMNS, headerRender);
+    	   scrollPane.setupLineFields(view.getRowCount(), NUMBER_OF_CONTROL_COLUMNS, headerRender, true);
        }
         
        TableColumnModel tcm = tbl.getColumnModel();
@@ -1126,7 +1129,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 			}
 		}
     }
-
+    
     private class DeleteColumn extends ReAbstractAction {
 
 		public DeleteColumn() {

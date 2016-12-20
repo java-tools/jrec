@@ -31,11 +31,11 @@ import net.sf.RecordEditor.edit.display.Action.NewCsvAction;
 import net.sf.RecordEditor.edit.display.Action.NewFileAction;
 import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
-import net.sf.RecordEditor.edit.display.util.ErrorScreen;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.layoutEd.LayoutMenu;
 import net.sf.RecordEditor.layoutEd.schema.ImportExport.SchemaBackup;
 import net.sf.RecordEditor.layoutWizard.Wizard;
+import net.sf.RecordEditor.re.cobol.GenerateMenu;
 import net.sf.RecordEditor.re.openFile.IOpenFileExtended;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionDB;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionDBCreator;
@@ -51,6 +51,7 @@ import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.CheckUserData;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.params.ProgramOptions.ProgramType;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swingx.TipsManager;
 
@@ -200,6 +201,12 @@ public class FullEditor extends EditRec {
 //	    layoutMenu = new LayoutMenu(null);
 	    menubar.add(layoutMenu);
 	    super.addProgramSpecificMenus(menubar);
+	    
+	    GenerateMenu genMenu = new GenerateMenu();
+
+	    menubar.add(genMenu.generateMenu);
+	    
+	    genMenu.bldMenu(this);
 	}
 
 	/**
@@ -221,6 +228,7 @@ public class FullEditor extends EditRec {
 	public static void startEditor(final ParseArgs... args) {
 		
 		try {
+			Common.OPTIONS.programType = ProgramType.RECORD_EDITOR;
 			Common.OPTIONS.fileWizardAvailable.set(true);
 			Common.OPTIONS.standardEditor.set(true);
 			Common.OPTIONS.addTextDisplay.set(true);
@@ -283,7 +291,7 @@ public class FullEditor extends EditRec {
 						   	}
 				   		}
 				   	} catch(Exception e) {
-				   		new ErrorScreen("RecordEditor", e);
+				   		new net.sf.RecordEditor.edit.display.util.ErrorScreen("RecordEditor", e);
 				   	} finally {
 				   		CheckUserData.checkJavaVersion("RecordEditor");
 				   		Common.setDoFree(free, Common.getConnectionIndex());

@@ -3,8 +3,8 @@ package net.sf.RecordEditor.re.db.Record;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
+import net.sf.JRecord.External.base.CopybookWriter;
 import net.sf.RecordEditor.re.util.CopybookLoaderFactoryDB;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.DirectoryFrame;

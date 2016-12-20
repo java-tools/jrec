@@ -31,6 +31,7 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 	
 	private TreeComboItem selectedItem = null;
 	private HashMap<Integer, TreeComboItem> itemMap = new HashMap<Integer, TreeComboItem>();
+	private HashMap<String, TreeComboItem> nameMap = new HashMap<String, TreeComboItem>();
 	private TreeComboItem[] items;
 	private JPopupMenu menu;
 	private HashMap<TreeComboItem, JMenu> menuMap = new HashMap<TreeComboItem, JMenu>(15);
@@ -92,7 +93,7 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 		menuMap.put(itm, menu);
 		for (TreeComboItem item : items) {
 			TreeComboItem[] children = item.getChildren();
-			itemMap.put(item.key, item);
+			addItem(item);
 			if (children == null) {
 				menu.add(new ComboAction(item));
 			} else {
@@ -111,11 +112,12 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 			items = EMPTY_TREE;
 		}
 		itemMap = new HashMap<Integer, TreeComboItem>();
+		nameMap = new HashMap<String, TreeComboItem>();
 		menu.add(new ComboAction(TreeComboItem.BLANK_ITEM));
 		for (TreeComboItem item : items) {
 			if (item != null) {
 				TreeComboItem[] children = item.getChildren();
-				itemMap.put(item.key, item);
+				addItem(item);
 				if (children == null) {
 					menu.add(new ComboAction(item));
 				} else {
@@ -128,6 +130,15 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 
 		this.menu = menu;
 		return menu;
+	}
+
+	private void addItem(TreeComboItem item) {
+		String displayString = item.getString();
+
+		itemMap.put(item.key, item);
+		if (displayString != null && displayString != null) {
+			nameMap.put(displayString.toLowerCase(), item);
+		}
 	}
 
 
@@ -243,7 +254,7 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 		super.hidePopup();
 		if (selectedItem != null) {
 			this.selectedItem = selectedItem;
-			super.setText(selectedItem.getEditString());
+			super.setTextInternal(selectedItem.getEditString());
 		}
 	}
 	public void setOnlySelectedItem(TreeComboItem selectedItem) {
@@ -261,6 +272,20 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 		setSelectedItem(item);
 	}
 
+
+	public void setSelectedString(String s) {
+		TreeComboItem item = TreeComboItem.BLANK_ITEM;
+		
+		if (s != null && s.length() > 0) {
+			item = nameMap.get(s);
+			if (item == null) {
+				setOnlySelectedItem(TreeComboItem.BLANK_ITEM);
+				this.setTextInternal(s);
+				return;
+			}
+		}
+		setSelectedItem(item);
+	}
 	
 	public final TreeComboItem getFirstItem() {
 		

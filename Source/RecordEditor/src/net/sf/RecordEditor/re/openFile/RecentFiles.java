@@ -398,13 +398,19 @@ public class RecentFiles implements IFileLists {
 
 	    String s = strippedFile.toLowerCase();
 	    if ( f.exists() && f.length() > 0) {
+	    	if (selection == null) {
+	    		return null;
+	    	}
 		    if (s.endsWith("xml")  || s.endsWith("xls")) {
 		    	return selection.formatLayoutName("XML - Build Layout");
-		    } else if (s.endsWith("csv")) {
+		    } 
+		    if (s.endsWith("csv")) {
 		    	return selection.formatLayoutName("Generic CSV - enter details");
-		    } else if (s.endsWith(".po")) {
+		    } 
+		    if (s.endsWith(".po")) {
 		    	return selection.formatLayoutName("GetText_PO");
-		    } else if (s.endsWith(".properties")) {
+		    } 
+		    if (s.endsWith(".properties")) {
 		    	return selection.formatLayoutName("TipDetails");
 		    } else if (Common.OPTIONS.fileWizardAvailable.isSelected()
 		    	   &&  Common.OPTIONS.useFileWizard.isSelected()) {

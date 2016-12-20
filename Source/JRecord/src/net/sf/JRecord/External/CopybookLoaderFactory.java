@@ -7,6 +7,31 @@
  * loader id (index) supplied by the calling program.
  * It will also provide a Copybook loader name if required
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.External;
 
 
@@ -19,6 +44,7 @@ import net.sf.JRecord.Common.AbstractManager;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.Def.AbstractConversion;
+import net.sf.JRecord.External.base.BaseRecordEditorCsvLoader;
 import net.sf.JRecord.Log.AbsSSLogger;
 
 
@@ -51,10 +77,11 @@ public class CopybookLoaderFactory implements AbstractManager {
 	public static final int RECORD_EDITOR_COMMA_CSV_LOADER;
 
 	static {
-		int idx = 1;
-		if (CobolCopybookLoader.isAvailable()) {
+		int idx;
+//		int idx = 1;
+//		if (CobolCopybookLoader.isAvailable()) {
 			idx = 2;
-		}
+//		}
 		RECORD_EDITOR_XML_LOADER       = idx++;
 		COMMA_NAMES_1ST_LINE_LOADER    = idx++;
 		TAB_NAMES_1ST_LINE_LOADER      = idx++;
@@ -112,11 +139,11 @@ public class CopybookLoaderFactory implements AbstractManager {
 
 
 	protected final void registerStandardLoaders1() {
-		register("cb2xml XML Copybook", XmlCopybookLoader.class, "");
+		register("cb2xml XML Copybook", Cb2xmlLoader.class, "");
 		if (CobolCopybookLoader.isAvailable()) {
 			register("Cobol Copybook", CobolCopybookLoader.class, "");
 		} else {
-	    	register("Empty - Cobol placeholder", XmlCopybookLoader.class, "");
+	    	register("Empty - Cobol placeholder", Cb2xmlLoader.class, "");
 	    }
 		recordEditorXml = numberLoaded;
 		register("RecordEditor XML Copybook",RecordEditorXmlLoader.class, "");
@@ -129,8 +156,8 @@ public class CopybookLoaderFactory implements AbstractManager {
 		register("Comma CSV (names first line)", CsvNamesFirstLineFileLoader.class, "");
 		csv2   = numberLoaded;
 		register("Tab CSV (names first line)", CsvNamesFirstLineFileLoader.Tab.class, "");
-		register("RecordEditor Csv Copybook (Comma Seperator)",RecordEditorCsvLoader.Comma.class, "");
-		register("RecordEditor Tab Copybook (Tab Seperator)",RecordEditorCsvLoader.Tab.class, "");
+		register("RecordEditor Csv Copybook (Comma Seperator)", Comma.class, "");
+		register("RecordEditor Tab Copybook (Tab Seperator)", Tab.class, "");
 		register("DB - CSV extract Copybook", DbCsvCopybookLoader.class, "");
 		xml1 = numberLoaded;
 		register("XML File", XmlFileLoader.class, "");
@@ -352,4 +379,30 @@ public class CopybookLoaderFactory implements AbstractManager {
 	public int getKey(int idx) {
 		return idx;
 	}
+	
+	   /**
+     * CSV Parser - Tab
+     * @author Bruce Martin
+     */
+    public static final class Tab 
+    extends BaseRecordEditorCsvLoader<ExternalRecord> 
+    implements CopybookLoader {
+    	public Tab() {
+    		super(new ExternalRecordBuilder(), "\t");
+    	}
+    }
+
+
+    /**
+     * CSV Parser - Tab
+     * @author Bruce Martin
+     */
+    public static final class Comma 
+    extends BaseRecordEditorCsvLoader<ExternalRecord> 
+    implements CopybookLoader {
+    	public Comma() {
+    		super(new ExternalRecordBuilder(), ",");
+    	}
+    }
+
 }

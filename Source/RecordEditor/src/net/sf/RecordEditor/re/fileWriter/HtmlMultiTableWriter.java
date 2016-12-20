@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.TranslateXmlChars;
-import net.sf.JRecord.External.ExternalConversion;
+import net.sf.JRecord.External.base.ExternalConversion;
 
 public class HtmlMultiTableWriter extends BaseWriter {
 

@@ -4,7 +4,13 @@ import java.io.File;
 
 import net.sf.JRecord.Numeric.ICopybookDialects;
 
-public class ProgramOptions {
+public class ProgramOptions { 
+	public static enum ProgramType {
+		RECORD_EDITOR,
+		CSV_EDITOR,
+		PROTOBUF_EDITOR,
+		AVRO_EDITOR
+	}
 	public static final String FILE_SEPERATOR  =  System.getProperty("file.separator");
 	
     public static final char COMPRESS_SPACE = 'S';
@@ -35,6 +41,7 @@ public class ProgramOptions {
     	SIZE_SPECIFIED, SIZE_SPECIFIED_FORCED, SIZE_NO_RESIZE,
     	SIZE_SCREEN_1, SIZE_SCREEN_2, SIZE_SCREEN_3};
 
+    public ProgramType programType;
 	public final BoolOpt searchAllFields = new BoolOpt(Parameters.SEARCH_ALL_FIELDS);
 	public final MultiValOpt screenStartSizeOpt  = new MultiValOpt(Parameters.SCREEN_SIZE_OPTION, startSize, SIZE_MAXIMISED);
 
@@ -102,7 +109,7 @@ public class ProgramOptions {
 	public final IntOpt significantCharInFiles3 = new IntOpt("SignificantCharInFiles.3", 18, 1);
 	public final IntOpt launchIfMatch = new IntOpt("LauchEditorIfMatch", 8, 1);
 
-	public final IntOpt cobolDialect = new IntOpt(Parameters.COBOL_DIALECT, ICopybookDialects.FMT_MAINFRAME, 1);
+	public final IntOpt cobolDialect = new IntOpt(Parameters.DEFAULT_COBOL_DIALECT, ICopybookDialects.FMT_MAINFRAME, 1);
 
 	public final IntOpt chunkSize = new IntOpt(Parameters.PROPERTY_BIG_FILE_CHUNK_SIZE, 1048576, 1024);
 	public final IntOpt filterLimit = new IntOpt(Parameters.PROPERTY_BIG_FILE_FILTER_LIMIT, 10000000, 1000);
@@ -117,13 +124,20 @@ public class ProgramOptions {
 			Parameters.getPropertiesDirectoryWithFinalSlash() + "User/CobolOpts/CobolOptions.bin");
 
 	public final StringOpt DEFAULT_IO_NAME = new StringOpt(Parameters.DEFAULT_IO, "");
-	public final StringOpt DEFAULT_BIN_NAME = new StringOpt(Parameters.DEFAULT_BINARY, "");
+	public final StringOpt DEFAULT_BIN_NAME = new StringOpt(Parameters.DEFAULT_COBOL_DIALECT_NAME, "");
 	public final StringOpt COPYBOOK_READER = new StringOpt(Parameters.DEFAULT_COPYBOOK_READER, "");
 
 	public final StringOpt XSLT_ENGINE = new StringOpt(Parameters.XSLT_ENGINE, "");
 
+	public final FileNameOptWithDefault DEFAULT_CODEGEN_EXPORT_DIRECTORY
+						= new FileNameOptWithDefault(Parameters.CODEGEN_DIRECTORY, Parameters.CODEGEN_DIRECTORY_DFLT); 
+	public final StringOpt DEFAULT_CODEGEN_DIRECTORY_EXTENSION 
+					= new StringOpt(Parameters.CODEGEN_DIRECTORY_EXTENSION, Parameters.CODEGEN_DIRECTORY_EXTENSION_DFLT);
+
+	public final FileNameOpt DEFAULT_USER_TEMPLATE_DIRECTORY = new FileNameOpt(Parameters.TEMPLATE_DIRECTORY);
+
 	public final FileNameOpt DEFAULT_FILE_DIRECTORY = new FileNameOpt("DefaultFileDirectory");
-	public final FileNameOpt DEFAULT_COBOL_DIRECTORY = new FileNameOpt("DefaultCobolDirectory");
+	public final FileNameOpt DEFAULT_COBOL_DIRECTORY = new FileNameOpt(Parameters.DEFAULT_COBOL_DIRECTORY);//"DefaultCobolDirectory");
 	public final FileNameOpt DEFAULT_COPYBOOK_DIRECTORY = new FileNameOpt(Parameters.COPYBOOK_DIRECTORY);
 	public final FileNameOptWithDefault DEFAULT_VELOCITY_DIRECTORY = new FileNameOptWithDefault(Parameters.VELOCITY_TEMPLATE_DIRECTORY, Parameters.DEFAULT_VELOCITY_TEMPLATE_DIRECTORY);
 	public final FileNameOptWithDefault copybookVelocityDirectory  = new FileNameOptWithDefault(Parameters.VELOCITY_COPYBOOK_DIRECTORY, Parameters.DEFAULT_VELOCITY_COPYBOOK_DIRECTORY);
@@ -258,7 +272,9 @@ public class ProgramOptions {
 		}
 		public String getWithStar() {
 			String s = get();
-			if (s != null) {
+			if (s == null) {
+				s = "";
+			} else {
 				if (s.endsWith("/") || s.endsWith("\\")) {
 					s = s + "*";
 				} else if (! s.endsWith("*")) {
@@ -298,7 +314,11 @@ public class ProgramOptions {
 			String filename = Parameters.dropStar(super.get());
 			String s = "G:\\Users\\BruceTst01\\RecordEditor_HSQL\\CopyBook\\";;
 			if (filename != null) {
-				s = new File(filename).getParentFile().toString();
+				File file = new File(filename);
+				File parentFile;
+				if (file != null && (parentFile = file.getParentFile()) != null) {
+					s = parentFile.toString();
+				}
 			}
 			
 			return s + File.separatorChar + fileName + File.separatorChar;
@@ -326,7 +346,7 @@ public class ProgramOptions {
 //				} finally {
 //					Parameters.setSavePropertyChanges(true);
 //				}
-			} else {
+//			} else {
 				
 			}
 			return s;

@@ -10,6 +10,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URI;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -318,7 +319,18 @@ public class SwingUtils {
 			}
 		}
 	}
+	
+	public static void showInBrowser(URI uri) {
+		if (java.awt.Desktop.isDesktopSupported()) {
+			try {
+				java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
 
+                desktop.browse(uri);
+            } catch ( Exception ex ) {
+                System.err.println( "Error showing Web page" + ex.getMessage() );
+            }
+		}
+	}
 
 
 	public static final void pasteTable(JTable tblDetails, int startRow, int startCol, int rowCount, int colCount, String trstring) {

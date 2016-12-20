@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.zTest.Types;
 
 import java.math.BigDecimal;
@@ -24,6 +49,13 @@ import net.sf.JRecord.Types.TypeNum;
 import net.sf.JRecord.Types.TypeSignSeparate;
 import net.sf.JRecord.zTest.Common.TestCommonCode;
 
+
+/**
+ * General Type Tests
+ * 
+ * @author Bruce Martin
+ *
+ */
 public class TstTypesGeneral extends TestCase {
 
 	public static final int[] NUMERIC_TYPES = {
@@ -54,6 +86,7 @@ public class TstTypesGeneral extends TestCase {
 	 	Type.ftDouble,
 	 	Type.ftNumAnyDecimal,
 	 	Type.ftPositiveNumAnyDecimal,
+	 	Type.ftNumOrEmpty,
 	 	Type.ftBit,
 
 	 	Type.ftPackedDecimal,
@@ -66,6 +99,7 @@ public class TstTypesGeneral extends TestCase {
 	 	Type.ftRmCompPositive,
 
 	 	Type.ftFjZonedNumeric,
+	 	Type.ftGnuCblZonedNumeric,
 	};
 
 	public static final int[] BINARY_TYPES = {
@@ -143,6 +177,8 @@ public class TstTypesGeneral extends TestCase {
 					assertEquals("Assign NULL to number: " + i, "0", typeManager.getType(i).getField(b, fld.getPos(), fld).toString());
 				} else if (i == Type.ftHex) {
 					assertEquals("Assign NULL to number: " + i, "00000000", typeManager.getType(i).getField(b, fld.getPos(), fld).toString());
+				} else if (i == Type.ftCharNoTrim) {
+					assertEquals("Assign NULL to char: " + i, "    ", typeManager.getType(i).getField(b, fld.getPos(), fld).toString());
 				} else {
 					assertEquals("Assign NULL to char: " + i, "", typeManager.getType(i).getField(b, fld.getPos(), fld).toString());
 				}
@@ -167,9 +203,40 @@ public class TstTypesGeneral extends TestCase {
 		}
 	}
 
+	/**
+	 * Check Sign Separate Type
+	 * @throws RecordException
+	 */
+	public void testSignSeperate() throws RecordException {
+		String[][] tstData = {
+				{"1", "+001", "001+"},
+				{"34", "+034", "034+"},
+				{"432", "+432", "432+"},
+				{"+1", "+001", "001+"},
+				{"+34", "+034", "034+"},
+				{"+432", "+432", "432+"},
+				{"-1", "-001", "001-"},
+				{"-34", "-034", "034-"},
+				{"-432", "-432", "432-"},
+		};
+		byte[] b = {32, 32, 32, 32, 32, 32};
+		TypeSignSeparate leadingSignType = new TypeSignSeparate(Type.ftSignSeparateLead);
+		FieldDetail leadingSignField = getType(1, 4, Type.ftSignSeparateLead, "");
+		TypeSignSeparate trailingSignType = new TypeSignSeparate(Type.ftSignSeparateTrail);
+		FieldDetail trailingSignField = getType(1, 4, Type.ftSignSeparateTrail, "");
+		
+		
+		for (String[] tstVal: tstData) {
+			assertEquals(tstVal[1], leadingSignType.formatValueForRecord(leadingSignField, tstVal[0]));
+			assertEquals(tstVal[1] + "  ", new String(leadingSignType.setField(b, 1, leadingSignField, tstVal[0])));
+			assertEquals(tstVal[2], trailingSignType.formatValueForRecord(trailingSignField, tstVal[0]));
+			assertEquals(tstVal[2] + "  ", new String(trailingSignType.setField(b, 1, trailingSignField, tstVal[0])));
+		}
+		
+	}
 	
 	public void testAssignment() throws RecordException,  Exception {
-		String[] charsets1 = {"", "cp1525", "utf-8", "CP037", "IBM273"};
+		String[] charsets1 = {Conversion.DEFAULT_ASCII_CHARSET, "cp1525", "utf-8", "CP037", "IBM273"};
 		String[] charsets2 = {"utf-16", "utf-16be"};
 	   	String cobolCopybook
     		= "      01 COMPANY-RECORD.\n"
@@ -243,21 +310,35 @@ public class TstTypesGeneral extends TestCase {
 			     || typeId == Type.ftRmComp || typeId == Type.ftRmCompPositive)) {
 				
 			} else {
-				if (typeId == Type.ftNumAnyDecimal && fld.getDecimal() == 0 && "0".equals(v)) {
-					System.out.print( "* >" + v + "<");
-				}
+//				if (typeId == Type.ftNumAnyDecimal && fld.getDecimal() == 0 && "0".equals(v)) {
+//					System.out.print( "* >" + v + "<");
+//				}
 				l.setField(fld, v);
 				
 				//System.out.print("\t" + i);
 				AbstractFieldValue fieldValue = l.getFieldValue(fld);
+				String actualValue = fieldValue.asString();
+
 				switch (typeId) {
 				case Type.ftCharRightJust:
 					if (fld.isFixedFormat()) {
-						assertEquals(charset + " Test number: " + typeId, "    ".substring(v.length()) + v, fieldValue.asString());
+						assertEquals(charset + " Test number: " + typeId, "    ".substring(v.length()) + v, actualValue);
 						break;
 					}
+				case Type.ftCharNoTrim:
+//					if (v.length() < 4 && v.equals(actualValue)) {
+//						System.out.print("* " + fld.isFixedFormat());
+//						if (fld.isFixedFormat()) {
+//							actualValue = fieldValue.asString();
+//						}
+//					} else {
+					if (fld.isFixedFormat()) {
+						assertEquals(charset + " Test number: " + typeId, v + "    ".substring(v.length()), actualValue);
+					}
+					
+					break;
 				default:
-					assertEquals(charset + " Test number: " + typeId, v, fieldValue.asString());
+					assertEquals(charset + " Test number: " + typeId, v, actualValue);
 				}
 				
 				if (t.isBinary() || skipForChar 
@@ -294,7 +375,7 @@ public class TstTypesGeneral extends TestCase {
 	 */
 	public void testFixedLineSet() throws RecordException {
 		String initialValue = "123456789.123456789";
-		String[] charsets1 = {"", "cp1525", "CP037", "IBM273", "utf-8", "utf-16be"};
+		String[] charsets1 = {Conversion.DEFAULT_ASCII_CHARSET, "cp1525", "CP037", "IBM273", "utf-8", "utf-16be"};
     	String cobolCopybook
     		= "      01 COMPANY-RECORD.\n"
     		+ "         05 COMPANY-NAME     PIC X(30).\n";
@@ -514,6 +595,17 @@ public class TstTypesGeneral extends TestCase {
 		
     }
 
+	/**
+	 * Create field
+	 * 
+	 * @param pos field position
+	 * @param len field length
+	 * @param decimal number of decimal places
+	 * @param type type of the field
+	 * @param charset character set.
+	 * 
+	 * @return the requested field
+	 */
 	private FieldDetail getType(int pos, int len, int decimal, int type, String charset) {
 
 

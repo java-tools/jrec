@@ -23,6 +23,7 @@ import net.sf.RecordEditor.re.jrecord.format.CsvArrayFormat;
 import net.sf.RecordEditor.re.jrecord.format.DateFormat;
 import net.sf.RecordEditor.re.jrecord.format.HtmlEditorFormat;
 import net.sf.RecordEditor.re.jrecord.format.MultiLineFormat;
+import net.sf.RecordEditor.re.jrecord.format.TypeFormat;
 
 /**
  *
@@ -118,7 +119,8 @@ public class ReTypeManger extends TypeManager {
             typesFormat[Type.ftCheckBoxTrue]  = new CheckBoxFormat("True", "", false);
             typesFormat[Type.ftCheckBoxYN]    = new CheckBoxFormat("Y", "N", true);
             typesFormat[Type.ftCheckBoxTF]    = new CheckBoxFormat("T", "F", true);
-            typesFormat[Type.ftCheckBoxBoolean]    = new CheckBoxBooleanFormat();
+            typesFormat[Type.ftCheckBoxBoolean]  = new CheckBoxBooleanFormat();
+            typesFormat[Type.ftRecordEditorType] = new TypeFormat();
 
             formats[CellFormat.FMT_CHECKBOX]  = new CheckBoxFldFormat();
             formats[CellFormat.FMT_DATE]      = new DateFormat(false, null);

@@ -15,6 +15,7 @@ package net.sf.RecordEditor.layoutWizard;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
@@ -183,7 +184,7 @@ public class Details {
     	for (i = 0; i < recordDef.columnDtls.size(); i++) {
     		column = recordDef.columnDtls.get(i);
 
-    		if (column.include.booleanValue()) {
+    		if (column.include) {
     			field = new ExternalField(
     					column.start,
     					column.length,
@@ -245,7 +246,7 @@ public class Details {
         emptyLayout = new LayoutDetail("", recs, "",
                 fileStructure,
                 null, "", fontName, null,
-                fileStructure
+                fileStructure, -1
         );
 
         reader.open(filename, emptyLayout);
@@ -260,5 +261,17 @@ public class Details {
     			recordDtls.get(i).searchForFields = true;
     		}
     	}
+    }
+    
+    public String getFileDataAsString() {
+    	int numRecords = Math.min(200, standardRecord.numRecords);
+		StringBuilder b = new StringBuilder(numRecords * 40);
+		String sep = "";
+    	for (int i = 0; i < numRecords; i++) {
+    		b.append(sep).append(Conversion.toString(standardRecord.records[i], fontName));
+    		sep = "\n";
+    	}
+    	
+    	return b.toString();
     }
 }

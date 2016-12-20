@@ -4,6 +4,31 @@
  *
  * Purpose:
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.CsvParser;
 
 import java.util.ArrayList;
@@ -152,7 +177,7 @@ public class BasicCsvLineParser extends BaseCsvLineParser implements ICsvLinePar
     		s = "";
     	} else if  (quote != null && quote.length() > 0
 		        && (   (textFieldsInQuotes & (fieldType != Type.NT_NUMBER))
-		        	||	s.indexOf(lineDef.getDelimiter()) >= 0
+		        	||	s.indexOf(super.getDelimFromCsvDef(lineDef)) >= 0
 		//        	|| s.indexOf(quote) >= 0
 		        	|| s.startsWith(quote)
 		        	|| s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0)) {
@@ -188,8 +213,9 @@ public class BasicCsvLineParser extends BaseCsvLineParser implements ICsvLinePar
 	 */
 	public final String[] split(String line, ICsvDefinition lineDefinition, int min) {
 
-		if ((lineDefinition.getDelimiter() == null || line == null)
-		||  ("".equals(lineDefinition.getDelimiter()))) {
+		String delimiter = super.getDelimFromCsvDef(lineDefinition);
+		if ((delimiter == null || line == null)
+		||  ("".equals(delimiter))) {
 			return null;
 		}
 
@@ -200,7 +226,7 @@ public class BasicCsvLineParser extends BaseCsvLineParser implements ICsvLinePar
 		boolean keep = true;
 		String quote = lineDefinition.getQuote();
 
-		tok = new StringTokenizer(line, lineDefinition.getDelimiter(), true);
+		tok = new StringTokenizer(line, delimiter, true);
 		len = tok.countTokens();
 		temp = new String[Math.max(len, min)];
 
@@ -210,7 +236,7 @@ public class BasicCsvLineParser extends BaseCsvLineParser implements ICsvLinePar
 		        temp[i] = tok.nextToken();
 //		        if (min == 4) System.out.print("->>" + (i) + " " + keep + " >" + temp[i]
 //		                        + "< >" + delimiter + "< ");
-		        if (lineDefinition.getDelimiter().equals(temp[i])) {
+		        if (delimiter.equals(temp[i])) {
 		            if (keep) {
 		                temp[i++] = "";
 		               // if (min == 4) System.out.print(" clear ");
@@ -240,7 +266,7 @@ public class BasicCsvLineParser extends BaseCsvLineParser implements ICsvLinePar
 		                //buf.delete(0, buf.length());
 		                keep = false;
 		            }
-		        } else if (lineDefinition.getDelimiter().equals(s)) {
+		        } else if (delimiter.equals(s)) {
 		            if (keep) {
 		                temp[i++] = "";
 		            }

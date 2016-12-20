@@ -134,7 +134,7 @@ public class RecordPnl extends BaseHelpPanel
 	private BmKeyedComboBox sfRecordStyle = new BmKeyedComboBox(styleModel, false);
 	private JCheckBox sfList = new JCheckBox();
 	private JTextField sfCopyBook  = new JTextField(60);
-	private DelimiterCombo sfDelimiter  = DelimiterCombo.NewDelimCombo();
+	private DelimiterCombo sfDelimiter  = DelimiterCombo.NewDelimComboWithDefault();
 	private JTextField sfDelimTxt  = new JTextField(5);
 	private JTextField sfQuote     = new JTextField();
 	private RecordSepCombo sfRecSepList = new RecordSepCombo();
@@ -223,7 +223,7 @@ public class RecordPnl extends BaseHelpPanel
 		init_100_ScreenFields(actionHandler, isRtEditable, showArrows);
 		sfRecordType.setEditable(isRtEditable);
 
-		this.setFieldToActualSize();
+		this.setFieldsToActualSize();
 		if (showArrows) {
 		    this.addComponentRE(1, 5, BasePanel.PREFERRED, BasePanel.GAP1,
 		        BasePanel.FULL, BasePanel.FULL,
@@ -387,7 +387,7 @@ public class RecordPnl extends BaseHelpPanel
 			sfRecordType.setSelectedIndex(sfRecordType.getItemCount() - 2);
 			sfList.setSelected(true);
 			sfCopyBook.setText("");
-			sfDelimiter.setSelectedIndex(0);
+			sfDelimiter.setSelectedIndex(1);
 			sfRecordStyle.setSelectedIndex(0);
 			sfQuote.setText("");
 			sfRecSepList.setSelectedIndex(0);
@@ -429,9 +429,9 @@ public class RecordPnl extends BaseHelpPanel
 				v = "<Tab>";
 			}
 
-			sfDelimiter.setEnglish(v);
+			sfDelimiter.setDelimiter(v); 
 			sfDelimTxt.setText("");
-			if (v != null && ! v.equalsIgnoreCase(sfDelimiter.getSelectedEnglish())) {
+			if (v != null && ! v.equalsIgnoreCase(sfDelimiter.getDelimiter())) {
 				sfDelimTxt.setText(v);
 			}
 			sfRecordStyle.setSelectedItem(Integer.valueOf(val.getValue().getRecordStyle()));
@@ -668,7 +668,7 @@ public class RecordPnl extends BaseHelpPanel
 			field = sfDelimiter;
 			String v = sfDelimTxt.getText();
 			if ("".equals(v)) {
-				currVal.getValue().setDelimiter("" + (String) sfDelimiter.getSelectedEnglish());
+				currVal.getValue().setDelimiter("" + (String) sfDelimiter.getDelimiter());
 			} else if (v.length() == 1) {
 				currVal.getValue().setDelimiter(v);
 			} else if ((v.length() == 5) && v.toLowerCase().startsWith("x'") && v.endsWith("'") ){
@@ -683,7 +683,7 @@ public class RecordPnl extends BaseHelpPanel
 				}
 			} else {
 				currVal.setUpdateSuccessful(false);
-				Common.logMsg("Invalid Delimiter, should be a single character or a hex character", null);
+				Common.logMsg("Invalid Delimiter, should be a single character or a hex character: " + v, null);
 				sfDelimTxt.requestFocus();
 			}
 		} catch (Exception ex) {
@@ -963,7 +963,7 @@ public class RecordPnl extends BaseHelpPanel
 //		delimPnl.setMinimumSize(new Dimension(delimPnl.getPreferredSize().width, SwingUtils.TABLE_ROW_HEIGHT));
 //		delimPnl.setBorder(null);
 
-		pnl.setFieldToActualSize();
+		pnl.setFieldsToActualSize();
 		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_LAYOUT_EXTRA));
 
 		pnl.setFieldNamePrefix("RcdExtra");

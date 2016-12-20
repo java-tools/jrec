@@ -19,11 +19,7 @@ package net.sf.RecordEditor.layoutEd;
 import java.awt.event.ActionEvent;
 
 
-
-
-
-
-import net.sf.RecordEditor.layoutEd.load.CblLoadCopybook;
+import net.sf.RecordEditor.layoutEd.load.LoadCobolCopybook;
 import net.sf.RecordEditor.layoutEd.load.LoadCopyBook;
 import net.sf.RecordEditor.layoutEd.load.LoadXmlCopyBook;
 import net.sf.RecordEditor.layoutEd.panels.LoadCobolIntoDBScreen;
@@ -90,7 +86,7 @@ public class LayoutMenu extends ReMenu {
 
         ReAbstractAction nLoadCobol = new ReAbstractAction("Load Cobol Copybook") {
         	public void actionPerformed(ActionEvent e) {
-		        new CblLoadCopybook(databaseDetails.getCurrentDbName(),
+		        new LoadCobolCopybook(databaseDetails.getCurrentDbName(),
         				databaseDetails.getCurrentDbIdentifier(),
         				databaseDetails);
         	}

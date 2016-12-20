@@ -3,8 +3,8 @@ package net.sf.RecordEditor.layoutEd.Record;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
+import net.sf.JRecord.External.base.CopybookWriter;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;

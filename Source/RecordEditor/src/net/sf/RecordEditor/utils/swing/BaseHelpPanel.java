@@ -13,13 +13,13 @@ package net.sf.RecordEditor.utils.swing;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-
 
 /**
  * Standard Panel with builtin help functionality.
@@ -34,7 +34,7 @@ public class BaseHelpPanel extends BasePanel  {
 
     private ArrayList<KeyAdapter> list = new ArrayList<KeyAdapter>();
     private ArrayList<Component> componentList = new ArrayList<Component>(15);
-
+   
 
 
     public BaseHelpPanel() {
@@ -170,7 +170,7 @@ public class BaseHelpPanel extends BasePanel  {
         addLineRE("", component, btn);
         btn.addActionListener(new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                help.showHelp();
+            	showHelpRE();
             }
         });
         registerOneComponentRE(btn);
@@ -182,8 +182,7 @@ public class BaseHelpPanel extends BasePanel  {
      *
      */
     public final void showHelpRE() {
-
-        help.showHelp();
+    	help.showHelp();
     }
 
 
@@ -196,4 +195,16 @@ public class BaseHelpPanel extends BasePanel  {
         help.setHelpURL(helpUrl);
         registerOneComponentRE(this, help);
     }
+    
+    /**
+     * Define the Help URL
+     *
+     * @param helpUrl name of the Help URL
+     */
+    public final void setHelpUrl4BrowserRE(URI helpURI) {
+    	//System.out.println("------------->> " + helpURI.getFragment());
+    	help.setHelpURI(helpURI); 
+        registerOneComponentRE(this, help);
+    }
+
 }

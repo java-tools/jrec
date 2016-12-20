@@ -15,7 +15,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -26,6 +28,8 @@ import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -39,9 +43,7 @@ import net.sf.RecordEditor.utils.swing.DatePopup;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
 import net.sf.RecordEditor.utils.swing.filechooser.IFileChooserWrapper;
-import net.sf.RecordEditor.utils.swing.filechooser.JRFileChooserExtendedWrapper;
 import net.sf.RecordEditor.utils.swing.filechooser.JRFileChooserWrapper;
-import net.sf.RecordEditor.utils.swing.filechooser.JRFileChooserWrapperBase;
 import net.sf.RecordEditor.utils.swing.treeCombo.FileTreeComboItem;
 import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
@@ -82,6 +84,7 @@ public class EditPropertiesPnl extends BasePanel {
     private static final int TYPE_COLUMN = 3;
     private static final int PROMPT_COLUMN = 4;
     private static final int PARAM_COLUMN = 5;
+    private static final int NAME_COLUMN2 = 6;
 
     private JEditorPane tips;
 
@@ -211,13 +214,13 @@ public class EditPropertiesPnl extends BasePanel {
         return pnl;
     }
 
-    public final void save() {
-    	for (JComponent c : components) {
-    		if (c instanceof ChooseFileName) {
-    			((ChooseFileName) c).focusLost(null);
-    		}
-    	}
-    }
+//    public final void save() {
+//    	for (JComponent c : components) {
+//    		if (c instanceof ChooseFileName && c.hasFocus()) {
+//    			((ChooseFileName) c).focusLost(null);
+//    		}
+//    	}
+//    }
 
     private void addField(BasePanel pnl, int row, JComponent item, JComponent item2) {
     	Object prompt = tableData[row][PROMPT_COLUMN];
@@ -239,9 +242,19 @@ public class EditPropertiesPnl extends BasePanel {
     }
 
     private void setValue(int row, String value) {
+    	setValue(row, value, null);
+    }
+
+    private void setValue(int row, String value, String value2) {
+//		if (row == 8 && "SepWindows".equals(tableData[row][NAME_COLUMN])) {
+//			System.out.println(tableData[row][NAME_COLUMN] + " " + tableData[row][VALUE_COLUMN]);
+//		}
 		tableData[row][VALUE_COLUMN] = value;
 
 		String propertyName = tableData[row][NAME_COLUMN].toString();
+		String propertyName2 = tableData[row].length <= NAME_COLUMN2 || tableData[row][NAME_COLUMN2]==null 
+				? null 
+				: tableData[row][NAME_COLUMN2].toString();
         String oldValue = pgmParams.getProperty(propertyName);
 
 
@@ -253,20 +266,112 @@ public class EditPropertiesPnl extends BasePanel {
 	            	pgmParams.propertiesChanged = true;
 	            }
         	} else {
-                pgmParams.setProperty(propertyName, "");
-                pgmParams.propertiesChanged = true;
+        		setActualValue("", propertyName, null, null);
         	}
-        } else if (oldValue == null || ! oldValue.equals(value)) {
-            pgmParams.setProperty(propertyName, value);
-            pgmParams.propertiesChanged = true;
+        } else if (! value.equals(oldValue)) {
+            setActualValue(value, propertyName, value2, propertyName2);
         }
 
     }
 
+	/**
+	 * @param value
+	 * @param propertyName
+	 */
+	public void setActualValue(String value, String propertyName, String value2, String propertyName2) {
+		pgmParams.setProperty(propertyName, value);
+		pgmParams.propertiesChanged = true;
+		
+		if (! isEmpty(propertyName2)) { 
+			if (isEmpty(value2)) {
+				pgmParams.remove(propertyName2);
+			} else {
+				pgmParams.setProperty(propertyName2, value2);
+			}
+		}
+	}
 
-	private class TxtFld extends JTextField implements FocusListener {
+	/**
+	 * @param val
+	 * @return
+	 */
+	public boolean isEmpty(String val) {
+		return val == null || val.length() == 0;
+	}
+
+	private static interface FldUpdate {
+		public void setTextSilently(String val);
+		public UpdateControl getUpdateControl();
+	}
+
+
+	private static class UpdateControl {
+		final String key;
+		final FldUpdate fld;
+		final UpdateControl first;
+		UpdateControl next = null;
+		
+		UpdateControl(String key, FldUpdate fld, UpdateControl first) {
+			this.key = key;
+			this.fld = fld;
+			if (first==null) {
+				this.first =  this;
+			} else {
+				this.first = first;
+				this.next = first.next;
+				first.next = this;
+			}
+		}
+		
+		void notifyOfUpdate(String v) {
+			UpdateControl itm =  first;
+
+			while (itm != null) {
+				if (itm != this) {
+					itm.fld.setTextSilently(v);
+				}
+				itm = itm.next;
+			}
+		}
+	}
+
+	private static HashMap<String, UpdateControl> fldsMap = new HashMap<String, EditPropertiesPnl.UpdateControl>(300);
+	
+	private ArrayList<UpdateControl> items = new ArrayList<UpdateControl>();
+	private UpdateControl register(String name, FldUpdate fld) {
+		String key = name.toLowerCase();
+		UpdateControl first = fldsMap.get(key);
+		UpdateControl curr = new UpdateControl(key, fld, first);
+		if (first == null) {
+			fldsMap.put(key, curr);
+		}
+		items.add(curr);
+		return curr;
+	}
+	
+	public final void clear() {
+		for (UpdateControl item : items) {
+			if (item != item.first) {
+				UpdateControl it = item.first;
+				while (it != null) {
+					if (it.next == item) {
+						it.next = item.next;
+						break;
+					}
+					it = it.next;
+				}
+			} else if (item.next == null) {
+				fldsMap.remove(item.key);
+			} else {
+				fldsMap.put(item.key, item.next);
+			}
+		}
+	}
+
+	private class TxtFld extends JTextField implements FocusListener, FldUpdate {
 
     	int fieldNo;
+    	UpdateControl listners;
     	private TxtFld(int fldNo) {
     		fieldNo = fldNo;
     		if (tableData[fieldNo][VALUE_COLUMN] == null) {
@@ -276,6 +381,7 @@ public class EditPropertiesPnl extends BasePanel {
     		}
 
     		super.addFocusListener(this);
+    		listners = register(tableData[fieldNo][NAME_COLUMN].toString(), this);
     	}
 
 
@@ -284,7 +390,9 @@ public class EditPropertiesPnl extends BasePanel {
 		 */
 		@Override
 		public void focusLost(FocusEvent arg0) {
-			setValue(fieldNo, super.getText());
+			String text = super.getText();
+			setValue(fieldNo, text);
+			listners.notifyOfUpdate(text);
 		}
 
 
@@ -294,6 +402,33 @@ public class EditPropertiesPnl extends BasePanel {
 		@Override
 		public void focusGained(FocusEvent arg0) {
 		}
+
+
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.re.editProperties.EditPropertiesPnl.FldUpdate#setNoTrigger(java.lang.String)
+		 */
+		@Override
+		public void setTextSilently(String val) {
+			super.setText(val);
+//			try {
+//				super.removeFocusListener(this);
+//				super.setText(val);
+//			} finally {
+//				super.addFocusListener(this);
+//			}
+			
+		}
+
+
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.re.editProperties.EditPropertiesPnl.FldUpdate#getUpdateControl()
+		 */
+		@Override
+		public UpdateControl getUpdateControl() {
+			return listners;
+		}
+		
+		
     }
 	
 	private class CharsetFld extends TxtFld  {
@@ -386,13 +521,16 @@ public class EditPropertiesPnl extends BasePanel {
 		}
     }
 
-	private class BoolFld extends JCheckBox implements FocusListener {
+	private class BoolFld extends JCheckBox implements FocusListener, ChangeListener {
     	int fieldNo;
     	boolean defaultVal;
     	private BoolFld(int fldNo) {
     		Object val = tableData[fldNo][VALUE_COLUMN];
     		fieldNo = fldNo;
     		defaultVal = Parameters.isDefaultTrue(tableData[fieldNo][NAME_COLUMN].toString());
+//    		if (fieldNo == 8 && "SepWindows".equals(tableData[fieldNo][NAME_COLUMN])) {
+//    			System.out.println(tableData[fieldNo][NAME_COLUMN]);
+//    		}
     		if (val == null || "".equals(val.toString())) {
     			super.setSelected(defaultVal);
     		} else {
@@ -411,7 +549,28 @@ public class EditPropertiesPnl extends BasePanel {
 //    				+ "\t" + super.isSelected()
 //    		);
     		super.addFocusListener(this);
+    		super.addChangeListener(this);
     	}
+
+
+		/* (non-Javadoc)
+		 * @see javax.swing.AbstractButton#setSelected(boolean)
+		 */
+		@Override
+		public void setSelected(boolean b) {
+			if (super.isSelected() != b) {
+				super.setSelected(b);
+			}
+		}
+
+
+		/* (non-Javadoc)
+		 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+		 */
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			focusLost(null);
+		}
 
 
 		/* (non-Javadoc)
@@ -419,9 +578,11 @@ public class EditPropertiesPnl extends BasePanel {
 		 */
 		@Override
 		public void focusLost(FocusEvent arg0) {
-			if (super.isSelected() == defaultVal) {
+			boolean selected = super.isSelected();
+			//System.out.println(fieldNo + "\t" + defaultVal + " " + selected +"\t" + tableData[fieldNo][NAME_COLUMN] );
+			if (selected == defaultVal) {
 				setValue(fieldNo, null);
-			} else if (super.isSelected()) {
+			} else if (selected) {
 				setValue(fieldNo, "Y");
 			} else {
 				setValue(fieldNo, "N");
@@ -442,9 +603,10 @@ public class EditPropertiesPnl extends BasePanel {
 			new File(Parameters.expandVars("<reproperties>.User"))
 	};
 	private static final IFileChooserWrapper cw = JRFileChooserWrapper.newChooser(null, standardFiles) ;
-	private class ChooseFileName extends TreeComboFileSelect implements FocusListener {
+	private class ChooseFileName extends TreeComboFileSelect implements FocusListener, FldUpdate {
 
 		private int fieldNo;
+		private UpdateControl listners;
 		public ChooseFileName(int fldNo) {
 			super(true, true, ((List<FileTreeComboItem>) null), cw, Arrays.asList(standardFiles));
 			//super(true, ((List<FileTreeComboItem>) null), cw, ((List<File>) null));
@@ -463,7 +625,20 @@ public class EditPropertiesPnl extends BasePanel {
 
     		//super.addFocusListener(this);
     		super.addFcFocusListener(this);
+    		listners = register(tableData[fieldNo][NAME_COLUMN].toString(), this);
     	}
+
+
+	
+
+
+		/* (non-Javadoc)
+		 * @see net.sf.RecordEditor.re.editProperties.EditPropertiesPnl.FldUpdate#getUpdateControl()
+		 */
+		@Override
+		public UpdateControl getUpdateControl() {
+			return listners;
+		}
 
 
 		/* (non-Javadoc)
@@ -471,7 +646,9 @@ public class EditPropertiesPnl extends BasePanel {
 		 */
 		@Override
 		public void focusLost(FocusEvent arg0) {
-			setValue(fieldNo, super.getText());
+			String text = super.getText();
+			setValue(fieldNo, text);
+			listners.notifyOfUpdate(text);
 		}
 		/* (non-Javadoc)
 		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
@@ -520,7 +697,9 @@ public class EditPropertiesPnl extends BasePanel {
 		 */
 		@Override
 		public void focusLost(FocusEvent arg0) {
-			setValue(fieldNo, ((ComboStrOption)super.getSelectedItem()).key);
+
+			ComboStrOption selectedItem = (ComboStrOption)super.getSelectedItem();
+			setValue(fieldNo, selectedItem.key, selectedItem.toString());
 		}
 		/* (non-Javadoc)
 		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
@@ -555,4 +734,5 @@ public class EditPropertiesPnl extends BasePanel {
 
 
 	}
+	
 }

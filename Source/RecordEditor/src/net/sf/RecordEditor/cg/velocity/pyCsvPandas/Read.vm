@@ -1,0 +1,14 @@
+import pandas as pd
+#set ($schemaDef = ${generateOptions.schemaDefinition})
+#set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+
+#incl("pyCsvIO/CsvCommonPy.vm")
+
+#if (${generateOptions.schemaDefinition.areThereColumnNames()})
+
+csv_df = pd.read_csv('${generateOptions.getDataFileName().getEscapedFileName()}', sep='${generateOptions.schemaDefinition.getDelimiter()}')
+
+#else
+csv_df = pd.read_csv('${generateOptions.getDataFileName().getEscapedFileName()}', sep='${generateOptions.schemaDefinition.getDelimiter()}', header=None)
+
+#end

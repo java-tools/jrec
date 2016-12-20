@@ -10,7 +10,7 @@ public final class SuppliedSchemas {
 		"Unknown Fujitsu VB",
 		"Unknown Mainframe VB",
 		"Unknown Mainframe VB Dump",
-		"Unknown Open Cobol VB",
+		"Unknown GNU Cobol VB",
 		"Unknown Text IO",
 		"Unknown Text UTF-16",
 		"Unknown Text UTF-8",

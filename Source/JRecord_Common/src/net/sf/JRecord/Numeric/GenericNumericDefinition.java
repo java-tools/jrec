@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Numeric;
 
 import net.sf.JRecord.Common.Constants;
@@ -13,12 +38,12 @@ import net.sf.cb2xml.def.NumericDefinition;
  *
  * BasicNumericDefinition("Mainframe", BasicNumericDefinition.MAINFRAME_SIZES, BasicNumericDefinition.MAINFRAME_SYNC, false, 4, 4)
  * BasicNumericDefinition("Fujitsu", BasicNumericDefinition.FUJITSU_SIZES, BasicNumericDefinition.FUJITSU_SYNC, true, 4, 8)
- * BasicNumericDefinition("Open Cobol", BasicNumericDefinition.OPEN_COBOL_SIZES, BasicNumericDefinition.OPEN_COBOL_SYNC, true, 4, 8)
- * BasicNumericDefinition("Open Cobol bs2000", BasicNumericDefinition.BS2000_SIZES, BasicNumericDefinition.BS2000_SYNC, true, 4, 8)
- * BasicNumericDefinition("Open Cobol MVS", BasicNumericDefinition.OPEN_COBOL_MVS_SIZES,
- *                                    BasicNumericDefinition.OPEN_COBOL_MVS_SYNC, true, 4, 8)
- * BasicNumericDefinition("Open Cobol Micro Focus", BasicNumericDefinition.MICROFOCUS_SIZES,
- *                                     BasicNumericDefinition.MICROFOCUS_SIZES_SYNC, , true, 1, 1)
+ * BasicNumericDefinition("GNU Cobol", BasicNumericDefinition.OPEN_COBOL_SIZES, BasicNumericDefinition.OPEN_COBOL_SYNC, true, 4, 8)
+ * BasicNumericDefinition("GNU Cobol bs2000", BasicNumericDefinition.BS2000_SIZES, BasicNumericDefinition.BS2000_SYNC, true, 4, 8)
+ * BasicNumericDefinition("GNU Cobol MVS", BasicNumericDefinition.OPEN_COBOL_MVS_SIZES,
+ *                                   BasicNumericDefinition.OPEN_COBOL_MVS_SYNC, true, 4, 8)
+ * BasicNumericDefinition("GNU Cobol Micro Focus", BasicNumericDefinition.MICROFOCUS_SIZES,
+ *                                   BasicNumericDefinition.MICROFOCUS_SIZES_SYNC, , true, 1, 1)
  *
  *
  * @author bm
@@ -288,7 +313,7 @@ public class GenericNumericDefinition implements NumericDefinition, Convert {
                ||  picture.indexOf('.') >= 0) {
         	ret = Type.ftNumRightJustified;
         } else {
-        	ret = CommonCode.commonTypeChecks(binId, usage, picture, signed, signSeperate, signPosition);
+        	ret = CommonCode.commonTypeChecks(identifier, usage, picture, signed, signSeperate, signPosition);
         }
 
 		return ret;

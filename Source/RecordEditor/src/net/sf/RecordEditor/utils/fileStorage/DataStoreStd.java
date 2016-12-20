@@ -143,7 +143,7 @@ implements IDataStore<L>, TableModelListener {
 	}
 
 	@Override
-	public void sortRE(Comparator<AbstractLine> compare) {
+	public void sortRE(Comparator<? super AbstractLine> compare) {
 		
 		if (sortMaster.hasSortNotifies()) {
 			int[] order = sortMaster.sort(this, compare);
@@ -158,7 +158,7 @@ implements IDataStore<L>, TableModelListener {
 
 
 	@Override
-	public void sortRE(int[] rows, Comparator<AbstractLine> compare) {
+	public void sortRE(int[] rows, Comparator<? super AbstractLine> compare) {
 		int[] order = sortMaster.sort(this, rows, compare); 
 		ArrayList<L> l = new ArrayList<L>(rows.length);
 		for (int i = 0; i < order.length; i++) {

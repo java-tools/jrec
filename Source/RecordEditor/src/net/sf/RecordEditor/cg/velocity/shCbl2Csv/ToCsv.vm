@@ -1,0 +1,17 @@
+#! /bin/sh
+#set ($dhash = '##')
+
+${dhash} * -------------------------------------------------------------------
+${dhash} *
+${dhash} *  Purpose:  Convert a cobol Data file using Cobol Copybook to a Csv file
+#incl("shCbl2Csv/CsvCommonSh.vm")
+
+${dhash} java -jar ../lib/Cobol2Csv.jar -C ${generateOptions.getSchemaDefinition().getSchemaName()}
+../lib/Cobol2Csv.sh  -C ${generateOptions.getSchemaDefinition().getSchemaName()} \
+#setCsvAttrSh()
+                     -IFS ${fstruc} \
+#*  *##if (${generateOptions.font} != "")
+                     -IC ${generateOptions.font} \
+#*  *##end
+                     -I ${generateOptions.getDataFileName().getJavaFileName()}   \
+                     -O ${generateOptions.getDataFileName().getJavaFileName()}.csv 

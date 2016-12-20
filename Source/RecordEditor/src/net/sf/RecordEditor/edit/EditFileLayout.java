@@ -15,7 +15,6 @@ package net.sf.RecordEditor.edit;
 
 import java.awt.event.ActionEvent;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -79,8 +78,6 @@ public class EditFileLayout extends EditRec {
         			  new LayoutSelectionFileCreator()
         	  ));
 
-        Common.OPTIONS.standardEditor.set(true);
-		Common.OPTIONS.addTextDisplay.set(true);
 	    Common.setDBstatus(false);
 
         OpenFile open = new OpenFile(
@@ -162,16 +159,16 @@ public class EditFileLayout extends EditRec {
 			helpMenu.add(
 					new ShowURI(
 							"JRecord Pages",
-							Common.formatHelpURL("index.htm").toURI()));
+							Common.formatHelpURI("index.htm")));
 			helpMenu.add(
 					new ShowURI(
 							"JRecord Documentation",
-							Common.formatHelpURL("Document.html").toURI()));
+							Common.formatHelpURI("Document.html")));
 			helpMenu.addSeparator();
 			helpMenu.add(new ShowURI("JRecord Web Page", new URI("http://jrecord.sourceforge.net/")));
 			helpMenu.add(new ShowURI("JRecord Forum", new URI("https://sourceforge.net/projects/jrecord/forums")));
 			helpMenu.add(new ShowURI("RecordEditor Web Page", new URI("http://record-editor.sourceforge.net/")));
-		} catch (URISyntaxException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -222,6 +219,14 @@ public class EditFileLayout extends EditRec {
 			public void run() {
 				//JFrame.setDefaultLookAndFeelDecorated(true);
 			    ParseArgs args = new ParseArgs(pgmArgs);
+			    
+			    try {
+			        Common.OPTIONS.standardEditor.set(true);
+					Common.OPTIONS.addTextDisplay.set(true);
+			    } catch (Exception e) {
+			    	e.printStackTrace();
+			    }
+
 
 			    new EditFileLayout(args.getDfltFile(), args.getInitialRow(), ReIOProvider.getInstance());
 			        	//new CopyBookDbReader());

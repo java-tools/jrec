@@ -1,0 +1,35 @@
+#set( $lang = "Java" )
+#incl("jjsCbl2Xml/XmlCommonJjs.vm")
+package ${packageId};
+
+ /**
+  * -------------------------------------------------------------------
+  *
+  *  Purpose:  Convert a Cobol Data file using Cobol Copybook to a ${type} file       
+#commentjjs()
+
+import java.io.IOException;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
+
+import net.sf.JRecord.cbl2xml.Cobol2Xml;
+import net.sf.JRecord.Option.JRecordConstantVars;
+
+public class ${generateOptions.schemaDefinition.extensionName}To$type {
+
+    public static void main(String[] args)
+    throws IOException, JAXBException, XMLStreamException {
+   
+#callConversionJava()
+
+#fromCobolAttributes()
+#if ($type == "Xml")
+              .cobol2xml("${generateOptions.getDataFileName().getJavaFileName()}", 
+                         "${generateOptions.getDataFileName().getJavaFileName()}.xml");
+#else
+              .cobol2json("${generateOptions.getDataFileName().getJavaFileName()}", 
+                          "${generateOptions.getDataFileName().getJavaFileName()}.json");
+#end
+    }
+}

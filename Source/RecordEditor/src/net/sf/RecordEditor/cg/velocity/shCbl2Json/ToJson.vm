@@ -1,0 +1,14 @@
+#! /bin/sh
+#set ($dhash = '##')
+#set ($type = "Json")
+
+${dhash} * -------------------------------------------------------------------
+${dhash} *
+${dhash} *  Purpose:  Convert a cobol Data file using Cobol Copybook to Json
+#incl("shCbl2Xml/XmlCommonSh.vm")
+
+$dhash java -jar ../lib/Cobol2Json.jar -cobol ${generateOptions.getSchemaDefinition().getSchemaName()}
+../lib/Cobol2Json.sh  -cobol ${generateOptions.getSchemaDefinition().getSchemaName()} \
+#setXmlAttrSh()
+                      -input  ${generateOptions.getDataFileName().getJavaFileName()}   \
+                      -output ${generateOptions.getDataFileName().getJavaFileName()}.json 

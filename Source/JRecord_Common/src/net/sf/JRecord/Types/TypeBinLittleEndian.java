@@ -15,6 +15,31 @@
  *
  *
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Types;
 
 import net.sf.JRecord.Common.Conversion;
@@ -41,7 +66,7 @@ public class TypeBinLittleEndian extends TypeNum {
      * @param isPositive whether it is a positive integer
      */
     public TypeBinLittleEndian(final boolean isPositive) {
-        super(false, true, true, isPositive, true, true);
+        super(false, true, true, isPositive, true, true, false);
         positiveStorage = isPositive;
     }
 
@@ -56,7 +81,7 @@ public class TypeBinLittleEndian extends TypeNum {
      * @param positiveStorage wether to use positive or signed storage
      */
     public TypeBinLittleEndian(final boolean isPositive, boolean positiveStorage) {
-        super(false, true, true, isPositive, true, true);
+        super(false, true, true, isPositive, true, true, false);
         this.positiveStorage = positiveStorage;
     }
 

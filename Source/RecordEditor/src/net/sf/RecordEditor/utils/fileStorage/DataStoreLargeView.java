@@ -121,13 +121,13 @@ implements IDataStoreView<AbstractLine>, ISortNotify, TableModelListener {
 	}
 	
 	@Override
-	public void sortRE(Comparator<AbstractLine> compare) {
+	public void sortRE(Comparator<? super AbstractLine> compare) {
 		Collections.sort(this, compare);
 	}
 
 	
 	@Override
-	public void sortRE(int[] rows, Comparator<AbstractLine> compare) {
+	public void sortRE(int[] rows, Comparator<? super AbstractLine> compare) {
 		DataStoreLargeView sv = this.newDataStoreRE(rows);
 		
 		sv.sortRE(compare);

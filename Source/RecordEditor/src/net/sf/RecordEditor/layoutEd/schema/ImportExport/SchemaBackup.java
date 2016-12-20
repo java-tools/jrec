@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.JRecord.External.CopybookWriter;
 import net.sf.JRecord.External.CopybookWriterManager;
-import net.sf.JRecord.External.RecordEditorXmlWriter;
+import net.sf.JRecord.External.base.CopybookWriter;
+import net.sf.JRecord.External.base.RecordEditorXmlWriter;
 import net.sf.RecordEditor.re.db.Record.ChildRecordsDB;
 import net.sf.RecordEditor.re.db.Record.ExtendedRecordDB;
 import net.sf.RecordEditor.re.db.Record.RecordRec;

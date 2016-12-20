@@ -223,7 +223,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
         + SEPERATOR + fileStructure.getSelectedIndex()
         + SEPERATOR + splitOption.getSelectedIndex()
         + SEPERATOR + numericFormat.getSelectedIndex()
-    	+ SEPERATOR + fieldSeparator.getSelectedIndex()
+    	+ SEPERATOR + fieldSeparator.getDelimiter()
     	+ SEPERATOR + quote.getSelectedIndex();
 	}
 
@@ -250,7 +250,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
         } else if (! LineIOProvider.getInstance().isCopyBookFileRequired(fileStruc)) {
         	ret = buildLayoutFromSample(fileStruc,
         			fileStructure.getSelectedIndex() == TAB_CSV_IDX,
-        			getFontName(), fieldSeparator.getSelectedEnglish(), fileName);
+        			getFontName(), fieldSeparator.getDelimiter(), fileName);
          	lastLayoutDetails = layoutName;
          	lastLayout = ret;
         } else if (layoutName == null ||  "".equals(layoutName)) {
@@ -388,7 +388,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
     	    	loaderOptions.setSelectedIndex(CopybookLoaderFactoryExtended.COBOL_LOADER);
             }
             numericFormat.setSelectedIndex(getIntToken(t));
-            fieldSeparator.setSelectedIndex(getIntToken(t));
+            fieldSeparator.setDelimiter(getStrToken(t));
             quote.setSelectedIndex(getIntToken(t));
         } catch (Exception e) {
             e.printStackTrace();
@@ -443,6 +443,13 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
 	}
 
 
+	private String getStrToken(StringTokenizer t) {
+		String s = "";
+		if (t.hasMoreElements()) {
+			s = t.nextToken();
+		}
+		return s;
+	}
     /**
      * get the next integer Token
      * @param t StringTokenizer

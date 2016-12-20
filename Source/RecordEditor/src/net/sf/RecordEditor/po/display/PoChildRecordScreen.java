@@ -13,7 +13,6 @@ import net.sf.RecordEditor.edit.display.extension.PaneDtls;
 import net.sf.RecordEditor.edit.display.extension.SplitPaneRecord;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.po.def.PoField;
-import net.sf.RecordEditor.re.display.IClosablePanel;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;

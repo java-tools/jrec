@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -90,7 +91,7 @@ public final class Common implements Constants {
     Dimension size = new Dimension(adv+2, hgt+2);
      */
 
-	public static final String CURRENT_VERSION = "0097m";
+	public static final String CURRENT_VERSION = "00981";
 	
 	public static final int BOOLEAN_OPERATOR_OR  = 0;
     public static final int BOOLEAN_OPERATOR_AND = 1;
@@ -173,6 +174,12 @@ public final class Common implements Constants {
 	public static final String HELP_COLUMN_VIEW    = "HlpRe15.htm";
 	public static final String HELP_GENERIC_CSV    = "HlpRe16.htm#HDRGENERICCSV";
 
+	public static final String HELP_GENERATE       = "RecordEditorGenerate.htm";
+	public static final String HELP_JREC_GEN       = "RecordEditorGenerate.htm#HDRJRECGEN";
+	public static final String HELP_GEN_TEMPLATE   = "RecordEditorGenerate.htm#HDRGENJAVA";
+	public static final String HELP_GEN_UTIL       = "RecordEditorGenerate.htm#HDRJRECUTILS";
+	public static final String HELP_GEN_4_EDIT     = "RecordEditorGenerate.htm#HDRGEN4EDIT";
+
 	public static final String DATE_FORMAT_DESCRIPTION
 		= LangConversion.convertId(LangConversion.ST_MESSAGE, "DateFormatDescription",
 				  "Please remember that Date formats are case sensitive:<ul compact>"
@@ -226,6 +233,8 @@ public final class Common implements Constants {
 	public static final String HELP_COPYBOOK_CHOOSE= "HlpLe09.htm";
 	public static final String HELP_COPY_LAYOUT    = "HlpLe10.htm";
 	public static final String HELP_SCRIPT         = "HlpRe17.htm";
+	
+	public static final String RECENT_CSV_FILES = "CsvFiles.txt";
 
 	public static final String FILE_SAVE_FAILED = LangConversion.convert("File Save Failed:");
 
@@ -1640,7 +1649,18 @@ public final class Common implements Constants {
      * @return Help URL
      */
     public static final URL formatHelpURL(String helpId) {
-
+    	URI uri = formatHelpURI(helpId);
+    	if (uri != null) {
+    		try {
+				return uri.toURL();
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+    	}
+    	return null;
+    }
+    
+    public static final URI formatHelpURI(String helpId) {
     	String lang = Parameters.getString(Parameters.CURRENT_LANGUAGE);
     	File f;
         if (htmlDir == null) {
@@ -1663,22 +1683,36 @@ public final class Common implements Constants {
         if ((! htmlDir.endsWith("/")) && (! htmlDir.endsWith("\""))) {
         	htmlDir += "/";
         }
-
-        f = new File(htmlDir + lang + "/" + helpId);
-
-        //System.out.println(htmlDir + lang + "/" + helpId + " " + f.exists() + " " + f.isFile());
-        if (f.isFile()) {
-        	try {
-        		return f.toURI().toURL();
-        	} catch (Exception e) {
-			}
+        
+        String hn = helpId;
+        
+        String dirName = htmlDir + lang + "/";
+        int idx = hn.indexOf('#');
+        if (idx >= 0) {
+        	hn = hn.substring(0, idx);
         }
 
-        try {
-        	return (new File(htmlDir + helpId)).toURI().toURL();
-        } catch (Exception e) {
-        	e.printStackTrace();
-		}
+        f = new File(dirName  + hn);
+
+        if (f == null || ! f.isFile()) {
+        	dirName = htmlDir;
+        	f = new File(htmlDir + hn);
+        	System.out.println(">>" + htmlDir + hn + "<<" );
+        }
+        if (f != null && f.isFile()) {
+        	if (idx < 0) {
+        		return f.toURI();
+         	}
+ //     		try {
+       			String x = helpId.substring(idx);
+       			return f.toURI().resolve(x);
+				//return new URI("File:" + dirName + helpId);
+//			} catch (URISyntaxException e) {
+//				Common.logMsg("Error generating Help screen name: " + e.toString(), null);
+//				e.printStackTrace();
+//			}
+        }
+
         return null;
     }
     //        String dir = ClassLoader.getSystemResource("edit/EditRec.class").toString();

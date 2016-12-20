@@ -36,12 +36,12 @@ public class ColumnDetails {
             "Field Name", "Start", "Length", "Type", "Decimal", "Include"
     });
 
-    protected String name = "";
+    public String name = "";
     protected int start  = 0;
-    protected int length = 0;
-    protected int type;
-    protected int decimal = 0;
-    protected Boolean include = Boolean.TRUE;
+    public int length = 0;
+    public int type;
+    public int decimal = 0;
+    public boolean include = true;
 
     /**
      * Column details record
@@ -68,7 +68,7 @@ public class ColumnDetails {
         	case(2): o = Integer.valueOf(length);  break;
         	case(3): o = Integer.valueOf(type);    break;
         	case(4): o = Integer.valueOf(decimal); break;
-        	case(5): o = include;              break;
+        	case(5): o = Boolean.valueOf(include); break;
         	default: o = name;
         }
 

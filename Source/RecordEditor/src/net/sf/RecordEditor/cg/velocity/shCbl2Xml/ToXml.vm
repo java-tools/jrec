@@ -1,0 +1,14 @@
+#! /bin/sh
+#set ($dhash = '##')
+#set ($type = "Xml")
+
+${dhash} * -------------------------------------------------------------------
+${dhash} *
+${dhash} *  Purpose:  Convert a cobol Data file using Cobol Copybook to Xml
+#incl("shCbl2Xml/XmlCommonSh.vm")
+
+$dhash java -jar ../lib/Cobol2Xml.jar  -cobol ${generateOptions.getSchemaDefinition().getSchemaName()}
+../lib/Cobol2Xml.sh   -cobol ${generateOptions.getSchemaDefinition().getSchemaName()} \
+#setXmlAttrSh()
+                      -input  ${generateOptions.getDataFileName().getJavaFileName()}   \
+                      -output ${generateOptions.getDataFileName().getJavaFileName()}.xml 

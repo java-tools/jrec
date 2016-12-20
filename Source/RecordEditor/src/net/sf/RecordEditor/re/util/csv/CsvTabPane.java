@@ -11,6 +11,7 @@ import javax.swing.text.JTextComponent;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.layoutWizard.FileAnalyser;
 import net.sf.RecordEditor.re.openFile.FormatFileName;
+import net.sf.RecordEditor.re.util.fw.FixedWidthSelectionPane;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.StreamUtil;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
@@ -29,9 +30,10 @@ public class CsvTabPane implements FormatFileName {
 
 	public final static int NORMAL_CSV  = 0,
 							UNICODE_CSV = 1,
-							FIXED_FILE = 2,
-							XML_FILE = 3,
-							OTHER_FILE = 4;
+							FIXED_WIDTH = 2,
+							SCHEMA = 3,
+							XML_FILE = 4,
+							OTHER_FILE = 5;
 
 	private final static byte[][] oneBlankLine = {{}};
 
@@ -42,12 +44,13 @@ public class CsvTabPane implements FormatFileName {
 	public final CsvSelectionPanel csvDetails;
 	public final CsvSelectionPanel unicodeCsvDetails;
 	public final XmlSelectionPanel xmlSelectionPanel;
-	public final FixedWidthSelection fixedSelectionPanel;
+	public final FixedWidthSelectionPane fixedWidthPanel;
+	public final SchemaSelection schemaSelectionPanel;
 	public final OtherSelection otherSelectionPanel;
 
 	private JTextComponent msgFld;
 
-	private FilePreview[] csvPanels = {null, null, null, null, null};
+	private FilePreview[] csvPanels = {null, null, null, null, null, null};
 
 	private final boolean fixedTab, xmlTab;
 
@@ -85,15 +88,19 @@ public class CsvTabPane implements FormatFileName {
 		tab.add("Unicode", unicodeCsvDetails.getPanel());
 
 		if (fixedTab) {
-			fixedSelectionPanel = new FixedWidthSelection(msgFld);
+			fixedWidthPanel = FixedWidthSelectionPane.newPane();
+			schemaSelectionPanel = new SchemaSelection(msgFld);
 			//csvPanels[XML_FILE] = new XmlSelectionPanel("Xml Preview", msgField);
 			//tab.add("Xml", xmlPanel);
 			//csvPanels[XML_FILE].getPanel().setVisible(false);
 
-			csvPanels[FIXED_FILE] = fixedSelectionPanel;
-			tab.add("Fixed Width", csvPanels[FIXED_FILE].getPanel());
+			csvPanels[FIXED_WIDTH] = fixedWidthPanel;
+			csvPanels[SCHEMA] = schemaSelectionPanel;
+			tab.add("Fixed Width", csvPanels[FIXED_WIDTH].getPanel());
+			tab.add("Schema", csvPanels[SCHEMA].getPanel());
 		} else {
-			fixedSelectionPanel = null;
+			schemaSelectionPanel = null;
+			fixedWidthPanel = null;
 		}
 
 		if (xmlTab) {
@@ -133,8 +140,8 @@ public class CsvTabPane implements FormatFileName {
 
 		if ((f != null) && (f.isFile()) ) {
 			String fileName = f.getPath();
-			if (fixedSelectionPanel != null) {
-				fixedSelectionPanel.setFilename(fileName);
+			if (schemaSelectionPanel != null) {
+				schemaSelectionPanel.setFilename(fileName);
 			}
 
 			try {
@@ -188,10 +195,11 @@ public class CsvTabPane implements FormatFileName {
 				&& Common.OPTIONS.csvSearchFixed.isSelected()
 				&& FileAnalyser.getTextPct(data, "") < 50
 				&& FileAnalyser.getTextPct(data, charSet) < 50) {
-					tab.setSelectedIndex(FIXED_FILE);
+					tab.setSelectedIndex(SCHEMA);
 				}
 				break;
-			case FIXED_FILE:
+			case FIXED_WIDTH:
+			case SCHEMA:
 				if (FileAnalyser.getTextPct(data, "") >= 50
 				&& FileAnalyser.getTextPct(data, charSet) >= 50) {
 					int idx = UNICODE_CSV;
@@ -199,6 +207,9 @@ public class CsvTabPane implements FormatFileName {
 						idx = NORMAL_CSV;
 					}
 					tab.setSelectedIndex(idx);
+				} else if (tab.getSelectedIndex() == FIXED_WIDTH 
+					   && (! fixedWidthPanel.isMyLayout("", filename, data)) ) {
+					tab.setSelectedIndex(SCHEMA);
 				}
 			}
 		}
@@ -228,9 +239,10 @@ public class CsvTabPane implements FormatFileName {
 				}
 			}
 			break;
-		case FIXED_FILE:
+		case FIXED_WIDTH:
+		case SCHEMA:
 			//long time1 = System.nanoTime();
-			csvPanels[FIXED_FILE].setData(filename, data, false, layoutId);
+			csvPanels[tab.getSelectedIndex()].setData(filename, data, false, layoutId);
 			//System.out.println("Time Used: " + (System.nanoTime() - time1) +  " - " + time1);
 			break;
 		case XML_FILE:

@@ -141,11 +141,8 @@ public class ScriptMgr implements ValidExtensionCheck {
 
     		Writer w = eng.getContext().getWriter();
     		try {
-    			if (writer == null) {
-    				eng.eval(r);
-      			} else {
+    			if (writer != null) {
     				eng.getContext().setWriter(writer);
-    				eng.eval(r);
     			}
 	   			eng.eval(r);
    		   } finally {

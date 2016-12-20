@@ -78,7 +78,7 @@ public abstract class SaveAsPnlBase {
 	private final static int[] FMT_TO_NUMBER_OF_COLS = {1, 2, 3};
 
 
-	public final String extension;
+	private final String extension;
 	public final int panelFormat, extensionType;
 
 	protected final CommonSaveAsFields commonSaveAsFields;
@@ -130,6 +130,7 @@ public abstract class SaveAsPnlBase {
 		this.panelFormat = panelFormat;
 		this.extensionType = extensionType;
 		this.template = template;
+		this.delimiterCombo.setSelectedIndex(0);
 		file = commonSaveAsFields.getRecordFrame().getFileView();
 
         String f = file.getLayout().getFontName();
@@ -209,6 +210,14 @@ public abstract class SaveAsPnlBase {
 		
 		return charset;
 	}
+
+	/**
+	 * @return the extension
+	 */
+	public String getExtension() {
+		return extension;
+	}
+
 
 	/**
 	 * @return the fieldLengths

@@ -11,10 +11,37 @@
  * Version 0.61 (2007/03/29)
  *    - CSV Split for when there a blank columns in the CSV file
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Details;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.JRecord.Common.AbstractRecord;
 import net.sf.JRecord.Common.BasicTranslation;
@@ -32,6 +59,7 @@ import net.sf.JRecord.CsvParser.ParserManager;
 import net.sf.JRecord.Types.ISizeInformation;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
+import net.sf.JRecord.cgen.defc.ILayoutDetails4gen;
 
 
 
@@ -81,7 +109,7 @@ import net.sf.JRecord.Types.TypeManager;
  *
  */
 public class LayoutDetail
-extends BasicLayout<RecordDetail> {
+extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 
 	
 	private String layoutName;
@@ -94,6 +122,8 @@ extends BasicLayout<RecordDetail> {
 	private String eolString;
 	//private TypeManager typeManager;
 	private RecordDecider decider;
+
+	private HashSet<String> duplicateFieldNames = null;
 
 	private HashMap<String, IFieldDetail> fieldNameMap = null;
 	private String delimiter = "";
@@ -111,6 +141,8 @@ extends BasicLayout<RecordDetail> {
 	private boolean multiLineField = false;
 	private boolean multiByteCharset;
 	private final boolean isCsv;
+	
+	private final int defaultRecLength;
 
 
 	/**
@@ -138,7 +170,38 @@ extends BasicLayout<RecordDetail> {
 	        		   final RecordDecider pRecordDecider,
 	        		   final int pFileStructure)
 	{
-	    super();
+		this(	pLayoutName, pRecords, pDescription, pLayoutType, pRecordSep, 
+				pEolIndicator, pFontName, pRecordDecider, pFileStructure, -1);
+	}
+
+	/**
+	 * This class holds a one or more records
+	 *
+	 * @param pLayoutName Record Layout Name
+	 * @param pRecords All the sub records
+	 * @param pDescription Records Description
+	 * @param pLayoutType Record Type
+	 * @param pRecordSep Record Separator
+	 * @param pEolIndicator End of line indicator
+	 * @param pFontName Canonical Name
+	 * @param pRecordDecider used to decide which layout to use
+	 * @param pFileStructure file structure
+	 *
+	 * @throws RecordException multiple field delimiters used
+	 */
+	@SuppressWarnings("deprecation")
+	public LayoutDetail(final String pLayoutName,
+	        		   final RecordDetail[] pRecords,
+	        		   final String pDescription,
+	        		   final int pLayoutType,
+	        		   final byte[] pRecordSep,
+	        		   final String pEolIndicator,
+	        		   final String pFontName,
+	        		   final RecordDecider pRecordDecider,
+	        		   final int pFileStructure,
+	        		   final int recordLength)
+	{
+	    super(recordLength);
 
         int i, j;
         boolean first = true;
@@ -154,6 +217,7 @@ extends BasicLayout<RecordDetail> {
 		this.decider       = pRecordDecider;
 		this.fileStructure = pFileStructure;
 		this.recordCount   = pRecords.length;
+		this.defaultRecLength = recordLength;
 
 		if (fontName == null) {
 		    fontName = "";
@@ -189,9 +253,10 @@ extends BasicLayout<RecordDetail> {
 		switch (pLayoutType) {
 			case Constants.rtGroupOfBinaryRecords:
 			case Constants.rtFixedLengthRecords:
-			case Constants.rtBinaryRecord:
+//			case Constants.rtBinaryRecord:
 			    binary = true;
 			break;
+			case Constants.rtBinaryRecord:
             case Constants.rtGroupOfRecords:
 			case Constants.rtRecordLayout:
 			    if (recordCount >= 1) {
@@ -209,16 +274,7 @@ extends BasicLayout<RecordDetail> {
 		}
 		
 		
-        boolean namesFirstLine = false;
-
-        switch (fileStructure) {
-        case Constants.IO_BIN_NAME_1ST_LINE:
-        case Constants.IO_NAME_1ST_LINE:
-        case Constants.IO_UNICODE_NAME_1ST_LINE:
-        	namesFirstLine = true;
-        }
-
-        
+        boolean namesFirstLine = CommonBits.areFieldNamesOnTheFirstLine(fileStructure);       
         boolean tmpCsv = false;
 	    for (j = 0; j < recordCount; j++) {
 	    	recordDetail = pRecords[j];
@@ -515,7 +571,7 @@ extends BasicLayout<RecordDetail> {
         		        		   field.getDecimal(), field.getFontName(),
         		        		   field.getFormat(), field.getParamater());
 
-            fldDef.setRecord(field.getRecord());
+            updateRecordInfo(field, fldDef);
 
             fldDef.setPosLen(1, rec.length);
 
@@ -546,7 +602,7 @@ extends BasicLayout<RecordDetail> {
      * @throws RecordException any conversion error
      */
     public byte[] setField(byte[] record, IFieldDetail field, Object value)
-    throws RecordException {
+    {
         return setField(record, field.getType(), field, value);
     }
 
@@ -560,10 +616,9 @@ extends BasicLayout<RecordDetail> {
      *
      * @return byte[] updated record
      *
-     * @throws RecordException any conversion error
      */
     public byte[] setField(byte[] record, int type, IFieldDetail field, Object value)
-    throws RecordException {
+    {
         if (field.isFixedFormat()) {
         	if (value != null && value instanceof String) {
         		String v = value.toString();
@@ -591,8 +646,8 @@ extends BasicLayout<RecordDetail> {
             		= new FieldDetail(field.getName(), "", type,
             		        		   field.getDecimal(), field.getFontName(),
             		        		   field.getFormat(), field.getParamater());
-
-                fldDef.setRecord(field.getRecord());
+                
+                updateRecordInfo(field, fldDef);
 
                 fldDef.setPosLen(1, data.length);
 
@@ -616,6 +671,15 @@ extends BasicLayout<RecordDetail> {
         //System.out.println(" ---> setField ~ Done");
         return record;
     }
+
+	/**
+	 * @param field
+	 * @param fldDef
+	 */
+	public void updateRecordInfo(IFieldDetail field, FieldDetail fldDef) {
+		
+		fldDef.setRecord(field.getRecord());
+	}
     
     /**
      * Get the number of fields in a Csv line
@@ -668,11 +732,17 @@ extends BasicLayout<RecordDetail> {
 
     	return ret;
     }
+    
+    public Set<String> getDuplicateFieldNames() {
+    	buildFieldNameMap();
+    	return duplicateFieldNames;
+    }
 
     private void buildFieldNameMap() {
-    	IFieldDetail fld;
+
     	if (fieldNameMap == null) {
     		int i, j, k, size;
+    		IFieldDetail fld;
 			String name, nameTmp;
 
     		size = 0;
@@ -682,6 +752,7 @@ extends BasicLayout<RecordDetail> {
     		size = (size * 5) / 4 + 4;
 
     		fieldNameMap = new HashMap<String, IFieldDetail>(size);
+    		duplicateFieldNames = new HashSet<String>(10);
 
     		for (i = 0; i < recordCount; i++) {
     			//FieldDetail[] flds = records[i].getFields();
@@ -694,6 +765,9 @@ extends BasicLayout<RecordDetail> {
     			    while (fieldNameMap.containsKey(name.toUpperCase())) {
     			    	name = nameTmp + k++;
     			    }
+    			    if (k == 2) {
+    			    	duplicateFieldNames.add(fld.getName().toUpperCase());
+    			    }
     			    fld.setLookupName(name);
 					fieldNameMap.put(name.toUpperCase(), fld);
     			}
@@ -701,6 +775,7 @@ extends BasicLayout<RecordDetail> {
     		}
      	} else if (this.isBuildLayout()) {
      		int j;
+     		IFieldDetail fld;
 
        		for (int i = 0; i < recordCount; i++) {
        			if (records[i].getNumberOfFieldsAdded() > 0) {
@@ -857,6 +932,12 @@ extends BasicLayout<RecordDetail> {
 	}
 
 
+	@Override
+	public final boolean isCsvLayout() {
+		return isCsv;
+	}
+
+
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#isAllowChildren()
 	 */
@@ -883,7 +964,7 @@ extends BasicLayout<RecordDetail> {
 		recs = recordList.toArray(recs);
 		return new LayoutDetail(getLayoutName(), recs, getDescription(),
 				getLayoutType(), getRecordSep(), getEolString(),
-				getFontName(), getDecider(), getFileStructure());
+				getFontName(), getDecider(), getFileStructure(), defaultRecLength);
 	}
 
 //	@Override
@@ -1003,7 +1084,7 @@ extends BasicLayout<RecordDetail> {
 								||	 fileStructure == Constants.IO_VB
 								||	 fileStructure == Constants.IO_VB_DUMP
 								||	 fileStructure == Constants.IO_VB_FUJITSU
-								||	 fileStructure == Constants.IO_VB_OPEN_COBOL
+								||	 fileStructure == Constants.IO_VB_GNU_COBOL
 								);
 		case Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES2:
 			return Options.getValue( fileStructure == Constants.IO_BIN_TEXT
@@ -1030,7 +1111,7 @@ extends BasicLayout<RecordDetail> {
 				case Constants.IO_VB:
 				case Constants.IO_VB_DUMP:
 				case Constants.IO_VB_FUJITSU:
-				case Constants.IO_VB_OPEN_COBOL:
+				case Constants.IO_VB_GNU_COBOL:
 				case Constants.IO_WIZARD:
 					return Options.YES;
 				}
@@ -1089,7 +1170,7 @@ extends BasicLayout<RecordDetail> {
 //			case Constants.IO_VB:
 //			case Constants.IO_VB_DUMP:
 //			case Constants.IO_VB_FUJITSU:
-//			case Constants.IO_VB_OPEN_COBOL:
+//			case Constants.IO_VB_GNU_COBOL:
 //			case Constants.IO_WIZARD:
 //				if (! isBinary()) {
 //					return Options.YES;

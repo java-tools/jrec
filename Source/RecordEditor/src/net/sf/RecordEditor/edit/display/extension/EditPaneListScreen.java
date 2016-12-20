@@ -33,6 +33,12 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
+
+/**
+ * This class is the PO and Tip line list screen 
+ * @author Bruce Martin
+ *
+ */
 public abstract class EditPaneListScreen extends BaseDisplay
 implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWithFieldHide, AbstractCreateChildScreen {
 
@@ -301,7 +307,7 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	    setKeylistner(tbl);
 
 	    if (tblScrollPane != null) {
-	       tblScrollPane.setupLineFields(fileView.getRowCount(), NUMBER_OF_CONTROL_COLUMNS, headerRender);
+	       tblScrollPane.setupLineFields(fileView.getRowCount(), NUMBER_OF_CONTROL_COLUMNS, headerRender, true);
 	       setKeylistner(tblScrollPane.getFixedTable());
 	    }
 

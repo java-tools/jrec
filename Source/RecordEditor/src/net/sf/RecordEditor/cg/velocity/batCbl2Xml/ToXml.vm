@@ -1,0 +1,11 @@
+rem * -------------------------------------------------------------------
+rem *
+rem *  Purpose:  Convert a cobol Data file using Cobol Copybook to Xml
+#set ( $type = "Xml")
+#incl("batCbl2Xml/XmlCommonBat.vm")
+
+rem java -jar ../lib/Cobol2Xml.jar  -cobol ${generateOptions.getSchemaDefinition().getSchemaName()}
+../lib/Cobol2Xml.bat   -cobol ${generateOptions.getSchemaDefinition().getSchemaName()} ^
+#setXmlAttrBat()
+                       -input  ${generateOptions.getDataFileName().getJavaFileName()}   ^
+                       -output ${generateOptions.getDataFileName().getJavaFileName()}.xml 

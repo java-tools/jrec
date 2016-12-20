@@ -22,7 +22,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 import net.sf.JRecord.External.CobolCopybookLoader;
-import net.sf.RecordEditor.layoutEd.load.CblLoadCopybook;
+import net.sf.RecordEditor.layoutEd.load.LoadCobolCopybook;
 import net.sf.RecordEditor.layoutEd.load.LoadCopyBook;
 import net.sf.RecordEditor.layoutEd.panels.RecordEdit1Record;
 import net.sf.RecordEditor.layoutWizard.Wizard;
@@ -59,7 +59,7 @@ public class Menu extends ReFrame
     private static final int MENU_WIDTH = SwingUtils.STANDARD_FONT_WIDTH * 50;
     private static final int HELP_GAP   = 15;
 
-	private JComboBox  dbCombo     = new JComboBox();
+	private JComboBox  dbCombo    = new JComboBox();
 
 	private JButton editRecLayout = new JButton("*");
 	private JButton createRecLayout = new JButton("*");
@@ -174,26 +174,27 @@ public class Menu extends ReFrame
 	public void actionPerformed(ActionEvent e) {
 
 		String lDBid = dbCombo.getSelectedItem().toString();
-		if (e.getSource() == editRecLayout) {
+		Object source = e.getSource();
+		if (source == editRecLayout) {
 			new RecordEdit(lDBid, dbCombo.getSelectedIndex());
-		} else if (e.getSource() == createRecLayout) {
+		} else if (source == createRecLayout) {
 			new RecordEdit1Record(lDBid,  dbCombo.getSelectedIndex(), null, null);
-		} else if (e.getSource() == createWizard) {
+		} else if (source == createWizard) {
             new Wizard(dbCombo.getSelectedIndex(), "", null);
-		} else if (e.getSource() == btnHelp) {
+		} else if (source == btnHelp) {
 		    pnl.showHelpRE();
-		} else if (e.getSource() == tables) {
+		} else if (source == tables) {
 			new TblEdit(lDBid, parent, dbCombo.getSelectedIndex());
-		} else if (e.getSource() == comboEdit) {
+		} else if (source == comboEdit) {
 			new ComboEdit(lDBid, dbCombo.getSelectedIndex());
-		} else if (e.getSource() == comboCreate) {
+		} else if (source == comboCreate) {
 			new ComboCreate(lDBid, dbCombo.getSelectedIndex());
-		} else if (e.getSource() == copyLayouts) {
+		} else if (source == copyLayouts) {
 			new LayoutCopy();
-		} else if (e.getSource() == upgrade) {
+		} else if (source == upgrade) {
 		    new UpgradeDBs(lDBid, dbCombo.getSelectedIndex());
-		} else if (e.getSource() == cobolCopyBook) {
-			 new CblLoadCopybook(lDBid, dbCombo.getSelectedIndex(), null);
+		} else if (source == cobolCopyBook) {
+			new LoadCobolCopybook(lDBid, dbCombo.getSelectedIndex(), null);
 		} else {
 
 		        new LoadCopyBook(

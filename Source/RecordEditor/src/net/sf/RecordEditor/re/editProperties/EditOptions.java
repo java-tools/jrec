@@ -43,6 +43,7 @@ import net.sf.RecordEditor.utils.params.ProgramOptions;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.EnglishStrModel;
 
 /**
@@ -53,6 +54,14 @@ import net.sf.RecordEditor.utils.swing.ComboBoxs.EnglishStrModel;
  */
 
 public class EditOptions {
+	
+	public final static int SHOW_COBOL = 1;
+	public static void newEditProperties(int id) {
+		EditOptions p = new EditOptions(false, false, false, true);
+		switch (id) {
+		case SHOW_COBOL: p.mainTabbed.setSelectedComponent(p.cobolTabbed);		break;
+		}
+	}
 
     private static final int PROGRAM_DESCRIPTION_HEIGHT
             = Math.min(
@@ -65,7 +74,7 @@ public class EditOptions {
 
     private JTabbedPane mainTabbed = new JTabbedPane();
     private JTabbedPane propertiesTabbed = new JTabbedPane();
-    private JTabbedPane otherTabbed = new JTabbedPane();
+    private JTabbedPane cobolTabbed = new JTabbedPane();
     private JTabbedPane textTabbed  = new JTabbedPane();
     private JTabbedPane xmlTabbed   = new JTabbedPane();
     private JTabbedPane jdbcTabbed  = new JTabbedPane();
@@ -130,10 +139,17 @@ public class EditOptions {
         + "The properties on this panel are for the various directories "
         + "used by the <b>RecordEditor</b>");
 
+    private Object[] codeGenDirecory = {
+    		Parameters.CODEGEN_DIRECTORY,   "Java~JRecord code generation directory",
+    		Parameters.CODEGEN_DIRECTORY_DFLT, EditPropertiesPnl.FLD_DIR, null};
+    private Object[] defaultCobolDirectory = {
+    		Parameters.DEFAULT_COBOL_DIRECTORY, "The Directory where Cobol Copybooks are stored.",
+    		null, EditPropertiesPnl.FLD_DIR, null};
+
     private Object[][] directoryParams1 = {
             {"HelpDir",	"Directory holding the help files", null, EditPropertiesPnl.FLD_DIR, null},
             {"DefaultFileDirectory",	"Directory where the Editor Starts in (if no file specified)", null, EditPropertiesPnl.FLD_DIR, null},
-            {"DefaultCobolDirectory", "The Directory where Cobol Copybooks are stored.", null, EditPropertiesPnl.FLD_DIR, null},
+            defaultCobolDirectory,
             {Parameters.VELOCITY_TEMPLATE_DIRECTORY, "Velocity Template directory (Editor)", Parameters.DEFAULT_VELOCITY_TEMPLATE_DIRECTORY, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.VELOCITY_COPYBOOK_DIRECTORY, "Velocity Template directory (Copybooks)", Parameters.DEFAULT_VELOCITY_COPYBOOK_DIRECTORY, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.COPYBOOK_DIRECTORY, "Directory to read / write file copybooks to", null, EditPropertiesPnl.FLD_DIR, null},
@@ -151,6 +167,7 @@ public class EditOptions {
             {Parameters.RECORD_TREE_SAVE_DIRECTORY, "Record Tree Save Directory",  null, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.COPY_SAVE_DIRECTORY,      "Copy Save Directory",        Parameters.COPY_SAVE_DIRECTORY_DFLT, EditPropertiesPnl.FLD_DIR, null},
             {Parameters.LAYOUT_EXPORT_DIRECTORY,  "Layout Velocity Export Directory", Parameters.LAYOUT_EXPORT_DIRECTORY_DFLT, EditPropertiesPnl.FLD_DIR, null},
+            codeGenDirecory,
     };
 
     private String testDescription
@@ -279,8 +296,28 @@ public class EditOptions {
             {Parameters.PROPERTY_BIG_FILE_LARGE_VB, "Use Large VB Model (Default Yes)", null, EditPropertiesPnl.FLD_LIST, "Use Large VB Model", YNT_OPTION}, // Checked
             {Parameters.PROPERTY_LOAD_FILE_BACKGROUND, "Load File in Background thread", null, EditPropertiesPnl.FLD_BOOLEAN, "Load In background"}, // Checked
     };
+    
+    private String cobolOptDescription
+    = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_BigFiles",
 
-   private EditPropertiesPnl directoryPnl1
+      "<h2>Cobol / JRecord Option</h2>"
+    + "This panel holds Cobol options + Java~JRecord Code Generation options"
+    + "<p>In the package id you can use ${schema} and ${template}.");
+
+    private final String[][] TEMPLATE_OPTIONS = {{"standard", "standard",}, {"lineWrapper", "lineWrapper"}, {"stdPojo", "stdPojo"}, {"basic", "basic"}};
+//TODO
+//TODO
+    private Object[][] cobolOptions = {
+    		{Parameters.DEFAULT_COBOL_DIALECT, "Default Cobol Dialect", null, EditPropertiesPnl.FLD_LIST, "Cobol Dialect", toList( cobolDialectOptMdl), 
+    				Parameters.DEFAULT_COBOL_DIALECT_NAME},
+    		defaultCobolDirectory,
+    		{"", "", null, EditPropertiesPnl.FLD_EMPTY, null},
+            {Parameters.CODEGEN_TEMPLATE, "The Default Code Gen ", null, EditPropertiesPnl.FLD_LIST, "JRecord CodeGen Template", TEMPLATE_OPTIONS},
+    		codeGenDirecory,
+    		{Parameters.TEMPLATE_DIRECTORY,   "User CodeGen Template directory", null, EditPropertiesPnl.FLD_DIR, null},
+            {Parameters.CODEGEN_PACKAGEID, "Default CodeGen package-id (when nothing is entered. You can use ${schema} and ${template}", null, EditPropertiesPnl.FLD_TEXT, "Default CodeGen package-id"},
+    };
+    private EditPropertiesPnl directoryPnl1
         = new EditPropertiesPnl(params, directoryDescription, directoryParams1);
     private EditPropertiesPnl directoryPnl2
         = new EditPropertiesPnl(params, directoryDescription, directoryParams2);
@@ -294,9 +331,11 @@ public class EditOptions {
         = new EditPropertiesPnl(params, layoutWizardParamsDescription, layoutWizardParams);
     private EditPropertiesPnl bigModelPnl
         = new EditPropertiesPnl(params, bigModelDescription, bigModelParams);
+    private EditPropertiesPnl cobolOptPnl
+    	= new EditPropertiesPnl(params, cobolOptDescription, cobolOptions);
     
     private String specialCharsetDescription
-    = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_BigFiles",
+    	= LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_BigFiles",
 
 		      "<h2>Special Character Sets</h2>"
 		    + "There are several character sets that the <b>RecordEditor</b> needs to know:<ul>"
@@ -519,8 +558,8 @@ public class EditOptions {
             {Parameters.DEFAULT_COPYBOOK_WRITER,	"The default copybook writer"},
             {Parameters.DEFAULT_DATABASE,			"The default Database to use"},
             {Parameters.DEFAULT_IO,					"The default IO Routine to use"},
-            {Parameters.DEFAULT_BINARY,				"The default Binary Encoding"},
-   };
+            {Parameters.DEFAULT_COBOL_DIALECT_NAME,	"The default Cobol Dialect",    Parameters.DEFAULT_COBOL_DIALECT},
+    };
 
     private String screenLocationDescription
         = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_ScreenLocation",
@@ -570,42 +609,48 @@ public class EditOptions {
     private EditPropertiesPnl screenPosPnl
     = new EditPropertiesPnl(params, screenLocationDescription, screenLocationParams);
 
-
-    private static  EnglishStrModel[] defaultModels = new EnglishStrModel[5];
-    static {
-//        CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
-//        DefaultComboBoxModel mdl = new DefaultComboBoxModel();
-//        int i;
-//        for (i = 0; i < loaders.getNumberOfEntries(); i++) {
-//            mdl.addElement(loaders.getName(i));
-//        }
-
-        defaultModels[0] =  DefaultOptModel.newModel(CopybookLoaderFactoryDB.getInstance());;
-
-//        CopybookWriterManager manager = CopybookWriterManager.getInstance();
-//        String s;
-//        mdl = new DefaultComboBoxModel();
-//        for (i = 0; i < manager.getNumberOfEntries(); i++) {
-//            s = manager.getName(i);
-//            if (s != null && ! "".equals(s)) {
-//                mdl.addElement(s);
-//            }
-//        }
-        defaultModels[1] = DefaultOptModel.newModel(CopybookWriterManager.getInstance());
-
-//        String[] ids = Common.getSourceId();
-//        mdl = new DefaultComboBoxModel();
+    private final static EnglishStrModel cobolDialectOptMdl = DefaultOptModel.newModel(ConversionManager.getInstance());
+    private static  EnglishStrModel[] defaultModels = {// new EnglishStrModel[5];
+         DefaultOptModel.newModel(CopybookLoaderFactoryDB.getInstance()),
+         DefaultOptModel.newModel(CopybookWriterManager.getInstance()),
+         DefaultOptModel.newModel( Common.getSourceId()),
+         DefaultOptModel.newModel(LineIOProvider.getInstance()),
+         cobolDialectOptMdl
+    };
+//    static {
+////        CopybookLoaderFactory loaders = CopybookLoaderFactoryDB.getInstance();
+////        DefaultComboBoxModel mdl = new DefaultComboBoxModel();
+////        int i;
+////        for (i = 0; i < loaders.getNumberOfEntries(); i++) {
+////            mdl.addElement(loaders.getName(i));
+////        }
 //
-//        for (i = 0; i < ids.length; i++) {
-//            if (ids[i] != null && ! "".equals(ids[i])) {
-//                mdl.addElement(ids[i]);
-//            }
-//        }
-        defaultModels[2] = DefaultOptModel.newModel( Common.getSourceId());
-
-        defaultModels[3] = DefaultOptModel.newModel(LineIOProvider.getInstance());
-        defaultModels[4] = DefaultOptModel.newModel(ConversionManager.getInstance());
-    }
+//        defaultModels[0] =  DefaultOptModel.newModel(CopybookLoaderFactoryDB.getInstance());
+//
+////        CopybookWriterManager manager = CopybookWriterManager.getInstance();
+////        String s;
+////        mdl = new DefaultComboBoxModel();
+////        for (i = 0; i < manager.getNumberOfEntries(); i++) {
+////            s = manager.getName(i);
+////            if (s != null && ! "".equals(s)) {
+////                mdl.addElement(s);
+////            }
+////        }
+//        defaultModels[1] = DefaultOptModel.newModel(CopybookWriterManager.getInstance());
+//
+////        String[] ids = Common.getSourceId();
+////        mdl = new DefaultComboBoxModel();
+////
+////        for (i = 0; i < ids.length; i++) {
+////            if (ids[i] != null && ! "".equals(ids[i])) {
+////                mdl.addElement(ids[i]);
+////            }
+////        }
+//        defaultModels[2] = DefaultOptModel.newModel( Common.getSourceId());
+//
+//        defaultModels[3] = DefaultOptModel.newModel(LineIOProvider.getInstance());
+//        defaultModels[4] = DefaultOptModel.newModel(ConversionManager.getInstance());
+//    }
 
 
 //    private static ComboBoxModel getManagerModel(AbstractManager manager) {
@@ -711,6 +756,9 @@ public class EditOptions {
         	   save();
                params.writeProperties();
                params.writeJarFiles();
+           	   for (EditPropertiesPnl p : propertiesPnl) {
+            	   p.clear();  
+               }
            }
        });
     }
@@ -731,6 +779,7 @@ public class EditOptions {
         }
 
         toolBar.add(saveBtn);
+        
 
         SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Directories", directoryPnl1);
         SwingUtils.addTab(propertiesTabbed, "EditOpts_Properties","Save Directories", directoryPnl2);
@@ -752,10 +801,12 @@ public class EditOptions {
         if (Conversion.DEFAULT_CHARSET_DETAILS.isMultiByte) {
         	scParams = specialCharsetParams;
         }
-        SwingUtils.addTab(otherTabbed, "Special_Chars", "Special Fonts", new EditPropertiesPnl(params, specialCharsetDescription, scParams));
+        //TODO
+        SwingUtils.addTab(cobolTabbed, "Cobol_Opts", "Cobol/JRecord", cobolOptPnl);
         
         SwingUtils.addTab(textTabbed, "EditOpts_EditColors", "Field Colors", EditColors.getFieldColorEditor(frame, params));
         SwingUtils.addTab(textTabbed, "EditOpts_EditColors", "Special Colors", EditColors.getSpecialColorEditor(frame, params));
+        SwingUtils.addTab(textTabbed, "Special_Chars", "Special Fonts", new EditPropertiesPnl(params, specialCharsetDescription, scParams));
       
         SwingUtils.addTab(xmlTabbed, "EditOpts_Xml","Xslt Options", xsltPnl);
         SwingUtils.addTab(xmlTabbed, "EditOpts_Xml","Xslt Jars", xsltJarsPnl);
@@ -787,7 +838,7 @@ public class EditOptions {
             addMainTab("Special Formats", poPnl);
         }
 //poPnl
-        addMainTab("Other", otherTabbed);
+        addMainTab("Cobol/JRecord", cobolTabbed);
         addMainTab("Text", textTabbed);
         
         addMainTab("Xml", xmlTabbed);
@@ -840,9 +891,9 @@ public class EditOptions {
 //    }
 
     private void save() {
-    	for (EditPropertiesPnl p : propertiesPnl) {
-    		p.save();
-    	}
+//    	for (EditPropertiesPnl p : propertiesPnl) {
+//    		p.save();
+//    	}
     }
 
     public EditParams getParams() {
@@ -897,6 +948,17 @@ public class EditOptions {
         }
 
         return ret;
+    }
+    
+    private static String[][] toList(EnglishStrModel cobolDialectOptMdl) {
+    	String[][] r = new String[cobolDialectOptMdl.getSize()][]; 
+    	for (int i=0; i < r.length; i++) {
+    		ComboStrOption e = (ComboStrOption) cobolDialectOptMdl.getElementAt(i); 
+    		r[i] = new String[2];
+    		r[i][0] = e.key;
+    		r[i][1] = e.toString();
+    	}
+    	return r;
     }
 
 //    /**

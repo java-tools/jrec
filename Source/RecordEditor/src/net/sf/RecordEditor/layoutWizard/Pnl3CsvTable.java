@@ -51,7 +51,7 @@ public class Pnl3CsvTable extends WizardPanel {
             colDtls.start = i + 1;
             colDtls.length = 0;
             colDtls.decimal = 0;
-            colDtls.include = Boolean.TRUE;
+            colDtls.include = true;
             colDtls.name = pnl.getColumnName(i);
             wizardDetail.standardRecord.columnDtls.add(i, colDtls);
 	    }
@@ -64,7 +64,7 @@ public class Pnl3CsvTable extends WizardPanel {
 		this.wizardDetail = detail;
 		//currentDetails = detail;
 		if (! "".equals(detail.fieldSeperator)) {
-			pnl.fieldSeparatorCombo.setSelectedItem(detail.fieldSeperator);
+			pnl.fieldSeparatorCombo.setDelimiter(detail.fieldSeperator);
 		}
 		if (! "".equals(detail.quote)) {
 			pnl.quoteCombo.setSelectedItem(detail.quote);

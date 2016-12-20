@@ -45,23 +45,24 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import net.sf.JRecord.Common.CommonBits;
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractChildDetails;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.BasicChildDefinition;
+import net.sf.JRecord.Details.IGetSchema;
 import net.sf.JRecord.Details.Options;
+import net.sf.JRecord.Types.Type;
 import net.sf.RecordEditor.diff.DoCompare;
 import net.sf.RecordEditor.diff.LineBufferedReader;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAs3;
 import net.sf.RecordEditor.edit.display.SaveAs.SaveAs4;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
 import net.sf.RecordEditor.edit.display.util.AddAttributes;
-import net.sf.RecordEditor.edit.display.util.GotoLine;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.edit.display.util.Search;
-import net.sf.RecordEditor.edit.display.util.SortFrame;
 import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
@@ -110,7 +111,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public abstract class BaseDisplay
-implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
+implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema { 
 
 //	private static ArrayList<Class> classList = new ArrayList<Class>();
 //	private static ArrayList<TableCellRenderer> renderList = new ArrayList<TableCellRenderer>();
@@ -191,6 +192,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 	private KeyAdapter listner = new KeyAdapter() {
     	private long lastWhen = -121;
+    	private boolean toInit = true;
+    	private boolean canDoRepeat = false;
         /**
          * @see java.awt.event.KeyAdapter#keyReleased
          */
@@ -200,25 +203,32 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
         			+ " modifiers " + event.getModifiers() + " " + event.getModifiersEx()
         			+ " when " + event.getWhen() + " " + lastWhen);*/
         	//Common.logMsg("Key Released ", null);
+        	if (toInit) {
+        		canDoRepeat = isActionAvailable(ReActionHandler.REPEAT_RECORD_POPUP);
+        		toInit = false;
+        	}
+        	
         	if (lastWhen == event.getWhen()) {
         		// Do nothing
         	} else if (event.getModifiers() == KeyEvent.CTRL_MASK) {
                 /*if (event.getKeyCode() == KeyEvent.VK_F) {
                     searchScreen.startSearch(fileView);
-                } else*/ if (event.getKeyCode() == KeyEvent.VK_A && allowPaste) {
+                } else*/
+        		if (event.getKeyCode() == KeyEvent.VK_A && allowPaste) {
                 	tblDetails.selectAll();
-//                } else if (event.getKeyCode() == KeyEvent.VK_S) {
-//                    saveFile();
                 } else if (event.getKeyCode() == KeyEvent.VK_INSERT) {
                 	insertLine(0);
-//                } else if (event.getKeyCode() == KeyEvent.VK_C) {
-//                    copyRecords();
-//                } else if (event.getKeyCode() == KeyEvent.VK_V && allowPaste) {
-//                    fileView.pasteLines(getInsertAfterPosition());
+
                 } else if (event.getKeyCode() == KeyEvent.VK_L) {
-                	new GotoLine(BaseDisplay.this, fileView);;
+                	new net.sf.RecordEditor.edit.display.util.GotoLine(BaseDisplay.this, fileView);;
+              }  else if (event.getModifiers() == KeyEvent.ALT_MASK) {
+            	    if (event.getKeyCode() == KeyEvent.VK_I) {
+            	    	insertLine(0, false, false);
+            	    } else if (canDoRepeat && event.getKeyCode() == KeyEvent.VK_R) {
+            	    	executeAction(ReActionHandler.REPEAT_RECORD_POPUP);
+            	    }
               }
-               lastWhen = event.getWhen();
+              lastWhen = event.getWhen();
                 //System.out.print("   !!!");
 //            }  else if (event.getModifiers() == KeyEvent.ALT_MASK) {
 //            	if (event.getKeyCode() == KeyEvent.VK_C) {
@@ -559,7 +569,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 			case ReActionHandler.INSERT_RECORD_PRIOR_POPUP:
 			case ReActionHandler.INSERT_RECORD_PRIOR:	insertLine(-1);									break;
 			case ReActionHandler.CLOSE:					closeWindow();									break;
-			case ReActionHandler.SORT:			    	new SortFrame(this, fileView);					break;
+			case ReActionHandler.SORT:			    	
+				new net.sf.RecordEditor.edit.display.util.SortFrame(this, fileView);					
+				break;
 			case ReActionHandler.HELP:		    		actualPnl.showHelpRE();									break;
 			case ReActionHandler.ADD_ATTRIBUTES:	new AddAttributes(fileView, layoutCombo.getLayoutIndex());  break;
 			case ReActionHandler.PRINT:
@@ -640,19 +652,19 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 
 	@Override
 	public void insertLine(int adj) {
-		insertLine(adj, false);
+		insertLine(adj, false, true);
 	}
 
 
-	public void insertLine(int adj, boolean popup) {
+	public void insertLine(int adj, boolean popup, boolean showNewLine) {
 		if (fileMaster.getTreeTableNotify() == null) {
-			insertLine_100_FlatFile(adj, popup);
+			insertLine_100_FlatFile(adj, popup, showNewLine);
 		} else {
-			insertLine_200_TreeFile(adj);
+			insertLine_200_TreeFile(adj, showNewLine);
 		}
 	}
 
-	private void insertLine_100_FlatFile(int adj, boolean popup) {
+	private void insertLine_100_FlatFile(int adj, boolean popup, boolean showNewLine) {
 
 		if (layout.getOption(Options.OPT_SINGLE_RECORD_FILE) == Options.YES
 		&&	fileView.getBaseFile().getRowCount() > 0) {
@@ -663,7 +675,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		int pos = insertLine_101_FlatFile(adj, popup);
 
 		checkLayout();
-		newLineFrame(fileView, pos);
+		if (showNewLine) {
+			newLineFrame(fileView, pos);
+		}
 	}
 
 	protected int insertLine_101_FlatFile(int adj, boolean popup) {
@@ -690,7 +704,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 	}
 
 
-	private void insertLine_200_TreeFile(int adj) {
+	private void insertLine_200_TreeFile(int adj, boolean showNewLine) {
 		LinePosition lp = getInsertAfterLine(adj < 0);
 		AbstractLine l = lp.line;
 		AbstractLine newLine = null;
@@ -773,7 +787,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 					}
 				}
 			}
-			if (newLine != null && fileView != null) {
+			if (showNewLine && newLine != null && fileView != null) {
 				//DisplayBuilder.newLineFrameTree(parentFrame, fileView, newLine);
 				//System.out.println( "===> " + (DisplayBldr == null) + " " + (fileView == null));
 				DisplayBldr.newDisplay(
@@ -1773,6 +1787,24 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		return layoutCombo;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.IGetSchema#getSchema()
+	 */
+	@Override
+	public AbstractLayoutDetails getSchema() {
+		return this.fileMaster.getLayout();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.IGetSchema#schemaAvailable4checking()
+	 */
+	@Override
+	public boolean schemaAvailable4checking() {
+		return true;
+	}
+
+
 	/**
 	 * Get the number of fields for each record
 	 * @return field counts for for each record
@@ -2215,6 +2247,16 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler {
 		return fileView.getTempLine(row).getPreferredLayoutIdxAlt();
 	}
 
+	protected static boolean showHexOptions(AbstractLayoutDetails schema, FileView fv) {
+		return  schema != null 
+			&& (    schema.isBinary()
+			   ||   schema.getFileStructure() == Constants.IO_UNKOWN_FORMAT
+			   ||   fv.getInitialFileStructure() == Constants.IO_UNKOWN_FORMAT
+			   || ( schema.getRecordCount() == 1
+			     && schema.getRecord(0).getFieldCount() == 1
+			     && schema.getField(0, 0).getType() == Type.ftCharRestOfRecord));
+	}
+	
 	/**
     *
     * @author Bruce Martin

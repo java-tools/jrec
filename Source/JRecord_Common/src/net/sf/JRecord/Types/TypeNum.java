@@ -19,6 +19,31 @@
  *   - Added new getFieldType method (for Sroting / Jasper interface).
  *
  */
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: JRecord Common
+ *    
+ *    Sub-Project purpose: Common Low-Level Code shared between 
+ *                        the JRecord and Record Projects
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: LGPL 2.1 or latter
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Types;
 
 import java.math.BigDecimal;
@@ -48,6 +73,7 @@ public class TypeNum extends TypeChar {
 //	private static final int BASE_10 = 10;
 	private final boolean couldBeHexZero;
     private final boolean adjustTheDecimal;
+    protected final boolean couldBeEmpty;
     private boolean couldBeLong = true;
     private final boolean positive;
     private boolean usePositiveSign = false;
@@ -131,6 +157,7 @@ public class TypeNum extends TypeChar {
             padChar = "0";
         }
         adjustTheDecimal = adjDecimal;
+        couldBeEmpty = false;
 
         couldBeLong = typeId != Type.ftNumLeftJustified;
     }
@@ -160,12 +187,14 @@ public class TypeNum extends TypeChar {
             		  final boolean couldBeALong,
             		  final boolean isPositive,
             		  final boolean binary,
-            		  final boolean couldBeHexHero) {
+            		  final boolean couldBeHexHero,
+            		  final boolean numCouldBeEmpty) {
         super(leftJustified, binary, true);
         adjustTheDecimal = adjustDecimal;
         couldBeLong = couldBeALong;
         positive = isPositive;
         this.couldBeHexZero = couldBeHexHero;
+        this.couldBeEmpty = numCouldBeEmpty;
         this.decimalPoint = '.';
     }
 
@@ -399,24 +428,29 @@ public class TypeNum extends TypeChar {
 				throws RecordException {
 
 
+		if (couldBeEmpty && (val == null || val.trim().length() == 0)) {
+			return "";
+		}
 		if (val == null || val == CommonBits.NULL_VALUE) {
 			val = "0";
 		}
 	    int decimal = field.getDecimal();
 	    
-		if (decimal == 0 && couldBeLong) {
+	   
+		if (decimal == 0 && couldBeLong && (val.indexOf('e') < 0 && val.indexOf('E') < 0 )) {
 	        try {
 	            val = val.trim();
 	            if (val.startsWith("+")) {
 	                val = val.substring(1);
 	            }
 	            if (val.lastIndexOf('.') >= 0) {
-	            	val = new BigDecimal(val).toString();
+	            	//val = new BigDecimal(val).toString();
 	            	
 	            	val = val.substring(0, val.lastIndexOf('.'));
 	            }
 	            new BigInteger(val);
 	        } catch (final Exception ex) {
+	        	ex.printStackTrace();
 	            throw new RecordException(field.getName() + " Invalid Integer :" + val + ": ~ " + ex);
 	        }
 	    } else {

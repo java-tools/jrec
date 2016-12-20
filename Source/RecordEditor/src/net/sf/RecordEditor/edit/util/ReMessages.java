@@ -21,6 +21,9 @@ public class ReMessages {
 	public static final ReMsg EMPTY_VIEW   = new ReMsg(LangConversion.ST_ACTION, "Empty View can not add Child Record");
 
 	public static final ReMsg TO_MANY_ROWS   = new ReMsg(LangConversion.ST_ACTION, "To Many Rows Selected ({0} > {1}) for ColumnDisplay");
+	
+//	public static final ReMsg CAN_NOT_RETRIEVE_SCHEMA_MSG = new ReMsg("Can not retrieve schema:  nothing generated");
+//	public static final ReMsg INVALID_FILE_TYPE_MSG = new ReMsg("Invalid file Type, this template is for {0} files");
 
 	public static final ReMsg SELECT_DIRECTORY_DIALOG   = new ReMsg("Select Directory Dialog");
 	public static final ReMsg SELECT_FILE_DIALOG  		= new ReMsg("Select File Dialog");

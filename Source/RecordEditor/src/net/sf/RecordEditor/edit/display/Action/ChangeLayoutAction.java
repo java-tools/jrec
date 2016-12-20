@@ -2,9 +2,9 @@ package net.sf.RecordEditor.edit.display.Action;
 
 import java.awt.event.ActionEvent;
 
-import net.sf.RecordEditor.edit.display.util.ChangeLayout;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelectCreator;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 
 @SuppressWarnings("serial")
@@ -34,7 +34,7 @@ public class ChangeLayoutAction extends ReSpecificScreenAction implements Abstra
 	public void actionPerformed(ActionEvent arg0) {
 		AbstractFileDisplay sourcePnl = getDisplay(AbstractFileDisplay.class);
 		if (sourcePnl != null) {
-			new ChangeLayout(creator.create(), sourcePnl.getFileView());
+			new net.sf.RecordEditor.edit.display.util.ChangeLayout(creator.create(), sourcePnl.getFileView());
 		}
 	}
 }

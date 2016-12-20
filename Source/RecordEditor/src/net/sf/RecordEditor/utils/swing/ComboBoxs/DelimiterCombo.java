@@ -1,52 +1,105 @@
 package net.sf.RecordEditor.utils.swing.ComboBoxs;
 
 
-import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.lang.LangConversion;
-import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption;
+import java.util.List;
 
+import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboGeneric;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItemStr;
+
+/**
+ * Let the user select a Combo
+ * @author Bruce Martin
+ *
+ */
 @SuppressWarnings("serial")
-public final class DelimiterCombo extends EnglishCombo<String> {
+public class DelimiterCombo extends TreeComboGeneric<String, TreeComboItemStr> {
 
-   	private final static String[] FIELD_SEPARATOR_LIST_VALUES;
-   	public final static String[] FIELD_SEPARATOR_FOREIGN = Common.FIELD_SEPARATOR_LIST.clone();
+//	public static final boolean NAME_COMPONENTS = "Y".equalsIgnoreCase(
+//			Parameters.getString(Parameters.NAME_FIELDS));
 
-    static {
-   		String[] l = Common.FIELD_SEPARATOR_LIST.clone();
-
-   		l[0] = ",";
-   		l[1] = "\t";
-   		l[2] = " ";
-   		FIELD_SEPARATOR_LIST_VALUES = l;
-   		FIELD_SEPARATOR_FOREIGN[0] = LangConversion.convertComboItms("CsvDelim_Default", FIELD_SEPARATOR_FOREIGN[0]);
-  		FIELD_SEPARATOR_FOREIGN[1] = LangConversion.convertComboItms("CsvDelim_Tab", FIELD_SEPARATOR_FOREIGN[1]);
-  		FIELD_SEPARATOR_FOREIGN[2] = LangConversion.convertComboItms("CsvDelim_Space", FIELD_SEPARATOR_FOREIGN[2]);
-  	}
-
-
-   	private DelimiterCombo(int start, int end) {
-   		super(new ComboStrOption("", "", ""));
-   		for (int i = start; i < end; i++) {
-   			super.addItem(
-   					new ComboStrOption(
-   							FIELD_SEPARATOR_LIST_VALUES[i],
-   							FIELD_SEPARATOR_FOREIGN[i],
-   							Common.FIELD_SEPARATOR_LIST[i]
-   					));
-   		}
-   	}
 
    	public static DelimiterCombo NewDelimComboWithDefault() {
-   		return new DelimiterCombo(0, Common.FIELD_SEPARATOR_LIST.length);
+   		return new DelimiterCombo(BldOptionList.getDelimiterComboItems(true, true));
    	}
 
 
    	public static DelimiterCombo NewDelimCombo() {
-   		return new DelimiterCombo(1, Common.FIELD_SEPARATOR_LIST.length);
+   		return new DelimiterCombo(BldOptionList.getDelimiterComboItems(false, true));
    	}
 
 
    	public static DelimiterCombo NewTextDelimCombo() {
-   		return new DelimiterCombo(1, Common.FIELD_SEPARATOR_LIST.length - 6);
+   		return new DelimiterCombo(BldOptionList.getDelimiterComboItems(false, false));
    	}
+
+
+	protected DelimiterCombo(List<TreeComboItemStr> itms) {
+		super("DelimiterCombo", TreeComboItemStr.BLANK_ITEM, false, itms);
+		super.setTextFieldWidth(12 * SwingUtils.CHAR_FIELD_WIDTH);
+	}
+	
+	public void setDelimiter(String value) {
+		if (value == null) { 
+			setSelectedItemSilently(TreeComboItemStr.BLANK_ITEM);
+			return;
+		};
+		for (TreeComboItemStr itm : items) {
+			if (value.equalsIgnoreCase(itm.getEnglish())) {
+				setSelectedItemSilently(itm);
+				return;
+			}
+		}
+		super.setTextSilently(value);
+	}
+	
+	public String getDelimiter() {
+		TreeComboItemStr selectedItem = getSelectedItem();
+		if (selectedItem != null && selectedItem != super.BLANK_ITEM) {
+			return selectedItem.getEnglish();
+		}
+		return super.getText();
+	}
+	
+	public final void ensureDelimitierExists(String englishText) {
+		if (englishText == null || englishText.length() == 0) { return; }
+		
+		for (int i = 0; i < items.size(); i++) {
+			if (englishText.equalsIgnoreCase(items.get(i).getKey())) {
+				setSelectedItemSilently(items.get(i));
+				return;
+			}
+		}
+		
+		TreeComboItemStr newEntry = new TreeComboItemStr(englishText, englishText, englishText);
+		items.add(newEntry);
+		setSelectedItemSilently(newEntry);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.common.ComboLikeObject#setTextSilently(java.lang.String)
+	 */
+	@Override
+	public void setTextSilently(String t) {
+		if (t == null) {
+			t = "";
+		}
+		for (int i = 0; i < items.size(); i++) {
+			if (t.equalsIgnoreCase(items.get(i).getKey())) {
+				super.setSelectedItemSilently(items.get(i));
+				return;
+			}
+		}
+		super.setTextSilently(t);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.treeCombo.TreeComboGeneric#updateKeyForMap(java.lang.Object)
+	 */
+	@Override
+	protected String updateKeyForMap(String k) {
+		return k.toLowerCase();
+	}
 }

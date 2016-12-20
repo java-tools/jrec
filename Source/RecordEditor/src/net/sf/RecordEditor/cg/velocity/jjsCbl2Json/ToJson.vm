@@ -1,0 +1,42 @@
+#!/usr/bin/jjs -J-Djava.class.path=../lib/cb2xml.jar:../lib/JRecord.jar:../lib/Cobol2Json.jar:../lib/Jackson.jar
+
+ /*
+  * -------------------------------------------------------------------
+  *
+  *  Purpose:  Convert a cobol Data file using Cobol Copybook to Json       
+#incl("jjsCbl2Xml/XmlCommonJjs.vm")
+
+#*  *##if (${generateOptions.schemaDefinition.getRecords().size()} > 1)
+#*      *##set ($const = ${generateOptions.getConstantValues()})
+#macro (genSelect $recSel $sp)
+//  ${recSel.getType()}
+#*  *##if (${recSel.getType()} == ${const.TYPE_ATOM})
+                            $sp Cobol2Xml.newFieldSelection("${recSel.field.cobolName}", "${recSel.getValue()}")
+#*  *##else
+	
+#*      *##if(${recSel.getBooleanOperator()} == "||") 	
+                            $sp Cobol2Xml.newOr(
+#*      *##else
+                            $sp Cobol2Xml.newAnd(
+#*      *##end
+#*      *##set($sep = "   ")
+#*      *##foreach ( $rs in  ${recSel.getItems()})
+#genSelect($rs, $sep)
+#*          *##set($sep = "  ,")
+#*      *##end
+                   )
+#*  *##end
+#end
+
+	                          // Tell JRecord how determine which record is which by Testing the Record-Type field      
+#*      *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()}) 
+#*          *##if (${r.getRecordSelection()})
+##                         .setRecordSelection("PO-Record",       Cobol2Xml.newFieldSelection("Record-Type","H1")
+                         .setRecordSelection("${r.getCobolName()}",
+#genSelect(${r.getRecordSelection()}, "")
+                         )  
+#*          *##end
+#*      *##end
+
+#*  *##end   
+              .cobol2json("${generateOptions.getDataFileName().getJavaFileName()}", "${generateOptions.getDataFileName().getJavaFileName()}.xml");

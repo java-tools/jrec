@@ -265,21 +265,6 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 //
 //	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getColumnCount()
-	 */
-	@Override
-	public int getColumnCount() {
-		return treeTable.getColumnCount() - 2;
-	}
-
-
-
-	@Override
-	public String getColumnName(int idx) {
-		return "";
-	}
-
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.FilePreview#getLayout(java.lang.String, byte[])

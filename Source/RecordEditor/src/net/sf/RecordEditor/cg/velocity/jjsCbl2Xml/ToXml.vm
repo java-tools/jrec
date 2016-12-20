@@ -1,0 +1,19 @@
+#incl("jjsCbl2Xml/XmlCommonJjs.vm")
+###!/usr/bin/jjs -J-Djava.class.path=../lib/cb2xml.jar:../lib/JRecord.jar:../lib/Cobol2Xml.jar
+
+ /*
+  * -------------------------------------------------------------------
+  *
+  *  Purpose:  Convert a cobol Data file using Cobol Copybook to ${type}       
+#codeStart()
+
+#fromCobolAttributes()
+  
+#if ($type == "Xml")
+              .cobol2xml("${generateOptions.getDataFileName().getJavaFileName()}", 
+                         "${generateOptions.getDataFileName().getJavaFileName()}.xml");
+#else
+              .cobol2json("${generateOptions.getDataFileName().getJavaFileName()}", 
+                          "${generateOptions.getDataFileName().getJavaFileName()}.json");
+#end
+

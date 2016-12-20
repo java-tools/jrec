@@ -1,3 +1,28 @@
+/*  -------------------------------------------------------------------------
+ *
+ *            Sub-Project: RecordEditor's version of JRecord 
+ *    
+ *    Sub-Project purpose: Low-level IO and record translation  
+ *                        code + Cobol Copybook Translation
+ *    
+ *                 Author: Bruce Martin
+ *    
+ *                License: GPL 2.1 or later
+ *                
+ *    Copyright (c) 2016, Bruce Martin, All Rights Reserved.
+ *   
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU General Public License
+ *    as published by the Free Software Foundation; either
+ *    version 2.1 of the License, or (at your option) any later version.
+ *   
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------ */
+      
 package net.sf.JRecord.Details;
 
 
@@ -11,6 +36,7 @@ import net.sf.JRecord.CsvParser.BinaryCsvParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.ICsvLineParser;
 import net.sf.JRecord.Types.Type;
+import net.sf.JRecord.detailsSelection.RecordSelection;
 
 /**
  * Parent class for lines built aroud an array of (bytes or characters).
@@ -303,7 +329,7 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine>, IColumnInse
 			for (int i = record.getFieldCount() + 1; i <= maxColCount; i++) {
 				RecordDetail.FieldDetails f = new RecordDetail.FieldDetails("Column_" + i, "", Type.ftChar, 0, layout.getFontName(), 0, "");
 				f.setPosOnly(i);
-				f.setRecord(record);
+				//f.setRecord(record, i);
 				record.addField(f);
 			}
 		}

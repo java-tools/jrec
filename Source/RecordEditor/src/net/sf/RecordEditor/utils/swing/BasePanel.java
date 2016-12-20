@@ -1163,8 +1163,14 @@ public class BasePanel extends JPanel {
 		}
 	}
 
-	public final void setFieldToActualSize() {
+	public final BasePanel setFieldsToActualSize() {
 		fieldLayout[FIELD][WIDTH_PREFERNCE_IDX] = LEFT;
+		return this;
+	}
+
+	public final BasePanel setFieldsToFullSize() {
+		fieldLayout[FIELD][WIDTH_PREFERNCE_IDX] = FULL;
+		return this;
 	}
 
 	public final void setFieldSize(int fieldId, int widthHeight, int newValue) {
@@ -1233,16 +1239,19 @@ public class BasePanel extends JPanel {
 	}
 	
 	public static void setToCommonWidth(int adj, int minWidth, JComponent... components) {
-		int size = 0;
+		int width = 0;
 		for (JComponent c : components) {
-			size = Math.max(size, c.getPreferredSize().width);
+			width = Math.max(width, c.getPreferredSize().width);
 		}
-		size = Math.max(size + SwingUtils.CHAR_FIELD_WIDTH * adj, SwingUtils.CHAR_FIELD_WIDTH * minWidth);
-		for (JComponent c : components) {
-			c.setPreferredSize(new Dimension(size, c.getPreferredSize().height));
+		
+		if (width > 0) {
+			width = Math.max(width + SwingUtils.CHAR_FIELD_WIDTH * adj, SwingUtils.CHAR_FIELD_WIDTH * minWidth);
+			for (JComponent c : components) {
+				c.setPreferredSize(new Dimension(width, c.getPreferredSize().height));
+			}
 		}
 	}
-	
+
 	private static class ComponentToAdd {
 		
 		final JComponent component;
@@ -1273,4 +1282,6 @@ public class BasePanel extends JPanel {
 	public void setAddFillToEnd(boolean addFillToEnd) {
 		this.addFillToEnd = addFillToEnd;
 	}
+	
+	
 }

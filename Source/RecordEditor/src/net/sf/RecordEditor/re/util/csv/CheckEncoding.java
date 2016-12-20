@@ -19,7 +19,8 @@ public class CheckEncoding {
 		String s = "";
 		nsDetector det = new nsDetector();
 		boolean possibleUtf16 = utf16Check(bytes);
-		boolean possibleEBCDIC = bytes != null && bytes.length > 50 && BasicCharsetChecker.getValidCharsRatio(Conversion.toString(bytes, "cp037")) > 0.80;
+		boolean possibleEBCDIC = bytes != null && bytes.length > 50 
+				&& BasicCharsetChecker.getValidCharsRatio(Conversion.toString(bytes, "cp037")) > 0.80;
 		String[] charSets = null;
 
 		if (returnLikelyCharsets || possibleUtf16 || possibleEBCDIC || utfCheck(bytes) || ! det.isAscii(bytes, bytes.length)) {

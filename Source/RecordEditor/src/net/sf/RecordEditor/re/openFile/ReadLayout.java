@@ -31,7 +31,8 @@ public class ReadLayout {
     	LayoutDetail ret = new LayoutDetail("", new RecordDetail[0], "",
     					layoutType,
     					null, "", fontname, null,
-    					fileStruc
+    					fileStruc,
+    					-1
                   );
    		if (isCSV) {
    			ret.setDelimiter(delimiter);

@@ -99,6 +99,7 @@ implements AbstractWizardPanel<Details> {
 //		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean skip() {
 
@@ -116,9 +117,10 @@ implements AbstractWizardPanel<Details> {
 			case Constants.IO_VB:
 			case Constants.IO_VB_DUMP:
 			case Constants.IO_VB_FUJITSU:
-			case Constants.IO_VB_OPEN_COBOL:
+			case Constants.IO_VB_GNU_COBOL:
 			case Constants.IO_MICROFOCUS:
 			case Constants.IO_FIXED_LENGTH:
+			case Constants.IO_VBS:
 				wizardDetails.fileStructure = fs;
 				ret = false;
 			}

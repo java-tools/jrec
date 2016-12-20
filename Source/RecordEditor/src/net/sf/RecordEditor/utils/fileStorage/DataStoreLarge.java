@@ -820,13 +820,64 @@ implements IDataStore<AbstractLine>, ITextInterface, IChunkLengthChangedListner 
 		//}
 	}
 
+	
+	public void sort(Comparator<? super AbstractLine> c) {
+		int[] order = sortMaster.sort(this, c);
+		int[] map = SortParent.getMapping(order);
+		DataStoreLarge<L, R> tmp 
+			= new DataStoreLarge<L, R>(fileDetails.getLayout(), fileDetails.type, fileDetails.recordLength);
+		TreeMap<Integer, L> mangagedLines = new TreeMap<Integer, L>();
+		List<L> chunkManagedLines;
 
-	public void sort(final Comparator<AbstractLine> compare) {
-		sortRE(compare);
+		
+		clearTempLines();
+
+		for (IFileChunk<L,R> f : chunks) {
+			if ((chunkManagedLines = f.getActiveLines()) != null) {
+				for (L lb : chunkManagedLines) {
+					mangagedLines.put(map[lb.getActualLine()], lb);
+				}
+			}
+		}
+		map = null;
+
+
+		for (int i = 0; i < chunks.size(); i++) {
+			tmp.chunks.add(chunks.get(i)); 
+		}
+		
+		synchronized (this) {
+			for (int i = chunks.size() - 1; i >= 0; i--) {
+				chunks.remove(i);
+			}
+			
+			chunks.add(newFileChunk(fileDetails, 0, 0));
+			
+			for (int i = 0; i < order.length; i++) {
+				this.add(tmp.get(order[i]));
+			}
+			
+			IFileChunk<L,R> fc;
+			Entry<Integer, L> item;
+			Iterator<Entry<Integer, L>> linesIterator = mangagedLines.entrySet().iterator();
+			int ci = 0;
+			
+			fc = chunks.get(0);
+			while (linesIterator.hasNext()) {
+				item = linesIterator.next();
+				while(fc.getFirstLine() + fc.getCount() <= item.getKey() && ci < chunks.size() - 1) {
+					fc = chunks.get(++ci);
+				}
+				
+				item.getValue().setChunk(fc);
+				item.getValue().setChunkLine(item.getKey() - fc.getFirstLine());
+				fc.addLineToManagedLines(item.getValue());
+			}
+		}
 	}
 
 	@Override
-	public void sortRE(final Comparator<AbstractLine> compare) {
+	public void sortRE(final Comparator<? super AbstractLine> compare) {
 		int[] order = sortMaster.sort(this, compare);
 		int[] map = SortParent.getMapping(order);
 		DataStoreLarge<L, R> tmp 
@@ -884,7 +935,7 @@ implements IDataStore<AbstractLine>, ITextInterface, IChunkLengthChangedListner 
 	
 
 	@Override
-	public void sortRE(int[] rows, Comparator<AbstractLine> compare) {
+	public void sortRE(int[] rows, Comparator<? super AbstractLine> compare) {
 		int[] order = sortMaster.sort(this, rows, compare);
 
 		ArrayList<AbstractLine> sortList = new ArrayList<AbstractLine>(order.length);

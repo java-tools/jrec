@@ -1,0 +1,31 @@
+
+If it is a Text File (no binary data) with \r\n line delimiters try:
+
+        ArrayList<AbstractLine> lines = new ArrayList<AbstractLine>();
+        InputStream copyStream;
+        InputStream fis;
+        try {
+            copyStream = new FileInputStream(new File(copybookfile));
+
+            AbstractLineReader reader = CobolIoProvider.getInstance() 
+            	.newIOBuilder(copyStream, "REQUEST", ICopybookDialects.FMT_MAINFRAME)
+            		.setFileOrganization(Constants.IO_STANDARD_TEXT_FILE)
+            	.newReader(fis);
+            AbstractLine line;
+            while ((line = reader.read()) != null) {
+                lines.add(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+**Note:** The **setFileOrganization** tells JRecord *what type of file it is*. So **.setFileOrganization(Constants.IO_STANDARD_TEXT_FILE)** tells JRecord it is a Text file with \n or \r\n end-of-line markers.
+
+If The file contains **Binary** data, you will need:
+
+* do a binary transfer (with RDW if it is a VB file) 
+* use the appropriate File-Organisation
+* Specify Ebcdic (**.setFont("cp037")** tells JRecord is US-Ebcdic)

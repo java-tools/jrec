@@ -165,7 +165,7 @@ public class UpgradeDBs extends ReFrame implements ActionListener {
 				LangConversion.convertId(
 						LangConversion.ST_FIELD, "",
 						UPGRADE_DB_MSG,
-						new Object[] {"0.94", "0.96h"}),
+						new Object[] {"0.94", "0.98"}),
 				upgrade95c);
 		pnl.setGapRE(BasePanel.GAP1);
 		pnl.addMenuItemRE("Delete example Layout's from the DB", deleteExamples);

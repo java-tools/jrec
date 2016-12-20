@@ -72,6 +72,16 @@ public class RecordDefinition {
 	public static String getStringKey(Object[] keys) {
 		return getStringKey(keys, "~");
 	}
+	
+	public int getMaxRecordLength() {
+		int rl = 0;
+		
+		for (int i = 0; i < numRecords; i++) {
+			rl = Math.max(rl, records[i].length);
+		}
+		
+		return rl;
+	}
 
 
 	public static String getStringKey(Object[] keys, String seperator) {

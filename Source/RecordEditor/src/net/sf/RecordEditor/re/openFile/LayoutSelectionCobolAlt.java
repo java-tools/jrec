@@ -42,7 +42,7 @@ import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItem;
 
 public class LayoutSelectionCobolAlt extends AbstractLayoutSelection  {
 
-	private static final int NUMBER_OF_COMBO_ENTRIES = 15;
+//	private static final int NUMBER_OF_COMBO_ENTRIES = 15;
 
 	private static final String SEPERATOR = "~";
 

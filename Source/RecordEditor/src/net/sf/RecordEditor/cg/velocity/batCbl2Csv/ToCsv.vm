@@ -1,0 +1,14 @@
+rem * -------------------------------------------------------------------
+rem *
+rem *  Purpose:  Convert a cobol Data file using Cobol Copybook to a Csv file
+#incl("batCbl2Csv/CsvCommonBat.vm")
+
+rem java -jar ../lib/Cobol2Csv.jar 
+../lib/Cobol2Csv.bat  -C ${generateOptions.getSchemaDefinition().getSchemaName()} ^
+#setCsvAttrBat()
+                      -IFS ${fstruc} ^
+#*  *##if (${generateOptions.font} != "")
+                      -IC ${generateOptions.font} ^
+#*  *##end
+                      -I ${generateOptions.getDataFileName().getJavaFileName()}   ^
+                      -O ${generateOptions.getDataFileName().getJavaFileName()}.csv 

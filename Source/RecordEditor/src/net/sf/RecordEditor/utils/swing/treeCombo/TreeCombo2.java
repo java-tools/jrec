@@ -232,7 +232,7 @@ public class TreeCombo2 extends ComboLikeObject {
 		super.hidePopup();
 		if (selectedItem != null) {
 			this.selectedItem = selectedItem;
-			super.setText(selectedItem.getEditString());
+			super.setTextInternal(selectedItem.getEditString());
 		}
 	}
 

@@ -16,6 +16,7 @@ package net.sf.RecordEditor.re.openFile;
 import javax.swing.JComboBox;
 
 import net.sf.JRecord.Numeric.ConversionManager;
+import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 
 /**
@@ -61,8 +62,11 @@ public class ComputerOptionCombo extends JComboBox {
     /**
      * Combobox to display machine format
      */
-    public ComputerOptionCombo() {
+    @SuppressWarnings("unchecked")
+	public ComputerOptionCombo() {
         super(COMPUTER_OPTIONS_FOREIGN);
+        
+        setSelectedValue(Common.OPTIONS.cobolDialect.get());
     }
 
 

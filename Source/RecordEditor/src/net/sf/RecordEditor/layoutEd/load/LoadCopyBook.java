@@ -437,20 +437,21 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
 		db.updateSystemCode(rec);
 
-        int fieldSeparatorIdx = fieldSeparator.getSelectedIndex();
+        //int fieldSeparatorIdx = fieldSeparator.getSelectedIndex();
+		String fieldSep = fieldSeparator.getDelimiter();
         int quoteIdx = quote.getSelectedIndex();
 
 		for (int i = 0; i < rec.getNumberOfRecords(); i++) {
-			ap110_UpdateDelimQuote( rec.getRecord(i), fieldSeparatorIdx, quoteIdx);
+			ap110_UpdateDelimQuote( rec.getRecord(i), fieldSep, quoteIdx);
 		}
 		
-		ap110_UpdateDelimQuote( rec, fieldSeparatorIdx, quoteIdx);
+		ap110_UpdateDelimQuote( rec, fieldSep, quoteIdx);
 	}
 	
-	private void ap110_UpdateDelimQuote(ExternalRecord rec, int fieldSeparatorIdx, int quoteIdx) {
+	private void ap110_UpdateDelimQuote(ExternalRecord rec, String fieldSep, int quoteIdx) {
 
-        if (fieldSeparatorIdx > 0) {
-        	rec.setDelimiter(fieldSeparator.getSelectedEnglish());
+        if (fieldSep != null && fieldSep.length() > 0) {
+        	rec.setDelimiter(fieldSep);
         }
 
         if (quoteIdx > 0) {

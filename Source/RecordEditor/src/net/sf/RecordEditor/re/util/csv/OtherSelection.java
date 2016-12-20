@@ -21,7 +21,6 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
-import net.sf.RecordEditor.layoutWizard.FileAnalyser;
 import net.sf.RecordEditor.po.def.PoField;
 import net.sf.RecordEditor.po.def.PoLayoutMgr;
 import net.sf.RecordEditor.re.file.FileView;
@@ -200,16 +199,16 @@ public class OtherSelection implements FilePreview {
 
 	}
 
-	@Override
-	public int getColumnCount() {
-		return fileTable.getColumnCount();
-	}
-
-	@Override
-	public String getColumnName(int idx) {
-		return null;
-	}
-
+//	@Override
+//	public int getColumnCount() {
+//		return fileTable.getColumnCount();
+//	}
+//
+//	@Override
+//	public String getColumnName(int idx) {
+//		return null;
+//	}
+//
 	@Override
 	public LayoutDetail getLayout(String font, byte[] recordSep) {
 		return getLocalLayout(font, lastData);

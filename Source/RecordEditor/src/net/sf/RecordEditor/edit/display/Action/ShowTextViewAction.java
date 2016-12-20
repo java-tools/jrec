@@ -3,10 +3,9 @@ package net.sf.RecordEditor.edit.display.Action;
 import java.awt.event.ActionEvent;
 
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
-import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
-import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.lang.ReSpecificScreenAction;
 import net.sf.RecordEditor.utils.screenManager.AbstractActiveScreenAction;
 
 
@@ -21,9 +20,9 @@ public class ShowTextViewAction extends ReSpecificScreenAction implements Abstra
 		if (selectedRecords) {
 			s = "Text View (Selected Records)";
 		}
-		int stype = IDisplayBuilder.ST_DOCUMENT;
+		int stype = net.sf.RecordEditor.re.display.IDisplayBuilder.ST_DOCUMENT;
 		if (coloredFields) {
-			stype = IDisplayBuilder.ST_COLORED_DOCUMENT;
+			stype = net.sf.RecordEditor.re.display.IDisplayBuilder.ST_COLORED_DOCUMENT;
 			s = "Text View (highlight fields)";
 			if (selectedRecords) {
 				s = "Text View (Selected Records / highlight fields)";
@@ -69,7 +68,8 @@ public class ShowTextViewAction extends ReSpecificScreenAction implements Abstra
 			}
 
 			if (f != null) {
-				DisplayBuilderFactory.getInstance().newDisplay(screenType, "", fileDisplay.getParentFrame(), f.getLayout(), f, 0);
+				net.sf.RecordEditor.re.display.DisplayBuilderFactory
+						.getInstance().newDisplay(screenType, "", fileDisplay.getParentFrame(), f.getLayout(), f, 0);
 			}
 		}
 	}

@@ -239,7 +239,8 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	    Common.calcColumnWidths(treeTable, 3);
 
 	    LayoutCombo combo = getLayoutCombo();
-	    if (layout.getRecordCount() > 1 && combo.getPreferedIndex() > 0 && Common.usePrefered()) {
+	    if (layout.getRecordCount() > 1 && Common.usePrefered()
+	    && combo.getPreferedIndex() > 0 && combo.getPreferedIndex() < combo.getItemCount()) {
         	combo.setSelectedIndex(combo.getPreferedIndex());
         	setTableFormatDetails(combo.getPreferedIndex());
         	fireLayoutIndexChanged();

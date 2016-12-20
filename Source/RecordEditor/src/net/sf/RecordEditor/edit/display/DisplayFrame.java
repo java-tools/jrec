@@ -16,7 +16,6 @@ import javax.swing.event.InternalFrameEvent;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.edit.display.common.ILayoutChanged;
-import net.sf.RecordEditor.edit.display.util.DockingPopupListner;
 import net.sf.RecordEditor.edit.util.ReMessages;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.DisplayDetails;
@@ -108,7 +107,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
     private void add(BaseDisplay d) {
 
     	if (d.getDockingPopup() == null) {
-    		d.setDockingPopup(new DockingPopupListner(d));
+    		d.setDockingPopup(new net.sf.RecordEditor.edit.display.util.DockingPopupListner(d));
     	}
         mainScreens.add(d);
         //childScreens.add(c);
@@ -516,7 +515,8 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
         return mainScreens.get(getActiveIdx());
     }
 
-    private int getActiveIdx() {
+
+	private int getActiveIdx() {
         if (pane == null) {
             return 0;
         }

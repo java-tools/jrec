@@ -33,6 +33,7 @@ import net.sf.cb2xml.sablecc.node.AFixedOccursFixedOrVariable;
 import net.sf.cb2xml.sablecc.node.AFunctionPointerUsagePhrase;
 import net.sf.cb2xml.sablecc.node.AIndexUsagePhrase;
 import net.sf.cb2xml.sablecc.node.AItem;
+import net.sf.cb2xml.sablecc.node.AJustifiedClause;
 import net.sf.cb2xml.sablecc.node.ALeadingLeadingOrTrailing;
 import net.sf.cb2xml.sablecc.node.ANationalUsagePhrase;
 import net.sf.cb2xml.sablecc.node.AObjectReferencePhrase;
@@ -561,6 +562,22 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 	public void inAFunctionPointerUsagePhrase(AFunctionPointerUsagePhrase node) {
 		curItem.element.setAttribute(Cb2xmlConstants.USAGE, "function-pointer");
 	}
+	
+	
+	/* (non-Javadoc)
+	 * @see net.sf.cb2xml.sablecc.analysis.DepthFirstAdapter#inAJustifiedClause(net.sf.cb2xml.sablecc.node.AJustifiedClause)
+	 */
+	public void inAJustifiedClause(AJustifiedClause node) {
+		String s = Cb2xmlConstants.RIGHT;
+		if (node.getRight() == null) {
+			s = Cb2xmlConstants.TRUE;
+		}
+		curItem.element.setAttribute(Cb2xmlConstants.JUSTIFIED, s);
+		
+//		super.inAJustifiedClause(node);
+	}
+
+
 
 	//	======================= 88 / VALUE CLAUSE ==========================
 
@@ -715,6 +732,9 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 
 	//===============================================================================
 
+
+	
+
 	private String removeChars(String s, String charToRemove) {
 		StringTokenizer st = new StringTokenizer(s, charToRemove, false);
 		StringBuffer b = new StringBuffer();
@@ -754,8 +774,13 @@ public class CopyBookAnalyzer extends DepthFirstAdapter {
 					break;
 				}
 			}
-			if (redefinedElement != null && redefinedElement.hasAttribute(Cb2xmlConstants.POSITION)) {
+			if (redefinedElement != null 
+			&& redefinedElement.hasAttribute(Cb2xmlConstants.POSITION)) {
 				startPos = Integer.parseInt(redefinedElement.getAttribute(Cb2xmlConstants.POSITION));
+				redefinedElement.setAttribute(Cb2xmlConstants.REDEFINED, Cb2xmlConstants.TRUE); 
+			} else if (redefinedElement.hasAttribute(Cb2xmlConstants.LEVEL) 
+					&& "01".equals(Cb2xmlConstants.LEVEL)) {
+				startPos = 0;
 				redefinedElement.setAttribute(Cb2xmlConstants.REDEFINED, Cb2xmlConstants.TRUE); 
 			} else {
 				System.out.println(">> position error " + element.getAttribute(Cb2xmlConstants.NAME) + " %% "+ redefinedName);

@@ -111,7 +111,7 @@ public class TstReplace1 extends TestCase {
 		String s, t;
 
 		FilePosition pos = new  FilePosition(0, 0, 0, fld, true, f.getRowCount());
-		f.replaceAll(from1, to1, pos, true, op);
+		f.replaceAllImplementation(from1, to1, pos, true, op);
 
 		assertEquals(id + "Check file line count", csvLines.length - 1, f.getRowCount());
 		for (int i = 1; i < csvLines.length; i++) {

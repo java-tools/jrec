@@ -23,7 +23,7 @@ public class TstLargeListVB61 extends TestCase {
 	
 	public void testVB3() throws Exception {
 		
-		tst(3, Constants.IO_VB_OPEN_COBOL, false);
+		tst(3, Constants.IO_VB_GNU_COBOL, false);
 	}
 	
 	public void testVB4() throws Exception {
@@ -45,7 +45,7 @@ public class TstLargeListVB61 extends TestCase {
 	
 	public void testVB23() throws Exception {
 		
-		tst(23, Constants.IO_VB_OPEN_COBOL, true);
+		tst(23, Constants.IO_VB_GNU_COBOL, true);
 	}
 	
 	

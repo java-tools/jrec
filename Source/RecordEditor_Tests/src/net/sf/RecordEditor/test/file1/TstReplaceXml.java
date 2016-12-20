@@ -113,7 +113,7 @@ public class TstReplaceXml extends TestCase {
 		chkRepl(id, from1, "=\"" + from1 + "\" ", "=\"-" + from1 + "\" ", to1, "=\"" + to1 + "\" ", "=\"-" + to1 + "\" ", Compare.OP_CONTAINS, fld);
 	}
 
-	@SuppressWarnings("rawtypes")
+
 	private void chkRepl(String id, String from1, String from2,  String from3,
 			String to1, String to2, String to3,
 			int op, int fld) throws Exception {
@@ -124,7 +124,7 @@ public class TstReplaceXml extends TestCase {
 		int idx, count;
 
 		FilePosition pos = new  FilePosition(0, 0, 0, fld, true, f.getRowCount());
-		f.replaceAll(from1, to1, pos, true, op);
+		f.replaceAllImplementation(from1, to1, pos, true, op);
 
 		s = Conversion.replace(new StringBuilder(csvLines), from2, to2).toString();
 		if (from3 != null) {

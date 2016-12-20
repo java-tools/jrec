@@ -155,6 +155,9 @@ public class TstReplace extends TestCase {
             s = new String(poFileRep.getLine(i).getData());
             if (! result1[i].equals(s)) {
                 System.out.println();
+                if (ok) {
+                	System.out.println("Find: " + find + " Replace: " + replace);
+            	}
                 System.out.println(i + " >>" + s + "<<");
                 System.out.println(i + " >>" + result1[i] + "<<");
                 ok = false;
@@ -204,7 +207,7 @@ public class TstReplace extends TestCase {
 
         FilePosition pos = new FilePosition(0, 0, recId, 2, true, poFileRep.getRowCount());
 
-        poFileRep.replaceAll(find, replace, pos, true, Compare.OP_CONTAINS);
+        poFileRep.replaceAllImplementation(find, replace, pos, true, Compare.OP_CONTAINS);
 
          for (int i = 0; i < result2.length; i++) {
             s = new String(poFileRep.getLine(i).getData());

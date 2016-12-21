@@ -41,12 +41,12 @@
 	<property name="izPack"                location="${work.dir}/RecordEditor/Instalation/hsqldb_izpack" />
 	<property name="inputLib.dir"          location="F:\Work\RecordEditor\lib" />
 
-	<target name="JRecord_097" description="compile JRecord code" >
-		<ant dir="../JRecord_097" antfile="build.xml" output="buildout.txt" inheritall="false" />
+	<target name="JRecord_RE" description="compile JRecord code" >
+		<ant dir="../JRecord_RE" antfile="build.xml" output="buildout.txt" inheritall="false" />
 	</target>
 
 
-	<target name="compile" description="compile code" depends="JRecord_097">
+	<target name="compile" description="compile code" depends="JRecord_RE">
 		<mkdir dir="${build.dir}" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" source="1.6" target="1.6" debug="true">
 			<!--javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" -->
@@ -76,9 +76,12 @@
 					<file name="rsyntaxtextarea.jar"/>
 					<file name="zip4j_1.3.2.jar"/>
 				</filelist>
-				<filelist dir="../JRecord_097/lib/">
+				<filelist dir="../JRecord_RE/lib/">
 					<file name="JRecord.jar"/>
 				</filelist>
+				<filelist dir="../../std_workspace/JRecord_CodeGen/lib/">
+						<file name="JRecordCodeGen.jar"/>
+					</filelist>
 				<filelist dir="../RecordEditor_ZCalendar/lib/">
 					<file name="ZCalendar.jar"/>
 				</filelist>
@@ -93,6 +96,14 @@
 				<include name="*.gif"/>
 				<include name="*.png"/>
 				<include name="*.html"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/net/sf/RecordEditor/cg/velocity/">
+			<fileset dir="${src.dir}/net/sf/RecordEditor/cg/velocity/">
+				<include name="**/*.properties"/>
+				<include name="**/*.vm"/>
+				<include name="**/*.pvm"/>
+				<include name="**/*.html"/>
 			</fileset>
 		</copy>
 		<copy todir="${build.dir}/net/sf/RecordEditor/utils/charsets/">
@@ -140,6 +151,7 @@
 		<jar basedir="${build.dir}" destfile="${LayoutEdit.jar}" filesonly="true">
 			<exclude name="net/sf/RecordEditor/Run*.*"/>
 			<exclude name="net/sf/RecordEditor/copy/**"/>
+			<exclude name="net/sf/RecordEditor/cg/**"/>
 			<exclude name="net/sf/RecordEditor/diff/**"/>
 			<exclude name="net/sf/RecordEditor/jibx/**"/>
 			<exclude name="net/sf/RecordEditor/edit/**"/>
@@ -176,7 +188,7 @@
 				<exclude  name="net/sf/RecordEditor/jibx/**"/>
 				<exclude name="diffXmlBindings.xml"/>
 			</fileset>
-			<fileset dir="../JRecord_097/build/"/>
+			<fileset dir="../JRecord_RE/build/"/>
 			<fileset dir="../JRecord_Common/build/"/>
 		</jar>
 
@@ -295,12 +307,12 @@
 		<javadoc destdir="${javadoc.dir}">
 			<packageset dir="${src.dir}" />
 			<packageset dir="../JRecord_Common/src/" />
-			<packageset dir="../JRecord_097/src/" >
+			<packageset dir="../JRecord_RE/src/" >
 				<exclude name="net/sf/JRecord/z*/**"/>	
 			</packageset>
 			<!--fileset dir="${src.dir}" /!-->
 			<!--fileset dir="../JRecord_Common/src/" /!-->
-			<!--fileset dir="../JRecord_097/src/" /!-->
+			<!--fileset dir="../JRecord_RE/src/" /!-->
 		</javadoc>
 	</target>
 
@@ -317,14 +329,14 @@
 				<include name="net/sf/JRecord/Common/Constants.*"/>
 				<include name="net/sf/JRecord/Common/I*.*"/>
 			</fileset>
-			<fileset dir="../JRecord_097/src/" > 
+			<fileset dir="../JRecord_RE/src/" > 
 				<include name="net/sf/JRecord/Details/*Line**"/>	
 				<include name="net/sf/JRecord/Details/*Layout**"/>	
 				<include name="net/sf/JRecord/Details/*Record**"/>	
 			</fileset>
 			<!--fileset dir="${src.dir}" /!-->
 			<!--fileset dir="../JRecord_Common/src/" /!-->
-			<!--fileset dir="../JRecord_097/src/" /!-->
+			<!--fileset dir="../JRecord_RE/src/" /!-->
 		</javadoc>
 	</target>
 

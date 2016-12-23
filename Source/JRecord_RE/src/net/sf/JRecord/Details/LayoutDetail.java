@@ -118,6 +118,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	private int layoutType;
 	// private RecordDetail[] records;
 	private boolean binary = false;
+	private final boolean binaryField, hasRedefine;
 	private String fontName = "";
 	private String eolString;
 	//private TypeManager typeManager;
@@ -138,7 +139,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	private boolean useThisLayout = false;
 
 	private Object extraDetails = null;
-	private boolean multiLineField = false;
+	private final boolean multiLineField;
 	private boolean multiByteCharset;
 	private final boolean isCsv;
 	
@@ -203,7 +204,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	{
 	    super(recordLength);
 
-        int i, j;
+        int  j;
         boolean first = true;
         int lastSize = -1;
 
@@ -256,26 +257,34 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 //			case Constants.rtBinaryRecord:
 			    binary = true;
 			break;
-			case Constants.rtBinaryRecord:
-            case Constants.rtGroupOfRecords:
-			case Constants.rtRecordLayout:
-			    if (recordCount >= 1) {
-			        int numFields;
-			        for (j = 0; (! binary) && j < recordCount; j++) {
-			        	recordDetail = pRecords[j];
-			            numFields =  recordDetail.getFieldCount();
-			            for (i = 0; (! binary) && i < numFields; i++) {
-			                binary = recordDetail.isBinary(i);
-			            }
-			        }
-			    }
-			break;
 			default:
 		}
+		boolean binField = false;
+		boolean hasRedef = false;
+//	    if (recordCount >= 1) {
+//	        int numFields;
+//	
+//	        for (j = 0; (! (binField && hasRedef)) && j < recordCount; j++) {
+//	        	int p = -1;
+//	        	recordDetail = pRecords[j];
+//	            numFields =  recordDetail.getFieldCount();
+//	            for (i = 0; (! (binField && hasRedef)) && i < numFields; i++) {
+//	            	if (recordDetail.isBinary(i)) {
+//	            		binary = recordDetail.isBinary(i);
+//	            		binField = true;
+//	            	}
+//	            	if (p > recordDetail.getField(i).getPos()) {
+//	            		hasRedef = true;
+//	            	}
+//	            	p = recordDetail.getField(i).getEnd();
+//	            }
+//	        }
+//	    }
 		
 		
         boolean namesFirstLine = CommonBits.areFieldNamesOnTheFirstLine(fileStructure);       
         boolean tmpCsv = false;
+        boolean tmpMultiLine = false;
 	    for (j = 0; j < recordCount; j++) {
 	    	recordDetail = pRecords[j];
 	    	if (recordDetail != null) {
@@ -309,23 +318,35 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 			    		}
 			        }
 			        
-			        if (! multiLineField) {
-			        	for (int k = 0; (! multiLineField) && k < recordDetail.getFieldCount(); k++) {
-			        		int type = recordDetail.getField(k).getType();
-							switch (type) {
-							case  Type.ftHtmlField:
-							case  Type.ftMultiLineChar:
-							case  Type.ftMultiLineEdit:
-							case  Type.ftCharMultiLine:
-			        			multiLineField = true;
-			        			break;
-			        		}
-			        	}
-			        }
+			        int p = -1;
+		        	for (int k = 0; k < recordDetail.getFieldCount(); k++) {
+		        		int type = recordDetail.getField(k).getType();
+						switch (type) {
+						case  Type.ftHtmlField:
+						case  Type.ftMultiLineChar:
+						case  Type.ftMultiLineEdit:
+						case  Type.ftCharMultiLine:
+							tmpMultiLine = true;
+		        			break;
+		        		}
+		            	if (recordDetail.isBinary(k)) {
+		            		binary = recordDetail.isBinary(k);
+		            		binField = true;
+		            	}
+		            	if (p > recordDetail.getField(k).getPos()) {
+		            		hasRedef = true;
+		            	}
+		            	p = recordDetail.getField(k).getEnd();
+		            }
+
+			        	
 	    		}
 	    	}
 	    }
-		isCsv = tmpCsv;
+	    this.binaryField = binField;
+	    this.hasRedefine = hasRedef;
+	    this.multiLineField = tmpMultiLine;
+		this.isCsv = tmpCsv;
 
 		System.out.print("Font >" + fontName + "<" +  " || " + Conversion.isAlwaysUseDefaultSingByteCharset());
 		if ((binary || Conversion.isAlwaysUseDefaultSingByteCharset())
@@ -1156,6 +1177,10 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 //				}
 //			}
 			return 1;
+		case Options.OPT_HAS_BINARY_FIELD:
+			return Options.getValue(binaryField);
+		case Options.OPT_HAS_REDEFINE:
+			return Options.getValue(hasRedefine);
 
 //			switch (fs) {
 //			case Constants.IO_FIXED_LENGTH:

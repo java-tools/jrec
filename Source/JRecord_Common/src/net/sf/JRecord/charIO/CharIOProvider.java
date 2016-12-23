@@ -28,7 +28,8 @@ package net.sf.JRecord.charIO;
 import net.sf.JRecord.Common.Constants;
 
 public class CharIOProvider {
-
+	public final static CharIOProvider INSTANCE = new CharIOProvider();
+	
 	public ICharWriter getWriter(int id, String font, String eol, int length) {
 		ICharWriter ret = null;
 		switch (id) {

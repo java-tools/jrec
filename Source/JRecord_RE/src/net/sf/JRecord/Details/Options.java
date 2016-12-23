@@ -42,6 +42,8 @@ public class Options {
 	public static final int OPT_GET_FIELD_COUNT  = 14; 
 	public static final int OPT_MULTIPLE_LINES_UPDATED  = 15; 
 	public static final int OPT_LINE_DELETED            = 16; 
+	public static final int OPT_HAS_BINARY_FIELD        = 17; 
+	public static final int OPT_HAS_REDEFINE            = 18; 
 //	public static final int OPT_WAS_UNKOWN              = 17; 
 
 	public static final int NO = 0;

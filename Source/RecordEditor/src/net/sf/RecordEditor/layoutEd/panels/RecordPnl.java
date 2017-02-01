@@ -1085,6 +1085,14 @@ public class RecordPnl extends BaseHelpPanel
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int, java.lang.Object)
+	 */
+	@Override
+	public void executeAction(int action, Object o) {
+		executeAction(action);
+	}
+
     /**
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
      */

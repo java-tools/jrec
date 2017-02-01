@@ -407,8 +407,8 @@ public class RecordEdit extends    ReFrame
 	 * @see net.sf.JRecord.Details.IGetSchema#schemaAvailable4checking()
 	 */
 	@Override
-	public boolean schemaAvailable4checking() {
-		return false;
+	public int schemaChecking() {
+		return IGetSchema.ST_NO_CHECK_ON_SCHEMA;
 	}
 
 

@@ -37,7 +37,10 @@ public class TreeComboRendor extends AbstractCellEditor implements
 	@Override
 	public Object getCellEditorValue() {
 		TreeComboItem selectedItem = combo.getSelectedItem();
-		if (selectedItem == null || selectedItem.getString().length() == 0) {
+
+		if (selectedItem == null 
+		|| selectedItem.getString().length() == 0
+		) {
 			return combo.getText();
 		}
 		return selectedItem;
@@ -81,6 +84,7 @@ public class TreeComboRendor extends AbstractCellEditor implements
 
 		if (strItems != null && value != null && value instanceof String) {
 			String v = (String) value;
+			//System.out.println("-->" + value);
 			if (v.length() == 0) {
 				value = TreeComboItem.BLANK_ITEM;
 			} else {
@@ -94,16 +98,20 @@ public class TreeComboRendor extends AbstractCellEditor implements
 		}
 		if (value == null) {
 			combo.setSelectedItem(TreeComboItem.BLANK_ITEM);
-		} else if (value instanceof TreeComboItem) {
-			combo.setSelectedItem((TreeComboItem) value);
-		} else if (value instanceof Integer) {
-			combo.setSelectedKey((Integer) value);
-		} else if (value instanceof String) {
-			combo.setSelectedString((String) value); 
-			//combo.setOnlySelectedItem(TreeComboItem.BLANK_ITEM);
-			//combo.setText((String) value);
 		} else {
-			combo.setSelectedItem(TreeComboItem.BLANK_ITEM);
+			//System.out.print(" --> " + value + " << " + value.getClass().getName() + " ");
+			if (value instanceof TreeComboItem) {
+				combo.setSelectedItem((TreeComboItem) value);
+			} else if (value instanceof Integer) {
+				combo.setSelectedKey((Integer) value);
+			} else if (value instanceof String) {
+				combo.setSelectedString((String) value); 
+				//combo.setOnlySelectedItem(TreeComboItem.BLANK_ITEM);
+				//combo.setText((String) value);
+			} else {
+				combo.setSelectedItem(TreeComboItem.BLANK_ITEM);
+			}
+//			System.out.println(combo.getText());
 		}
 	}
 }

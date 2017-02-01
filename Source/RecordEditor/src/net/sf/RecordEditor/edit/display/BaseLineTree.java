@@ -29,6 +29,7 @@ import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.ButtonTableRendor;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
@@ -92,14 +93,14 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 			boolean prefered,
 			final int columnsToSkip,
 			final int option) {
-		super("Tree View", viewOfFile, mainView, false, false, prefered, false, option);
+		super(null, "Tree View", viewOfFile, mainView, false, false, prefered, false, option);
 
 		view = viewOfFile;
 		cols2skip = columnsToSkip;
 
 		fieldMapping = new FieldMapping(getFieldCounts());
 
-		super.actualPnl.addReKeyListener(new DelKeyWatcher());
+		super.getActualPnl().addReKeyListener(new DelKeyWatcher());
 	}
 
 	protected final void init_100_setupScreenFields(AbstractAction[] extraActions) {
@@ -128,7 +129,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 		});
 
 
-		actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_TREE_VIEW));
+		getActualPnl().setHelpURLre(Common.formatHelpURL(Common.HELP_TREE_VIEW));
 
 
 		initToolTips(2);
@@ -228,6 +229,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 	protected final void init_200_LayoutScreen()  {
 		//Rectangle scrSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
 
+		BaseHelpPanel actualPnl = getActualPnl();
 
 //		pnl.addComponent("Layouts", getLayoutList());
 		actualPnl.setGapRE(BasePanel.GAP1);

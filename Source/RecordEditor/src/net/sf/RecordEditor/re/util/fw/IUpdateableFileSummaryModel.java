@@ -36,4 +36,12 @@ public interface IUpdateableFileSummaryModel extends FixedWidthFieldSelection.IF
 	 */
 	public void setFontName(String font);
 
+	
+	/**
+	 * check to see if a field name has been defined
+	 * 
+	 * @return wether use has entered a field name.
+	 */
+	boolean hasAFieldName();
+
 }

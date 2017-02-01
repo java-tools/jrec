@@ -31,7 +31,9 @@ import net.sf.RecordEditor.edit.display.Action.NewCsvAction;
 import net.sf.RecordEditor.edit.display.Action.NewFileAction;
 import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
+import net.sf.RecordEditor.edit.open.OpenCsvFileBackground;
 import net.sf.RecordEditor.edit.open.OpenFile;
+import net.sf.RecordEditor.edit.open.OpenReFileBackground;
 import net.sf.RecordEditor.layoutEd.LayoutMenu;
 import net.sf.RecordEditor.layoutEd.schema.ImportExport.SchemaBackup;
 import net.sf.RecordEditor.layoutWizard.Wizard;
@@ -266,7 +268,8 @@ public class FullEditor extends EditRec {
 	//				    if (Common.IS_MAC && ReMainFrame.isUsingSystemLaf()) {
 	//				    	System.setProperty("com.apple.mrj.application.apple.menu.about.name", "RecordEditor");
 	//				    }
-					    
+				   		OpenCsvFileBackground.register();
+				   		OpenReFileBackground.register();
 				   		
 				   		if (instance.getOpenFileWindow() != null) {
 					    	OpenFileInterface openFilePanel = instance.getOpenFileWindow().getOpenFilePanel();

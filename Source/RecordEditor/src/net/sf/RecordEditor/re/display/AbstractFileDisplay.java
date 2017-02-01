@@ -9,8 +9,8 @@ import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.RecordEditor.re.file.FilePosition;
 import net.sf.RecordEditor.re.file.FileView;
-import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
+import net.sf.RecordEditor.utils.swing.common.IGetActionHandler;
 
 /**
  * Description of a class that will display a view of a file on
@@ -19,7 +19,7 @@ import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
  * @author Bruce Martin
  *
  */
-public interface AbstractFileDisplay extends ReActionHandler {
+public interface AbstractFileDisplay extends IGetActionHandler /*extends ReActionHandler*/ {
 
 
 	/**

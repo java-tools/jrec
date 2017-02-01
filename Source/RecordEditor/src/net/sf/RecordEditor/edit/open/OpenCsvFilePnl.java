@@ -20,9 +20,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
+import net.sf.JRecord.Details.IGetSchema;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.RecordEditor.layoutWizard.WizardFileLayoutCsv;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.re.openFile.FormatFileName;
 import net.sf.RecordEditor.re.openFile.OpenFileInterface;
@@ -32,10 +34,13 @@ import net.sf.RecordEditor.re.util.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.re.util.csv.CsvTabPane;
 import net.sf.RecordEditor.re.util.csv.FilePreview;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.interfaces.IGetFileName;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.BoolOpt;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
+import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -44,7 +49,8 @@ import net.sf.RecordEditor.utils.swing.filechooser.JRFileChooserWrapper;
 
 @SuppressWarnings("serial")
 public class OpenCsvFilePnl
-extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
+extends BaseHelpPanel 
+implements OpenFileInterface, FormatFileName, IGetSchema, IGetFileName {
 
 
     private final static int NORMAL_CSV  = 0,
@@ -134,22 +140,20 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
             //chooser.dispatchEvent(null);
 
                 csvTabDtls.tab.removeChangeListener(this);
-                int idx = csvTabDtls.tab.getSelectedIndex();
-                //System.out.println("\nTab changed ");
-
-                execEnter();
-
-//				try {
-//					execEnter = false;
-//					execEnter();
-//				} catch (Exception ex) {
-//					//ex.printStackTrace();
-//				}
-                execEnter = true;
-
-                csvTabDtls.tab.setSelectedIndex(idx);
-                readFilePreview(chooser.getFileChooser().getSelectedFile(), false);
-                csvTabDtls.tab.addChangeListener(this);
+                try {
+	                int idx = csvTabDtls.tab.getSelectedIndex();
+	                //System.out.println("\nTab changed ");
+	
+	                //execEnter = false;
+	                execEnter();
+	
+	                csvTabDtls.tab.setSelectedIndex(idx);
+	                readFilePreview(chooser.getFileChooser().getSelectedFile(), false);
+	                ReMainFrame.getMasterFrame().checkIfActionsAvailable();
+                } finally {
+                	//execEnter = true;
+                	csvTabDtls.tab.addChangeListener(this);
+                }
             }
     };
 
@@ -163,7 +167,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
         ioProvider = pIoProvider;
  		recent = new RecentFiles(propertiesFiles, this, true, defaultDirectory);
         recentList = new RecentFilesList(recent, this, true);
-        csvTabDtls = new CsvTabPane(msgTxt, fixedXmlTabs, true);
+        csvTabDtls = new CsvTabPane(msgTxt, fixedXmlTabs, fixedXmlTabs, true, new CsvWizardAction());
 
         //boolean filePresent = true;
         //File file;
@@ -269,7 +273,7 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
         FilePreview csvpnl = csvTabDtls.getSelectedCsvDetails();
         if (f != null && f.getPath() != null) {
             try {
-                LayoutDetail l = csvpnl.getLayout(csvpnl.getFontName(), null);
+                LayoutDetail l = getSchema(csvpnl);
 
                 if (l != null) {
                     FileView file
@@ -292,13 +296,60 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
         }
     }
 
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.IGetSchema#getSchema()
+	 */
+	@Override
+	public final LayoutDetail getSchema() {
+		return getSchema(csvTabDtls.getSelectedCsvDetails());
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Details.IGetSchema#schemaAvailable4checking()
+	 */
+	@Override
+	public int schemaChecking() {
+		FilePreview selectedCsvDetails = csvTabDtls.getSelectedCsvDetails();
+		return selectedCsvDetails == null 
+				? IGetSchema.ST_NO_CHECK_ON_SCHEMA 
+				: selectedCsvDetails.getSchemaCheckType();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.interfaces.IGetFileName#getFileName()
+	 */
+	@Override
+	public String getFileName() {
+    	JFileChooser fc = chooser.getFileChooser();
+        File f = fc.getSelectedFile();
+
+		return f.getPath();
+	}
+
+	/**
+	 * @param csvpnl
+	 * @return
+	 */
+	private LayoutDetail getSchema(FilePreview csvpnl) {
+		return csvpnl.getLayout(csvpnl.getFontName(), null);
+	}
+
     private void execEnter() {
 
-    	JFileChooser fc = chooser.getFileChooser();
-        fc.removeActionListener(chooserListner);
-        SwingUtils.clickOpenBtn(fc, true);
+    	try {
+            execEnter = false;
+            JFileChooser fc = chooser.getFileChooser();
 
-        chooser.addActionListener(chooserListner);
+    		fc.removeActionListener(chooserListner);
+    		SwingUtils.clickOpenBtn(fc, true);
+
+    	} finally {
+            execEnter = true;
+
+    		chooser.addActionListener(chooserListner);
+    	}
     }
 
     @Override
@@ -350,12 +401,23 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
     		} else {
     			if (layoutName.startsWith(CsvSelectionPanel.NORMAL_CSV_STRING)) {
     				csvTabDtls.csvDetails.setFileDescription(layoutName);
+    				csvTabDtls.readCheckPreview(file, false, layoutName);
     				csvTabDtls.tab.setSelectedIndex(NORMAL_CSV);
-    			} else {
+    			} else if (layoutName.startsWith(CsvSelectionPanel.UNICODE_CSV_STRING)) {
     				csvTabDtls.unicodeCsvDetails.setFileDescription(layoutName);
     				csvTabDtls.tab.setSelectedIndex(UNICODE_CSV);
+    				csvTabDtls.readCheckPreview(file, false, layoutName);
+    			} else {
+    				File f = new File(layoutName);
+					if (f .exists()) {
+    					file = f;
+    					if (csvTabDtls.schemaSelectionPanel != null) {
+    						csvTabDtls.tab.setSelectedIndex(CsvTabPane.SCHEMA);
+    						csvTabDtls.schemaSelectionPanel.setLayoutFile(layoutName);
+    					}
+    				}
     			}
-    			csvTabDtls.readCheckPreview(file, false, layoutName);
+    			
     		}
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -422,5 +484,23 @@ extends BaseHelpPanel implements OpenFileInterface, FormatFileName {
 
     public void setParentFrame(ReFrame parentFrame) {
         csvTabDtls.setParentFrame(parentFrame);
+    }
+    
+    private class CsvWizardAction extends ReAbstractAction {
+    	CsvWizardAction() {
+    		super("Csv Wizard", Common.ID_WIZARD_ICON);
+    	}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub		
+			new WizardFileLayoutCsv(
+					new ReFrame("", "Csv File Wizard", null), OpenCsvFilePnl.this, 
+					chooser.getFileChooser().getSelectedFile().getPath(),
+					getSchema(), true, true);
+		}
+    	
+    	
     }
 }

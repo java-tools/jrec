@@ -224,7 +224,8 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 			}
 			layoutDef = new LayoutDef(
 					schema, 
-					Conversion.replace(data.copybookFileCombo.getText(), "\\", "/").toString()); 
+					Conversion.replace(data.copybookFileCombo.getText(), "\\", "/").toString(),
+					null); 
 			String schemaName = layoutDef.getJavaName();
 			
 			outputDir = cgx.getOutputDir(templateDtls.language, templateDtls.template, schemaName);
@@ -263,7 +264,7 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 //		 .append('_')
 //		 .append(template);
 //		outputDir = b.toString();
-			GenerateVelocity gv = new GenerateVelocity(this);
+			GenerateVelocity gv = new GenerateVelocity(this, Common.OPTIONS.applicationDetails);
 			new ShowGeneratedCode(gv.generatedFiles, layoutDef.getSchemaShortName());
 			dialog.setVisible(false);
 		} catch (Exception e1) {

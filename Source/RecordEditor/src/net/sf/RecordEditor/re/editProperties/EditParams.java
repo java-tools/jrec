@@ -60,7 +60,7 @@ public final class EditParams {
      * Edit Options Common paramters. This class is passed to all the
      * sub panels
      */
-    protected EditParams() {
+    public EditParams() {
         super();
 
         properties = Parameters.readProperties();

@@ -224,7 +224,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
         + SEPERATOR + splitOption.getSelectedIndex()
         + SEPERATOR + numericFormat.getSelectedIndex()
     	+ SEPERATOR + fieldSeparator.getDelimiter()
-    	+ SEPERATOR + quote.getSelectedIndex();
+    	+ SEPERATOR + quote.getText();
 	}
 
 	@Override
@@ -389,7 +389,7 @@ public class LayoutSelectionFile extends AbstractLayoutSelection  {
             }
             numericFormat.setSelectedIndex(getIntToken(t));
             fieldSeparator.setDelimiter(getStrToken(t));
-            quote.setSelectedIndex(getIntToken(t));
+            quote.setText(getStrToken(t));
         } catch (Exception e) {
             e.printStackTrace();
         }

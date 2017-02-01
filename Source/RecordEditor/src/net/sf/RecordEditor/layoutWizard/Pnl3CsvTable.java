@@ -32,12 +32,13 @@ public class Pnl3CsvTable extends WizardPanel {
 	    int i, numCols;
 	    ColumnDetails colDtls;
 
-	    wizardDetail.fieldSeperator = pnl.fieldSeparatorCombo.getSelectedItem().toString();
+	    wizardDetail.fieldSeperator = pnl.fieldSeparatorCombo.getKeyValue();
 	    wizardDetail.actualSeperator = pnl.getSeperator();
-		wizardDetail.quote = pnl.quoteCombo.getSelectedItem().toString();
+		wizardDetail.quote = pnl.quoteCombo.getKeyValue();
 		wizardDetail.actualQuote = pnl.getQuote();
 		wizardDetail.parserType = ((Integer) pnl.parseType.getSelectedItem()).intValue();
 		wizardDetail.fieldNamesOnLine = pnl.fieldNamesOnLine.isSelected();
+		wizardDetail.embeddedCr = pnl.embeddedCrJCheck.isSelected();
 		if (wizardDetail.fieldNamesOnLine) {
 			wizardDetail.fileStructure = Constants.IO_NAME_1ST_LINE;
 		}
@@ -67,10 +68,11 @@ public class Pnl3CsvTable extends WizardPanel {
 			pnl.fieldSeparatorCombo.setDelimiter(detail.fieldSeperator);
 		}
 		if (! "".equals(detail.quote)) {
-			pnl.quoteCombo.setSelectedItem(detail.quote);
+			pnl.quoteCombo.setText(detail.quote);
 		}
 		pnl.parseType.setSelectedIndex(detail.parserType);
 		pnl.fieldNamesOnLine.setSelected(detail.fieldNamesOnLine);
+		pnl.embeddedCrJCheck.setSelected(detail.embeddedCr);
 		
 		setValues_100_ReadFile(detail);
 	}

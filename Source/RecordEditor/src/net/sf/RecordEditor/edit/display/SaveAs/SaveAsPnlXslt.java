@@ -4,6 +4,7 @@
 package net.sf.RecordEditor.edit.display.SaveAs;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -32,7 +33,7 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 	 */
 	public SaveAsPnlXslt(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".xml", CommonSaveAsFields.FMT_XSLT, RecentFiles.RF_XSLT, 
-				new FileSelectCombo(Parameters.XSLT_LIST, 25, true, false));
+				new FileSelectCombo(Parameters.XSLT_LIST, 25, true, false), false);
 		//new FileChooser(true, "get Xslt"));
 
 		panel.addLineRE("Xslt Engine (leave blank for default)", xsltTxt);
@@ -51,7 +52,7 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 		template.addFcFocusListener(commonSaveAsFields.templateListner);
      }
 
-	public void save(String selection, String outFile) throws Exception {
+	public void save(String selection, OutputStream outFile) throws Exception {
     	//TODO Xslt Processing
     	//TODO Xslt Processing
     	//TODO Xslt Processing
@@ -72,7 +73,7 @@ public class SaveAsPnlXslt extends SaveAsPnlBase {
 
 		xmlSource = new javax.xml.transform.stream.StreamSource(tempFile);
 		xsltSource = new javax.xml.transform.stream.StreamSource(xsltFileName);
-		result = new javax.xml.transform.stream.StreamResult(new File(outFile));
+		result = new javax.xml.transform.stream.StreamResult(outFile);
 
 		Parameters.setSavePropertyChanges(false);
 		Common.OPTIONS.XSLT_ENGINE.set(xsltClass);

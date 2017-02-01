@@ -4,11 +4,19 @@ import pandas as pd
 
 #incl("pyCsvIO/CsvCommonPy.vm")
 
+#fieldNameClassPy()
+
+cols=ColumnNames()
+
 #if (${generateOptions.schemaDefinition.areThereColumnNames()})
 
 csv_df = pd.read_csv('${generateOptions.getDataFileName().getEscapedFileName()}', sep='${generateOptions.schemaDefinition.getDelimiter()}')
 
 #else
-csv_df = pd.read_csv('${generateOptions.getDataFileName().getEscapedFileName()}', sep='${generateOptions.schemaDefinition.getDelimiter()}', header=None)
+csv_df = pd.read_csv('${generateOptions.getDataFileName().getEscapedFileName()}', sep='${generateOptions.schemaDefinition.getDelimiter()}', header=cols.allColumnNames)
 
 #end
+
+#*  *##if ( ${r.getFields().size()} > 0 )
+print (csv_df[cols.${r.getFields().get(0).javaName}])
+#*  *##end

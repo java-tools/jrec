@@ -1,14 +1,21 @@
 package net.sf.RecordEditor.edit.display.SaveAs;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.management.RuntimeErrorException;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -32,12 +39,12 @@ import net.sf.RecordEditor.re.fileWriter.FieldWriter;
 import net.sf.RecordEditor.re.script.ScriptData;
 import net.sf.RecordEditor.re.util.ReIOProvider;
 import net.sf.RecordEditor.utils.charsets.FontCombo;
-import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.CheckBoxTableRender;
+import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
@@ -106,8 +113,11 @@ public abstract class SaveAsPnlBase {
     public final JCheckBox spaceBetweenFields = new JCheckBox();
     public final FileSelectCombo template;
 
-    protected JTable fieldTbl;
-    protected FldTblMdl fixedModel;
+	protected final JButton selectBtn;
+	protected final JButton deSelectBtn;
+
+    protected final JTable fieldTbl;
+    protected FldTblMdl fieldModel;
 
 
     private AbstractRecordDetail record;
@@ -122,7 +132,7 @@ public abstract class SaveAsPnlBase {
 
 
     public SaveAsPnlBase(CommonSaveAsFields commonSaveAsFields, String extension, int panelFormat, int extensionType,
-    		FileSelectCombo template) {
+    		FileSelectCombo template, boolean useFieldTbl ) {
 		super();
 
 		this.commonSaveAsFields = commonSaveAsFields;
@@ -131,14 +141,37 @@ public abstract class SaveAsPnlBase {
 		this.extensionType = extensionType;
 		this.template = template;
 		this.delimiterCombo.setSelectedIndex(0);
+		this.quoteCombo.setTextValue("\"");
+		
 		file = commonSaveAsFields.getRecordFrame().getFileView();
 
         String f = file.getLayout().getFontName();
 		if (f != null && f.toLowerCase().startsWith("utf")) {
    			charsetCombo.setText(f);
    		}
+		
+		if (useFieldTbl) {
+			fieldTbl = new JTable();
+			selectBtn = SwingUtils.newButton("Select All Fields");
+			deSelectBtn = SwingUtils.newButton("Deselect All Fields");
+			
+			selectBtn.addActionListener(new SelectAction(true));
+			deSelectBtn.addActionListener(new SelectAction(false));
+		} else {
+			fieldTbl = null;
+			selectBtn = null;
+			deSelectBtn = null;
+		}
 	}
 
+    protected final JPanel getSelectBtnPnl() {
+    	JPanel btnPnl = new JPanel();
+		
+    	btnPnl.add(selectBtn);
+		btnPnl.add(deSelectBtn);
+		
+		return btnPnl;
+    }
 
     protected final void addDescription(String s) {
 		JTextArea area = new JTextArea(s);
@@ -191,14 +224,14 @@ public abstract class SaveAsPnlBase {
 	}
 
 	public String getQuote() {
-		String ret = "";
-		int idx = quoteCombo.getSelectedIndex();
+//		String ret = "";
+//		int idx = quoteCombo.getSelectedIndex();
+//
+//		if (idx >= 0) {
+//			ret = Common.QUOTE_VALUES[idx];
+//		}
 
-		if (idx >= 0) {
-			ret = Common.QUOTE_VALUES[idx];
-		}
-
-		return ret;
+		return quoteCombo.getQuote();
 	}
 
 	public String getCharset() throws RecordException {
@@ -250,10 +283,21 @@ public abstract class SaveAsPnlBase {
 		return includeFields;
 	}
 
+	private void setIncludeFields(boolean value) {
+		Arrays.fill(includeFields, value);
+	}
 
 
-    public abstract void save(String selection, String outFile)  throws Exception ;
+//    public abstract void save(String selection, String outFile)  throws Exception ;
 
+
+	public void save(String selection, String outFile) throws Exception {
+		save(selection, new FileOutputStream(outFile));
+	}
+
+	protected void save(String selection, OutputStream outStream) throws Exception {
+		throw new RuntimeException("Saving to output stream is not supported for this save screen");
+	}
 
     protected final void save_writeFile(FieldWriter writer, String selection)
     throws IOException{
@@ -358,8 +402,8 @@ public abstract class SaveAsPnlBase {
 		if (record != null) {
 			AbstractLayoutDetails l = file.getLayout();
 			rowCount = record.getFieldCount();
-			fixedModel = new FldTblMdl();
-			fieldTbl.setModel(fixedModel);
+			fieldModel = new FldTblMdl();
+			fieldTbl.setModel(fieldModel);
 
 			if (DisplayType.isTreeStructure(l)) {
 				rowCount = DisplayType.getMaxFields(l);
@@ -371,9 +415,7 @@ public abstract class SaveAsPnlBase {
 
 			if (includeFields == null) {
 				includeFields = new boolean[rowCount];
-				for (int i = 0; i < rowCount; i++) {
-					includeFields[i] = true;
-				}
+				setIncludeFields(true);
 			}
 			namesFirstLine.addChangeListener(new ChangeListener() {
 
@@ -382,7 +424,7 @@ public abstract class SaveAsPnlBase {
 				 */
 				@Override
 				public void stateChanged(ChangeEvent arg0) {
-					fixedModel.fireTableDataChanged();
+					fieldModel.fireTableDataChanged();
 				}
 
 			});
@@ -526,7 +568,7 @@ public abstract class SaveAsPnlBase {
 		@Override
 		public void setValueAt(Object val, int row, int col) {
 			if (val != null) {
-			switch (col) {
+				switch (col) {
 				case COL_INCLUDE:
 					if (val instanceof Boolean) {
 						includeFields[row] = ((Boolean) val).booleanValue();
@@ -607,6 +649,25 @@ public abstract class SaveAsPnlBase {
 			return ret;
 		}
 
+	}
+
+	
+	protected class SelectAction implements ActionListener {
+		final boolean value;
+
+		protected SelectAction(boolean value) {
+			this.value = value;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			setIncludeFields(value);
+			fieldModel.fireTableDataChanged();
+		}
+		
 	}
 
 }

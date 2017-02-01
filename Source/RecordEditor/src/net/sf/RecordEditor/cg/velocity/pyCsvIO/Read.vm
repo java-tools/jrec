@@ -4,15 +4,26 @@ import csv
 
 #incl("pyCsvIO/CsvCommonPy.vm")
 
-#if (${generateOptions.schemaDefinition.areThereColumnNames()})
 #indexClassPy()
 
-idx = indexs()
-with open('${generateOptions.getDataFileName().getEscapedFileName()}', 'rb') as csvfile:
-    csvReader = csv.reader(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q})
-    next(csvReader)
+def read_data(path):
+#if (${generateOptions.schemaDefinition.areThereColumnNames()})
+    with open(path, 'rb') as csvfile:
+        csvReader = csv.reader(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q})
+        next(csvReader)
+#else
+    with open('${generateOptions.getDataFileName().getEscapedFileName()}', 'rb') as csvfile:
+        csvReader = csv.reader(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q})
+#end
+        for row in csvReader:
+            yield row
 
-    for row in csvReader:
+# -------------------------------------------------------
+
+if __name__ == "__main__":
+    idx = indexs()
+    
+    for rowIndex, row in enumerate(read_data('${generateOptions.getDataFileName().getEscapedFileName()}')):
 #*  *##if ( ${r.getFields().size()} == 0 )
         print row
 #*  *##elseif ( ${r.getFields().size()} == 1 )
@@ -22,11 +33,3 @@ with open('${generateOptions.getDataFileName().getEscapedFileName()}', 'rb') as 
 #*  *##else
         print row[idx.${r.getFields().get(0).javaName}], row[idx.${r.getFields().get(1).javaName}], row[idx.${r.getFields().get(2).javaName}]
 #*  *##end
-#else
-with open('${generateOptions.getDataFileName().getEscapedFileName()}', 'rb') as csvfile:
-    csvReader = csv.reader(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q})
-    next(csvReader)
-
-    for row in csvReader:
-        print row
-#end

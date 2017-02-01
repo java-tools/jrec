@@ -450,7 +450,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
 
     private JComponent getScreen(int idx) {
         if (mainScreens.get(idx).getChildScreen() == null) {
-            return mainScreens.get(idx).actualPnl;
+            return mainScreens.get(idx).getActualPnl();
         }
 
         int splitType = JSplitPane.HORIZONTAL_SPLIT;
@@ -460,7 +460,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
 
         JSplitPane sp = new JSplitPane(
         		splitType,
-                mainScreens.get(idx).actualPnl,
+                mainScreens.get(idx).getActualPnl(),
                 mainScreens.get(idx).getChildScreen().getActualPnl());
 
 
@@ -494,7 +494,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
     	if (mainScreens.get(idx).getCurrentChildScreenPostion() == AbstractCreateChildScreen.CS_BOTTOM) {
     		return Math.max(this.getHeight() - mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().height
                     - (SwingUtils.CHAR_FIELD_HEIGHT * 3),
-                    mainScreens.get(idx).actualPnl.getPreferredSize().height);
+                    mainScreens.get(idx).getActualPnl().getPreferredSize().height);
     	}
 //    	System.out.println("calc split: \n"
 //    			 + this.getWidth() + " - " + mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().width
@@ -503,7 +503,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
         return Math.max(
                 this.getWidth() - mainScreens.get(idx).getChildScreen().getActualPnl().getPreferredSize().width
                 - SwingUtils.CHAR_FIELD_WIDTH * 3,
-                mainScreens.get(idx).actualPnl.getPreferredSize().width - SwingUtils.CHAR_FIELD_WIDTH * 30);
+                mainScreens.get(idx).getActualPnl().getPreferredSize().width - SwingUtils.CHAR_FIELD_WIDTH * 30);
     }
 
     /* (non-Javadoc)
@@ -558,8 +558,8 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
     public void executeAction(int action, Object o) {
         BaseDisplay bd =  getActiveDisplay();
 
-        if (bd != null && bd.isActionAvailable(action)) {
-            bd.executeAction(action, o);
+        if (bd != null && bd.getActionHandler().isActionAvailable(action)) {
+            bd.getActionHandler().executeAction(action, o);
         } else {
             super.executeAction(action, o);
         }
@@ -615,8 +615,8 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
                 AbstractFileDisplay bd =  getActiveDisplay();
 
                 if (bd != null) {
-                    if (bd.isActionAvailable(action)) {
-                        bd.executeAction(action);
+                    if (bd.getActionHandler().isActionAvailable(action)) {
+                    	bd.getActionHandler().executeAction(action);
                     }
                 }
             }
@@ -747,7 +747,7 @@ public class DisplayFrame extends ReFrame implements IDisplayFrame<BaseDisplay>,
             return true;
         default:
             if (idx >= 0 && idx < mainScreens.size()) {
-                return (mainScreens.get(idx).isActionAvailable(action));
+                return (mainScreens.get(idx).getActionHandler().isActionAvailable(action));
             }
         }
         return false;

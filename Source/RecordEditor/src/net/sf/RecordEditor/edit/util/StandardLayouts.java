@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.TranslateXmlChars;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.External.Def.ExternalField;
@@ -41,15 +42,29 @@ public final class StandardLayouts {
 			"Generic Csv"
 			);
 
+	private static final ExternalRecord delimiterLayoutForEditor = getExternal(
+				  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+				+ "<RECORD RECORDNAME=\"XDelimiter\"  DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"Text_Unicode\""
+				+ "        STYLE=\"0\" RECORDTYPE=\"Delimited\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" >"
+				+ "	<FIELDS>"
+				+ "		<FIELD NAME=\"Delimiter\" DESCRIPTION=\"Field Delimiter\" POSITION=\"1\" TYPE=\"Char\"/>"
+				+ "		<FIELD NAME=\"Delimiter Name\" DESCRIPTION=\"Longer more descriptive Name. You only need to enter if different from the delimiter\" POSITION=\"2\" TYPE=\"Char\"/>"
+				+ "	</FIELDS>"
+				+ "</RECORD>",
+				"Delimiter"
+	);
 
-	public final AbstractLayoutDetails getXmlLayout() {
+	public final LayoutDetail getXmlLayout() {
 		return getLayout(xmlExternalRec);
 	}
 
-	public final AbstractLayoutDetails getGenericCsvLayout() {
+	public final LayoutDetail getGenericCsvLayout() {
 		return getLayout(genericCsvExternalRec);
 	}
 
+	public final LayoutDetail delimiterLayoutForEditor() {
+		return getLayout(delimiterLayoutForEditor);
+	}
 	public final AbstractLayoutDetails getCsvLayoutNamesFirstLine(String delim, String charset, String quote, boolean embeddedCr) {
 		return  getLayout(
 					getCsvExternal("CSV_NAME_1ST_LINE", delim, charset, quote, embeddedCr)
@@ -149,8 +164,8 @@ public final class StandardLayouts {
 	}
 
 
-	private AbstractLayoutDetails getLayout(ExternalRecord rec) {
-		AbstractLayoutDetails ret = null;
+	private LayoutDetail getLayout(ExternalRecord rec) {
+		LayoutDetail ret = null;
 		try {
 			ret = rec.asLayoutDetail();
 		} catch (Exception e) {

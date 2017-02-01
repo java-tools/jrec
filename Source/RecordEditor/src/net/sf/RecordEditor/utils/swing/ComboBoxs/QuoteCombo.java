@@ -1,34 +1,33 @@
 package net.sf.RecordEditor.utils.swing.ComboBoxs;
 
 
-import net.sf.RecordEditor.utils.common.Common;
-import net.sf.RecordEditor.utils.lang.LangConversion;
-import net.sf.RecordEditor.utils.swing.Combo.ComboStrOption1;
+import java.util.List;
+
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItemStr;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboString;
 
 @SuppressWarnings("serial")
-public final class QuoteCombo extends EnglishCombo<String> {
-
- 	public final static String QUOTE_FOREIGN[] = {
- 		LangConversion.convertComboItms("Csv_Quote", Common.QUOTE_LIST[0]),
- 		LangConversion.convertComboItms("Csv_Quote", Common.QUOTE_LIST[1]),
- 		Common.QUOTE_LIST[2], Common.QUOTE_LIST[3],  Common.QUOTE_LIST[4]
-	};
+public final class QuoteCombo extends TreeComboString {
 
 
-   	private QuoteCombo() {
-  		super(new ComboStrOption1("", "", ""));
 
-   		for (int i = 0; i < QUOTE_FOREIGN.length; i++) {
-   			super.addItem(
-   					new ComboStrOption1(
-   							Common.QUOTE_VALUES[i],
-   							QUOTE_FOREIGN[i],
-   							Common.QUOTE_LIST[i]));
-   		}
+   	private QuoteCombo(List<TreeComboItemStr> itms) {
+  		super("QuoteCombo", itms);
    	}
+   	
+	
+	public String getQuote() {
+		TreeComboItemStr itm = super.getSelectedItemUseText();
+		return itm == null ? super.getTextValue() : itm.getKey();
+	}
+
+	
+	public void setQuote(String quote) {
+		super.setValue(quote);
+	}
 
 
    	public static QuoteCombo newCombo() {
-   		return new QuoteCombo();
+   		return new QuoteCombo(BldOptionList.getQuoteComboItems());
    	}
 }

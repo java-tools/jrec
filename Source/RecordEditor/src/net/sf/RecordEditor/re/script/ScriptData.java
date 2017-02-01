@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.re.script;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineCompare;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.External.base.ExternalConversion;
+import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
@@ -42,7 +44,20 @@ import net.sf.RecordEditor.utils.screenManager.ReFrame;
 /**
  * Class used by Macros (Scripts) and Velocity templates as an
  * Interface to the RecordEditor
- *
+ * 
+ * <pre>
+ *    ScriptData
+ *        |
+ *        +-------------- List<FileBeingEdited> 
+ *        |                 (getFileList)
+ *        |                       |
+ *        |                       +------------------------ File Details + ScriptData
+ *        |
+ *        +------------- File / View / Selected View
+ *                                |
+ *                                +------------------------ Lines
+ * </pre>
+ *                                 
  * @author Bruce Martin
  *
  */
@@ -52,6 +67,9 @@ public class ScriptData {
     public static final int SELECTION_ONLY         = 1;
     public static final int SELECTION_AND_UPDATE   = 2;
     private static final String sortDescending = "Descending Constant";
+    public static IOpenCsvFile openCsvFile;
+    public static IOpenReFile openReFile;
+ 
 
     public final float JAVA_VERSION = Parameters.JAVA_VERSION ;
     
@@ -77,6 +95,11 @@ public class ScriptData {
 	public final AbstractFileDisplay initialTab;
 	
 	public final String descending = sortDescending;
+	
+	public final int currentRecordNumber;
+	
+	private List<FileBeingEditted> fileList;
+
 
 	@SuppressWarnings("rawtypes")
 	public ScriptData(
@@ -109,6 +132,7 @@ public class ScriptData {
 			}
 		}
 		
+		int recNum = 0;
 		if (view == null) {
 			this.viewLines = null;
 			this.fileLines = null;
@@ -125,9 +149,13 @@ public class ScriptData {
 			} else {
 				tmpSelected = view.getView(selectedList);
 			}
+			if (initialTab != null) {
+				recNum = initialTab.getCurrRow();
+			}
 		}
 		this.view = view;
 		this.selectedView = tmpSelected;
+		this.currentRecordNumber = recNum;
 		
 //		file.getLine(0).getFieldValue(0, 0).asBigInteger();
 		if (r == null && initialTab != null && initialTab instanceof AbstractTreeFrame) {
@@ -274,6 +302,14 @@ public class ScriptData {
 			}
 		}
 		return b.toString();
+	}
+	
+	public List<FileBeingEditted> getFileList() {
+		if (fileList == null) {
+			fileList = FileBeingEditted.getList(view);
+		}
+		
+		return fileList;
 	}
 
 	public String getLangTrans(String lang, String key) {
@@ -521,6 +557,7 @@ public class ScriptData {
 			        		frame,
 			        		scriptFile);
 		}
+		
 
 		return data;
 	}
@@ -626,7 +663,81 @@ public class ScriptData {
 		return null;
 	}
 	
+	/**
+	 * Get the directory where the file is being edited resides
+	 * 
+	 * @return irectory where the file is being edited resides
+	 */
+	public String getDirectoryName() {
+		String name = null;
+		if (view != null && isPresent(name = view.getFileName())) {
+			name = Parameters.addPathSeperator(new File(name).getParent());
+		}
+		
+		return name;
+	}
 	
+	public Dimension getScreenDimensions() {
+		return new Dimension(ReFrame.getDesktopWidth(), ReFrame.getDesktopHeight());
+	}
+	
+	private boolean isPresent(String s) {
+		return s != null && s.length() > 0;
+	}
+	
+	/**
+	 * Create ScriptData for a screen
+	 * 
+	 * @param screen display screen
+	 * @return
+	 */
+	public ScriptData newScriptData(BaseDisplay screen) {
+		return new ScriptData(
+				null, screen.getFileView(), null, onlyData, false,
+				0, outputFile + ".xxx", screen.getParentFrame(), "");
+	}
+
+	/**
+	 * Edit a Csv file
+	 * 
+	 * @param fileName file to be openned
+	 * @param font character-set of the file
+	 * @param delim field delimiter
+	 * @param quote Quote character
+	 * @see net.sf.RecordEditor.re.script.IOpenCsvFile#open(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public AbstractFileDisplayWithFieldHide openCsvFile(String fileName, String font, String delim, String quote) {
+		return openCsvFile.open(fileName, font, delim,  quote, false);
+	}
+
+	/**
+	 * Edit a Csv file
+	 *  
+	 * @param fileName file to be openned
+	 * @param font character-set of the file
+	 * @param delim field delimiter
+	 * @param quote Quote character
+	 * @param embededCr wether there are embededCr's 
+	 * @see net.sf.RecordEditor.re.script.IOpenCsvFile#open(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
+	 */
+	public AbstractFileDisplayWithFieldHide openCsvFile(String fileName, String font, String delim, String quote,
+			boolean embededCr) {
+		return openCsvFile.open(fileName, font,  delim, quote, embededCr);
+	}
+
+	/**
+	 * Edit a specified file
+	 * 
+	 * @param fileName filename to edit
+	 * @param layoutName layout (schema) of the file.
+	 * 
+	 * @return new Screen;
+	 */
+	public AbstractFileDisplayWithFieldHide openFile(String fileName, String layoutName) {
+		return openReFile.openFile(fileName, layoutName);
+	}
+
+
 	/**
 	 * Directory constants for use in Scripts:
 	 * <pre>

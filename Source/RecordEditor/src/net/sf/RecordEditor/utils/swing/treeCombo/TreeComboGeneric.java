@@ -266,6 +266,24 @@ public class TreeComboGeneric<KeyType, Item extends TreeComboItemGeneric<KeyType
 		return selectedItem;
 	}
 	
+
+	/**
+	 * @return the selectedItem
+	 */
+	public Item getSelectedItemUseText() {
+		String t = super.getText();
+		
+		if (t == null || (selectedItem != null && t.equalsIgnoreCase(selectedItem.getEnglish()))) {
+			return selectedItem;
+		} else {
+			Item tmp = searchFor(t, items);
+			if (tmp != null) {
+				return tmp;
+			}
+		}
+		return null;
+	}
+
 	private Item searchFor(String t, List<Item> itms) {
 
 		if (itms != null) {
@@ -338,7 +356,7 @@ public class TreeComboGeneric<KeyType, Item extends TreeComboItemGeneric<KeyType
 		Item item = BLANK_ITEM;
 		
 		if (s != null && s.length() > 0) {
-			item = nameMap.get(s);
+			item = nameMap.get(s.toLowerCase());
 			if (item == null) {
 				setOnlySelectedItem(BLANK_ITEM);
 				this.setTextInternal(s);

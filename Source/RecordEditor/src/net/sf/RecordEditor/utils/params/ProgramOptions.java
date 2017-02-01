@@ -41,6 +41,8 @@ public class ProgramOptions {
     	SIZE_SPECIFIED, SIZE_SPECIFIED_FORCED, SIZE_NO_RESIZE,
     	SIZE_SCREEN_1, SIZE_SCREEN_2, SIZE_SCREEN_3};
 
+    public ApplicationDetails applicationDetails = new ApplicationDetails(
+    		"Recordeditor", "https://sourceforge.net/projects/record-editor/");
     public ProgramType programType;
 	public final BoolOpt searchAllFields = new BoolOpt(Parameters.SEARCH_ALL_FIELDS);
 	public final MultiValOpt screenStartSizeOpt  = new MultiValOpt(Parameters.SCREEN_SIZE_OPTION, startSize, SIZE_MAXIMISED);
@@ -270,6 +272,16 @@ public class ProgramOptions {
 		public String getNoStar() {
 			return  Parameters.dropStar(get());
 		}
+		public String getSlashNoStar() {
+			String s=  Parameters.dropStar(get());
+			if (s.endsWith("/") || s.endsWith("\\")) {
+				
+			} else {
+				s = s + FILE_SEPERATOR;
+			}
+			return s;
+		}
+
 		public String getWithStar() {
 			String s = get();
 			if (s == null) {
@@ -402,5 +414,31 @@ public class ProgramOptions {
 
 	    	return ret;
 		}
+	}
+	
+	public static class ApplicationDetails {
+		final String applicationId, website;
+
+		public ApplicationDetails(String applicationId, String website) {
+			super();
+			this.applicationId = applicationId;
+			this.website = website;
+		}
+
+		/**
+		 * @return the applicationId
+		 */
+		public final String getApplicationId() {
+			return applicationId;
+		}
+
+		/**
+		 * @return the website
+		 */
+		public final String getWebsite() {
+			return website;
+		}
+		
+		
 	}
 }

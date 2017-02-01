@@ -36,7 +36,8 @@ implements AbstractFileDisplayWithFieldHide {
 
 	public BaseLineAsColumn(String formType, FileView viewOfFile,
 			boolean primary, boolean fullLine, final boolean changeRow) {
-		super(formType, viewOfFile, primary, fullLine, false, false, changeRow);
+		super(	null, formType, viewOfFile, primary, fullLine, false, false,
+				changeRow ? STD_OPTION_PANEL: NO_OPTION_PANEL);
 
 		showFieldMenus = new JMenu[viewOfFile.getLayout().getRecordCount()];
 	}

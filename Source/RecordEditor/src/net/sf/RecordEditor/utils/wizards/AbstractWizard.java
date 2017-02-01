@@ -293,8 +293,8 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
 
         if (action == ReActionHandler.HELP) {
             pnls[panelNumber].showHelpRE();
-        } else if (displayFrame instanceof ReFrame) {
-        	((ReFrame) displayFrame).executeAction(action);
+        } else if (displayFrame instanceof ReActionHandler) {
+        	((ReActionHandler) displayFrame).executeAction(action);
         }
     }
 
@@ -304,8 +304,8 @@ public abstract class AbstractWizard<Details> /*extends ReFrame*/ implements Act
     public boolean isActionAvailable(int action) {
 
         return action == ReActionHandler.HELP
-            || ((		displayFrame instanceof ReFrame
-            	&& ((ReFrame) displayFrame).isActionAvailable(action)));
+            || ((		displayFrame instanceof ReActionHandler
+            	&& ((ReActionHandler) displayFrame).isActionAvailable(action)));
     }
 
 	/**

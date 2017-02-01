@@ -2,6 +2,7 @@ package net.sf.RecordEditor.edit.open;
 
 import javax.swing.JTextArea;
 
+import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.display.IDisplayBuilder;
 import net.sf.RecordEditor.re.file.FileView;
@@ -18,6 +19,8 @@ public class StartEditor {
 	protected boolean ok = false;
 	private JTextArea   message;
 	private int initialRow;
+	
+	public AbstractFileDisplayWithFieldHide screen;
 	//RecentFilesList recentList;
 
 
@@ -57,9 +60,15 @@ public class StartEditor {
 //			message.setText("Error Reading the File: " + e.getMessage());
 //			Common.logMsg(e.getMessage(), e);
 		} catch (EditingCancelled e) {
-			message.setText(e.getMessage());
+			if (message == null) {
+				Common.logMsgRaw(e.getMessage(), null);
+			} else {
+				message.setText(e.getMessage());
+			}
 		} catch (Exception e) {
-			message.setText(LangConversion.convert("Error Reading the File:") + " " + e.toString());
+			if (message != null) {
+				message.setText(LangConversion.convert("Error Reading the File:") + " " + e.toString());
+			}
 			Common.logMsgRaw(e.getMessage(), e);
 			e.printStackTrace();
 		}
@@ -74,9 +83,11 @@ public class StartEditor {
 				opt = IDisplayBuilder.ST_INITIAL_BROWSE;
 			}
 			//DisplayBuilder.doOpen(file, initialRow, pBrowse);
-			DisplayBuilderFactory.getInstance().newDisplay(opt, "", null, file.getLayout(), file, initialRow);
+			screen = DisplayBuilderFactory.getInstance().newDisplay(opt, "", null, file.getLayout(), file, initialRow);
 
-			message.setText(file.getMsg());
+			if (message != null) {
+				message.setText(file.getMsg());
+			}
 		}
 	}
 }

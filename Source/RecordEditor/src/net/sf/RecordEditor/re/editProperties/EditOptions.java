@@ -19,6 +19,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -67,6 +69,8 @@ public class EditOptions {
             = Math.min(
                     SwingUtils.NORMAL_FIELD_HEIGHT * 21,
                     Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 5);
+    
+    private List<SaveScreens> screensToCheck = new ArrayList<SaveScreens>(2);
     private EditParams params = new EditParams();
 
     private JFrame frame = new JFrame("Record Editor Options Editor");
@@ -75,6 +79,7 @@ public class EditOptions {
     private JTabbedPane mainTabbed = new JTabbedPane();
     private JTabbedPane propertiesTabbed = new JTabbedPane();
     private JTabbedPane cobolTabbed = new JTabbedPane();
+    private JTabbedPane csvTabbed  = new JTabbedPane();
     private JTabbedPane textTabbed  = new JTabbedPane();
     private JTabbedPane xmlTabbed   = new JTabbedPane();
     private JTabbedPane jdbcTabbed  = new JTabbedPane();
@@ -86,11 +91,18 @@ public class EditOptions {
     @SuppressWarnings("serial")
     private AbstractAction saveBtn = new ReAbstractAction("Save", Common.ID_SAVE_ICON) {
         public void actionPerformed(ActionEvent e) {
-        	save();
-            params.writeProperties();
-            params.writeJarFiles();
-        }
+            for (SaveScreens a : screensToCheck) {
+            	a.options.save();
+            }
+            save();
+//            params.writeProperties();
+//            params.writeJarFiles();
+            
+         }
     };
+    
+    private final EditCsvLists editDelims = EditCsvLists.newDelimiterEditor(params);
+    private final EditCsvLists editQuotes = EditCsvLists.newQuoteEditor(params); 
 
     private String description
         = LangConversion.convertId(LangConversion.ST_MESSAGE, "EditProps_PnlDescription",
@@ -754,11 +766,20 @@ public class EditOptions {
        frame.addWindowListener(new WindowAdapter() {
            public void windowClosing(WindowEvent e) {
         	   save();
-               params.writeProperties();
-               params.writeJarFiles();
+ //              params.writeProperties();
+ //              params.writeJarFiles();
            	   for (EditPropertiesPnl p : propertiesPnl) {
             	   p.clear();  
                }
+               
+               for (SaveScreens a : screensToCheck) {
+            	   if (a.options.isCloseRequired()) {
+            		   mainTabbed.setSelectedComponent(a.tabbedPane);
+            		   a.tabbedPane.setSelectedComponent(a.tabPnl);
+            		   a.options.close();
+            	   }
+               }
+
            }
        });
     }
@@ -803,7 +824,15 @@ public class EditOptions {
         }
         //TODO
         SwingUtils.addTab(cobolTabbed, "Cobol_Opts", "Cobol/JRecord", cobolOptPnl);
-        
+
+        addTab(csvTabbed, "EditOpts_EditDelims", "Edit Csv Field Delimiters", editDelims.panel, editDelims);
+        addTab(csvTabbed, "EditOpts_EditQuotes", "Edit Csv Quote", editQuotes.panel, editQuotes);
+        if (Common.CSV_PROGRAM_ID.equals(getApplId())) {
+        	SwingUtils.addTab(csvTabbed, "EditOpts_CsvOptions", "Csv Options", csvPnl);
+        }
+
+    
+  
         SwingUtils.addTab(textTabbed, "EditOpts_EditColors", "Field Colors", EditColors.getFieldColorEditor(frame, params));
         SwingUtils.addTab(textTabbed, "EditOpts_EditColors", "Special Colors", EditColors.getSpecialColorEditor(frame, params));
         SwingUtils.addTab(textTabbed, "Special_Chars", "Special Fonts", new EditPropertiesPnl(params, specialCharsetDescription, scParams));
@@ -831,16 +860,17 @@ public class EditOptions {
         addMainTab("Properties", propertiesTabbed);
 
         System.out.println("Application Id: " + getApplId());
-        if (Common.CSV_PROGRAM_ID.equals(getApplId())) {
-            addMainTab("Csv Options", csvPnl);
-        }
+        addMainTab("Csv", csvTabbed);
+//        if (Common.CSV_PROGRAM_ID.equals(getApplId())) {
+//            addMainTab("Csv Options", csvPnl);
+//        }
         if (Common.OPTIONS.getTextPoPresent.isSelected()) {
             addMainTab("Special Formats", poPnl);
         }
 //poPnl
         addMainTab("Cobol/JRecord", cobolTabbed);
         addMainTab("Text", textTabbed);
-        
+       
         addMainTab("Xml", xmlTabbed);
         if (includeJDBC) {
             SwingUtils.addTab(jdbcTabbed, "EditOpts_JDBC","JDBC Jars", jdbcPnl);
@@ -891,6 +921,9 @@ public class EditOptions {
 //    }
 
     private void save() {
+        params.writeProperties();
+        params.writeJarFiles();
+
 //    	for (EditPropertiesPnl p : propertiesPnl) {
 //    		p.save();
 //    	}
@@ -939,6 +972,12 @@ public class EditOptions {
         return pnl;
     }
 
+    public void addTab(JTabbedPane tab, String tabId, String name, JComponent tabComponenet, Object item) {
+    	SwingUtils.addTab(tab, tabId, name, tabComponenet);
+    	if (item instanceof ISaveOptions) {
+    		screensToCheck.add(new SaveScreens(tab, tabComponenet, (ISaveOptions) item));
+    	}
+    }
 
     private static String getApplId() {
         String ret = "";
@@ -971,4 +1010,21 @@ public class EditOptions {
 //
 //        new EditOptions(true, jdbc, true);
 //    }
+    
+    private static class SaveScreens {
+    	final JTabbedPane tabbedPane;
+    	final JComponent tabPnl;
+    	final ISaveOptions options;
+    	
+    	
+		protected SaveScreens(JTabbedPane tabbedPane, JComponent tabPnl,
+				ISaveOptions options) {
+			super();
+			this.tabbedPane = tabbedPane;
+			this.tabPnl = tabPnl;
+			this.options = options;
+		}
+    	
+    	
+    }
 }

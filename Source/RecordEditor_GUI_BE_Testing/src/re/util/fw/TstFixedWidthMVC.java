@@ -18,7 +18,7 @@ import net.sf.RecordEditor.re.util.fw.UpdateableFileSummayModel;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.FixedWidthFieldSelection;
 import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItem;
-import zCommon.ZCommonCode;
+import xCommon.XCommonCode;
 
 
 /**
@@ -33,12 +33,12 @@ public class TstFixedWidthMVC {
 	public static final int DECIMAL_COLUMN = 3;
 	public static final int INCLUDE_COLUMN = 4;
 	
-	public static final String[] FW_FILES = ZCommonCode.FW_FILES;
+	public static final String[] FW_FILES = XCommonCode.FW_FILES;
 	
-	public static final ColumnDetails[] UPDATED_AMS_PO_HEADER_FIELDS = ZCommonCode.UPDATED_AMS_PO_HEADER_FIELDS;
+	public static final ColumnDetails[] UPDATED_AMS_PO_HEADER_FIELDS = XCommonCode.UPDATED_AMS_PO_HEADER_FIELDS;
 	
-	public static final ColumnDetails[][] FILE_COLUMNS = ZCommonCode.FILE_COLUMNS;
-	public static final String[] CHARCTER_SETS = ZCommonCode.CHARCTER_SETS;
+	public static final ColumnDetails[][] FILE_COLUMNS = XCommonCode.FILE_COLUMNS;
+	public static final String[] CHARCTER_SETS = XCommonCode.CHARCTER_SETS;
 	
 	
 	/**
@@ -51,7 +51,7 @@ public class TstFixedWidthMVC {
 		for (int i = 0; i < FW_FILES.length; i++) {
 			String fw = FW_FILES[i];
 			
-			assertTrue(mdl.setData(fw, ZCommonCode.readDataFile(fw), true));
+			assertTrue(mdl.setData(fw, XCommonCode.readDataFile(fw), true));
 			fldSelect.reloadFromFileModel();
 
 			checkModel(mdl, i);
@@ -69,7 +69,7 @@ public class TstFixedWidthMVC {
 		for (int i = 0; i < FW_FILES.length; i++) {
 			String fw = FW_FILES[i];
 			
-			assertTrue(mdl.setData(fw, ZCommonCode.readDataFile(fw), true));
+			assertTrue(mdl.setData(fw, XCommonCode.readDataFile(fw), true));
 			fldView.reloadFromFileModel();
 			fldView.setSchemaFileName(FW_FILES[i] + ".xml");
 
@@ -95,7 +95,7 @@ public class TstFixedWidthMVC {
 		for (int i = 0; i < FW_FILES.length; i++) {
 			String fw = FW_FILES[i];
 			
-			assertTrue(pane.setData(fw, ZCommonCode.readDataFile(fw), true, ""));
+			assertTrue(pane.setData(fw, XCommonCode.readDataFile(fw), true, ""));
 
 			checkView(mdl, fldView, i);
 			checkPane(pane, i);
@@ -104,7 +104,7 @@ public class TstFixedWidthMVC {
 		for (int i = 0; i < FW_FILES.length; i++) {
 			String fw = FW_FILES[i];
 			
-			assertTrue(pane.isMyLayout("", fw, ZCommonCode.readDataFile(fw)));
+			assertTrue(pane.isMyLayout("", fw, XCommonCode.readDataFile(fw)));
 			
 			checkView(mdl, fldView, i);
 			checkPane(pane, i);
@@ -126,9 +126,9 @@ public class TstFixedWidthMVC {
 				tstDtls.fieldSelection, 
 				true, goBtn);
 		FixedWidthSelectionPane pane = new FixedWidthSelectionPane(fldView, mdl, goBtn);
-		String fw = ZCommonCode.PO_HEADER_FILE;
+		String fw = XCommonCode.PO_HEADER_FILE;
 		
-		assertTrue(pane.setData(fw, ZCommonCode.readDataFile(fw), true, ""));
+		assertTrue(pane.setData(fw, XCommonCode.readDataFile(fw), true, ""));
 		
 		tstDtls.doClickOnField(1);
 		tstDtls.doClickOnField(2);
@@ -218,7 +218,7 @@ public class TstFixedWidthMVC {
 
 
 	public static void checkPane(FixedWidthSelectionPane pane, int fldIdx) {
-		ZCommonCode.checkPane(pane, FILE_COLUMNS[fldIdx], CHARCTER_SETS[fldIdx]);
+		XCommonCode.checkPane(pane, FILE_COLUMNS[fldIdx], CHARCTER_SETS[fldIdx]);
 	}
 
 	private void checkView(UpdateableFileSummayModel mdl, FixedWidthSelectionView fldView, int fileIdx) {
@@ -250,7 +250,7 @@ public class TstFixedWidthMVC {
 		
 		assertEquals(expectedColumns.length, columnDetails[0].length);
 		assertEquals(lastField.getStart() + lastField.getLength() - 1, mdl.getMaxLineLength());
-		assertEquals(CHARCTER_SETS[fileIdx], mdl.getCharsetDetails().charset);
+		assertEquals("" + fileIdx, CHARCTER_SETS[fileIdx], mdl.getCharsetDetails().charset);
 								
 		ColumnDetails[] fieldSelection = mdl.getFieldListManager().getFieldSelection();
 		for (int j = 0; j < expectedColumns.length; j++) {

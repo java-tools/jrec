@@ -1,7 +1,6 @@
 package net.sf.RecordEditor.re.fileWriter;
 
 import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -24,14 +23,13 @@ public class FixedWriter extends BaseWriter {
 	private final int[] fieldLen;
 	private  int[] prefixLen = null;
 	
-	public FixedWriter(String fileName, String delimiter, 
+	public FixedWriter(OutputStream fileName, String delimiter, 
 			String fontName, int[] fieldLengths, boolean[] includeField) throws IOException {
 		font = fontName;
 		fieldLen = fieldLengths;
 		setPrintField(includeField);
 
-		fileWriter = new BufferedOutputStream(
-				new FileOutputStream(fileName), 4096);
+		fileWriter = new BufferedOutputStream(fileName, 4096);
 
 		
 		eolBytes = CommonBits.getEolBytes(null, "", font);

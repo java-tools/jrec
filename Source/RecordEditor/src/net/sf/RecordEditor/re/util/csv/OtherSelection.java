@@ -18,6 +18,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.IGetSchema;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.IO.AbstractLineReader;
 import net.sf.JRecord.IO.LineIOProvider;
@@ -215,6 +216,15 @@ public class OtherSelection implements FilePreview {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#getSchemaCheckType()
+	 */
+	@Override
+	public int getSchemaCheckType() {
+		return IGetSchema.ST_OTHER_SCHEMA;
+	}
+
+
 	@Override
 	public String getFileDescription() {
 
@@ -242,11 +252,11 @@ public class OtherSelection implements FilePreview {
 	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
 	 */
 	@Override
-	public boolean isMyLayout(String layoutId, String filename, byte[] data) {
+	public int isMyLayout(String layoutId, String filename, byte[] data) {
 
 		setData(filename, data, false, layoutId);
 		
-		return type != TYPE_OTHER;
+		return type != TYPE_OTHER? LIKELY : NO;
 	}
 
 

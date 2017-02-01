@@ -1,0 +1,35 @@
+import csv
+#set ($schemaDef = ${generateOptions.schemaDefinition})
+#set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+
+#incl("pyCsvIO/CsvCommonPy.vm")
+
+#fieldNameClassPy()
+
+def read_data(path):
+    with open(path, 'rU') as data:
+#if (${generateOptions.schemaDefinition.areThereColumnNames()})
+        reader = csv.DictReader(data, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q})
+#else
+	    cols = ColumnNames()
+        reader = csv.DictReader(data, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q},fieldnames=cols.allNames)	    
+#end
+
+        for row in reader:
+            yield row
+
+# -------------------------------------------------------
+
+if __name__ == "__main__":
+    cols = ColumnNames()
+    
+    for rowIndex, row in enumerate(read_data('${generateOptions.getDataFileName().getEscapedFileName()}')):
+#*  *##if ( ${r.getFields().size()} == 0 )
+        print row
+#*  *##elseif ( ${r.getFields().size()} == 1 )
+        print row[cols.${r.getFields().get(0).javaName}]
+#*  *##elseif ( ${r.getFields().size()} == 2 )
+        print row[cols.${r.getFields().get(0).javaName}], row[cols.${r.getFields().get(1).javaName}]
+#*  *##else
+        print row[cols.${r.getFields().get(0).javaName}], row[cols.${r.getFields().get(1).javaName}], row[cols.${r.getFields().get(2).javaName}]
+#*  *##end

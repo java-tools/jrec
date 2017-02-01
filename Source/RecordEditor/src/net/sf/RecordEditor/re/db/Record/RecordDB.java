@@ -360,7 +360,8 @@ public class RecordDB  extends AbsDB<RecordRec> {
    * @return updated index
    * @throws SQLException SQL error
    */
-  protected int setSQLParams(PreparedStatement statement, RecordRec value, boolean insert, int idx)
+  @SuppressWarnings("deprecation")
+protected int setSQLParams(PreparedStatement statement, RecordRec value, boolean insert, int idx)
                              throws SQLException {
       //RecordRec valueX = value;
       ExternalRecord val = value.getValue();

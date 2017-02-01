@@ -254,7 +254,8 @@ public class LineIOProvider implements AbstractManager, AbstractLineIOProvider {
 	 */
 	@Override @SuppressWarnings("rawtypes")
 	public LineProvider getLineProvider(IBasicFileSchema schema) {
-    	return getProvider(schema.getFileStructure()).getLineProvider(schema);
+    	return getProvider(schema.getFileStructure())
+    				.getLineProvider(schema);
     }
 
 	@Override @SuppressWarnings("rawtypes")

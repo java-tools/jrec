@@ -216,6 +216,7 @@ public final class ScriptEditPane {
 
 				setScriptFile(newFile);
 				tabWithClose.setTabname(scriptFile.getName());
+				setChanged(false);
 			} finally {
 				w.flush();
 				w.close();

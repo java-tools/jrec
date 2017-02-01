@@ -167,8 +167,9 @@ public class LayoutEdit extends ReMainFrame {
     public void executeAction(int action) {
 
         if (action == ReActionHandler.NEW) {
-            if (ReFrame.getActiveFrame().isActionAvailable(action)) {
-                ReFrame.getActiveFrame().executeAction(action);
+        	ReActionHandler actionHandler = ReFrame.getActionHandler();
+            if (actionHandler.isActionAvailable(action)) {
+            	actionHandler.executeAction(action);
             } else {
                 new RecordEdit1Record(menu.getCurrentDbName(),
                         menu.getCurrentDbIdentifier(), null, null);

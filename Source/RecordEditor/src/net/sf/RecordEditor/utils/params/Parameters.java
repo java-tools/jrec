@@ -51,7 +51,8 @@ public final class Parameters implements ExternalReferenceConstants {
 
     public static final String VAL_RECORD_EDITOR_DEFAULT = "RecordEditor_Default";
 
-    public static final String DELIMITER_CHARS = "DelimChars";
+    public static final String CSV_DELIMITER_CHARS = "DelimChars";
+    public static final String CSV_QUOTE_CHARS = "QuoteChars";
 
     public static final String PROPERTY_BIG_FILE_PERCENT = "BigFilePercentage";
     public static final String PROPERTY_BIG_FILE_CHUNK_SIZE = "BigFileChunkSize";
@@ -503,12 +504,9 @@ public final class Parameters implements ExternalReferenceConstants {
 		return s;
     }
 
+    //TODO
     public static String getPropertiesDirectoryWithFinalSlash() {
- 		String s = getPropertiesDirectory();
- 		if (s != null && (! s.endsWith("/")) && (! s.endsWith("\\"))) {
- 			s = s + File.separator;
- 		}
- 		return s;
+ 		return addPathSeperator(getPropertiesDirectory());
      }
 
 	/**
@@ -1283,18 +1281,28 @@ public final class Parameters implements ExternalReferenceConstants {
 	public static void removeParameterChangeListner(AParameterChangeListner e) {
 		paramChangeListners.remove(e);
 	}
-	
-	public static String addPathSlash(String dirName) {
+
+	/**
+	 * Add path seperator at the end (if needed)
+	 * 
+	 * @param dirName directory name
+	 * 
+	 * @return updated directory name
+	 */
+	public static String addPathSeperator(String dirName) {
 		String ret = dirName;
-		if (dirName == null || dirName.endsWith("/") || dirName.endsWith("\\")) {
-			
-		} else {
-			ret = ret + "/";
+		if (doesNotEndWithPathSeperator(dirName)) {
+			ret = ret + File.separatorChar;
 		}
 		
 		return ret;
 	}
-	
+
+	public static boolean doesNotEndWithPathSeperator(String dirName) {
+		char ch;
+		return (dirName != null && dirName.length() != 0
+			&& (ch = dirName.charAt(dirName.length()-1)) != '\\' && ch != '/');
+	}
     
     public static boolean exists(String filename) {
     	boolean ret;

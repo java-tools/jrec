@@ -145,7 +145,7 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 
 		valueTxt.addFocusListener(new FocusAdapter() {
 			@Override public void focusLost(FocusEvent e) {
-				fireValueChangeListner(null);
+				textFieldChanged();
 			}
 		});
 	}
@@ -325,6 +325,9 @@ public class ComboLikeObject extends JPanel implements ActionListener {
 		super.setName(name);
 	}
 
+	protected void textFieldChanged() {
+		fireValueChangeListner(null);
+	}
 
 	protected void fireValueChangeListner(ChangeEvent e) {
 

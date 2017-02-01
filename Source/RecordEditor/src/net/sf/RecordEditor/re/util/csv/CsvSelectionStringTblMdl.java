@@ -46,6 +46,8 @@ public class CsvSelectionStringTblMdl
 	private int lines2hide = 0;
 
 	private String[] columnNames = null;
+	
+	private CsvDefinition csvDef;
 
 
 	public CsvSelectionStringTblMdl() {
@@ -115,8 +117,8 @@ public class CsvSelectionStringTblMdl
 			}
 
 			ICsvLineParser p = parserManager.get(parserType);
-			List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1),
-					new CsvDefinition(seperator, quote, embeddedCr));
+			List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), getCsvDef());
+//					new CsvDefinition(seperator, quote, embeddedCr));
 			columnNames = new String[colnames.size()] ;
 			columnNames = colnames.toArray(columnNames);
 
@@ -171,6 +173,7 @@ public class CsvSelectionStringTblMdl
 		this.data = data;
 		this.charset = font;
 		this.embeddedCr = embeddedCr;
+		csvDef = null;
 
 		readData();
 	}
@@ -178,6 +181,7 @@ public class CsvSelectionStringTblMdl
 	@Override
 	public void setQuote(String quote) {
 		this.quote = quote;
+		csvDef = null;
 	}
 
 	/* (non-Javadoc)
@@ -186,6 +190,7 @@ public class CsvSelectionStringTblMdl
 	@Override
 	public void setEmbedded(boolean newEmbedded) {
 		embeddedCr = newEmbedded;
+		csvDef = null;
 	}
 
 	/**
@@ -194,16 +199,17 @@ public class CsvSelectionStringTblMdl
 	@Override
 	public void setSeperator(String newSeperator) {
 		this.seperator = newSeperator;
+		csvDef = null;
 	}
 
 	@Override
 	public void setupColumnCount() {
 
-		String sep = seperator;
+		//String sep = seperator;
 		BasicCsvLineParser parser = new BasicCsvLineParser(false);
 
 		columnCount = 1;
-		CsvDefinition csvDef = new CsvDefinition(sep, quote, embeddedCr);
+		CsvDefinition csvDef = getCsvDef(); //new CsvDefinition(sep, quote, embeddedCr);
 		for (int i = 0; i < lines2display; i++) {
 			columnCount = Math.max(columnCount,
 								   parser.getFieldCount(lines[i], csvDef));
@@ -243,12 +249,23 @@ public class CsvSelectionStringTblMdl
             s = p.getField(
             		columnIndex,
             		lines[rowIndex + lines2hide],
-            		new CsvDefinition(seperator, quote, embeddedCr));
+            		getCsvDef() //new CsvDefinition(seperator, quote, embeddedCr)
+            		);
         }
 
         return s;
     }
 
+	private CsvDefinition getCsvDef() {
+		if (csvDef == null) {
+			csvDef = new CsvDefinition(
+					Conversion.decodeFieldDelim(seperator, charset),
+					Conversion.decodeCharStr(quote, charset),
+					embeddedCr);
+		}
+		
+		return csvDef;
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.csv.AbstractCsvTblMdl#getAnalyser()
@@ -264,7 +281,7 @@ public class CsvSelectionStringTblMdl
 		char b = ',';
 		if (seperator != null
 		&& seperator.length() > 0) {
-			b = seperator.charAt(0);
+			b = getCsvDef().getDelimiter().charAt(0);
 		}
 		return new CsvAnalyser(lines, getLines2display(), charset, b, embeddedCr);
 	}
@@ -285,12 +302,13 @@ public class CsvSelectionStringTblMdl
 			lines = new String[LINES_TO_READ];
 			int i = 0;
 			InputStream in = new ByteArrayInputStream(data);
-			String quoteEsc = quote == null ? "" : quote + quote;
+			String q = getCsvDef().getDelimiter();
+			String quoteEsc = quote == null ? "" : q + q;
 			if (Conversion.isMultiByte(charset)) {
 				ICharReader r;
 
 				if (embeddedCr) {
-					r = new CsvCharReader(seperator, quote, quoteEsc, namesOnLine);
+					r = new CsvCharReader(getCsvDef().getDelimiter(), q, quoteEsc, namesOnLine);
 				} else {
 					r = new StandardCharReader();
 				}
@@ -311,7 +329,7 @@ public class CsvSelectionStringTblMdl
 				byte[] b;
 
 				if (embeddedCr) {
-					r = new CsvByteReader(charset, seperator, quote, quoteEsc, namesOnLine);
+					r = new CsvByteReader(charset, getCsvDef().getDelimiter(), getCsvDef().getQuote(), quoteEsc, namesOnLine);
 				} else {
 					r = new ByteTextReader(charset);
 				}

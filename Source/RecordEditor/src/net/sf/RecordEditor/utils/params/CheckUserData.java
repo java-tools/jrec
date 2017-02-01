@@ -30,21 +30,10 @@ public final class CheckUserData {
 	}
 	
 	public static void checkJavaVersion(String pgm) {
-		String vendor =  System.getProperty("java.vm.name");
-		if (vendor != null && vendor.toLowerCase().indexOf("openjdk") >= 0) {
-			StringBuilder msg = new StringBuilder(
-					"  ------------------------------------------------------------"
-					+"\n\nThe RecordEditor was Tested using Oracle Java 7, "
-					+"\nIn the past the RecordEditor has had problems in OpenJDK."
-					+ "\nIf you experience problems, consider installing Oracle Java 7.");
-			
-			msg.append("\n\nJava Version: ") .append(System.getProperty("java.version"))
-			   .append(  "\nJava VM Name: ") .append(vendor)
-			   .append("\n\n------------------------------------------------------------\n");
-			Common.logMsg(msg.toString(), null);
-		} else if (Parameters.JAVA_VERSION < 1.7) {
+
+		if (Parameters.JAVA_VERSION < 1.7) {
 			Common.logMsg(
-					pgm + " was tested with Java 7. You ar curretly running Java "
+					pgm + " was tested with Java 7/8. You are curretly running Java "
 					+ System.getProperty("java.version") + "\n\n"
 					+ "If you experience problems, try:\n"
 					+ "\t1. Install the latest version of Java\n"

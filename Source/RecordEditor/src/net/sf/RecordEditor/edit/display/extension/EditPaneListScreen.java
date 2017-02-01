@@ -29,6 +29,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
@@ -59,19 +60,21 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	protected MenuPopupListener mainPopup, fixedPopupMenu;
 
     protected IChildScreen childScreen;
+    
 
 
 	public EditPaneListScreen(
 			String formType, FileView viewOfFile,
 			boolean primary, boolean addFullLine, boolean fullList,
 			boolean prefered, boolean hex, int option) {
-		super(formType, viewOfFile, primary, addFullLine, fullList, prefered, hex, option);
+		super(null, formType, viewOfFile, primary, addFullLine, fullList, prefered, hex, option);
 
+		BaseHelpPanel actualPnl = getActualPnl();
 		fieldMapping = new FieldMapping(getFieldCounts());
 
-		init_100_SetupJtables(viewOfFile);
+		init_100_SetupJtables(viewOfFile, actualPnl);
 
-		init_200_LayoutScreen();
+		init_200_LayoutScreen(actualPnl);
 	}
 
 	/**
@@ -79,9 +82,9 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	 * @param viewOfFile current file view
 	 */
 	@SuppressWarnings("serial")
-	protected void init_100_SetupJtables(final FileView viewOfFile) {
+	protected void init_100_SetupJtables(final FileView viewOfFile, BaseHelpPanel actualPnl) {
 
-	        ReAction sort = new ReAction(ReActionHandler.SORT, this);
+	        ReAction sort = new ReAction(ReActionHandler.SORT, getActionHandler());
 	        AbstractAction editRecord
 	        	= new ReAbstractAction("Edit Record", Common.ID_EDIT_RECORD_ICON) {
 	            public void actionPerformed(ActionEvent e) {
@@ -227,9 +230,9 @@ implements AbstractRowChangedListner, TableModelListener, AbstractFileDisplayWit
 	       	setCellEditorRendor(tblScrollPane.getFixedTable());
 	    }
 
-	protected void init_200_LayoutScreen() {
+	protected void init_200_LayoutScreen(BaseHelpPanel actualPnl) {
 
-		this.actualPnl.addReKeyListener(new DelKeyWatcher());
+		actualPnl.addReKeyListener(new DelKeyWatcher());
 	    //actualPnl.setHelpURL(Common.formatHelpURL(Common.HELP_RECORD_TABLE));
 
 	    actualPnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,

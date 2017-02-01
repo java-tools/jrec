@@ -238,7 +238,7 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 		this.recordType = pRecordType;
 
 		this.fields   = pFields;
-		this.quote    = decodeUnicodeChar(pQuote);
+		this.quote    = Conversion.decodeCharStr(pQuote, pFontName);
 		this.quoteUneditted = pQuote;
 		this.fontName = pFontName;
 		this.recordStyle = pRecordStyle;
@@ -251,7 +251,7 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 		}
 
 		delimiterUneditted = pDelim;
-		delimiter = convertFieldDelim(pDelim);
+		delimiter = Conversion.decodeFieldDelim(pDelim, pFontName);
 
 		//System.out.println("Quote 1 ==>" + pQuote + "<==");
 		for (j = 0; j < fieldCount; j++) {
@@ -455,7 +455,7 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
     }
 
     protected void setDelimiter(String delimiter) {
-		this.delimiter = convertFieldDelim(delimiter);
+		this.delimiter = Conversion.decodeFieldDelim(delimiter, fontName);
 		this.delimiterUneditted = delimiter;
 	}
 
@@ -506,43 +506,43 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 		this.numberOfFieldsAdded = numberOfFieldsAdded;
 	}
 
-	public final static String convertFieldDelim(String pDelim) {
-		String delimiter = pDelim;
+//	public final String convertFieldDelim(String pDelim) {
+//		String delimiter = pDelim;
+//
+//		if ((pDelim == null) || pDelim == "\t" || ((pDelim = pDelim.trim()).equalsIgnoreCase("<tab>"))) {
+//			delimiter = "\t";
+//		} else if (pDelim.equalsIgnoreCase("<space>")) {
+//			delimiter = " ";
+//		} else if (pDelim.length() == 0 || pDelim.startsWith("x'") || pDelim.startsWith("X'")) {
+//			
+//		} else {
+//			delimiter = Conversion.decodeCharStr(pDelim, fontName);
+//		}
+//		return delimiter;
+//	}
 
-		if ((pDelim == null) || pDelim == "\t" || ((pDelim = pDelim.trim()).equalsIgnoreCase("<tab>"))) {
-			delimiter = "\t";
-		} else if (pDelim.equalsIgnoreCase("<space>")) {
-			delimiter = " ";
-		} else if (pDelim.length() == 0) {
-			
-		} else {
-			delimiter = decodeUnicodeChar(pDelim);
-		}
-		return delimiter;
-	}
-
-	/**
-	 * The input to this method can be either:<ul>
-	 * <li>A single character
-	 * <li>A character represented in unicode format: \\u0001
-	 * (\\u followed by the character code in hex format).
-	 * </ul>
-	 * 
-	 * @param charId character id to be decoded
-	 * @return character decoded character.
-	 * @throws NumberFormatException
-	 */
-	public static String decodeUnicodeChar(String charId) {
-		char ch;
-		int charLength = charId.length();
-		
-		if (charLength > 2 && charLength < 7 && charId.charAt(0) == '\\'
-		&&((ch = charId.charAt(1)) == 'u' || ch == 'U')) {
-			char[] chars = { (char)Integer.parseInt(charId.substring(2), 16) };
-			charId = new String(chars);
-		}
-		return charId;
-	}
+//	/**
+//	 * The input to this method can be either:<ul>
+//	 * <li>A single character
+//	 * <li>A character represented in unicode format: \\u0001
+//	 * (\\u followed by the character code in hex format).
+//	 * </ul>
+//	 * 
+//	 * @param charId character id to be decoded
+//	 * @return character decoded character.
+//	 * @throws NumberFormatException
+//	 */
+//	public static String decodeCharStr(String charId) {
+//		char ch;
+//		int charLength = charId.length();
+//		
+//		if (charLength > 2 && charLength < 7 && charId.charAt(0) == '\\'
+//		&&((ch = charId.charAt(1)) == 'u' || ch == 'U')) {
+//			char[] chars = { (char)Integer.parseInt(charId.substring(2), 16) };
+//			charId = new String(chars);
+//		}
+//		return charId;
+//	}
 
 	/**
 	 * @return the recordSelection

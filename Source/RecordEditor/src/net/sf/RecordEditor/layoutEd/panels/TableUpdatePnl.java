@@ -251,7 +251,16 @@ public class TableUpdatePnl<record extends AbsRecord> extends javax.swing.JPanel
 		}
     }
 
-    /**
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int, java.lang.Object)
+	 */
+	@Override
+	public void executeAction(int action, Object o) {
+		executeAction(action);
+	}
+
+
+	/**
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#isActionAvailable(int)
      */
     public boolean isActionAvailable(int action) {

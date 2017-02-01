@@ -10,6 +10,14 @@ package net.sf.RecordEditor.utils.common;
 public class DefaultActionHandler implements ReActionHandler {
 
 	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int, java.lang.Object)
+	 */
+	@Override
+	public void executeAction(int action, Object o) {
+		executeAction(action);
+	}
+
+	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
 	 */
 	@Override

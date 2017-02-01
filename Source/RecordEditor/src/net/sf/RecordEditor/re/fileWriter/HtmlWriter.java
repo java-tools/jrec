@@ -1,8 +1,9 @@
 package net.sf.RecordEditor.re.fileWriter;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 import net.sf.JRecord.Common.TranslateXmlChars;
 
@@ -16,13 +17,12 @@ public class HtmlWriter extends BaseWriter {
 	private final HtmlColors colors;
 
 
-	public HtmlWriter(String fileName, boolean tblBorder, HtmlColors colors, String tittle) throws IOException {
+	public HtmlWriter(OutputStream outStream, boolean tblBorder, HtmlColors colors, String tittle) throws IOException {
 
 		this.colors = colors;
 
 
-		writer = new BufferedWriter(
-				new FileWriter(fileName), 4096);
+		writer = new BufferedWriter(new OutputStreamWriter(outStream), 4096);
 
 		String bg = bgColor(colors.headingBackground);
 		String borderColor = "";

@@ -85,6 +85,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
+import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.IExternalTableCellColoring;
 import net.sf.RecordEditor.utils.swing.ITableColoringAgent;
 import net.sf.RecordEditor.utils.swing.LayoutCombo;
@@ -111,7 +112,7 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  */
 @SuppressWarnings("serial")
 public abstract class BaseDisplay
-implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema { 
+implements AbstractFileDisplay, ILayoutChanged,  ReActionHandler, IGetSchema { 
 
 //	private static ArrayList<Class> classList = new ArrayList<Class>();
 //	private static ArrayList<TableCellRenderer> renderList = new ArrayList<TableCellRenderer>();
@@ -134,6 +135,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 	protected static final int STD_OPTION_PANEL = 2;
 	protected static final int TREE_OPTION_PANEL = 3;
 	protected static final int NO_LAYOUT_LINE = 4;
+	protected static final int ONLY_OPTION_PANEL = 5;
 
 	protected static final IDisplayBuilder DisplayBldr = DisplayBuilderFactory.getInstance();
 
@@ -147,7 +149,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 
 	private Search searchScreen;
 
-	protected Rectangle screenSize = ReMainFrame.getMasterFrame().getDesktop().getBounds();
+	protected Rectangle screenSize = ReMainFrame.getDesktopSize();
 	    //Toolkit.getDefaultToolkit().getScreenSize();
 
 	protected AbstractLayoutDetails layout;
@@ -162,7 +164,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 //	protected final int fullLineIndex;
 
 	//protected ListnerPanel pnl = new ListnerPanel();
-	protected BaseHelpPanel actualPnl = new BaseHelpPanel(this.getClass().getSimpleName());
+	private final BaseHelpPanel actualPnl; // = new BaseHelpPanel(this.getClass().getSimpleName());
 
 	protected TableCellRenderer[] cellRenders;
 	//protected TableCellEditor[]   cellEditors;
@@ -189,6 +191,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 	private boolean allowPaste = true;
 
 	private final ExecuteSavedTasks executeTasks;
+	
+	private int editBtnOption = -1;
 
 	private KeyAdapter listner = new KeyAdapter() {
     	private long lastWhen = -121;
@@ -272,7 +276,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 	 * @param masterfile internal representation of a File
 	 * @param primary wether the screen is a primary screen
 	 */
-	protected BaseDisplay(final String formType,
+	protected BaseDisplay(
+					   final BaseHelpPanel pnl,
+					   final String formType,
 					   final FileView viewOfFile,
 	        		   final boolean primary,
 	        		   final boolean addFullLine,
@@ -282,8 +288,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 	        		   final int option ) {
 		//super(viewOfFile.getBaseFile().getFileNameNoDirectory(), formType, viewOfFile.getBaseFile());
 		//this.setPrimaryView(primary);
-
-		fileView   = viewOfFile;
+		this.actualPnl = pnl == null? new BaseHelpPanel(this.getClass().getSimpleName()) 
+									: pnl;
+		this.fileView   = viewOfFile;
 		this.formType = formType;
 		this.primary = primary;
 		this.executeTasks = new ExecuteSavedTasks(this, viewOfFile);
@@ -292,18 +299,7 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 		init(addFullLine, fullList, prefered, hex);
 		//fullLineIndex = layoutCombo.getFullLineIndex();
 
-		switch (option) {
-		case NO_LAYOUT_LINE:
-			break;
-		case NO_OPTION_PANEL:
-			actualPnl.addLineRE("Layouts", getLayoutCombo());
-			break;
-		default:
-			int opt = fileView.isBrowse() ? OptionPnl.BROWSE_PANEL
-					 : OptionPnl.EDIT_PANEL;
-
-			actualPnl.addComponent3Lines("Layouts", getLayoutCombo(), new OptionPnl(opt, this));
-		}
+		editBtnOption = option;
 	}
 
 
@@ -420,6 +416,15 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 			setNewLayout(newLayout);			// Could be duplicate of setupDisplayDetails
 //			searchScreen.setRecordLayout(newLayout);
 		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.display.AbstractFileDisplay#getActionHandler()
+	 */
+	@Override
+	public ReActionHandler getActionHandler() {
+		return this;
 	}
 
 
@@ -1800,8 +1805,8 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 	 * @see net.sf.JRecord.Details.IGetSchema#schemaAvailable4checking()
 	 */
 	@Override
-	public boolean schemaAvailable4checking() {
-		return true;
+	public int schemaChecking() {
+		return IGetSchema.ST_CHECK_SCHEMA;
 	}
 
 
@@ -1941,6 +1946,27 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 	 */
 	@Override
 	public BaseHelpPanel getActualPnl() {
+
+		if (editBtnOption >= 0) {
+			switch (editBtnOption) {
+			case NO_LAYOUT_LINE:
+				break;
+			case NO_OPTION_PANEL:
+				actualPnl.addLineRE("Layouts", getLayoutCombo());
+				break;
+			case ONLY_OPTION_PANEL:		
+				actualPnl.addComponentRE(
+						1, 5, BasePanel.PREFERRED, BasePanel.GAP, BasePanel.CENTER, BasePanel.CENTER, 
+						new OptionPnl(OptionPnl.NO_FILTER, getActionHandler(), null));
+				break;
+			default:
+				int opt = fileView.isBrowse() ? OptionPnl.BROWSE_PANEL
+						 : OptionPnl.EDIT_PANEL;
+				actualPnl.addComponent3Lines("Layouts", getLayoutCombo(), new OptionPnl(opt, getActionHandler(), null));
+			}
+			editBtnOption = -1;
+		}
+
 		return actualPnl;
 	}
 
@@ -2033,6 +2059,9 @@ implements AbstractFileDisplay, ILayoutChanged, ReActionHandler, IGetSchema {
 		this.allowPaste = allowPaste;
 	}
 
+	public void unDock() {
+		parentFrame.moveToSeperateScreen(this);
+	}
 
 	public void removeChildScreen() {
 	}

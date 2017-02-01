@@ -186,6 +186,7 @@ public class StandardLineIOProvider extends BasicIoProvider {
 			IBasicFileSchema schema, LineProvider lineProvider) {
 
 		switch (fileStructure) {
+	   	case Constants.IO_TEXT_BYTE_ENTER_FONT:
 		case Constants.IO_BIN_TEXT:		return new LineReaderWrapper(new ByteTextReader(schema.getFontName()));
 //       	case Constants.IO_BIN_TEXT:		return new BinTextReader(lLineProvider,  false);
        	case Constants.IO_BIN_NAME_1ST_LINE:
@@ -199,6 +200,7 @@ public class StandardLineIOProvider extends BasicIoProvider {
 		case Constants.IO_CSV_NAME_1ST_LINE:
 		case Constants.IO_BIN_CSV_NAME_1ST_LINE:
 			return new BinTextReader(lineProvider,  true, getCsvReader(schema, true));
+	   	case Constants.IO_FIXED_BYTE_ENTER_FONT:
 		case Constants.IO_FIXED_LENGTH: new LineReaderWrapper(new FixedLengthByteReader(schema.getMaximumRecordLength()));
 		default:
 			AbstractByteReader byteReader
@@ -286,18 +288,22 @@ public class StandardLineIOProvider extends BasicIoProvider {
     	switch (fileStructure) {
     	case Constants.IO_CONTINOUS_NO_LINE_MARKER:	return new ContinuousLineWriter();
     	case Constants.IO_BINARY_IBM_4680:			return BinaryLineWriter.newBinary4680Writer();
+    	case Constants.IO_FIXED_BYTE_ENTER_FONT:	
     	case Constants.IO_FIXED_LENGTH:				return new FixedLengthLineWriter();
 
+    	case Constants.IO_FIXED_CHAR_ENTER_FONT:	
       	case Constants.IO_FIXED_LENGTH_CHAR:		return new LineWriterWrapperChar(fileStructure);
     	case Constants.IO_XML_BUILD_LAYOUT:
        	case Constants.IO_XML_USE_LAYOUT:			return new XmlLineWriter();
 
        	case Constants.IO_CSV:
        	case Constants.IO_BIN_CSV:
+    	case Constants.IO_TEXT_BYTE_ENTER_FONT:	
        	case Constants.IO_BIN_TEXT:					return new BinTextWriter(false);
        	case Constants.IO_CSV_NAME_1ST_LINE:
        	case Constants.IO_BIN_CSV_NAME_1ST_LINE:
        	case Constants.IO_BIN_NAME_1ST_LINE:		return new BinTextWriter(true);
+    	case Constants.IO_TEXT_CHAR_ENTER_FONT:	
        	case Constants.IO_UNICODE_TEXT:
        	case Constants.IO_UNICODE_CSV:				return new TextLineWriter(false);
        	case Constants.IO_NAME_1ST_LINE:
@@ -403,7 +409,6 @@ public class StandardLineIOProvider extends BasicIoProvider {
    		}
 
 		return charProvider;
- 	
     }
 
     /* (non-Javadoc)

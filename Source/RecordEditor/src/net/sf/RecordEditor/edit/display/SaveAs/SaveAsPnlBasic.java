@@ -18,7 +18,7 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 public class SaveAsPnlBasic extends SaveAsPnlBase {
 
 	public SaveAsPnlBasic(CommonSaveAsFields commonSaveAsFields, int panelFormat, String extension, String description) {
-		super(commonSaveAsFields, extension, panelFormat, RecentFiles.RF_NONE, null);
+		super(commonSaveAsFields, extension, panelFormat, RecentFiles.RF_NONE, null, false);
 		JTextArea area = new JTextArea(description);
 
 		panel.addComponentRE(1, 5,BasePanel.FILL, BasePanel.GAP,

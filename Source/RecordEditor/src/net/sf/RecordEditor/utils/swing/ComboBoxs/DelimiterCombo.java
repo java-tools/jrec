@@ -3,9 +3,9 @@ package net.sf.RecordEditor.utils.swing.ComboBoxs;
 
 import java.util.List;
 
-import net.sf.RecordEditor.utils.swing.SwingUtils;
-import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboGeneric;
+import net.sf.JRecord.Common.Conversion;
 import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItemStr;
+import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboString;
 
 /**
  * Let the user select a Combo
@@ -13,7 +13,7 @@ import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboItemStr;
  *
  */
 @SuppressWarnings("serial")
-public class DelimiterCombo extends TreeComboGeneric<String, TreeComboItemStr> {
+public class DelimiterCombo extends TreeComboString {
 
 //	public static final boolean NAME_COMPONENTS = "Y".equalsIgnoreCase(
 //			Parameters.getString(Parameters.NAME_FIELDS));
@@ -35,71 +35,21 @@ public class DelimiterCombo extends TreeComboGeneric<String, TreeComboItemStr> {
 
 
 	protected DelimiterCombo(List<TreeComboItemStr> itms) {
-		super("DelimiterCombo", TreeComboItemStr.BLANK_ITEM, false, itms);
-		super.setTextFieldWidth(12 * SwingUtils.CHAR_FIELD_WIDTH);
+		super("DelimiterCombo", itms);
 	}
 	
 	public void setDelimiter(String value) {
-		if (value == null) { 
-			setSelectedItemSilently(TreeComboItemStr.BLANK_ITEM);
-			return;
-		};
-		for (TreeComboItemStr itm : items) {
-			if (value.equalsIgnoreCase(itm.getEnglish())) {
-				setSelectedItemSilently(itm);
-				return;
-			}
-		}
-		super.setTextSilently(value);
+		super.setValue(value);
 	}
 	
 	public String getDelimiter() {
-		TreeComboItemStr selectedItem = getSelectedItem();
-		if (selectedItem != null && selectedItem != super.BLANK_ITEM) {
-			return selectedItem.getEnglish();
-		}
-		return super.getText();
+		TreeComboItemStr itm = super.getSelectedItemUseText();
+		String t = itm == null ? super.getTextValue() : itm.getKey();
+		
+		return Conversion.encodeCharStr(t);
 	}
 	
 	public final void ensureDelimitierExists(String englishText) {
-		if (englishText == null || englishText.length() == 0) { return; }
-		
-		for (int i = 0; i < items.size(); i++) {
-			if (englishText.equalsIgnoreCase(items.get(i).getKey())) {
-				setSelectedItemSilently(items.get(i));
-				return;
-			}
-		}
-		
-		TreeComboItemStr newEntry = new TreeComboItemStr(englishText, englishText, englishText);
-		items.add(newEntry);
-		setSelectedItemSilently(newEntry);
-	}
-
-
-	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.utils.swing.common.ComboLikeObject#setTextSilently(java.lang.String)
-	 */
-	@Override
-	public void setTextSilently(String t) {
-		if (t == null) {
-			t = "";
-		}
-		for (int i = 0; i < items.size(); i++) {
-			if (t.equalsIgnoreCase(items.get(i).getKey())) {
-				super.setSelectedItemSilently(items.get(i));
-				return;
-			}
-		}
-		super.setTextSilently(t);
-	}
-
-
-	/* (non-Javadoc)
-	 * @see net.sf.RecordEditor.utils.swing.treeCombo.TreeComboGeneric#updateKeyForMap(java.lang.Object)
-	 */
-	@Override
-	protected String updateKeyForMap(String k) {
-		return k.toLowerCase();
+		super.ensureValueExists(englishText);
 	}
 }

@@ -136,6 +136,14 @@ public interface ReActionHandler {
 
     public static final int MAX_ACTION      = 83;
 
+
+    /**
+     * Execute a form action
+     *
+     * @param action action to be performed
+     */
+    public abstract void executeAction(int action, Object o);
+
     /**
      * Execute a form action
      *

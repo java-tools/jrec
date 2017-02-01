@@ -1,12 +1,13 @@
 package net.sf.RecordEditor.re.fileWriter;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import net.sf.JRecord.Common.Conversion;
 
 public class WriterBuilder {
 
-	public static FieldWriter newCsvWriter(String fileName, String delimiter,
+	public static FieldWriter newCsvWriter(OutputStream fileName, String delimiter,
 			String fontName, String quoteStr, boolean quoteAllTextFields,
 			boolean[]  includeFields) throws IOException {
 		

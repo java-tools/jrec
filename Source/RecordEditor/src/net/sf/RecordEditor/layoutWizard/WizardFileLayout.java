@@ -5,37 +5,23 @@ import java.awt.Component;
 
 import javax.swing.RootPaneContainer;
 
-import net.sf.JRecord.External.CopybookWriterManager;
-import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.External.base.CopybookWriter;
 import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
-import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.AbsRowList;
-import net.sf.RecordEditor.utils.wizards.AbstractWizard;
 import net.sf.RecordEditor.utils.wizards.AbstractWizardPanel;
 
 
 @SuppressWarnings("unchecked")
-public class WizardFileLayout extends AbstractWizard<Details> {
+public class WizardFileLayout extends WizardFileLayoutBase {
 
 	private AbstractWizardPanel<Details>[] panelsFixed = new AbstractWizardPanel[5];
-
-	private AbstractWizardPanel<Details>[] panelsCsv   = new AbstractWizardPanel[5];
-
+	private AbstractWizardPanel<Details>[] panelsCsv = new AbstractWizardPanel[5];
 	private AbstractWizardPanel<Details>[] panelsMulti = new AbstractWizardPanel[7];
-
-	private BasicLayoutCallback callbackClass;
-
-	private ExternalRecord externalRecord = null;
-
-
-
-
+	
 	/**
 	 * Wizard to create a file copybook based on a sample data file.
 	 *
@@ -54,17 +40,18 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 	public <T extends Component & RootPaneContainer> WizardFileLayout(T frame,
 			final String fileName, BasicLayoutCallback callback, boolean alwaysShowCsv,
 			boolean visible) {
-		super(frame, new Details());
+		super(frame, callback);
 
-		getWizardDetails().filename = fileName;
-		callbackClass = callback;
 
 	    AbsRowList       typeList = new AbsRowList(0, 1, false, false).loadData(
 	    		ExternalConversion.getTypes(0)
 	    );
 	    AbsRowList  structureList = new ManagerRowList(LineIOProvider.getInstance(), true);
 
-	    super.getWizardDetails().layoutDirectory = Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
+	    Details wizardDetails = super.getWizardDetails();
+	    
+		wizardDetails.filename = fileName;
+		wizardDetails.layoutDirectory = Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
 
 
 		panelsFixed[0] = new Pnl1File(structureList, typeList);
@@ -112,64 +99,5 @@ public class WizardFileLayout extends AbstractWizard<Details> {
 			}
 		}
 		super.changePanel(inc);
-	}
-
-
-	/**
-	 * Save the new layout at the end
-	 */
-	@Override
-	public void finished(Details details) {
-
-		//System.out.println("Finnished: " + details.layoutName);
-		if ("".equals(details.layoutName)) {
-			super.getMessage().setText("Layout filename must be entered");
-		} else {
-	        try {
-	        	String copybookFile;
-		        externalRecord = details.createRecordLayout();
-		        CopybookWriter w = CopybookWriterManager.getInstance().get(details.layoutWriterIdx);
-
-
-		        String dir = details.layoutDirectory;
-
-		        if (dir != null && dir.length() > 0) {
-		        	dir = fixDirectory(dir);
-
-					copybookFile = w.writeCopyBook(dir, externalRecord, Common.getLogger());
-
-			        if (callbackClass != null) {
-			            callbackClass.setRecordLayout(externalRecord.getRecordId(),  copybookFile, details.filename);
-			        }
-		        }
-
-	         } catch (Exception ex) {
-	            super.getMessage().setText(ex.getMessage());
-	            Common.logMsgRaw(ex.getMessage(), ex);
-	            ex.printStackTrace();
-	        } finally {
-	        	try {
-	        		this.setClosed(true);
-	        	} catch (Exception e) {
-
-				}
-	        }
-		}
-	}
-
-	private final static String fixDirectory(String dir) {
-		if (dir != null && dir.length() > 0) {
-			while (dir.endsWith("*")) {
-				dir = dir.substring(0, dir.length() - 1);
-			}
-			if ((! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
-				dir = dir + Common.FILE_SEPERATOR;
-			}
-		}
-		return dir;
-	}
-
-	public ExternalRecord getExternalRecord() {
-		return externalRecord;
 	}
 }

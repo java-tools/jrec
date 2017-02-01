@@ -14,23 +14,28 @@ public abstract class ReSpecificScreenAction extends ReAbstractAction {
 	}
 
 
-	@SuppressWarnings("unchecked")
-	protected <CLASS extends Object> CLASS getDisplay(Class<CLASS> c) {
-		CLASS ret = null;
-		net.sf.RecordEditor.utils.screenManager.ReFrame actionHandler 
-				= net.sf.RecordEditor.utils.screenManager.ReFrame.getActiveFrame();
 
+	protected <CLASS extends Object> CLASS getDisplay(Class<CLASS> c) {
+		return getDisplay(c, net.sf.RecordEditor.utils.screenManager.ReFrame.getActiveFrame());
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected <CLASS> CLASS getDisplay(Class<CLASS> c, net.sf.RecordEditor.utils.screenManager.ReFrame actionHandler) {
+		CLASS ret = null;
+		Object o = null;
 		if (actionHandler == null || c == null) {
 
 		} else if (c.isAssignableFrom(actionHandler.getClass())) {
 			ret = (CLASS) actionHandler;
 		} else if (actionHandler instanceof net.sf.RecordEditor.re.display.IDisplayFrame) {
-			@SuppressWarnings("rawtypes")
-			Object displ = ((net.sf.RecordEditor.re.display.IDisplayFrame) actionHandler).getActiveDisplay();
-			if (displ != null && c.isAssignableFrom(displ.getClass())) {
-				ret = (CLASS) displ;
-			}
+			o = ((net.sf.RecordEditor.re.display.IDisplayFrame) actionHandler).getActiveDisplay();
+		} else if (actionHandler instanceof net.sf.RecordEditor.edit.open.OpenFile) {
+			o = ((net.sf.RecordEditor.edit.open.OpenFile) actionHandler).getOpenFilePanel();
+		}
+		if (ret == null && o != null && c.isAssignableFrom(o.getClass())) {
+			ret = (CLASS) o;
 		}
 		return ret;
 	}
+
 }

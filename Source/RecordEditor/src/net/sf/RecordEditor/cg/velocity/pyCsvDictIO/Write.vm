@@ -1,0 +1,36 @@
+import csv
+#set ($schemaDef = ${generateOptions.schemaDefinition})
+#set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+
+#incl("pyCsvIO/CsvCommonPy.vm")
+
+#fieldNameClassPy()
+
+if __name__ == "__main__":
+    cols = ColumnNames()
+    
+    with open('${generateOptions.getDataFileName().getEscapedFileName()}.csv', 'wb') as csvfile:
+        csvWrite = csv.DictWriter(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q}, quoting=csv.QUOTE_MINIMAL, fieldnames=cols.allColumnNames)
+#if (${generateOptions.schemaDefinition.areThereColumnNames()})
+        csvWrite.writerow(dict((fn,fn) for fn in cols.allColumnNames))
+#end
+
+        csvWrite.writerow({
+#set ($pref = " ")
+#foreach($f in ${r.getFields()}) 
+              ${pref} cols.${f.javaName} : "111" 
+#*   *##set ($pref = ",")
+#end
+        })
+#if (${generateOptions.schemaDefinition.areThereColumnNames()})
+        row = {
+#*   *##set ($ii = 1)
+#set ($pref = " ")
+#*  *##foreach($f in ${r.getFields()}) 
+              ${pref} cols.${f.javaName} : '200${ii}'
+#*   *##set ($pref = ",")
+#*       *##set ($ii = ${ii} + 1)
+#*  *##end
+	    }
+        csvWrite.writerow(row)
+#end

@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -23,6 +24,7 @@ import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.IGetSchema;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
@@ -58,6 +60,13 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 
 	//private static final String SCHEMA_ID = "SCHEMA";
 	private BaseHelpPanel pnl = new BaseHelpPanel();
+	
+	@SuppressWarnings("serial")
+	private AbstractTableModel emptyModel = new AbstractTableModel() {
+		@Override public Object getValueAt(int rowIndex, int columnIndex) { return null; }
+		@Override public int getRowCount() { return 0; }
+		@Override public int getColumnCount() { return 0; }
+	};
 
 	private FileSelectCombo layoutFile = new FileSelectCombo(Parameters.SCHEMA_LIST, 25, true, false);
 	private final JLabel dialectLbl = new JLabel("Cobol Dialect");
@@ -80,6 +89,7 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 
 	private byte[] lastData;
 	private String lastLayoutFile = null;
+	private final String defaultCopybookDir = Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
 
 
 	/**
@@ -92,7 +102,7 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 
 		fileTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		layoutFile.setText(Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY));
+		layoutFile.setText(defaultCopybookDir);
 
 		
 		
@@ -188,6 +198,8 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 //			}
 			if (layout == null) {
 				System.out.println("No Layout Generated !!!");
+				fileTable.setModel(emptyModel);
+				emptyModel.fireTableDataChanged();
 				return false;
 			}
 			fileStructure = layout.getFileStructure();
@@ -308,6 +320,17 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 
 		return null;
 	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#getSchemaCheckType()
+	 */
+	@Override
+	public int getSchemaCheckType() {
+		
+		return IGetSchema.ST_NO_CHECK_ON_SCHEMA;
+	}
+
 
 
 	@Override
@@ -324,10 +347,11 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 		StringTokenizer tok = new StringTokenizer(val, SEP, false);
 
 		try {
-			tok.nextToken();
-			layoutFile.setText(Parameters.expandVars(getStringTok(tok)));
-			dialectCombo.setSelectedIndex(getIntTok(tok));
-			fontName = getStringTok(tok);
+			if ("SCHEMA".equalsIgnoreCase(tok.nextToken())) {
+				layoutFile.setText(Parameters.expandVars(getStringTok(tok)));
+				dialectCombo.setSelectedIndex(getIntTok(tok));
+				fontName = getStringTok(tok);
+			}
 		} catch (Exception e) {
 
 		}
@@ -338,9 +362,18 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
 	 */
 	@Override
-	public boolean isMyLayout(String layoutId, String filename, byte[] data) {
-		boolean ret = layoutId != null && layoutId.startsWith(SCHEMA_ID);
-		if (ret) {
+	public int isMyLayout(String layoutId, String filename, byte[] data) {
+		int ret = (layoutId != null && layoutId.startsWith(SCHEMA_ID)) ? YES : NO;
+		if (filename != null && filename.length() > 0 && ret < YES) {
+			File f = new File(filename);
+			String schemaName = Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.getSlashNoStar() + f.getName() + ".xml";
+			if (new File(schemaName) . exists()) {
+				ret = YES;
+				layoutFile.setText(schemaName);
+				layoutId = null;
+			}
+		}
+		if (ret > NO) {
 			setData(filename, data, false, layoutId);
 		}
 		
@@ -360,12 +393,9 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 
 	private LayoutDetail getLocalLayout(String font, byte[] data) {
 
-		String layoutFileName = layoutFile.getText();
-		if (! "".equals(layoutFileName)) {
-			File f = new File(layoutFileName);
-
-			if (f.exists() && ! f.isDirectory()) {
-				try {
+		if (layoutFileExists()) {
+			String layoutFileName = layoutFile.getText();
+			try {
 //					if (isCobol() && CobolCopybookLoader.isAvailable()) {
 //						loader = new CobolCopybookLoader();
 //						if (font == null && data != null) {
@@ -376,42 +406,53 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 //					} else {
 //						loader = new RecordEditorXmlLoader();
 //					}
-					int schemaId = new SchemaAnalyser().schemaType(layoutFileName);
-					if (schemaId >= 0) {
-						fileStructure = -1;
-						if (schemaId == CopybookLoaderFactory.COBOL_LOADER && CobolCopybookLoader.isAvailable()) {
+				int schemaId = new SchemaAnalyser().schemaType(layoutFileName);
+				if (schemaId >= 0) {
+					fileStructure = -1;
+					if (schemaId == CopybookLoaderFactory.COBOL_LOADER && CobolCopybookLoader.isAvailable()) {
+						if (font == null && data != null) {
+							FileAnalyser analyser = FileAnalyser.getAnaylserNoLengthCheck(data, "");
 							if (font == null && data != null) {
-								FileAnalyser analyser = FileAnalyser.getAnaylserNoLengthCheck(data, "");
-								if (font == null && data != null) {
-									font = analyser.getFontName();
-								}
-								fileStructure = analyser.getFileStructure();
-								try {
-									fontCombo.removeTextChangeListner(this);
-									fontCombo.setText(font);
-									fontCombo.setFontList(analyser.getCharsetDetails().likelyCharsets);
-								} finally {
-									fontCombo.addTextChangeListner(this);
-								}
+								font = analyser.getFontName();
+							}
+							fileStructure = analyser.getFileStructure();
+							try {
+								fontCombo.removeTextChangeListner(this);
+								fontCombo.setText(font);
+								fontCombo.setFontList(analyser.getCharsetDetails().likelyCharsets);
+							} finally {
+								fontCombo.addTextChangeListner(this);
 							}
 						}
-						CopybookLoader loader = CopybookLoaderFactory.getInstance().getLoader(schemaId);
-						//System.out.println("*) *** " + schemaId + " ~ " + loader.getClass().getName());
-						ExternalRecord rec = loader.loadCopyBook(layoutFileName, 0, 0, font, dialectCombo.getSelectedValue(), 0, Common.getLogger());
-						if (fileStructure >= 0) {
-							rec.setFileStructure(fileStructure);
-						}
-						return rec.asLayoutDetail();
 					}
-				} catch (Exception e) {
-					msg.setText("Layout Gen failed: " + e);
-					e.printStackTrace();
+					CopybookLoader loader = CopybookLoaderFactory.getInstance().getLoader(schemaId);
+					//System.out.println("*) *** " + schemaId + " ~ " + loader.getClass().getName());
+					ExternalRecord rec = loader.loadCopyBook(layoutFileName, 0, 0, font, dialectCombo.getSelectedValue(), 0, Common.getLogger());
+					if (fileStructure >= 0) {
+						rec.setFileStructure(fileStructure);
+					}
+					return rec.asLayoutDetail();
 				}
+			} catch (Exception e) {
+				msg.setText("Layout Gen failed: " + e);
+				e.printStackTrace();
 			}
+			
 		}
 		return null;
 	}
 
+	private boolean layoutFileExists() {
+		String layoutFileName = layoutFile.getText();
+		boolean exists = false;
+		if (layoutFileName != null && layoutFileName.length() > 0) {
+			File f = new File(layoutFileName);
+
+			exists = (f.exists() && ! f.isDirectory());
+		}
+		return exists;
+
+	}
 	private void setCobolVisible() {
 		boolean cobol = isCobol();
 		dialectCombo.setVisible(cobol);
@@ -468,7 +509,7 @@ public class SchemaSelection implements FilePreview, BasicLayoutCallback, Change
 
 	public void setFilename(String filename) {
 		if (!this.filename.equals(filename)) {
-			this.layoutFile.setText("");
+			this.layoutFile.setText(defaultCopybookDir);
 		}
 		this.filename = filename;
 	}

@@ -25,6 +25,7 @@ import net.sf.RecordEditor.diff.CompareFileLayout;
 import net.sf.RecordEditor.edit.display.Action.NewFileAction;
 import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
+import net.sf.RecordEditor.edit.open.OpenCsvFileBackground;
 import net.sf.RecordEditor.edit.open.OpenFile;
 import net.sf.RecordEditor.edit.open.OpenFileEditPnl;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayout;
@@ -230,6 +231,7 @@ public class EditFileLayout extends EditRec {
 
 			    new EditFileLayout(args.getDfltFile(), args.getInitialRow(), ReIOProvider.getInstance());
 			        	//new CopyBookDbReader());
+			    OpenCsvFileBackground.register();
 			}
 		});
 	}

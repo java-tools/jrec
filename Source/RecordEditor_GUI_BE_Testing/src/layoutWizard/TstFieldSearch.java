@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import net.sf.RecordEditor.layoutWizard.ColumnDetails;
 import net.sf.RecordEditor.layoutWizard.FileAnalyser;
-import zCommon.ZCommonCode;
+import xCommon.XCommonCode;
 
 /**
  * Testing the Field-Search class
@@ -14,7 +14,7 @@ import zCommon.ZCommonCode;
  */
 public class TstFieldSearch {
 	
-	private static final ColumnDetails[] AMS_LOCATION_FIELDS = ZCommonCode.AMS_LOCATION_FIELDS;
+	private static final ColumnDetails[] AMS_LOCATION_FIELDS = XCommonCode.AMS_LOCATION_FIELDS;
 
 	
 	private static final ColumnDetails[] STORE_FIELDS = {
@@ -99,7 +99,7 @@ public class TstFieldSearch {
 
 	@Test
 	public void test21() {
-		chkFieldSearchStd("Ams_PODownload_Keycode.txt",  ZCommonCode.AMS_PO_KEYCODE_FIELDS, "");
+		chkFieldSearchStd("Ams_PODownload_Keycode.txt",  XCommonCode.AMS_PO_KEYCODE_FIELDS, "");
 	}
 
 
@@ -109,21 +109,21 @@ public class TstFieldSearch {
 	}
 
 	private void chkFieldSearchStd(String fileName, ColumnDetails[] expected, String charset) {
-		byte[] data = ZCommonCode.readDataFile(fileName);
+		byte[] data = XCommonCode.readDataFile(fileName);
 		FileAnalyser fileAnalyser = FileAnalyser.getAnaylserNoLengthCheck(data, charset);
-		ZCommonCode.chkFieldSearch(expected, fileAnalyser);
+		XCommonCode.chkFieldSearch(expected, fileAnalyser);
 	}
 
 
 	private void chkFieldSearchFw(String fileName, ColumnDetails[] expected, String charset) {
-		byte[] data = ZCommonCode.readDataFile(fileName);
+		byte[] data = XCommonCode.readDataFile(fileName);
 		FileAnalyser fileAnalyser = FileAnalyser.getAnaylser(data, charset);
-		ZCommonCode.chkFieldSearch(expected, fileAnalyser);
+		XCommonCode.chkFieldSearch(expected, fileAnalyser);
 	}
 
 
 	
 	private static ColumnDetails newColDtls(int colStart, int length, int type) {	
-		return ZCommonCode.newColDtls(colStart, length, type);
+		return XCommonCode.newColDtls(colStart, length, type);
 	}
 }

@@ -45,7 +45,7 @@ public class LineTreeChild extends BaseLineTree<AbstractLineNode> {
 
 		AbstractAction[] extraActions = {
                 null,
-                new ReAction(ReActionHandler.SORT, this),
+                new ReAction(ReActionHandler.SORT, getActionHandler()),
                 null,
                 new ReAbstractAction("Redisplay Tree") {
                     public void actionPerformed(ActionEvent e) {

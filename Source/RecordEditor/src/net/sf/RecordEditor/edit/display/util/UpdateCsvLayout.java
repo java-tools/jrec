@@ -89,8 +89,8 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 	private MenuPopupListener popupListner = new MenuPopupListener();
 	private ReFrame frame;
 
-	private String delimiter;
-	private int /*delimiterIdx,*/ quoteIdx, newFieldCount;
+	private String delimiter, quote;
+	private int /*delimiterIdx,*//* quoteIdx,*/ newFieldCount;
 	private boolean allowTypeUpdates = true;
 
 	//private boolean showSourceColumn = false;
@@ -139,7 +139,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 	private void init_setupScreen() {
 		BasePanel pnl = new BasePanel();
 		delimiter  = layout.getDelimiter();
-		String quote  = layout.getRecord(0).getQuote();
+		quote  = layout.getRecord(0).getQuote();
 
 		init_setupTablePopup();
 
@@ -153,7 +153,9 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 //		System.out.println(" ~~!!~~ 1 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
 		delimiterCombo.ensureDelimitierExists(delimiter);// getIndex(delim, Common.FIELD_SEPARATOR_LIST1_VALUES, delimiterCombo);
 //		System.out.println(" ~~!!~~ 2 " + delimiterCombo.getSelectedIndex() + " " + delimiterCombo.getItemCount());
-		quoteIdx =  quoteCombo.getAddEnglish(quote, true);
+
+		quoteCombo.setText(quote);
+		
 				//getIndex(quote, Common.QUOTE_VALUES, quoteCombo);
 
 
@@ -282,10 +284,10 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 		boolean ret = true;
 		FieldDef f;
 
-		System.out.println( " !!! 1 " + delimiter + " " + delimiterCombo.getDelimiter());
-		System.out.println( " !!! 2 " + quoteIdx + " " + quoteCombo.getSelectedIndex());
-		if (delimiter != delimiterCombo.getDelimiter()
-		||  quoteIdx != quoteCombo.getSelectedIndex()) {
+//		System.out.println( " !!! 1 " + delimiter + " " + delimiterCombo.getDelimiter());
+//		System.out.println( " !!! 2 " + quote + " " + quoteCombo.getQuote());
+		if ( (! delimiterCombo.getDelimiter().equalsIgnoreCase(delimiter))
+		||   (! quoteCombo.getQuote().equals(quote))) {
 			ret = false;
 		} else {
 			for (int i = 0; i < fields.size(); i++) {
@@ -325,10 +327,10 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
         String quote = rec.getQuote();
 
-        if (quoteCombo.getSelectedIndex() < Common.QUOTE_VALUES.length) {
-        	quote = quoteCombo.getSelectedKey();
+        //if (quoteCombo.getSelectedIndex() < Common.QUOTE_VALUES.length) {
+        	quote = quoteCombo.getKeyValue();
         			//Common.QUOTE_VALUES[quoteCombo.getSelectedIndex()];
-        }
+        //}
 
 	    for (int i = 0; i < fields.size(); i++) {
 	    	f = fields.get(i);

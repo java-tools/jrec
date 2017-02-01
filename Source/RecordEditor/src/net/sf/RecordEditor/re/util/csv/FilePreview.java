@@ -9,8 +9,8 @@ public interface FilePreview {
 
 	public static final String SCHEMA_ID = "SCHEMA";
 	public static final int NO = 1;
-	public static final int MAYBE = 2;
-	public static final int YES = 3;
+	public static final int LIKELY = 3;
+	public static final int YES = 5;
 	
 	public static final String SEP = "~";
 	public static final String NULL_STR = "Empty";
@@ -56,5 +56,7 @@ public interface FilePreview {
 
 	public abstract String getFontName();
 
-	public abstract boolean isMyLayout(String layout, String filename, byte[] data);
+	public abstract int isMyLayout(String layout, String filename, byte[] data);
+	
+	public abstract int getSchemaCheckType();
 }

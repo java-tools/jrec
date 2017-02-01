@@ -98,6 +98,18 @@ public class UpdateableFileSummayModel implements IUpdateableFileSummaryModel {
 		details.fontName = font;
 	}
 	
+	@Override
+	public boolean hasAFieldName() {
+		ColumnDetails[] fields = fieldMgr.getFieldSelection();
+		int i = 1;
+		
+		for (ColumnDetails f : fields) {
+			if (f.name.length() > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public ExternalRecord asExtenalRecord(String name, String fontName) {
@@ -125,7 +137,6 @@ public class UpdateableFileSummayModel implements IUpdateableFileSummaryModel {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean setData(String filename, byte[] data, boolean checkCharset) {
-		
 		
 		if (lastData != data) {
 			fileAnalyser = FileAnalyser.getAnaylserNoLengthCheck(data, "");

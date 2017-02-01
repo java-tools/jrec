@@ -26,7 +26,7 @@ public class CsvWriterSingleByteCharset extends BaseWriter {
 
 	/**
 	 * Write a Single Byte Csv file
-	 * @param fileName Output file name
+	 * @param outStream Output file name
 	 * @param delimiter 
 	 * @param fontName
 	 * @param quoteStr
@@ -34,7 +34,7 @@ public class CsvWriterSingleByteCharset extends BaseWriter {
 	 * @param includeFields
 	 * @throws IOException
 	 */
-	protected CsvWriterSingleByteCharset(String fileName, String delimiter,
+	protected CsvWriterSingleByteCharset(OutputStream outStream, String delimiter,
 			String fontName, String quoteStr, boolean quoteAllTextFields,
 			boolean[]  includeFields) throws IOException {
 		font = fontName;
@@ -42,8 +42,7 @@ public class CsvWriterSingleByteCharset extends BaseWriter {
 		quoteAllTextFlds = quoteAllTextFields;
 		setPrintField(includeFields);
 
-		fileWriter = new BufferedOutputStream(
-				new FileOutputStream(fileName), 4096);
+		fileWriter = new BufferedOutputStream(outStream);
 
 
 		eolBytes = CommonBits.getEolBytes(null, "", font);

@@ -1,11 +1,11 @@
 package net.sf.RecordEditor.edit.display.SaveAs;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
@@ -22,11 +22,13 @@ import net.sf.RecordEditor.utils.swing.BasePanel;
 
 public class SaveAsPnlCsv extends SaveAsPnlBase {
 
+//	final JButton selectBtn = SwingUtils.newButton("Select All Fields");
+//	final JButton deSelectBtn = SwingUtils.newButton("Deselect All Fields");
 	/**
 	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlCsv(CommonSaveAsFields commonSaveAsFields) {
-		super(commonSaveAsFields, ".csv", CommonSaveAsFields.FMT_CSV, RecentFiles.RF_NONE, null);
+		super(commonSaveAsFields, ".csv", CommonSaveAsFields.FMT_CSV, RecentFiles.RF_NONE, null, true);
 
 		BasePanel pnl1 = new BasePanel();
 		BasePanel pnl2 = new BasePanel();
@@ -37,8 +39,9 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 		pnl1.addLineRE("Charset", charsetCombo);
 		pnl1.addLineRE("names on first line", namesFirstLine);
 		pnl1.addLineRE("Add Quote to all Text Fields", quoteAllTextFields);
-
-		fieldTbl = new JTable();
+		
+		pnl2.setGapRE(3);
+		pnl2.addComponentRE(1, 5, BasePanel.PREFERRED, 1, BasePanel.FULL, BasePanel.FULL,  getSelectBtnPnl());
 		pnl2.addComponentRE(1, 5, 130, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, fieldTbl);
 		pnl2.setComponentName(fieldTbl, "CsvColNames");
@@ -52,17 +55,18 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 	}
 
 
-	public void save(String selection, String outFile) throws IOException, RecordException {
-		String fieldSeperator = delimiterCombo.getDelimiter();
+	public void save(String selection, OutputStream outStream) throws IOException, RecordException {
 		String fontname = getCharset();
+		String fieldSeperator = Conversion.decodeFieldDelim(delimiterCombo.getDelimiter(), fontname);
 
 		if (fieldSeperator != null && fieldSeperator.toLowerCase().startsWith("x'") && Conversion.isMultiByte(fontname)) {
 			throw new RecordException("Hex seperators can not be used with a multibyte charset");
 		}
 
 
-		FieldWriter writer = WriterBuilder.newCsvWriter(outFile, fieldSeperator, fontname,
-									getQuote(), quoteAllTextFields.isSelected(),
+		FieldWriter writer = WriterBuilder.newCsvWriter(outStream, fieldSeperator, fontname,
+									Conversion.decodeCharStr(getQuote(), fontname),
+									quoteAllTextFields.isSelected(),
 									getIncludeFields());
 
 

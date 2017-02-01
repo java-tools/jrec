@@ -426,6 +426,7 @@ public final class Common implements Constants {
    	public final static String[] FIELD_SEPARATOR_LIST = {
 		"<Default>", "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF'"
 	};
+   	public final static String[] FIELD_SEPARATOR_LIST_VALUES;
    	public final static String[] FIELD_SEPARATOR_LIST1 = {
    					 "<Tab>", "<Space>", ",", ";", ":", "|", "/", "\\", "~", "!", "*", "#", "@", "x'00'", "x'01'", "x'02'", "x'FD'", "x'FE'", "x'FF'"
 	};
@@ -437,6 +438,11 @@ public final class Common implements Constants {
    		l[0] = "\t";
    		l[1] = " ";
    		FIELD_SEPARATOR_LIST1_VALUES = l;
+   		
+   		FIELD_SEPARATOR_LIST_VALUES = FIELD_SEPARATOR_LIST.clone();
+   		FIELD_SEPARATOR_LIST_VALUES[0] = "\t";
+   		FIELD_SEPARATOR_LIST_VALUES[1] = "\t";
+   		FIELD_SEPARATOR_LIST_VALUES[2] = " ";
 
    		System.arraycopy(
    				FIELD_SEPARATOR_LIST1, 0,
@@ -2471,7 +2477,11 @@ public final class Common implements Constants {
     	if (s.startsWith("0")) {
     		s = s.substring(1);
     	}
-    	return s;
+    	String ret = s.substring(0, s.length() - 1);
+    	if (! s.endsWith("0")) { 
+    		ret = ret + '.' + s.charAt(s.length() - 1);
+    	}
+    	return ret;
     }
 
     public static void createDirectory(File f) throws IOException {

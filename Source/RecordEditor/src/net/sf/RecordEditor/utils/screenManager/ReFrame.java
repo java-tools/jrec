@@ -256,6 +256,7 @@ public class ReFrame extends JInternalFrame
 	 * @param action action to perform
 	 * @param o option supplied
 	 */
+    @Override
 	public void executeAction(int action, Object o) {
 
 		executeAction(action);
@@ -294,7 +295,9 @@ public class ReFrame extends JInternalFrame
        return activeFrame;
     }
 
-
+    public static ReActionHandler getActionHandler() {
+		return activeFrame;
+	}
     /**
      * adds a focus changed listner
      * @param focusChanged The focusChangedNotification to set.
@@ -322,12 +325,7 @@ public class ReFrame extends JInternalFrame
      * @return Returns the allFrames.
      */
     public static ReFrame[] getAllFrames() {
-        ReFrame[] ret = new ReFrame[allFrames.size()];
-
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = allFrames.get(i);
-        }
-        return ret;
+        return  allFrames.toArray(new ReFrame[allFrames.size()]);
     }
 
     public static ReFrame getPrimaryFrame(Object doc) {

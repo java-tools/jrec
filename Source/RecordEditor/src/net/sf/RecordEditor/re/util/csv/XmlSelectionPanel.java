@@ -15,6 +15,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.IGetSchema;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
 import net.sf.JRecord.IO.AbstractLineReader;
@@ -329,15 +330,25 @@ public class XmlSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
 	 */
 	@Override
-	public boolean isMyLayout(String layoutId, String filename, byte[] data) {
+	public int isMyLayout(String layoutId, String filename, byte[] data) {
 		boolean ret =  layoutId != null && layoutId.startsWith(XML_ID);
 		if (ret) {
 			setData(filename, data, false, layoutId);
 		}
 		
-		return ret;
+		return ret ? LIKELY : NO;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#getSchemaCheckType()
+	 */
+	@Override
+	public int getSchemaCheckType() {
+		return IGetSchema.ST_OTHER_SCHEMA;
+	}
+
+	
+	
 //	private String getStr(String s) {
 //		if (s == null || "".equals(s)) {
 //			s = NULL_STR;

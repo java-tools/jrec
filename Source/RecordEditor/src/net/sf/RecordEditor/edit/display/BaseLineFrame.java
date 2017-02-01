@@ -31,6 +31,7 @@ import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.HexThreeLineField;
 import net.sf.RecordEditor.utils.swing.HexThreeLineRender;
@@ -109,6 +110,8 @@ implements TableModelListener, TreeModelListener {
 	protected void init_200_setupFields(ImageIcon[] icon, ActionListener btnActions,
    		 	final boolean changeRow) {
 	    int currLayout;
+	    BaseHelpPanel actualPnl = getActualPnl();
+	    
 	    listner = btnActions;
 
 	    btnPanel = new MovementBtnPnl(icon, changeRow, btnActions);
@@ -200,6 +203,7 @@ implements TableModelListener, TreeModelListener {
 	 */
 	public void init_300_setupScreen(final boolean changeRow) {
 
+		BaseHelpPanel actualPnl = getActualPnl();
 		if (! isTree()) {
 			actualPnl.addLineRE("Record", lineNum);
 		}
@@ -233,7 +237,7 @@ implements TableModelListener, TreeModelListener {
 				w1 = w2;
 			}
 			Dimension d = new Dimension(w1 +  6 * SwingUtils.CHAR_FIELD_WIDTH, actualPnl.getPreferredSize().height);
-			this.actualPnl.setPreferredSize(d);
+			actualPnl.setPreferredSize(d);
 //			System.out.println("@@@  >>> " + w1 + " " + w2 + " " + d.width + this.actualPnl.getPreferredSize().width);
 		}
 	}
@@ -243,6 +247,7 @@ implements TableModelListener, TreeModelListener {
 	@Override
 	public void setScreenSize(boolean mainframe) {
 
+		BaseHelpPanel actualPnl = getActualPnl();
 		if (mainframe) {
 			DisplayFrame parentFrame = getParentFrame();
 			int preferedWidth = java.lang.Math.min(this.screenSize.width - 2,
@@ -255,7 +260,7 @@ implements TableModelListener, TreeModelListener {
 			parentFrame.setToMaximum(false);
 			parentFrame.addCloseOnEsc(actualPnl);
 		} else {
-			this.actualPnl.done();
+			actualPnl.done();
 		}
 	}
 

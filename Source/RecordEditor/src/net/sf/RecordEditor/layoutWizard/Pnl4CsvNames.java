@@ -56,7 +56,7 @@ public class Pnl4CsvNames extends WizardPanel {
     private static final int COL_ADJUST_AMOUNT = 2;
 
 
-    private JEditorPane tips;
+    //private JEditorPane tips;
     private ColumnTblModel columnMdl;
     private CsvSelTblMdl fileMdl;
 
@@ -81,13 +81,14 @@ public class Pnl4CsvNames extends WizardPanel {
     public Pnl4CsvNames(AbsRowList typeList, boolean alwayShowScreen) {
         super();
 
-        TreeComboItem[] typeCombolist = BuildTypeComboList.getList(typeList);
+        TreeComboItem[] typeCombolist = BuildTypeComboList.getTextTypes(typeList);
 		String formDescription
 		    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_4_csv",
-		    		"This screen will display the Column Details and allow you to change them. ");
+		    		  "<h3>Csv Columns Names</h3>"
+		    		+ "On this screen you enter the Csv Column names + there field types. ");
 
 		alwayShow = alwayShowScreen;
-		tips = new JEditorPane("text/html", formDescription);
+		JEditorPane tips = new JEditorPane("text/html", formDescription);
 
 		columnTbl.setRowHeight(SwingUtils.COMBO_TABLE_ROW_HEIGHT);
 		columnTbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -98,7 +99,7 @@ public class Pnl4CsvNames extends WizardPanel {
 	    //typeEditor.setClickCountToStart(1);
 
 		this.setHelpURLre(Common.formatHelpURL(Common.HELP_WIZARD_PNL5));
-		this.addComponentRE(1, 5, TIP_HEIGHT, BasePanel.GAP3,
+		this.addComponentRE(1, 5, TIP_HEIGHT * 3 / 2, BasePanel.GAP3,
 		        BasePanel.FULL, BasePanel.FULL,
 				tips);
 		this.setGapRE(BasePanel.GAP1);

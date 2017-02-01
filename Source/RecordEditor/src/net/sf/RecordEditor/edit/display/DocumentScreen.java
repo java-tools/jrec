@@ -60,7 +60,7 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 	};
 
 	public DocumentScreen(FileView view, boolean colorFields) {
-		super("Document View", view, false, false, false, false, false, NO_LAYOUT_LINE);
+		super(null, "Document View", view, false, false, false, false, false, NO_LAYOUT_LINE);
 
 		setAllowPaste(false);
 		setJTable(new JTable());
@@ -92,7 +92,7 @@ public class DocumentScreen extends BaseDisplay implements DocumentListener, Abs
 		textDisplay.setFont(SwingUtils.getMonoSpacedFont());
 		textDisplay.getDocument().addDocumentListener(this);
 
-	    actualPnl.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
+	    getActualPnl().addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
                 BasePanel.FULL, BasePanel.FULL,
                 TextLineNumber.getTextLineNumber(textDisplay, Math.min(3, (int) Math.log(view.getRowCount() + 1))));
 

@@ -3,6 +3,7 @@ package net.sf.RecordEditor.re.fileWriter;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
@@ -32,7 +33,7 @@ public class CsvWriterDoubleByteCharset extends BaseWriter {
 	 * @param includeFields
 	 * @throws IOException
 	 */
-	protected CsvWriterDoubleByteCharset(String fileName, String delimiter,
+	protected CsvWriterDoubleByteCharset(OutputStream outStream, String delimiter,
 			String fontName, String quoteStr, boolean quoteAllTextFields,
 			boolean[]  includeFields) throws IOException {
 		quote = quoteStr;
@@ -42,7 +43,7 @@ public class CsvWriterDoubleByteCharset extends BaseWriter {
 //		OutputStream fileWriter = new BufferedOutputStream(
 //				new FileOutputStream(fileName), 4096);
 
-		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(fileName), 4096);
+		BufferedOutputStream out = new BufferedOutputStream(outStream, 4096);
 		if (fontName == null || "".equals(fontName)) {
 			fileWriter = new OutputStreamWriter(out);
 		} else {

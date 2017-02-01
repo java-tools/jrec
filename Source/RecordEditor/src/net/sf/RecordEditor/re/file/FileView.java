@@ -487,7 +487,8 @@ public class FileView	extends 			AbstractTableModel
 
 		            readFile(reader, file, isGZip, rff, pFileName);
 		        } else if (Common.OPTIONS.useBigFixedModel.isSelected()
-		        	   &&  structure == Constants.IO_FIXED_LENGTH
+		        	   &&  (structure == Constants.IO_FIXED_LENGTH
+		        	     || structure == Constants.IO_FIXED_BYTE_ENTER_FONT)
 		        	   &&  useBigFileModel(fileLength)) {
 		        	lines = DataStoreLarge.getFixedLengthRecordStore((LayoutDetail)layout, pFileName);
 		        } else {

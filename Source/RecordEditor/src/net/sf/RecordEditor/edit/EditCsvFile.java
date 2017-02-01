@@ -19,6 +19,7 @@ import java.awt.event.ComponentEvent;
 import java.net.URI;
 
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 
 import net.sf.JRecord.IO.AbstractLineIOProvider;
 import net.sf.RecordEditor.edit.display.Action.CsvUpdateLayoutAction;
@@ -28,8 +29,10 @@ import net.sf.RecordEditor.edit.display.Action.SaveFieldSequenceAction;
 import net.sf.RecordEditor.edit.display.Action.SaveFileLayout2Xml;
 import net.sf.RecordEditor.edit.display.Action.VisibilityAction;
 import net.sf.RecordEditor.edit.display.util.ErrorScreen;
+import net.sf.RecordEditor.edit.open.OpenCsvFileBackground;
 import net.sf.RecordEditor.edit.open.OpenCsvFilePnl;
 import net.sf.RecordEditor.edit.open.OpenFile;
+import net.sf.RecordEditor.re.cobol.GenerateMenu;
 import net.sf.RecordEditor.re.display.DisplayBuilderFactory;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionPoTipCreator;
 import net.sf.RecordEditor.re.util.ReIOProvider;
@@ -38,6 +41,7 @@ import net.sf.RecordEditor.utils.edit.ParseArgs;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.params.CheckUserData;
 import net.sf.RecordEditor.utils.params.Parameters;
+import net.sf.RecordEditor.utils.params.ProgramOptions;
 import net.sf.RecordEditor.utils.params.ProgramOptions.ProgramType;
 import net.sf.RecordEditor.utils.swingx.TipsManager;
 
@@ -51,11 +55,12 @@ import net.sf.RecordEditor.utils.swingx.TipsManager;
  *
  */
 @SuppressWarnings("serial")
-public class EditCsvFile extends EditRec {
+public class EditCsvFile extends EditRec  {
 
 	private static final String RECENT_CSV_FILES = Common.RECENT_CSV_FILES;
 	private final OpenFile open;
 	private final String recentFileName;
+	private final OpenCsvFilePnl csvPnl;
 	
     private static boolean showTips = true;
 
@@ -153,7 +158,7 @@ public class EditCsvFile extends EditRec {
 
 //        long time = System.nanoTime();
 //        System.out.println("EditCsvFile: Create OpenCsvFilePnl");
-		OpenCsvFilePnl csvPnl = new OpenCsvFilePnl(
+		csvPnl = new OpenCsvFilePnl(
         				pInFile,
         				recentFileName,
         				pIoProvider,
@@ -259,6 +264,22 @@ public class EditCsvFile extends EditRec {
 			  + "</pre><br>"
 		);
 	}
+	
+	/**
+	 * Add program specific dropdown menus
+	 * @param menubar top level menu
+	 */
+	protected void addProgramSpecificMenus(JMenuBar menubar) {
+
+	    super.addProgramSpecificMenus(menubar);
+
+	    GenerateMenu genMenu = new GenerateMenu();
+
+	    menubar.add(genMenu.generateMenu);
+	    
+	    genMenu.bldMenu(this);
+	}
+
 
 	/**
 	 * Edit a record oriented file
@@ -300,6 +321,9 @@ public class EditCsvFile extends EditRec {
 
 					//System.out.println("Time 9: " + ((time2 - time1) / 100000000));
 					
+					Common.OPTIONS.applicationDetails 
+							= new ProgramOptions.ApplicationDetails("ReCsvEditor", "https://sourceforge.net/projects/recsveditor");
+					OpenCsvFileBackground.register();
 					CheckUserData.checkJavaVersion("ReCsvEditor");
 
 //			    if (Common.IS_MAC && ReMainFrame.isUsingSystemLaf()) {

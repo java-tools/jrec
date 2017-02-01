@@ -5,6 +5,7 @@ package net.sf.RecordEditor.edit.display.SaveAs;
 
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -50,7 +51,7 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlHtml(CommonSaveAsFields commonSaveAsFields) {
-		super(commonSaveAsFields, ".html", CommonSaveAsFields.FMT_HTML, RecentFiles.RF_NONE, null);
+		super(commonSaveAsFields, ".html", CommonSaveAsFields.FMT_HTML, RecentFiles.RF_NONE, null, false);
 
 		BasePanel pnl1 = new BasePanel();
 
@@ -83,7 +84,7 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 
 
 
-	public void save(String selection, String outFile)  throws Exception  {
+	public void save(String selection, OutputStream outStream)  throws Exception  {
         HtmlColors colors = HtmlColors.STANDARD_COLORS;
 
         if (whiteHtmlBtn.isSelected()) {
@@ -99,16 +100,16 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 	        switch (getTableOption()) {
 	        case SaveAsPnlBase.SINGLE_TABLE:
 	        	HtmlWriter w = new HtmlWriter(
-	        			outFile, showBorder.isSelected(),
+	        			outStream, showBorder.isSelected(),
 	        			colors, "File: " + commonSaveAsFields.file.getFileNameNoDirectory());
 	        	save_writeFile(w, selection);
 	            break;
 	        case SaveAsPnlBase.TABLE_PER_ROW:
-	        	multiTable(DisplayType.PREFFERED, outFile, selection, colors);
+	        	multiTable(DisplayType.PREFFERED, outStream, selection, colors);
 	           // multiTableHtml(selection, f);
 	            break;
 	        case SaveAsPnlBase.TREE_TABLE:
-	        	multiTable(SaveAsWrite.HTML_TREE_PRINT, outFile, selection, colors);
+	        	multiTable(SaveAsWrite.HTML_TREE_PRINT, outStream, selection, colors);
 //	        	treeTableHtml(selection, f);
 	        }
         } catch (IOException e) {
@@ -118,11 +119,11 @@ public class SaveAsPnlHtml extends SaveAsPnlBase {
 	}
 
 
-	private void multiTable(int writerId, String outFile, String selection, HtmlColors colors) throws IOException {
+	private void multiTable(int writerId, OutputStream outStream, String selection, HtmlColors colors) throws IOException {
 
     	boolean showText = ! onlyData.isSelected();
     	HtmlMultiTableWriter w1 = new HtmlMultiTableWriter(
-    			outFile, showBorder.isSelected(),
+    			outStream, showBorder.isSelected(),
     			showText, showText && commonSaveAsFields.file.getLayout().isBinary(),
     			colors, "File: " + commonSaveAsFields.file.getFileNameNoDirectory());
 

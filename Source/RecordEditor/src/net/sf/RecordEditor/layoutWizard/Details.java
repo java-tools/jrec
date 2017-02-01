@@ -54,6 +54,7 @@ public class Details {
     public  String actualQuote      = "";
     public     int parserType       = 0;
     public boolean fieldNamesOnLine = false;
+    public boolean embeddedCr       = false;
     public boolean unicode		    = false;
     public boolean generateFieldNames = false;
     public boolean editFile         = true;
@@ -154,6 +155,7 @@ public class Details {
 	    		delim = actualSeperator;
 	    	}
 
+	    	delim = Conversion.encodeCharStr(delim);
 	    	rec = new ExternalRecord(-1, layoutName,
 	    			layoutDescription,
 	    			Common.rtDelimited, system, "Y", "",
@@ -238,7 +240,7 @@ public class Details {
             field[0].setPosLen(1, recordLength);
             recs = new RecordDetail[1];
             recs[0] = new RecordDetail(
-                    	"", "", "", Common.rtBinaryRecord, "", "", "", field, parserType, 0
+                    	"", "", "", Common.rtRecordLayout, "", "", "", field, parserType, 0
                     );
         } else {
             recs = new RecordDetail[0];

@@ -1,8 +1,9 @@
 package net.sf.RecordEditor.re.fileWriter;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.TranslateXmlChars;
@@ -22,7 +23,7 @@ public class HtmlMultiTableWriter extends BaseWriter {
 
 
 	public HtmlMultiTableWriter(
-			String fileName, boolean tblBorder, boolean showTxt, boolean showHex, HtmlColors colors, String tittle) throws IOException {
+			OutputStream outStream, boolean tblBorder, boolean showTxt, boolean showHex, HtmlColors colors, String tittle) throws IOException {
 
 		this.tblBorder = tblBorder;
 		this.showTxt = showTxt;
@@ -30,8 +31,7 @@ public class HtmlMultiTableWriter extends BaseWriter {
 		this.colors = colors;
 
 
-		writer = new BufferedWriter(
-				new FileWriter(fileName), 4096);
+		writer = new BufferedWriter(new OutputStreamWriter(outStream), 4096);
 
 
 		//bgcolor=""

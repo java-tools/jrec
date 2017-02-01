@@ -6,6 +6,8 @@ package net.sf.RecordEditor.utils.screenManager;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -37,6 +39,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.ScreenLog;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.DefaultActionHandler;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.BasicTrans;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -92,7 +95,7 @@ public class ReMainFrame extends JFrame
 //            DefaultEditorKit.pasteAction};
 //    private static Action[] systemActions = null;
 
-    private ReActionHandler closeAction = new ReActionHandler() {
+    private ReActionHandler closeAction = new DefaultActionHandler() {
         public void executeAction(int action) {
             closeAction(action);
         }
@@ -917,7 +920,18 @@ public class ReMainFrame extends JFrame
 	            logWidth, height);
 	}
 
-    /**
+    /* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int, java.lang.Object)
+	 */
+	@Override
+	public void executeAction(int action, Object o) {
+		executeAction(action);
+	}
+
+
+
+
+	/**
      * @see net.sf.RecordEditor.utils.common.ReActionHandler#executeAction(int)
      */
     public void executeAction(int action) {
@@ -963,13 +977,10 @@ public class ReMainFrame extends JFrame
      * @see net.sf.RecordEditor.utils.screenManager.ReWindowChanged#focusChanged(net.sf.RecordEditor.utils.swing.ReFrame)
      */
     public void focusChanged(ReFrame newFrame) {
-        int i;
 
-        for (i = 0; i < numActiveScreenActions; i++) {
-            activeScreenActions[i].checkActionEnabled();
-        }
+        checkIfActionsAvailable();
 
-    	ReFrame actionHandler = ReFrame.getActiveFrame();
+        ReActionHandler actionHandler = ReFrame.getActionHandler();
         if (velocityTemplateList != null) {
             velocityTemplateList.setEnabled(
             		actionHandler != null
@@ -989,6 +1000,18 @@ public class ReMainFrame extends JFrame
         			 && actionHandler.isActionAvailable(ReActionHandler.EXPORT_SCRIPT));
          }
    }
+
+
+
+
+	/**
+	 * 
+	 */
+	public final void checkIfActionsAvailable() {
+		for (int i = 0; i < numActiveScreenActions; i++) {
+            activeScreenActions[i].checkActionEnabled();
+        }
+	}
 
     /**
      * Called when a window has been created
@@ -1278,6 +1301,13 @@ public class ReMainFrame extends JFrame
 	}
 
 
+	public static Rectangle getDesktopSize() {
+		if (masterFrame != null) {
+			return masterFrame.getDesktop().getBounds();
+		}
+
+		return new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+	}
 
 
 

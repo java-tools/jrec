@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 
+import javax.swing.Action;
 import javax.swing.JTabbedPane;
 import javax.swing.text.JTextComponent;
 
@@ -63,7 +64,7 @@ public class CsvTabPane implements FormatFileName {
 	 * @param msgField message field to display error messages on
 	 */
 	public CsvTabPane(JTextComponent msgField, boolean allowNonCsvTabs, boolean adjustableTblHeight) {
-		this(msgField, allowNonCsvTabs, allowNonCsvTabs, adjustableTblHeight);
+		this(msgField, allowNonCsvTabs, allowNonCsvTabs, adjustableTblHeight, null);
 	}
 
 	/**
@@ -71,21 +72,25 @@ public class CsvTabPane implements FormatFileName {
 	 * CSV preview panels.
 	 * @param msgField message field to display error messages on
 	 */
-	public CsvTabPane(JTextComponent msgField, boolean allowFixed, boolean allowXml, boolean adjustableTblHeight) {
+	public CsvTabPane(JTextComponent msgField, boolean allowFixed, boolean allowXml, boolean adjustableTblHeight,
+					Action wizardAction) {
 
 		msgFld = msgField;
 		fixedTab = allowFixed;
 		xmlTab = allowXml;
 
 
-		csvDetails        = new CsvSelectionPanel(oneBlankLine, "", false, "File Preview", msgField, adjustableTblHeight);
-		unicodeCsvDetails = new CsvSelectionPanel(oneBlankLine[0], "", false, "Unicode File Preview", msgField, adjustableTblHeight);
+		csvDetails        = new CsvSelectionPanel(oneBlankLine, "", false, "File Preview", 
+									msgField, adjustableTblHeight, wizardAction);
+		unicodeCsvDetails = new CsvSelectionPanel(oneBlankLine[0], "", false, "Unicode File Preview", 
+									msgField, adjustableTblHeight, wizardAction);
 
 		csvPanels[NORMAL_CSV]  = csvDetails;
 		csvPanels[UNICODE_CSV] = unicodeCsvDetails;
 
-		tab.add("Normal",  csvDetails.getPanel());
-		tab.add("Unicode", unicodeCsvDetails.getPanel());
+	
+		tab.addTab("Normal Csv",  null, csvDetails.getPanel(),        "Normal Ascii Csv");
+		tab.addTab("Unicode Csv", null, unicodeCsvDetails.getPanel(), "Csv file (specify the characterset)");
 
 		if (fixedTab) {
 			fixedWidthPanel = FixedWidthSelectionPane.newPane();
@@ -96,8 +101,9 @@ public class CsvTabPane implements FormatFileName {
 
 			csvPanels[FIXED_WIDTH] = fixedWidthPanel;
 			csvPanels[SCHEMA] = schemaSelectionPanel;
-			tab.add("Fixed Width", csvPanels[FIXED_WIDTH].getPanel());
-			tab.add("Schema", csvPanels[SCHEMA].getPanel());
+			tab.addTab("Fixed Width", null, csvPanels[FIXED_WIDTH].getPanel(),
+					"Basic Fixed Width File");
+			tab.addTab("Schema", null, csvPanels[SCHEMA].getPanel(), "View files using a Xml Schema or Cobol Copybook");
 		} else {
 			schemaSelectionPanel = null;
 			fixedWidthPanel = null;
@@ -111,9 +117,10 @@ public class CsvTabPane implements FormatFileName {
 			//csvPanels[XML_FILE].getPanel().setVisible(false);
 
 			csvPanels[XML_FILE] = xmlSelectionPanel;
-			tab.add("Xml", csvPanels[XML_FILE].getPanel());
+			tab.addTab("Xml", null, csvPanels[XML_FILE].getPanel(), "View Xml files (suitable for Xml data files)");
 			csvPanels[OTHER_FILE] = otherSelectionPanel;
-			tab.add("Other", csvPanels[OTHER_FILE].getPanel());
+			tab.addTab("Other", null, csvPanels[OTHER_FILE].getPanel(),
+					"View edit either: SwingX Tip files or PO Language translation files");
 		} else {
 			xmlSelectionPanel = null;
 			otherSelectionPanel = null;
@@ -127,7 +134,7 @@ public class CsvTabPane implements FormatFileName {
 				unicodeCsvDetails.setData(filename, data, false, null);
 				break;
 			case UNICODE_CSV:
-				setNormalCsv(data);
+				setNormalCsv(filename, data);
 				break;
 			}
 		} catch (Exception e) {
@@ -161,16 +168,26 @@ public class CsvTabPane implements FormatFileName {
 			if (layoutId != null // && ! "".equals(layoutId)
 			&& filename != null && ! filename.toLowerCase().endsWith(".csv")) {
 				int count = Math.min(csvPanels.length, tab.getTabCount());
+				int tabIdx = -1;
+				int likely = FilePreview.NO;
+				int likelyVal;
 				for (int i = 0; i < count; i++) {
-					if (csvPanels[i] != null && csvPanels[i].isMyLayout(layoutId, filename, data)) {
+					if (csvPanels[i] != null 
+					&&  (likelyVal = csvPanels[i].isMyLayout(layoutId, filename, data)) > likely) {
+						tabIdx = i;
+						likely = likelyVal;
 						//Rectangle tabSize =  tab.getBounds();
 						//System.out.println(" !! 1 " + tab.getPreferredSize().height + " " + tab.getHeight());
 						//csvPanels[i].setData(filename, data, false, layoutId);
-						tab.setSelectedIndex(i);
+						//tab.setSelectedIndex(i);
 						//tab.setBounds(tabSize);
 						//System.out.println(" !! 2 " + tab.getPreferredSize().height + " " + tab.getHeight());
-						return;
+						//return;
 					}
+				}
+				if (tabIdx >= 0) {
+					tab.setSelectedIndex(tabIdx);
+					return;
 				}
 			}
 			if (xmlTab){
@@ -208,7 +225,7 @@ public class CsvTabPane implements FormatFileName {
 					}
 					tab.setSelectedIndex(idx);
 				} else if (tab.getSelectedIndex() == FIXED_WIDTH 
-					   && (! fixedWidthPanel.isMyLayout("", filename, data)) ) {
+					   && (fixedWidthPanel.isMyLayout("", filename, data) == FilePreview.NO) ) {
 					tab.setSelectedIndex(SCHEMA);
 				}
 			}
@@ -221,21 +238,21 @@ public class CsvTabPane implements FormatFileName {
 				unicodeCsvDetails.setCharset(charSet);
 				unicodeCsvDetails.setData(filename, data, false, layoutId);
 
-				checkNormalCsv(data);
+				checkNormalCsv(filename, data);
 			} else {
-				setNormalCsv(data);
+				setNormalCsv(filename, data);
 			}
 			break;
 		case UNICODE_CSV:
 			if (allowTabSwap && "".equals(charSet)) {
-				setNormalCsv(data);
+				setNormalCsv(filename, data);
 				tab.setSelectedIndex(NORMAL_CSV);
 			} else {
 				unicodeCsvDetails.setCharset(charSet);
 				unicodeCsvDetails.setData(filename, data, false, layoutId);
 
 				if (allowTabSwap) {
-					checkNormalCsv(data);
+					checkNormalCsv(filename, data);
 				}
 			}
 			break;
@@ -255,8 +272,8 @@ public class CsvTabPane implements FormatFileName {
 					System.out.println("Done pack ....");
 				}
 			} else {
-				setNormalCsv(data);
-				checkNormalCsv(data);
+				setNormalCsv(filename, data);
+				checkNormalCsv(filename, data);
 			}
 			break;
 		case OTHER_FILE:
@@ -305,9 +322,9 @@ public class CsvTabPane implements FormatFileName {
 		return true;
 	}
 
-	private void checkNormalCsv(byte[] data) throws IOException {
+	private void checkNormalCsv(String filename, byte[] data) throws IOException {
 		if (unicodeCsvDetails.getColumnCount() == 1) {
-			setNormalCsv(data);
+			setNormalCsv(filename, data);
 			if (csvDetails.getColumnCount() > 1) {
 				tab.setSelectedIndex(NORMAL_CSV);
 				return;
@@ -316,7 +333,7 @@ public class CsvTabPane implements FormatFileName {
 		tab.setSelectedIndex(UNICODE_CSV);
 	}
 
-	private void setNormalCsv(byte[] data)  {
+	private void setNormalCsv(String filename, byte[] data)  {
 //		byte[] line;
 //		byte[][] lines = new byte[30][];
 //		int i = 0;
@@ -327,7 +344,7 @@ public class CsvTabPane implements FormatFileName {
 //		}
 //		r.close();
 //		csvDetails.setLines(lines, "", lines.length);
-		csvDetails.setData("", data, false, "");
+		csvDetails.setData(filename, data, false, "");
 	}
 
 

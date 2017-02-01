@@ -96,7 +96,7 @@ public abstract class SaveAsWrite {
 	    	switch (whatToSave) {
 	    	case SaveAsWrite.SAVE_SELECTED: ret = file.getView(recFrame.getSelectedRows()); break;
 	    	case SaveAsWrite.SAVE_FILE: ret = file.getBaseFile();							break;
-	    	case SaveAsWrite.SAVE_VIEW: ret = file;
+	    	case SaveAsWrite.SAVE_VIEW: ret = file;											break;
 	    	}
 
 	    	return ret;

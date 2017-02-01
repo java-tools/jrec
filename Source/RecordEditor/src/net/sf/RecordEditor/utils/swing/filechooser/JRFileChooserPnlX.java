@@ -144,7 +144,8 @@ public class JRFileChooserPnlX extends JPanel {
 		checkComponent(filechooser);
 		
 		
-		filechooser.setDialogType(JFileChooser.SAVE_DIALOG);
+//		filechooser.setDialogType(JFileChooser.SAVE_DIALOG);
+		filechooser.setDialogType(JFileChooser.OPEN_DIALOG);
 		setScrollpaneSize();
 		
 		filechooser.setFileHidingEnabled(! showHidden);

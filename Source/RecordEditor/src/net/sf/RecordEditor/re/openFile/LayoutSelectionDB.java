@@ -10,13 +10,17 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.RecordEditor.utils.CopyBookInterface;
 import net.sf.RecordEditor.utils.LayoutItem;
 import net.sf.RecordEditor.utils.SystemItem;
+import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.msg.UtMessages;
@@ -41,6 +45,9 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	private JComboBox   systemCombo = new JComboBox();
 	private JComboBox   layoutCombo = new JComboBox();
 	private JTextArea   description = new JTextArea();
+	
+	private JLabel      fontLbl     =new JLabel("Encoding");
+	private FontCombo   fontCombo   = new FontCombo();
 	private JTextArea   message = null;
 
 	private JButton reload = SwingUtils.newButton(
@@ -115,7 +122,8 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		if (layoutCreate2 != null) {
 		    pnl.addLineRE("", null, layoutCreate2);
 		}
-		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addLineRE(fontLbl, fontCombo);
+		pnl.setGapRE(BasePanel.GAP0);
 		pnl.addLineRE("Description", description, goPanel);
 
 		double size = 0;
@@ -127,7 +135,31 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		}
 		pnl.setHeightRE(Math.max(BasePanel.NORMAL_HEIGHT * 3 + 3, size));
 
+//		fontLbl.setVisible(false);
+//		fontCombo.setVisible(false);
 		tmpBtn.setVisible(false);
+		
+		layoutCombo.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				changeOfLayout();
+			}
+		});
+		changeOfLayout();
+	}
+	
+	private void changeOfLayout() {
+		Object selectedItem = layoutCombo.getSelectedItem();
+		String selected;
+		boolean visible = false;
+
+		if (selectedItem != null
+		&&  (selected = selectedItem.toString()).length() > 0) {
+			LayoutDetail layout = copyBookInterface.getLayout(selected);
+			
+			visible = CommonBits.isFontRequired(layout.getFileStructure());
+		}
+		fontLbl.setVisible(visible);
+		fontCombo.setVisible(visible);
 	}
 
 

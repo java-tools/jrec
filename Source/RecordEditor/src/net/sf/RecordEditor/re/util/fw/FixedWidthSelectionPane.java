@@ -1,12 +1,19 @@
 package net.sf.RecordEditor.re.util.fw;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import javax.swing.JButton;
 
+import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Details.IGetSchema;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalRecord;
+import net.sf.JRecord.External.base.CopybookWriter;
 import net.sf.JRecord.External.base.ExternalConversion;
+import net.sf.JRecord.External.base.RecordEditorXmlWriter;
+import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.RecordEditor.re.util.BuildTypeComboList;
 import net.sf.RecordEditor.re.util.csv.FilePreview;
 import net.sf.RecordEditor.utils.common.Common;
@@ -115,12 +122,30 @@ public class FixedWidthSelectionPane implements FilePreview {
 	@Override
 	public LayoutDetail getLayout(String font, byte[] recordSep) {
 		String schemaName = fileView.getSchemaFileName();
-		String name = filename;
+//		String name = filename;
 		File f = new File(schemaName);
-		if (f.exists()) {
-			name = f.getName();
+		
+		System.out.println(f.isFile() + " " + f.exists());
+		//if (f.exists()) {
+		//	name = f.getName();
+		//}
+		ExternalRecord rec = fileSummaryMdl.asExtenalRecord(Conversion.getCopyBookId(schemaName), fileView.getFont());
+		
+		if (fileSummaryMdl.hasAFieldName()) {
+			try {
+				CopybookWriter w = new RecordEditorXmlWriter();	
+				w.writeCopyBook(new FileOutputStream(f), rec, Common.getLogger());
+				
+				Common.logMsg(AbsSSLogger.WARNING, "Xml Schema: " + schemaName + " has been created !!!", null);
+			} catch (FileNotFoundException e) {
+				Common.logMsg("IO error writing Xml schema: " + e, null);
+				e.printStackTrace();
+			} catch (Exception e) {
+				Common.logMsg("Error writing Xml schema: " + e, null);
+				e.printStackTrace();
+			}
 		}
-		ExternalRecord rec = fileSummaryMdl.asExtenalRecord(name, fileView.getFont());
+	
 		
 		if (rec != null) {
 			return rec.asLayoutDetail();
@@ -150,7 +175,7 @@ public class FixedWidthSelectionPane implements FilePreview {
 	}
 
 	@Override
-	public boolean isMyLayout(String layout, String filename, byte[] data) {
+	public int isMyLayout(String layout, String filename, byte[] data) {
 		boolean ret = fileSummaryMdl.setData(filename, data, true);
 		
 		this.filename = filename;
@@ -158,6 +183,16 @@ public class FixedWidthSelectionPane implements FilePreview {
 		if (ret) {
 			fileView.reloadFromFileModel();
 		}
-		return ret;
+		return ret ? LIKELY : NO;
 	}
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#getSchemaCheckType()
+	 */
+	@Override
+	public int getSchemaCheckType() {
+		return IGetSchema.ST_FIXED;
+	}
+	
+	
 }

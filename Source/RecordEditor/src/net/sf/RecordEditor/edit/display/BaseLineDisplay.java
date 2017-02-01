@@ -18,6 +18,7 @@ package net.sf.RecordEditor.edit.display;
 
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 
 
 
@@ -49,15 +50,19 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 	 * @param masterfile internal representation of a File
 	 * @param primary wether the screen is a primary screen
 	 */
-	public BaseLineDisplay(final String formType,
+	public BaseLineDisplay(
+			             final BaseHelpPanel panel,
+			             final String formType,
 	        			 final FileView viewOfFile,
 	        			 final boolean primary,
 	        			 final boolean fullLine,
 		        		 final boolean prefered,
 		        		 final boolean hex,
-		        		 final boolean changeRow) {
-		super(formType, viewOfFile, primary, fullLine, true, prefered, hex,
-				changeRow ? STD_OPTION_PANEL: NO_OPTION_PANEL);
+		        		 final int layoutLineOption
+//		        		 final boolean changeRow
+	) {
+		super(panel, formType, viewOfFile, primary, fullLine, true, prefered, hex, layoutLineOption);
+//				changeRow ? STD_OPTION_PANEL: NO_OPTION_PANEL);
 	}
 
 

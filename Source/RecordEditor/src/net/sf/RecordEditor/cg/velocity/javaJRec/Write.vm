@@ -24,6 +24,9 @@ import net.sf.JRecord.IO.AbstractLineWriter;
  */
 public final class Write${generateOptions.schemaDefinition.extensionName} {
 
+#*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()})
+    private FieldNames${generateOptions.schemaDefinition.extensionName}.Record${r.extensionName} r${r.extensionName} = FieldNames${generateOptions.schemaDefinition.extensionName}.RECORD_${r.constantName};
+#*  *##end
 
 
     /**
@@ -53,8 +56,7 @@ public final class Write${generateOptions.schemaDefinition.extensionName} {
 
 #*  *##foreach( $r in ${generateOptions.schemaDefinition.getRecords()})
     private AbstractLine create${r.extensionName}(IIOBuilder iob, UserData data) throws IOException {
-        AbstractLine line = iob.newLine();
-        line${r.extensionName}JR.setLine(line);
+       AbstractLine line = iob.newLine();
 
 #*      *##foreach($f in ${r.getFields()})
 #*          *##if (! ${f.isArrayItem()})
@@ -71,7 +73,7 @@ public final class Write${generateOptions.schemaDefinition.extensionName} {
 #*      *##end
 
 #*      *##foreach($a in ${r.getArrayDetailsList()})
-        line${r.extensionName}JR.set${a.getFirstElement().extensionName}(${a.getZeroArrayIndex()}, data. ...);
+        line.getFieldValue(r${r.extensionName}.${a.getFirstElement().javaName}.get(${a.getZeroArrayIndex()})).set(data. ...);
 #*      *##end
 
         return line;
@@ -82,4 +84,3 @@ public final class Write${generateOptions.schemaDefinition.extensionName} {
         new Write${generateOptions.schemaDefinition.extensionName}();
     }
 }
-

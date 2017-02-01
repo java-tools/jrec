@@ -14,6 +14,7 @@ import net.sf.RecordEditor.re.display.IClosablePanel;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
 public abstract class RecordSelection extends BaseDisplay
@@ -28,7 +29,7 @@ implements AbstractFileDisplayWithFieldHide, IClosablePanel {
 
 	public RecordSelection(
 			String formType, FileView viewOfFile, int lineNo) {
-		super(formType, viewOfFile, false, false, false, false, false, NO_LAYOUT_LINE);
+		super(null, formType, viewOfFile, false, false, false, false, false, NO_LAYOUT_LINE);
 
 		splitPane = new SplitPaneRecord(this, viewOfFile, lineNo);
 
@@ -38,6 +39,8 @@ implements AbstractFileDisplayWithFieldHide, IClosablePanel {
 
 	protected final void init_200_layoutScreen() {
 
+		BaseHelpPanel actualPnl = getActualPnl();
+		
 		movementPnl = new MovementBtnPnl(Common.getArrowIcons(), true, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -59,6 +62,7 @@ implements AbstractFileDisplayWithFieldHide, IClosablePanel {
 
 	public void setScreenSize(boolean mainframe, int width, int height) {
 
+		BaseHelpPanel actualPnl = getActualPnl();
 		if (mainframe) {
 			DisplayFrame parentFrame = getParentFrame();
 
@@ -68,7 +72,7 @@ implements AbstractFileDisplayWithFieldHide, IClosablePanel {
 			parentFrame.setToMaximum(false);
 			parentFrame.addCloseOnEsc(actualPnl);
 		} else {
-			this.actualPnl.done();
+			actualPnl.done();
 		}
 	}
 

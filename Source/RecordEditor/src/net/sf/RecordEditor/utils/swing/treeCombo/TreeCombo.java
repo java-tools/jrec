@@ -243,6 +243,14 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 	 * @return the selectedItem
 	 */
 	public TreeComboItem getSelectedItem() {
+		String t = super.getText();
+		
+		if (selectedItem != null && t != null && ! t.equalsIgnoreCase(selectedItem.getEnglish())) {
+			TreeComboItem item = nameMap.get(t.toLowerCase());
+			if (item != null) {
+				selectedItem = item;
+			}
+		}
 		return selectedItem;
 	}
 
@@ -277,7 +285,7 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 		TreeComboItem item = TreeComboItem.BLANK_ITEM;
 		
 		if (s != null && s.length() > 0) {
-			item = nameMap.get(s);
+			item = nameMap.get(s.toLowerCase());
 			if (item == null) {
 				setOnlySelectedItem(TreeComboItem.BLANK_ITEM);
 				this.setTextInternal(s);
@@ -287,6 +295,24 @@ public class TreeCombo extends ComboLikeObject {// implements IGetSetObj {
 		setSelectedItem(item);
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.utils.swing.common.ComboLikeObject#textFieldChanged()
+	 */
+	@Override
+	protected void textFieldChanged() {
+		
+		String s = valueTxt.getText();
+		if (s != null && s.length() > 0) {
+			TreeComboItem item = nameMap.get(s.toLowerCase());
+			if (item != null) {
+				setSelectedItem(item);
+				return;
+			}
+		}
+
+		super.textFieldChanged();
+	}
+
 	public final TreeComboItem getFirstItem() {
 		
 		if (items == null || items.length == 0) {

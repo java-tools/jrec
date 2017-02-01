@@ -69,7 +69,7 @@ public class ChangeFileStructureAction extends ReSpecificScreenAction implements
 		final FileView view;
 		private JEditorPane tips;
 		private BasePanel pnl = new BasePanel();
-		private JComboBox  fileStructures = FileStructureDtls.getFileStructureCombo();
+		private JComboBox  fileStructures = FileStructureDtls.getFileStructureCombo(FileStructureDtls.FileStructureReqest.ALL);
 		private JButton updateBtn = new JButton("Apply Update");
 
 

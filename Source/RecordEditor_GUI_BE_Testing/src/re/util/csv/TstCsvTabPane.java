@@ -13,14 +13,14 @@ import net.sf.RecordEditor.re.util.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.re.util.csv.CsvTabPane;
 import net.sf.RecordEditor.re.util.csv.FilePreview;
 import net.sf.RecordEditor.re.util.fw.FixedWidthSelectionPane;
-import zCommon.ZCommonCode;
+import xCommon.XCommonCode;
 
 public class TstCsvTabPane {
 
-	public static String[] FW_FILES = ZCommonCode.FW_FILES;
+	public static String[] FW_FILES = XCommonCode.FW_FILES;
 	
-	public static ColumnDetails[][] FILE_COLUMNS = ZCommonCode.FILE_COLUMNS;
-	public static final String[] CHARCTER_SETS = ZCommonCode.CHARCTER_SETS;
+	public static ColumnDetails[][] FILE_COLUMNS = XCommonCode.FILE_COLUMNS;
+	public static final String[] CHARCTER_SETS = XCommonCode.CHARCTER_SETS;
 
 	private static String[] BAR_DTAR020_COLUMN_NAMES = {
 			"KEYCODE-NO", "STORE-NO", "DATE", "DEPT-NO", "QTY-SOLD", "SALE-PRICE"
@@ -32,18 +32,18 @@ public class TstCsvTabPane {
 		
 		for (int i = 0; i < FW_FILES.length; i++) {
 			String fw = FW_FILES[i];
-			String fName = ZCommonCode.getFileName(fw);
+			String fName = XCommonCode.getFileName(fw);
 			
 			tabPane.readCheckPreview(new File(fName), true, "");
 			
 			FilePreview pane = tabPane.getSelectedCsvDetails();
 			assertTrue(pane instanceof FixedWidthSelectionPane);
-			ZCommonCode.checkPane((FixedWidthSelectionPane)pane, FILE_COLUMNS[i], CHARCTER_SETS[i]);
+			XCommonCode.checkPane((FixedWidthSelectionPane)pane, FILE_COLUMNS[i], CHARCTER_SETS[i]);
 		}
 	}
 	
 	public void testCsv() {
-		String fName = ZCommonCode.getFileName("barDTAR020.csv");
+		String fName = XCommonCode.getFileName("barDTAR020.csv");
 		JTextArea msgField = new JTextArea();
 		CsvTabPane tabPane = new CsvTabPane(msgField, true, true);
 		

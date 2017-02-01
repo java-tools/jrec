@@ -62,7 +62,7 @@ public final class CommonSaveAsFields {
 	/**
 	 * @param recordFrame the recordFrame to set
 	 */
-	protected CommonSaveAsFields(
+	public CommonSaveAsFields(
 			final AbstractFileDisplay recordFrame, final FileView file, final FocusListener templateListner) {
 		this.recordFrame = recordFrame;
 		this.file = file;

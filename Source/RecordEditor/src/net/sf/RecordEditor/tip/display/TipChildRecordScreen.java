@@ -14,6 +14,7 @@ import net.sf.RecordEditor.edit.display.extension.SplitPaneRecord;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.re.file.FileView;
 import net.sf.RecordEditor.tip.def.TipField;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
@@ -33,7 +34,7 @@ public class TipChildRecordScreen extends BaseDisplay implements IChildScreen {
 
 
 	public TipChildRecordScreen(FileView viewOfFile, int lineNo, int position) {
-		super("Single PO Record", viewOfFile, false, false, false, false, false,
+		super(null, "Single PO Record", viewOfFile, false, false, false, false, false,
 				NO_LAYOUT_LINE);
 
 		splitPane = new SplitPaneRecord(NO_CLOSE_ACTION_PNL, viewOfFile, lineNo);
@@ -58,6 +59,8 @@ public class TipChildRecordScreen extends BaseDisplay implements IChildScreen {
 
 	private void init_200_layoutScreen() {
 
+		BaseHelpPanel actualPnl = getActualPnl();
+		
 		splitPane.layoutFieldPane();
 
 		actualPnl.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP,
@@ -75,7 +78,7 @@ public class TipChildRecordScreen extends BaseDisplay implements IChildScreen {
 	@Override
 	public void setScreenSize(boolean mainframe) {
 
-		this.actualPnl.done();
+		this.getActualPnl().done();
 	}
 
 

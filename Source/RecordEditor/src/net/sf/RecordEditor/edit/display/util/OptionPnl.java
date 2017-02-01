@@ -1,7 +1,10 @@
 package net.sf.RecordEditor.edit.display.util;
 
 import java.awt.Dimension;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -16,6 +19,7 @@ public class OptionPnl extends JPanel {
 	public final static int BROWSE_PANEL = 1;
 	public final static int EDIT_PANEL = 2;
 	public final static int TREE_PANEL = 3;
+	public final static int NO_FILTER = 4;
 
 	private static String[] hints =  LangConversion.convertArray(LangConversion.ST_FIELD_HINT, "FileDisplayBtns", new String[] {
 			"Find", "Filter", "Save", "Save As",
@@ -32,11 +36,21 @@ public class OptionPnl extends JPanel {
 
 	private JButton[] btn;
 
-	public OptionPnl(int option, ReActionHandler action) {
+	public OptionPnl(int option, ReActionHandler actionHandler, List<Action> actions) {
 
-		int num = option == BROWSE_PANEL ? 5 : hints.length - 1;
+		int num = hints.length - 1;
+		int count = hints.length - 1;
+		
+		switch (option) {
+		case BROWSE_PANEL:	
+			num = 5;
+			count = num;
+			break;
+		case NO_FILTER:		num = num - 1;
+		}
+		
+		num +=  (actions != null)?actions.size():0; 
 
-		int i;
 		btn = new JButton[num];
 
 		Icon searchIcon = Common.getRecordIcon(Common.ID_SEARCH_ICON);
@@ -44,11 +58,25 @@ public class OptionPnl extends JPanel {
 		Dimension stdSize = new Dimension(iconHeight,
 				searchIcon.getIconWidth() + 5);
 
-		for (i = 0; i < num; i++) {
-			if (option != BROWSE_PANEL || (i != Common.ID_SAVE_ICON)) {
-				btn[i] = defineBtn(stdSize, i, action);
+		int j=0;
+		for (int i = 0; i < count; i++) {
+			if ((option == BROWSE_PANEL && i == Common.ID_SAVE_ICON)
+			|| (option == NO_FILTER && i == Common.ID_FILTER_ICON)) {
+			} else {
+				btn[j++] = defineBtn(stdSize, i, actionHandler);
 			}
 		}
+		
+		if (actions != null) {
+			for (Action action : actions) {
+				btn[j] = new JButton(action);
+				this.add(btn[j++]);
+			}
+		}
+	}
+	
+	public List<JButton> getButtons() {
+		return Arrays.asList(btn);
 	}
 
 	/**

@@ -5,7 +5,7 @@
 
 #fixedClassPy()
 
-f = open('Ams_LocDownload_20041228.txt', 'r')
+f = open('${generateOptions.getDataFileName().getEscapedFileName()}', 'r')
 for line in f:
     record = ${schemaDef.getClassName()}(line)
 

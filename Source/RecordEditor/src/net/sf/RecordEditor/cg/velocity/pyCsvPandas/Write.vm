@@ -4,34 +4,30 @@ import csv
 
 #incl("pyCsvIO/CsvCommonPy.vm")
 
-#if (${generateOptions.schemaDefinition.areThereColumnNames()})
-#indexClass()
+#fieldNameClassPy()
 
+if __name__ == "__main__":
+    cols = ColumnNames()
+    
+    with open('${generateOptions.getDataFileName().getEscapedFileName()}.csv', 'wb') as csvfile:
+        csvWrite = csv.DictWriter(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q}, quoting=csv.QUOTE_MINIMAL, fieldNames=cols.allColumns)
 
-idx = indexs()
-#end
-with open('${generateOptions.getDataFileName().getEscapedFileName()}.csv', 'wb') as csvfile:
-    csvWrite = csv.writer(csvfile, delimiter='${generateOptions.schemaDefinition.getDelimiter()}'${q}, quoting=csv.QUOTE_MINIMAL)
-#if (${generateOptions.schemaDefinition.areThereColumnNames()})
-    csvWrite.writerow([
-#*  *##set ($pref = " ")
-#*  *##foreach($f in ${r.getFields()}) 
-          ${pref} "${f.cobolName}"
-#*       *##set ($pref = ",")
-#*  *##end
-    ])
-#end
-    csvWrite.writerow([
+        csvWrite.writerow({
 #set ($pref = " ")
 #foreach($f in ${r.getFields()}) 
-          ${pref} 111 
+              ${pref} cols.${f.javaName} : "111" 
 #*   *##set ($pref = ",")
 #end
-    ])
+        })
 #if (${generateOptions.schemaDefinition.areThereColumnNames()})
-    row = range(idx.Column_Count)
+        row = {
+#*   *##set ($ii = 1)
+#set ($pref = " ")
 #*  *##foreach($f in ${r.getFields()}) 
-    row[idx.${f.javaName}]=200 + ${f.javaName}
+              ${pref} cols.${f.javaName} : '200${ii}'
+#*   *##set ($pref = ",")
+#*       *##set ($ii = ${ii} + 1)
 #*  *##end
-    csvWrite.writerow(row)
+	    }
+        csvWrite.writerow(row)
 #end

@@ -9,10 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -28,9 +30,11 @@ import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.Details.IGetSchema;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
+import net.sf.JRecord.cg.common.CCode;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
@@ -59,7 +63,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	private ParserManager parserManager = ParserManager.getInstance();
 	private MenuPopupListener popup;
 	private String	lastFont = null,
-					lastSeperator = null;
+					lastSeperator = null,
+					filename;
 //	private String[] lines = null;
 //	private int lines2display = 0;
 
@@ -83,6 +88,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
     public JButton go = SwingUtils.newButton("Go");
     public JButton cancel = SwingUtils.newButton("Cancel");
+    private JButton wizardBtn;
 
     private JTable linesTbl = new JTable();
 
@@ -110,7 +116,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		public void stateChanged(ChangeEvent e) {
  			if (doAction) {
  				if ((lastFont == null || ! lastFont.equals(getFontName()))) {
- 					setData("", data, false, "");
+ 					setData(filename, data, false, "");
 					valueChanged(false);
  				}
 		   }
@@ -119,6 +125,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
     private ActionListener fieldNamesChanged = new ActionListener() {
    	   public void actionPerformed(ActionEvent e) {
+
+			updateWizardBtn();
 
 	   		if (doAction) {
 	   		   tblMdl.setSeperator(getSeperator());
@@ -129,19 +137,27 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
    	   }
     };
 
-    private ChangeListener sepChanged  = new ChangeListener() {
+    private ChangeListener quoteChanged  = new ChangeListener() {
     	public void stateChanged(ChangeEvent e)  {
 	 		if (doAction) {
-	 			String seperator = getSeperator();
-	 			if ((! seperator.equals(lastSeperator))
-	 			||	embeddedCrJCheck.isSelected()) {
-	 				lastSeperator = seperator;
-	 				reReadData();
-	 			}
- 				valueChanged(false);
+ 				valueChanged();
 	 		}
     	}
      };
+
+     private ChangeListener sepChanged  = new ChangeListener() {
+     	public void stateChanged(ChangeEvent e)  {
+ 	 		if (doAction) {
+ 	 			String seperator = getSeperator();
+ 	 			if ((! seperator.equals(lastSeperator))
+ 	 			||	embeddedCrJCheck.isSelected()) {
+ 	 				lastSeperator = seperator;
+ 	 				reReadData();
+ 	 			}
+  				valueChanged(false);
+ 	 		}
+     	}
+      };
 
      private ActionListener crChanged = new ActionListener() {
      	public void actionPerformed(ActionEvent e) {
@@ -153,10 +169,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	 	 				tblMdl.setEmbedded(true);
 	 	 				CsvAnalyser anaylyser = tblMdl.getAnalyser(AbstractCsvTblMdl.DERIVE_SEPERATOR);
-
-	 	 				if (anaylyser.getQuoteIdx() > 0) {
-	 	 					quoteCombo.setSelectedIndex(anaylyser.getQuoteIdx());
-	 	 				}
+	 	 				setQuoteCombo(anaylyser);
 	 	 				setQuoteTxt(anaylyser.getSpecialQuote());		
  	 				} finally {
  	 					doAction = true;
@@ -169,7 +182,28 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 			CsvSelectionPanel.this.setMessageTxtRE("You must specify a quote when embedded Cr is used");
  	 		}
       	}
+
       };
+	/**
+	 * @param anaylyser
+	 */
+	private void setQuoteCombo(CsvAnalyser anaylyser) {
+		String quote = anaylyser.getQuote();
+
+		if (isPresent(quote)) {
+			quoteCombo.setTextValue(quote);;
+		} else {
+			quoteCombo.setSelectedIndex(0);
+		}
+	}
+
+	/**
+	 * @param str
+	 * @return
+	 */
+	private boolean isPresent(String str) {
+		return str != null && str.length() != 0;
+	}
 
     private FocusAdapter focusHandler = new FocusAdapter() {
     	public void focusLost(FocusEvent e) {
@@ -180,7 +214,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 			&& (lastFont == null || ! lastFont.equals(getFontName()))) ) {
     			lastFont = getFontName();
     			if (dataLines == null) {
-    				setData("", data, false, "");
+    				setData(filename, data, false, "");
     				reRead = false;
     			} else {
     				setData(dataLines, lastFont);
@@ -206,33 +240,35 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	public CsvSelectionPanel(byte[][] dataLines, String font,
 			boolean showCancel, JTextComponent msg) {
-		this(dataLines, font, showCancel, "", msg, false);
+		this(dataLines, font, showCancel, "", msg, false, null);
     };
 
 
 	public CsvSelectionPanel(byte[][] dataLines, String font,
 			boolean showCancel, String heading, JTextComponent msg,
-			boolean adjustableTblHeight) {
+			boolean adjustableTblHeight,
+			Action wizardAction) {
 		fieldSeparatorCombo = DelimiterCombo.NewDelimCombo();
 		message = msg;
 		setData(dataLines, font);
 
 		init_100_SetupFields();
-		init_200_LayoutScreen(showCancel, heading, adjustableTblHeight);
+		init_200_LayoutScreen(showCancel, heading, adjustableTblHeight, wizardAction);
 	};
 
 
 	public CsvSelectionPanel(byte[] data, String font,
 			boolean showCancel, String heading, JTextComponent msg,
-			boolean adjustableTblHeight) {
+			boolean adjustableTblHeight,
+			Action wizardAction) {
 		message = msg;
 		isByteBased = false;
 		fieldSeparatorCombo = DelimiterCombo.NewDelimCombo();
 
-		setData("", data, true, null);
+		setData(filename, data, true, null);
 
 		init_100_SetupFields();
-		init_200_LayoutScreen(showCancel, heading, adjustableTblHeight);
+		init_200_LayoutScreen(showCancel, heading, adjustableTblHeight, wizardAction);
 		valueChanged(false);
 	};
 
@@ -287,6 +323,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 */
 	@Override
 	public boolean setData(String filename, byte[] data, boolean checkCharset, String layoutId) {
+		
+		this.filename = filename;
 		if (layoutId != null && ! "".equals(layoutId)) {
 			setFileDescription(layoutId);
 		}
@@ -316,7 +354,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		//anaylyser = new CsvAnalyser(tblMdl.getLinesString(), -1, font);
 		anaylyser = tblMdl.getAnalyser(AbstractCsvTblMdl.DERIVE_SEPERATOR);
 
-		reRead = embeddedCrJCheck.isSelected() && anaylyser.getQuoteIdx() > 0 && "".equals(getQuote());
+		reRead = embeddedCrJCheck.isSelected() && isPresent(anaylyser.getQuote()) && "".equals(getQuote());
 		setUpSeperator(anaylyser);
 
 		tblMdl.setFieldLineNo(getFieldLineNo());
@@ -412,7 +450,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		}
 
 		tblMdl.setParserType(((Integer) parseType.getSelectedItem()).intValue());
-		tblMdl.setQuote(getQuote());
+		tblMdl.setQuote(Conversion.decodeCharStr(getQuote(), font));
 		tblMdl.setSeperator(getSeperator());
 		tblMdl.setDataFont(data, font,
 				embeddedCrJCheck.isSelected());
@@ -436,7 +474,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		embeddedCrJCheck.addFocusListener(focusHandler);
 
 		fieldSeparatorCombo.addTextChangeListner(sepChanged);
-		quoteCombo.addActionListener(changedAction);
+		quoteCombo.addTextChangeListner(quoteChanged);
 		quoteTxt.addActionListener(changedAction);
 		parseType.addActionListener(changedAction);
 		charsetCombo.addTextChangeListner(changeListner);
@@ -444,7 +482,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		embeddedCrJCheck.addActionListener(crChanged);
 	}
 
-	private void init_200_LayoutScreen(boolean showCancel, String heading, boolean adjustableTblHeight) {
+	private void init_200_LayoutScreen(boolean showCancel, String heading, boolean adjustableTblHeight, Action wizardAction) {
 		double fileTblHeight = SwingUtils.TABLE_ROW_HEIGHT * 27 / 2;
 		JPanel fieldSeperatorPnl = init_200_bld2fieldPnl(fieldSeparatorCombo, fieldSepTxt, "FieldSep");
 		JPanel quotePnl = init_200_bld2fieldPnl(quoteCombo, quoteTxt, "Quote");
@@ -455,6 +493,11 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		BasePanel.setToCommonWidth(1, 10, fieldSeparatorCombo, quoteCombo);
 		BasePanel.setToCommonWidth(1, 15, fieldSeperatorPnl, quotePnl, charsetCombo);
 
+		if (adjustableTblHeight) {
+			fileTblHeight = BasePanel.FILL;
+		} else if (! isByteBased) {
+			fileTblHeight -= SwingUtils.TABLE_ROW_HEIGHT * 2;
+		}
 		if (heading != null && ! "".equals(heading)) {
 			JLabel headingLabel = new JLabel("  " + heading + "  ");
 			Font font = headingLabel.getFont();
@@ -465,39 +508,37 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 			this.addHeadingComponentRE(headingLabel);
 			this.setGapRE(GAP0);
 		}
-		addLineRE("Field Seperator", fieldSeperatorPnl);
-		setGapRE(GAP1);
-
-		addLineRE("Quote", quotePnl);
+		addLineRE(         "Field Seperator", fieldSeperatorPnl)		.setGapRE(GAP1);
+		addLineRE(                   "Quote", quotePnl);
 
 		if (! isByteBased) {
-			addLineRE("Font", charsetCombo);
+			addLineRE(                "Font", charsetCombo);
 		}
-		if (adjustableTblHeight) {
-			fileTblHeight = BasePanel.FILL;
-		} else if (! isByteBased) {
-			fileTblHeight -= SwingUtils.TABLE_ROW_HEIGHT * 2;
-		}
-		addLineRE("Parser", parseType);
-		addLineRE("Names on Line", fieldNamesOnLine);
 
+		addLineRE(                  "Parser", parseType);
+
+		if ( wizardAction == null ) {
+			addLineRE(       "Names on Line", fieldNamesOnLine);
+		} else {
+			wizardBtn = new JButton(wizardAction);
+			addLineRE(       "Names on Line", fieldNamesOnLine, wizardBtn);
+		}
 		if (showCancel) {
-			addLineRE("Line Number of Names", nameLineNoTxt, go);
-			setGapRE(BasePanel.GAP);
-			addLineRE("set Column Types", checkTypes);
-			addLineRE("embedded New Lines", embeddedCrJCheck, cancel);
+			addLineRE("Line Number of Names", nameLineNoTxt, go)	      .setGapRE(BasePanel.GAP);
+			addLineRE(    "set Column Types", checkTypes);
+			addLineRE(  "embedded New Lines", embeddedCrJCheck, cancel);
 			setGapRE(BasePanel.GAP);
 		} else {
 			addLineRE("Line Number of Names", nameLineNoTxt);
-			addLineRE("set Column Types", checkTypes);
-			addLineRE("embedded New Lines", embeddedCrJCheck, go);
+			addLineRE(    "set Column Types", checkTypes);
+			addLineRE(  "embedded New Lines", embeddedCrJCheck, go);
 			setGapRE(BasePanel.GAP1);
 		}
 
 		addComponentRE(
 				1, 6, fileTblHeight, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL,
-		        /*new JScrollPane(*/linesTbl/*)*/);
+		        linesTbl);
 
 		if (message == null) {
 			message = new JTextField();
@@ -522,6 +563,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 //						+ " " + inc
 //						+ " " + popup.getPopupRow());
 				fieldNamesOnLine.setSelected(true);
+				updateWizardBtn();
+
 				nameLineNoTxt.setText(Integer.toString(popup.getPopupRow() + inc));
 				valueChanged();
 			}
@@ -550,6 +593,13 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		setComponentName(field2, fieldName);
 
 		return ret;
+	}
+
+
+	private void updateWizardBtn() {
+		if (wizardBtn != null) {
+			wizardBtn.setVisible(! fieldNamesOnLine.isSelected());
+		}
 	}
 
 
@@ -611,7 +661,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		String sep = fieldSepTxt.getText();
 
 		if (sep == null || "".equals(sep) || ! isSepValid()) {
-			sep = fieldSeparatorCombo.getDelimiter();
+			sep = fieldSeparatorCombo.getKeyValue();
 		}
 
 		if ("<Space>".equals(sep)) {
@@ -668,13 +718,22 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 */
 	@Override
 	public final String getQuote() {
+//		return quoteCombo.getQuote();
 		String q = quoteTxt.getText();
 		if (q == null || "".equals(q)) {
-			return quoteCombo.getSelectedKey();
+			return quoteCombo.getKeyValue(); 
 		}
 		return q;
 	}
 
+	public final String getQuoteText() {
+//		return quoteCombo.getQuote();
+		String q = quoteTxt.getText();
+		if (q == null || "".equals(q)) {
+			return quoteCombo.getQuote();
+		}
+		return q;
+	}
 
 
 	/**
@@ -712,9 +771,9 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 		try {
 			this.doAction = false;
-			fieldSeparatorCombo.setSelectedIndex(analyse.getSeperatorIdx());
+			fieldSeparatorCombo.setText(analyse.getSeperatorId());
 			fieldSepTxt.setText("");
-			quoteCombo.setSelectedIndex(analyse.getQuoteIdx());
+			setQuoteCombo(analyse); 
 			quoteTxt.setText("");
 			setQuoteTxt(analyse.getSpecialQuote());			
 
@@ -730,6 +789,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 			}
 		} finally {
 			this.doAction = true;
+			updateWizardBtn();
 		}
 	}
 	
@@ -812,12 +872,25 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	    	useThisLayout = false; 
 	    }
 
-        recs[0] = new RecordDetail(Common.GENERATED_CSV_SCHEMA_NAME, "", "", Constants.rtDelimited,
+        String layoutName = "GeneratedCsv";
+        String recordName = Common.GENERATED_CSV_SCHEMA_NAME;
+        if (filename != null && filename.length() > 0) {
+        	String fname = new File(filename).getName();
+        	int pos = fname.indexOf('.');
+        	if (pos > 0) {
+        		fname = fname.substring(0, pos);
+        	}
+        	String javaId = CCode.string2JavaId(fname);
+			layoutName = CCode.toClassName(javaId);
+        	recordName = "Rec" + CCode.toSuffix(javaId);
+        }
+        recs[0] = new RecordDetail(recordName, "", "", Constants.rtDelimited,
         		getSeperator(),  getQuote(), font, flds,
         		((Integer)parseType.getSelectedItem()).intValue(), 0, embeddedCrJCheck.isSelected());
 
-        layout  =
-            new LayoutDetail("GeneratedCsv", recs, "",
+        
+		layout  =
+            new LayoutDetail(layoutName, recs, "",
                 Constants.rtDelimited,
                 recordSep, "", font, null,
                 ioId
@@ -841,7 +914,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 		return csv	+ SEP + fieldSeparatorCombo.getDelimiter()
 					+ SEP + getStr(fieldSepTxt.getText())
-					+ SEP + quoteCombo.getSelectedEnglish()
+					+ SEP + getStr(quoteCombo.getQuote())
 					+ SEP + parseType.getSelectedIndex()
 					+ SEP + getBool(fieldNamesOnLine)
 					+ SEP + getBool(checkTypes)
@@ -862,21 +935,26 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 		try {
 			doAction = false;
-			System.out.print(tok.nextToken());
-			fieldSeparatorCombo.setDelimiter(getStringTok(tok));
-			fieldSepTxt.setText(getStringTok(tok));
-			quoteCombo.setEnglish(getStringTok(tok));
-			parseType.setSelectedIndex(getIntTok(tok));
-			fieldNamesOnLine.setSelected(getBoolTok(tok));
-			checkTypes.setSelected(getBoolTok(tok));
-			charsetCombo.setText(getStringTok(tok));
-			nameLineNoTxt.setText(getStringTok(tok));
-			quoteTxt.setText(getStringTok(tok));
-			embeddedCrJCheck.setSelected(getBoolTok(tok));
+			String id = tok.nextToken();
+			if (NORMAL_CSV_STRING.equalsIgnoreCase(id)
+			||  UNICODE_CSV_STRING.equalsIgnoreCase(id)) {
+//				System.out.print(id);
+				fieldSeparatorCombo.setDelimiter(getStringTok(tok));
+				fieldSepTxt.setText(getStringTok(tok));
+				quoteCombo.setText(getStringTok(tok));
+				parseType.setSelectedIndex(getIntTok(tok));
+				fieldNamesOnLine.setSelected(getBoolTok(tok));
+				checkTypes.setSelected(getBoolTok(tok));
+				charsetCombo.setText(getStringTok(tok));
+				nameLineNoTxt.setText(getStringTok(tok));
+				quoteTxt.setText(getStringTok(tok));
+				embeddedCrJCheck.setSelected(getBoolTok(tok));
+			}
 		} catch (Exception e) {
 
 		} finally {
 			doAction = true;
+			updateWizardBtn();
 		}
 	}
 
@@ -949,7 +1027,16 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#isMyLayout(java.lang.String)
 	 */
 	@Override
-	public boolean isMyLayout(String layoutId, String filename, byte[] data) {
-		return false;
+	public int isMyLayout(String layoutId, String filename, byte[] data) {
+		return NO;
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.sf.RecordEditor.re.util.csv.FilePreview#getSchemaCheckType()
+	 */
+	@Override
+	public int getSchemaCheckType() {
+		return isByteBased ? IGetSchema.ST_CSV : IGetSchema.ST_TEXT_CSV ;
 	}
 }

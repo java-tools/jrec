@@ -43,6 +43,8 @@ public class UtMessages {
 
 	public static final ReMsg CAN_NOT_RETRIEVE_SCHEMA_MSG = new ReMsg("Can not retrieve schema:  nothing generated");
 	public static final ReMsg INVALID_FILE_TYPE_MSG = new ReMsg("Invalid file Type, this template is for {0} files");
+	
+	public static final ReMsg SAVE_DELIM_CHANGES    = new ReMsg("Do you want to save the changes to the standard {0} list ???");
 
 	public final static ReMsg COPYBOOK_DOES_NOT_EXIST = new ReMsg(
 			  "Copybook {0} does not exist");

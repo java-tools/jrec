@@ -32,7 +32,7 @@ public class SaveAsPnlScript extends SaveAsPnlBase {
 	 */
 	public SaveAsPnlScript(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".txt", CommonSaveAsFields.FMT_SCRIPT, RecentFiles.RF_SCRIPT, 
-			  new FileSelectCombo(Parameters.SAVE_SCRIPTS_LIST, 25, true, false));
+			  new FileSelectCombo(Parameters.SAVE_SCRIPTS_LIST, 25, true, false), false);
 //				new FileChooser(true, "get Script"));
 
         template.setText(Common.OPTIONS.DEFAULT_SCRIPT_EXPORT_DIRECTORY.get());

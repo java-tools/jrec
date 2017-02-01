@@ -111,7 +111,7 @@ public class UnknownFormatReader extends DelegateReader {
 
 	            layout  =
 	                new LayoutDetail(layout.getLayoutName(), recs, "",
-	                    Constants.rtBinaryRecord,
+	                    Constants.rtRecordLayout,
 	                    recordSep, layout.getEolString(), font, null,
 	                    fileStructure
 	                );

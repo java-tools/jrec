@@ -36,7 +36,9 @@ import net.sf.RecordEditor.edit.display.Action.ChangeFileStructureAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedFieldSeqAction;
 import net.sf.RecordEditor.edit.display.Action.LoadSavedVisibilityAction;
 import net.sf.RecordEditor.edit.display.Action.ShowTextViewAction;
+import net.sf.RecordEditor.edit.open.OpenCsvFileBackground;
 import net.sf.RecordEditor.edit.open.OpenFile;
+import net.sf.RecordEditor.edit.open.OpenReFileBackground;
 import net.sf.RecordEditor.externalInterface.Plugin;
 import net.sf.RecordEditor.re.jrecord.format.CellFormat;
 import net.sf.RecordEditor.re.jrecord.types.ReTypeManger;
@@ -558,7 +560,7 @@ public class EditRec extends ReMainFrame  {
         switch (action) {
             case ReActionHandler.OPEN:
                 //System.out.println("--->");
-            	ReFrame activeFrame = ReFrame.getActiveFrame();
+            	ReActionHandler activeFrame = ReFrame.getActiveFrame();
         		if (activeFrame != null && activeFrame.isActionAvailable(ReActionHandler.OPEN)) {
         			activeFrame.executeAction(ReActionHandler.OPEN);
         		} else if (open.isVisible()) {
@@ -735,6 +737,8 @@ public class EditRec extends ReMainFrame  {
                 Common.setReadOnly(true);
                 new EditRec(args.getDfltFile(), args.getInitialRow(),
                         CopyBookDbReader.getInstance());
+                OpenCsvFileBackground.register();
+                OpenReFileBackground.register();
             }
         });
     }

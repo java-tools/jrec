@@ -167,7 +167,7 @@ public class CodeGenOptionsUtl implements IGenerateOptions, ActionListener {
 		
 		layoutDef = new LayoutDef(
 				xRecord.asLayoutDetail(), 
-				Conversion.replace(data.copybookFileCombo.getText(), "\\", "/").toString()); 
+				Conversion.replace(data.copybookFileCombo.getText(), "\\", "/").toString(), null); 
 
 		String schemaName = layoutDef.getJavaName();
 		
@@ -199,7 +199,7 @@ public class CodeGenOptionsUtl implements IGenerateOptions, ActionListener {
 //		 .append(templateDtls.template);
 //		outputDir = b.toString();
 		try {
-			GenerateVelocity gv = new GenerateVelocity(this);
+			GenerateVelocity gv = new GenerateVelocity(this, Common.OPTIONS.applicationDetails);
 			new ShowGeneratedCode(gv.generatedFiles, layoutDef.getSchemaShortName());
 			dialog.setVisible(false);
 		} catch (Exception e1) {

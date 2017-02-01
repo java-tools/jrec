@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelectCreator;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 
@@ -16,10 +17,10 @@ public class NewFileAction extends ReAbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		ReFrame activeFrame = ReFrame.getActiveFrame();
+		ReActionHandler actionHandler = ReFrame.getActionHandler();
 		int newActionId = net.sf.RecordEditor.utils.common.ReActionHandler.NEW;
-		if (activeFrame != null && activeFrame.isActionAvailable(newActionId)) {
-			activeFrame.executeAction(newActionId);
+		if (actionHandler != null && actionHandler.isActionAvailable(newActionId)) {
+			actionHandler.executeAction(newActionId);
 		} else {
 			new net.sf.RecordEditor.edit.display.util.NewFile(create.create());
 		}

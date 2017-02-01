@@ -27,7 +27,6 @@
  */
 package net.sf.RecordEditor.edit.display;
 
-import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -40,11 +39,9 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import javax.swing.AbstractAction;
-import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JMenu;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
@@ -75,6 +72,7 @@ import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
 import net.sf.RecordEditor.utils.swing.HexGenericRender;
@@ -170,14 +168,16 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     				final AbstractLayoutDetails group,
                     final FileView viewOfFile,
                     final FileView masterFile) {
-        super(screenName, viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
-        		 true, showHexOptions(group, viewOfFile), true);
+        super(	null, screenName, viewOfFile, viewOfFile == masterFile, ! viewOfFile.getLayout().isXml(),
+        		true, showHexOptions(group, viewOfFile), STD_OPTION_PANEL);
+        
+        BaseHelpPanel actualPnl = getActualPnl();
 
         fieldMapping = new FieldMapping(getFieldCounts());
 
-        init_100_SetupJtables(viewOfFile);
+        init_100_SetupJtables(viewOfFile, actualPnl);
 
-        init_200_LayoutScreen();
+        init_200_LayoutScreen(actualPnl);
     }
 
 
@@ -186,9 +186,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
      * Setup the JTables etc
      * @param viewOfFile current file view
      */
-    private void init_100_SetupJtables(final FileView viewOfFile) {
+    private void init_100_SetupJtables(final FileView viewOfFile, BaseHelpPanel actualPnl) {
 
-        ReAction sort = new ReAction(ReActionHandler.SORT, this);
+        ReAction sort = new ReAction(ReActionHandler.SORT, getActionHandler());
         AbstractAction editRecord
         	= new ReAbstractAction(
         		"Edit Record",
@@ -354,9 +354,9 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     	return m;
     }
 
-    private void init_200_LayoutScreen() {
+    private void init_200_LayoutScreen(BaseHelpPanel actualPnl) {
 
-    	super.actualPnl.addReKeyListener(new DelKeyWatcher());
+    	actualPnl.addReKeyListener(new DelKeyWatcher());
         actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_RECORD_TABLE));
 
         actualPnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
@@ -555,12 +555,12 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
     	defColumns(getJTable(), fileView, tblScrollPane);
     }
 
-    private JTable defColumns(
+    private void defColumns(
     		JTable tbl,
     		FileView view,
     		FixedColumnScrollPane scrollPane) {
     	
-       if (view == null) return tbl;
+       if (view == null) return;
 
        defineColumns(tbl, view.getColumnCount(), 2, 0);
 
@@ -655,7 +655,6 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
         } else {
     	   buildDestinationMenus();
         }
-        return tbl;
     }
 
 

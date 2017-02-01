@@ -145,6 +145,9 @@ public class FieldSearch {
 
    		ff600_createFields(counts);
    		
+   		if (start >= charType.length) {
+   			return Type.ftChar;
+   		}
    		int lastType = charType[start];
    		for (i = start + 1; i < end; i++) {
    			if (charType[start] != lastType) {

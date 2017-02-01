@@ -877,6 +877,16 @@ public abstract class AbsDB<record extends AbsRecord> {
 		}
 	}
 
+	public final void commit() {
+		if (connect != null) {
+			try {
+				connect.getUpdateConnection().commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public final boolean setAutoCommit(boolean commit) {
 		boolean ok = false;
 		if (connect != null) {

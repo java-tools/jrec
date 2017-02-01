@@ -254,7 +254,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 		switch (pLayoutType) {
 			case Constants.rtGroupOfBinaryRecords:
 			case Constants.rtFixedLengthRecords:
-//			case Constants.rtBinaryRecord:
+			case Constants.rtBinaryRecord:
 			    binary = true;
 			break;
 			default:
@@ -348,13 +348,13 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	    this.multiLineField = tmpMultiLine;
 		this.isCsv = tmpCsv;
 
-		System.out.print("Font >" + fontName + "<" +  " || " + Conversion.isAlwaysUseDefaultSingByteCharset());
+		//System.out.print("Font >" + fontName + "<" +  " || " + Conversion.isAlwaysUseDefaultSingByteCharset());
 		if ((binary || Conversion.isAlwaysUseDefaultSingByteCharset())
 		&& fontName.length() == 0 && Conversion.DEFAULT_CHARSET_DETAILS.isMultiByte) {
 			fontName = Conversion.getDefaultSingleByteCharacterset();
 		}
 		this.multiByteCharset = Conversion.isMultiByte(fontName);
-		System.out.println(" >" + fontName + "< " + multiByteCharset);
+		//System.out.println(" >" + fontName + "< " + multiByteCharset);
 	}
 
 
@@ -472,9 +472,9 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	 */
 	public void setFontName(String fontName) {
 		this.fontName = fontName;
-		System.out.println("New Font= " + fontName);
+		//System.out.println("New Font= " + fontName);
 		this.multiByteCharset = Conversion.isMultiByte(fontName);
-		System.out.println("New Font= " + fontName + " " + multiByteCharset);
+		//System.out.println("New Font= " + fontName + " " + multiByteCharset);
 	}
 
 
@@ -845,7 +845,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
      * @param delimiter new delimiter
      */
     public void setDelimiter(String delimiter) {
-    	String delim = RecordDetail.convertFieldDelim(delimiter);
+    	String delim = Conversion.decodeFieldDelim(delimiter, fontName);
     	if (this.records != null) {
     		for (int i = 0; i < records.length; i++) {
     			records[i].setDelimiter(delim);

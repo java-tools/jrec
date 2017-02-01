@@ -13,8 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.cg.common.CCode;
 import net.sf.JRecord.cg.details.ArgumentOption;
 import net.sf.JRecord.cg.details.ConstantVals;
@@ -23,6 +26,8 @@ import net.sf.JRecord.cg.details.TemplateDtls;
 import net.sf.JRecord.cg.schema.CodeGenFileName;
 import net.sf.JRecord.cg.schema.LayoutDef;
 import net.sf.JRecord.cg.velocity.GenerateVelocity;
+import net.sf.RecordEditor.layoutWizard.WizardFileLayoutCsv;
+import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.params.Parameters;
@@ -38,7 +43,9 @@ import net.sf.RecordEditor.utils.swing.SwingUtils;
  * @author Bruce Martin
  *
  */
-public class CodeGenOptions implements IGenerateOptions, ActionListener {
+public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLayoutCallback {
+	
+	private static final String T_GET_CSV_NAMES = "getCsvNames";
 	
 	private final BaseHelpPanel codeGenOptionPnl = new BaseHelpPanel("CodeGenOptions");
 //	private final CblLoadData data;
@@ -46,6 +53,7 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener {
 	private JEditorPane tips;
 	private final JTextField packageIdTxt = new JTextField(50);
 	private final JCheckBox deleteOutputDirChk = new JCheckBox();
+	private final JCheckBox showCsvWizardChk = new JCheckBox();
 //	private FileSelectCombo outputDirectory;
 //	private JTextField outputExtensionTxt = new JTextField();
 	private final CodeGenExport cgx = new CodeGenExport();
@@ -56,17 +64,22 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener {
 	
 	private final TemplateDtls templateDtls;
 	private String packageDir, outputDir; 
-	private final LayoutDef layoutDef;
-	private final LayoutDetail schema;
+	private LayoutDef layoutDef;
+	private LayoutDetail schema;
 	private final CodeGenFileName dataFileName;
 	
-	public CodeGenOptions(LayoutDetail schema, String template, String templateResourceDir, String dataFileName) {
+	private final BasicLayoutCallback callback;
+	private WizardFileLayoutCsv wiz;
+	
+	public CodeGenOptions(LayoutDetail schema, String template, String templateResourceDir, String dataFileName,
+			BasicLayoutCallback callback) {
 		super();
 
 		this.schema = schema;
 		this.templateDtls = new TemplateDtls(null, template, templateResourceDir);
-		this.layoutDef = new LayoutDef(schema, schema.getLayoutName());
+		this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), CCode.string2JavaId(schema.getLayoutName()));
 		this.dataFileName = new CodeGenFileName(dataFileName);
+		this.callback = callback;
 			
 		init_100_setupFields();
 		init_200_LayoutScreen();
@@ -86,6 +99,7 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener {
 	    codeGenOptionPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_GEN_4_EDIT));
 	    
 	    deleteOutputDirChk.setSelected(true);
+	    showCsvWizardChk.setSelected(false);
 	}
 	
 //	private void assignDir(FileSelectCombo dir, String s) {
@@ -113,8 +127,18 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener {
 		  .addLineRE("Output Directory", cgx.outputDirectory)
 		  .addLineRE("Directory Extension", cgx.outputExtensionTxt)
 		      .setGapRE(BaseHelpPanel.GAP0)
-		  .addLineRE("Delete Ouput Directory", deleteOutputDirChk)
-		      .setGapRE(BaseHelpPanel.GAP1)
+		  .addLineRE("Delete Ouput Directory", deleteOutputDirChk);
+		if (   templateDtls.hasOption(T_GET_CSV_NAMES, false)			
+		&&     schema.isCsvLayout()
+		&&     schema.getRecordCount() == 1
+		&&  (! CommonBits.areFieldNamesOnTheFirstLine(schema.getFileStructure())) 
+		&&     noFieldNames()
+		){
+			showCsvWizardChk.setSelected(true);
+			codeGenOptionPnl.addLineRE("Enter Field names", showCsvWizardChk);
+		}
+		codeGenOptionPnl
+	      .setGapRE(BaseHelpPanel.GAP1)
 		  .addLineRE("", goPnl);
 	}
 	
@@ -132,6 +156,33 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener {
 		goBtn.addActionListener(this);
 	}
 	
+	
+	private boolean noFieldNames() {
+		int count = 0;
+		RecordDetail record = schema.getRecord(0);
+		
+		for (int i = 0; i < record.getFieldCount(); i++) {
+			IFieldDetail field = record.getField(i);
+			String name = field.getName();
+			if (name.length() == 0
+			|| name.equalsIgnoreCase(getEmptyName(i))
+			|| ("fld" + i).equalsIgnoreCase(name)) {
+				count += 1;
+			}
+		}
+		
+		return count * 10 / record.getFieldCount() >= 8;
+	}
+	
+	private String getEmptyName(int column) {
+		StringBuilder b = new StringBuilder();
+
+        for (; column >= 0; column = column / 26 - 1) {
+            b.insert(0, (char)((char)(column%26)+'A'));
+        }
+        return b.toString();
+
+	}
 	
 	/**
 	 * @param b
@@ -175,21 +226,31 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener {
 		if (deleteOutputDirChk.isSelected()) {
 			Parameters.doDeleteDirectory(outputDir);
 		}
-//		StringBuilder b = new StringBuilder(outputDir);
-//		int lenM1 = b.length() - 1;
-//		if (b.charAt(lenM1) == '*') {
-//			b.setLength(lenM1);
-//			lenM1 -=1;
-//		}
-//		
-//		char ch = b.charAt(lenM1);
-//		if (ch != '/' && ch != '\\') {
-//			b.append('/');
-//		}
-//		b.append(layoutDef.getSchema().getLayoutName());
-//		outputDir = b.toString();
+
+		if (showCsvWizardChk.isSelected()) {
+			wiz = new WizardFileLayoutCsv(new JDialog(dialog), this, dataFileName.fileName, schema, true, true);
+			
+			return;
+		}
+		generateCode();
+	}
+
+
+	@Override
+	public void setRecordLayout(int layoutId, String layoutName, String filename) {
+		
+		this.schema = wiz.getWizardDetails().createRecordLayout().asLayoutDetail();
+		this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), CCode.string2JavaId(schema.getLayoutName()));
+		generateCode();
+		if (callback != null) {
+			callback.setRecordLayout(layoutId, layoutName, filename);
+		}
+	}
+
+
+	protected void generateCode() {
 		try {
-			GenerateVelocity gv = new GenerateVelocity(this);
+			GenerateVelocity gv = new GenerateVelocity(this, Common.OPTIONS.applicationDetails);
 			new ShowGeneratedCode(gv.generatedFiles, layoutDef.getSchemaShortName());
 			dialog.setVisible(false);
 		} catch (Exception e1) {

@@ -144,40 +144,6 @@ implements ActionListener, IOpenFileExtended {
 		StartEditorExtended startEditor = new StartEditorExtended(file, sFileName, pBrowse);
 
 		startEditor.doEdit();
-
-
-//		AbstractLayoutDetails layoutDtls = file.getLayout();
-//
-//		if (layoutDtls.hasChildren()) {
-//			display = new LineTreeChild(file, new LineNodeChild("File", file), true, 0);
-//			if (file.getRowCount() == 0 && ! pBrowse) {
-//				display.insertLine();
-//			}
-//		} else if (layoutDtls.isXml()) {
-//			display = new LineTree(file, TreeParserXml.getInstance(), true, 1);
-//		} else {
-//			display = new LineList(layoutDtls, file, file);
-//			display.setCurrRow(initialRow, -1, -1);
-//
-//			if (file.getRowCount() == 0 && ! pBrowse) {
-//				display.insertLine();
-//			}
-//		}
-//
-//
-//		message.setText(file.getMsg());
-//
-//		try {
-//			if ("".equals(file.getMsg())) {
-//				String layoutName = getCurrentLayout();
-//				//list.moveToFront();
-//
-//				recent.putFileLayout(sFileName, layoutName);
-//				recentList.update();
-//			}
-//		} catch (Exception e) {
-//		    Common.logMsg("Error Updating recent files" + e.getMessage(), null);
-//		}
 	}
 
 	/**

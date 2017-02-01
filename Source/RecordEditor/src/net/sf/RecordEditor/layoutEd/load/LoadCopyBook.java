@@ -124,7 +124,7 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
     private BmKeyedComboBox      system;
 
     private DelimiterCombo fieldSeparator = DelimiterCombo.NewDelimComboWithDefault();
-    private JComboBox quote = QuoteCombo.newCombo(); //Common.QUOTE_LIST);
+    private QuoteCombo quote = QuoteCombo.newCombo(); //Common.QUOTE_LIST); 
 
 	private BaseHelpPanel pnl = new BaseHelpPanel();
 
@@ -439,24 +439,23 @@ public class LoadCopyBook extends ReFrame implements ActionListener {
 
         //int fieldSeparatorIdx = fieldSeparator.getSelectedIndex();
 		String fieldSep = fieldSeparator.getDelimiter();
-        int quoteIdx = quote.getSelectedIndex();
+		String quoteStr = quote.getQuote();
 
 		for (int i = 0; i < rec.getNumberOfRecords(); i++) {
-			ap110_UpdateDelimQuote( rec.getRecord(i), fieldSep, quoteIdx);
+			ap110_UpdateDelimQuote( rec.getRecord(i), fieldSep, quoteStr);
 		}
 		
-		ap110_UpdateDelimQuote( rec, fieldSep, quoteIdx);
+		ap110_UpdateDelimQuote( rec, fieldSep, quoteStr);
 	}
 	
-	private void ap110_UpdateDelimQuote(ExternalRecord rec, String fieldSep, int quoteIdx) {
+	private void ap110_UpdateDelimQuote(ExternalRecord rec, String fieldSep, String quoteStr) {
 
         if (fieldSep != null && fieldSep.length() > 0) {
         	rec.setDelimiter(fieldSep);
         }
 
-        if (quoteIdx > 0) {
-        	rec.setQuote(Common.QUOTE_LIST[quoteIdx]);
-        }
+       	rec.setQuote(quoteStr);
+       
 	}
 
     /**

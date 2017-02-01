@@ -1,10 +1,12 @@
 package net.sf.RecordEditor.copy;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.Common.XmlConstants;
@@ -557,14 +559,19 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 	 * @throws IOException any IO error
 	 * @throws RecordException any RecordEditor conversion issues
 	 */
-	private void copy2BinDelim() throws IOException, RecordException {
+	private void copy2BinDelim() throws IOException {
 		int idx, lineNo;
 
 		AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
 		AbstractLineReader reader;
 		AbstractLine in;
 		//OutputStream fileWriter = new FileOutputStream(cpy.newFile.name);
-		FieldWriter writer = WriterBuilder.newCsvWriter(cpy.newFile.name, cpy.delimiter, cpy.font, cpy.quote, false, null);
+		FieldWriter writer = WriterBuilder.newCsvWriter(
+				new FileOutputStream(cpy.newFile.name), 
+				Conversion.decodeFieldDelim(cpy.delimiter, cpy.font), 
+				cpy.font, 
+				Conversion.decodeCharStr(cpy.quote, cpy.font), 
+				false, null);
 		reader = ioProvider.getLineReader(dtl1);
 
 		reader.open(cpy.oldFile.name, dtl1);

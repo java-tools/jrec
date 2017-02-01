@@ -25,6 +25,8 @@ public class GenerateMenu {
 	    javaGen.add(f.addAction(new CodeGenAction("JRecord Pojo", "javaJRecPojo", false, CodeGenAction.ST_ANY)));
 	    
 	    pythonGen.add(f.addAction(new CodeGenAction("Python Csv IO", "pyCsvIO", false, CodeGenAction.ST_TEXT_CSV)));
+	    pythonGen.add(f.addAction(new CodeGenAction("Python Csv IO (DictReader/Writer)",
+	    							"pyCsvDictIO", false, CodeGenAction.ST_TEXT_CSV)));
 	    pythonGen.add(f.addAction(new CodeGenAction("Python Pandas Csv IO", "pyCsvPandas", false, CodeGenAction.ST_TEXT_CSV)));
 	    pythonGen.add(f.addAction(new CodeGenAction("Python Fixed IO", "pyFixedIO", false, CodeGenAction.ST_TEXT_FIXED)));
 	    pythonGen.add(f.addAction(new CodeGenAction("Python Fixed Pandas", "pyFixedPandas", false, CodeGenAction.ST_TEXT_FIXED)));

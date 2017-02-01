@@ -60,7 +60,9 @@ public class CommonCode {
 
 		while (list.hasNext()) {
 			File itm = list.next();
-			Parameters.setArrayItem(paramId, i++, itm.getPath());
+			if (itm != null) {
+				Parameters.setArrayItem(paramId, i++, itm.getPath());
+			}
 		}
 		Parameters.writeListProperties();
 	}

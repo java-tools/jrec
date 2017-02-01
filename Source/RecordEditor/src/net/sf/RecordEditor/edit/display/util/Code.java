@@ -3,6 +3,7 @@ package net.sf.RecordEditor.edit.display.util;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.CharLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
@@ -82,16 +83,24 @@ public class Code {
 			newLine = masterFile.getLine(i);
 			oldLine = newLine.getNewDataLine();
 			newLine.setLayout(newLayout);
-			newLine.setData(NULL_BYTES);
+			if (newLine instanceof CharLine) {
+				newLine.setData("");
+			} else {
+				newLine.setData(NULL_BYTES);
+			}
+//			System.out.print("~>~>> ");
 			for (int j = trans.length - 1; j >= 0; j--) {
 				try {
 					if (trans[j] >= 0) {
-						newLine.setField(0, j, oldLine.getField(0, trans[j]));
+						Object fieldVal = oldLine.getField(0, trans[j]);
+						newLine.setField(0, j, fieldVal);
+//						System.out.print("\t| >" + fieldVal + "< >" + newLine.getField(0, j) + "<|");
 					}
 				} catch (RecordException e) {
 					e.printStackTrace();
 				}
 			}
+//			System.out.println("\t~>~>> >" + newLine.getFullLine() + "<");
 		}
 
 		masterFile.setChanged(true);

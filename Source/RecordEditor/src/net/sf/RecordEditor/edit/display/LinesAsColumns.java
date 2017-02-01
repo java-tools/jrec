@@ -22,6 +22,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReActionHandler;
 import net.sf.RecordEditor.utils.lang.ReAbstractAction;
 import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.FixedColumnScrollPane;
 
@@ -52,7 +53,9 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	protected LinesAsColumns(String screenName, FileView viewOfFile) {
 		super(screenName, viewOfFile, viewOfFile == viewOfFile.getBaseFile(), true, true);
 
-	    init_100_SetupJtables(viewOfFile);
+		BaseHelpPanel actualPnl = getActualPnl();
+		
+	    init_100_SetupJtables(viewOfFile, actualPnl);
 
 	    actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_COLUMN_VIEW));
 
@@ -77,7 +80,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 	    setLayoutIdx();
 
 	    parentFrame.setVisible(true);
-	    super.actualPnl.addReKeyListener(new DelKeyWatcher());
+	    super.getActualPnl().addReKeyListener(new DelKeyWatcher());
 
 	}
 
@@ -87,7 +90,7 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
      * Define the JTables etc
      * @param viewOfFile current file view
      */
-    private void init_100_SetupJtables(final FileView viewOfFile) {
+    private void init_100_SetupJtables(final FileView viewOfFile, BaseHelpPanel actualPnl) {
 
     	tblMdl = new Line2ColModel(viewOfFile);
     	JTable fixedTbl;

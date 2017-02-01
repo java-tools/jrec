@@ -3,12 +3,14 @@
  */
 package net.sf.RecordEditor.layoutWizard;
 
+import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.External.CopybookWriterManager;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.edit.ManagerRowList;
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.params.Parameters;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
@@ -38,17 +40,30 @@ public class Pnl5SaveFileLayout extends WizardPanel {
 	public Pnl5SaveFileLayout() {
 
 //		saveDirectoryFC.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		String formDescription
+	    = LangConversion.convertId(LangConversion.ST_MESSAGE, "FileWizard_4_csv",
+	    		  "<h3>File Schema Save</h3>"
+	    		+ "On this screen you enter the <i>Schema name</i> and directory.<br>"
+	    		+ "This schema can be used edit files in the future,<br>"
+	    		+ "Generate Code or by the JRecord library.");
 
+		JEditorPane tips = new JEditorPane("text/html", formDescription);
+
+		this.addComponentRE(1, 5, TIP_HEIGHT * 3 / 2, BasePanel.GAP3,
+		        BasePanel.FULL, BasePanel.FULL,
+				tips);
 		this.setGapRE(BasePanel.GAP2);
 
-		this.addLineRE("Layout Name", layoutName);
-		this.addLineRE("Layout Description", layoutDescription);
+		this.addLineRE("File Schema Name", layoutName);
+		this.addLineRE("Schema Description", layoutDescription);
 		this.setHeightRE(BasePanel.GAP3);
 		this.setGapRE(BasePanel.GAP1);
-		this.addLineRE("Record Layout Directory", saveDirectoryFC);
+		this.addLineRE("Schema Directory", saveDirectoryFC);
 		this.setGapRE(BasePanel.GAP1);
 		this.addLineRE("Output Format", outputFormatCombo);
 		this.setGapRE(BasePanel.GAP3);
+		
+		saveDirectoryFC.setDefaultDirectory(Common.OPTIONS.DEFAULT_COPYBOOK_DIRECTORY.getWithStar());
 	}
 
 	/**

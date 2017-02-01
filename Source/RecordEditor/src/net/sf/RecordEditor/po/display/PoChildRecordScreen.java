@@ -14,6 +14,7 @@ import net.sf.RecordEditor.edit.display.extension.SplitPaneRecord;
 import net.sf.RecordEditor.edit.display.util.LinePosition;
 import net.sf.RecordEditor.po.def.PoField;
 import net.sf.RecordEditor.re.file.FileView;
+import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.array.ArrayRender;
@@ -102,7 +103,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 
 	public PoChildRecordScreen(FileView viewOfFile, int lineNo,
 			PaneDtls[] newFields, double[] newWeight) {
-		super("Single PO Record", viewOfFile, false, false, false, false, false,
+		super(null, "Single PO Record", viewOfFile, false, false, false, false, false,
 				NO_LAYOUT_LINE);
 
 
@@ -111,7 +112,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 		splitRecPane.setFields(newFields, newWeight);
 
 		init_100_Init(newFields);
-		init_200_layoutScreen();
+		init_200_layoutScreen(getActualPnl());
 
 	}
 
@@ -125,7 +126,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 		}
 	}
 
-	private void init_200_layoutScreen() {
+	private void init_200_layoutScreen(BaseHelpPanel actualPnl) {
 
 		layoutFieldPane(getFieldsUsed());
 		splitRecPane.layoutFieldPane();
@@ -145,7 +146,7 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 	@Override
 	public void setScreenSize(boolean mainframe) {
 
-		this.actualPnl.done();
+		getActualPnl().done();
 	}
 
 
@@ -220,8 +221,9 @@ public class PoChildRecordScreen extends BaseDisplay implements IChildScreen {
 
 			this.splitRecPane.layoutFieldPane();
 
-			this.actualPnl.revalidate();
-			this.actualPnl.repaint();
+			BaseHelpPanel actualPnl = this.getActualPnl();
+			actualPnl.revalidate();
+			actualPnl.repaint();
 		}
 	}
 

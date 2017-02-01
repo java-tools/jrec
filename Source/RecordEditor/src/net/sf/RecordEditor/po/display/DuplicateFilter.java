@@ -95,7 +95,7 @@ public class DuplicateFilter implements ActionListener {
 			displayFrame.setVisible(false);
 
 			l.getParentFrame().setToActiveTab(l);
-			l.executeAction(ReActionHandler.AUTOFIT_COLUMNS);
+			l.getActionHandler().executeAction(ReActionHandler.AUTOFIT_COLUMNS);
 			l.getParentFrame().executeAction(ReActionHandler.ADD_CHILD_SCREEN_RIGHT);
 			l.getParentFrame().moveToFront();
 		} else {

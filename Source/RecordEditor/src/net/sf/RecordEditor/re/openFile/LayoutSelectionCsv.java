@@ -110,7 +110,7 @@ public class LayoutSelectionCsv extends LayoutSelectionBasicGenerated  {
 	private void setupFields() {
 
 		if (csvPane == null) {
-			csvPane = new CsvTabPane(message, false, false, false);
+			csvPane = new CsvTabPane(message, false, false, false, null);
 			csvPane.setGoVisible(false);
 		}
 	}

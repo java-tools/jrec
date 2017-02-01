@@ -25,7 +25,7 @@ public class SaveAsPnlVelocity extends SaveAsPnlBase {
 	 */
 	public SaveAsPnlVelocity(CommonSaveAsFields commonSaveAsFields) {
 		super(commonSaveAsFields, ".html", CommonSaveAsFields.FMT_VELOCITY, RecentFiles.RF_VELOCITY,
-				new FileSelectCombo(Parameters.VELOCITY_SKELS_LIST, 25, true, false));
+				new FileSelectCombo(Parameters.VELOCITY_SKELS_LIST, 25, true, false), false);
 //				new FileChooser(true, "get Template"));
 
 		addHtmlFields(panel); 

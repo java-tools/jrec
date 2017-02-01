@@ -5,8 +5,7 @@ import csv
 #incl("pyCsvIO/CsvCommonPy.vm")
 
 #if (${generateOptions.schemaDefinition.areThereColumnNames()})
-#indexClassPr()
-
+#indexClassPy()
 
 idx = indexs()
 #end
@@ -31,7 +30,7 @@ with open('${generateOptions.getDataFileName().getEscapedFileName()}.csv', 'wb')
 #if (${generateOptions.schemaDefinition.areThereColumnNames()})
     row = range(idx.Column_Count)
 #*  *##foreach($f in ${r.getFields()}) 
-    row[idx.${f.javaName}]=200 + ${f.javaName}
+    row[idx.${f.javaName}]=200 + idx.${f.javaName}
 #*  *##end
     csvWrite.writerow(row)
 #end

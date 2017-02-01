@@ -4,11 +4,11 @@
 package net.sf.RecordEditor.edit.display.SaveAs;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
@@ -32,7 +32,7 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 	 * @param commonSaveAsFields common screen fields
 	 */
 	public SaveAsPnlFixed(CommonSaveAsFields commonSaveAsFields) {
-		super(commonSaveAsFields, ".txt", CommonSaveAsFields.FMT_FIXED, RecentFiles.RF_NONE, null);
+		super(commonSaveAsFields, ".txt", CommonSaveAsFields.FMT_FIXED, RecentFiles.RF_NONE, null, true);
 
 		BasePanel pnl1 = new BasePanel();
 		BasePanel pnl2 = new BasePanel();
@@ -43,7 +43,8 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 		pnl1.addLineRE("space between fields", spaceBetweenFields);
 		pnl1.addLineRE("Charset", charsetCombo);
 
-		fieldTbl = new JTable();
+		pnl2.setGapRE(3);
+		pnl2.addComponentRE(1, 5, BasePanel.PREFERRED, 1, BasePanel.FULL, BasePanel.FULL,  getSelectBtnPnl());
 		pnl2.addComponentRE(1, 5, 130, BasePanel.GAP,
 		        BasePanel.FULL, BasePanel.FULL, fieldTbl);
 		pnl2.setComponentName(fieldTbl, "FixedColNames");
@@ -56,7 +57,7 @@ public class SaveAsPnlFixed extends SaveAsPnlBase {
 		setupPrintDetails(true);
 	}
 
-	public void save(String selection, String outFile) throws IOException, RecordException {
+	public void save(String selection, OutputStream outFile) throws IOException, RecordException {
         String fieldSeperator = "";
         String fontname = getCharset();
 

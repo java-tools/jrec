@@ -130,12 +130,11 @@ implements AbstractActiveScreenAction {
 	 */
     public void actionPerformed(ActionEvent e) {
 
-        ReFrame actionHandler = ReFrame.getActiveFrame();
+    	ReActionHandler actionHandler = ReFrame.getActionHandler();
 
         if (actionHandler != null) {
             actionHandler.executeAction(actionId, param);
         }
-
     }
 
 
@@ -144,13 +143,14 @@ implements AbstractActiveScreenAction {
 	 */
     public void checkActionEnabled() {
 
-        ReFrame actionHandler = ReFrame.getActiveFrame();
+        ReActionHandler actionHandler = ReFrame.getActionHandler();
 
         super.setEnabled(actionHandler != null && actionHandler.isActionAvailable(actionId));
         //if (actionHandler == null) System.out.print(" >> no active screen");
         //else System.out.print(" >> " + actionHandler.getClass().getName());
     }
 
+    
 	/**
 	 * @return the param
 	 */

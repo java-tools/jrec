@@ -12,6 +12,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.RecordEditor.layoutWizard.ColumnDetails;
+import net.sf.RecordEditor.re.util.csv.FilePreview;
 import net.sf.RecordEditor.re.util.fw.FixedWidthSelectionPane;
 import net.sf.RecordEditor.re.util.fw.FixedWidthSelectionView;
 import net.sf.RecordEditor.re.util.fw.UpdateableFileSummayModel;
@@ -104,7 +105,7 @@ public class TstFixedWidthMVC {
 		for (int i = 0; i < FW_FILES.length; i++) {
 			String fw = FW_FILES[i];
 			
-			assertTrue(pane.isMyLayout("", fw, XCommonCode.readDataFile(fw)));
+			assertTrue(pane.isMyLayout("", fw, XCommonCode.readDataFile(fw)) > FilePreview.NO);
 			
 			checkView(mdl, fldView, i);
 			checkPane(pane, i);

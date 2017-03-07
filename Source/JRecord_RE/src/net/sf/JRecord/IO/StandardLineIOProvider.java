@@ -384,10 +384,12 @@ public class StandardLineIOProvider extends BasicIoProvider {
        			xmlProvider = new XmlLineProvider();
        		}
        		return xmlProvider;
+    	case Constants.IO_FIXED_CHAR_ENTER_FONT:
     	case Constants.IO_FIXED_LENGTH_CHAR:
     	case Constants.IO_UNICODE_CSV:
     	case Constants.IO_UNICODE_CSV_NAME_1ST_LINE:
     	case Constants.IO_UNICODE_NAME_1ST_LINE:
+    	case Constants.IO_TEXT_CHAR_ENTER_FONT:
     	case Constants.IO_UNICODE_TEXT:
 //    		System.out.println(" Char provider 1");
     		return getCharProvider();

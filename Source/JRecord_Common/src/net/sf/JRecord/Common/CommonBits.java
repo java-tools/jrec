@@ -197,8 +197,18 @@ public class CommonBits {
         case Constants.IO_TEXT_CHAR_ENTER_FONT:
         	 ret = true;
 		}
-		return ret;
-		
+		return ret;	
+	}
+	
+	public static int translateFileStructureToNotAskFont(int fileStructure) {
+		int ret = fileStructure;
+		switch (fileStructure) {
+		case Constants.IO_FIXED_BYTE_ENTER_FONT:	ret = Constants.IO_FIXED_LENGTH;		break;
+		case Constants.IO_FIXED_CHAR_ENTER_FONT:	ret = Constants.IO_FIXED_LENGTH_CHAR;	break;
+        case Constants.IO_TEXT_BYTE_ENTER_FONT:		ret = Constants.IO_BIN_TEXT;			break;
+        case Constants.IO_TEXT_CHAR_ENTER_FONT:		ret = Constants.IO_UNICODE_TEXT;		break;
+		}
+		return ret;	
 	}
 
 	

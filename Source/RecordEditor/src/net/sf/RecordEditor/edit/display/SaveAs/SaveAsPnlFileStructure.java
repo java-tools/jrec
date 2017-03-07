@@ -312,12 +312,12 @@ public class SaveAsPnlFileStructure extends SaveAsPnlBase {
 		case Constants.IO_FIXED_LENGTH:
 		case Constants.IO_FIXED_LENGTH_CHAR:
 			cw = CharIOProvider.INSTANCE.getWriter(
-					Constants.IO_FIXED_LENGTH_CHAR, font, Constants.FILE_SEPERATOR, layout.getMaximumRecordLength());
+					Constants.IO_FIXED_LENGTH_CHAR, font, Constants.LINE_SEPERATOR, layout.getMaximumRecordLength());
 		case Constants.IO_BIN_TEXT:
 		case Constants.IO_TEXT_LINE:
 		case Constants.IO_UNICODE_TEXT:
 			cw = CharIOProvider.INSTANCE.getWriter(
-					Constants.IO_UNICODE_TEXT, font, Constants.FILE_SEPERATOR, layout.getMaximumRecordLength());
+					Constants.IO_UNICODE_TEXT, font, Constants.LINE_SEPERATOR, layout.getMaximumRecordLength());
 		}
 		return cw;
 	}

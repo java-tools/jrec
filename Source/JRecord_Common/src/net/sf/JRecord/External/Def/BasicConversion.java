@@ -88,10 +88,10 @@ public class BasicConversion implements AbstractConversion {
         keys[i] = Constants.IO_VB_GNU_COBOL;           externalNames[i] = "Open_Cobol_VB";           names[i++] = "Open Cobol VB";;
         keys[i] = Constants.NULL_INTEGER;              externalNames[i] = null;                     names[i] = null;
 
-        keys[i] = Constants.IO_FIXED_BYTE_ENTER_FONT;  externalNames[i] = "FIXED_BYTE_ENTER_FONT";   names[i++] = "Fixed, enter font";
+        keys[i] = Constants.IO_FIXED_BYTE_ENTER_FONT;  externalNames[i] = "FIXED_BYTE_ENTER_FONT";   names[i++] = "Fixed Byte, enter font";
         keys[i] = Constants.IO_FIXED_CHAR_ENTER_FONT;  externalNames[i] = "FIXED_CHAR_ENTER_FONT";   names[i++] = "Fixed Char, enter font";
-        keys[i] = Constants.IO_TEXT_BYTE_ENTER_FONT;   externalNames[i] = "TEXT_BYTE_ENTER_FONT";    names[i++] = "Stream, Enter Font";
-        keys[i] = Constants.IO_TEXT_CHAR_ENTER_FONT;   externalNames[i] = "TEXT_CHAR_ENTER_FONT";    names[i++] = "Text, Enter Font";
+        keys[i] = Constants.IO_TEXT_BYTE_ENTER_FONT;   externalNames[i] = "TEXT_BYTE_ENTER_FONT";    names[i++] = "Text IO (Byte), Enter Font";
+        keys[i] = Constants.IO_TEXT_CHAR_ENTER_FONT;   externalNames[i] = "TEXT_CHAR_ENTER_FONT";    names[i++] = "Text IO (Char), Enter Font";
         
         if (i < keys.length) {
         	keys[i] = Constants.NULL_INTEGER;
@@ -259,7 +259,6 @@ public class BasicConversion implements AbstractConversion {
 
 	@Override
 	public String getFormatAsString(int idx, int format) {
-		// TODO Auto-generated method stub
 		return Integer.toString(format);
 	}
 

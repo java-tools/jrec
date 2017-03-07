@@ -258,7 +258,7 @@ public final class Conversion {
 	public static String getDecimal(final byte[] record, final int start, final int fin) {
 		int i;
 		String s;
-		StringBuffer ret = new StringBuffer("");
+		StringBuffer ret = new StringBuffer(Math.max(1, fin - start));
 		int b;
 
 		for (i = start; i < fin; i++) {
@@ -268,7 +268,6 @@ public final class Conversion {
 				ret.append('0');
 			}
 			ret.append(s);
-
 		}
 
 		return ret.toString();
@@ -317,7 +316,7 @@ public final class Conversion {
 
 		for (i = fin - 1; i >= start; i--) {
 			l = l << 8;
-			l |= toPostiveByte(record[i]);
+			l |= record[i] & 255;//toPostiveByte(record[i]);
 		}
 
 		return Long.toString(l);
@@ -355,7 +354,7 @@ public final class Conversion {
 	 */
 	public static String getBinaryInt(final byte[] record, final int start, final int fin) {
 			return (getLittleEndianBigInt(record, start, fin)).toString();
-
+			
 //		long l = 0;
 //		int len = fin - start;
 //
@@ -406,7 +405,7 @@ public final class Conversion {
 	    String ret  = "";
 	    String sign = "";
 
-	    if (! "".equals(hex)) {
+	    if (hex.length() > 0) {
 	        switch (hex.substring(hex.length() - 1).toLowerCase().charAt(0)) {
 	            case 'd' : sign = "-";
 	        	case 'a' :
@@ -421,7 +420,7 @@ public final class Conversion {
 	        }
 	    }
 
-	    if ("".equals(ret)) {
+	    if (ret.length() == 0) {
 	        ret = "0";
 	    }
 
@@ -469,38 +468,38 @@ public final class Conversion {
 
 
 
-	/**
-	 * Convert the requested field to a Long
-	 *
-	 * @param record Full record from which the value is to be extracted
-	 * @param initial Initial Value
-	 * @param start Field start
-	 * @param fin Field End
-	 *
-	 * @return Field as a Long
-	 */
-	public static long getBin(byte[] record, long initial, final int start, final int fin) {
-		int i;
-		for (i = fin - 1; i >= start; i--) {
-			initial <<= 8;
-			initial |= toPostiveByte(record[i]);
-		}
-		return initial;
-	}
-
-
-	/**
-	 * Convert a Byte (-128 .. 127) to a Postive Byte (0 .. 255)
-	 * @param b input byte
-	 *
-	 * @return equivalent postive byte
-	 */
-	private static int toPostiveByte(byte b) {
-		return (b) & 255;
-//		if (b < 0) {
-//			return 256 + b;
+//	/**
+//	 * Convert the requested field to a Long
+//	 *
+//	 * @param record Full record from which the value is to be extracted
+//	 * @param initial Initial Value
+//	 * @param start Field start
+//	 * @param fin Field End
+//	 *
+//	 * @return Field as a Long
+//	 */
+//	public static long getBin(byte[] record, long initial, final int start, final int fin) {
+//		int i;
+//		for (i = fin - 1; i >= start; i--) {
+//			initial <<= 8;
+//			initial |= toPostiveByte(record[i]);
 //		}
-//		return b;
+//		return initial;
+//	}
+
+
+//	/**
+//	 * Convert a Byte (-128 .. 127) to a Postive Byte (0 .. 255)
+//	 * @param b input byte
+//	 *
+//	 * @return equivalent postive byte
+//	 */
+	private static int toPostiveByte(byte b) {
+//		return (b) & 255;
+		if (b < 0) {
+			return 256 + b;
+		}
+		return b;
 	}
 
 

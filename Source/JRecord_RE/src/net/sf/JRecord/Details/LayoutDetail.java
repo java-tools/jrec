@@ -117,7 +117,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	private byte[] recordSep;
 	private int layoutType;
 	// private RecordDetail[] records;
-	private boolean binary = false;
+	private boolean binary = false, binaryRecord = false;
 	private final boolean binaryField, hasRedefine;
 	private String fontName = "";
 	private String eolString;
@@ -255,7 +255,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 			case Constants.rtGroupOfBinaryRecords:
 			case Constants.rtFixedLengthRecords:
 			case Constants.rtBinaryRecord:
-			    binary = true;
+			    binaryRecord = true;
 			break;
 			default:
 		}
@@ -452,7 +452,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#isBinary()
 	 */
     public boolean isBinary() {
-        return binary;
+        return binary || binaryRecord;
     }
 
     public boolean isFixedLength() {
@@ -1006,7 +1006,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 		ret = new RecordDetail(record.getRecordName(),
 				record.getRecordType(), record.getDelimiter(), record.getQuote(),
 				record.getFontName(), flds, record.getRecordStyle(),
-				record.getRecordSelection(), record.getChildId());
+				record.getRecordSelection(), record.getChildId(), record.isEmbeddedNewLine());
 
 		return ret;
 	}
@@ -1091,11 +1091,12 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 //	    	case Constants.IO_FIXED_LENGTH:
 		      	return Options.OTHER_STORAGE;
 	    	case Constants.IO_UNICODE_NAME_1ST_LINE:
+	    	case Constants.IO_TEXT_CHAR_ENTER_FONT:
 	    	case Constants.IO_UNICODE_TEXT:
 	    	case Constants.IO_UNICODE_CSV:
 	    		return Options.TEXT_STORAGE;
 	    	case Constants.IO_TEXT_LINE:
-	    		if (multiByteCharset && ! binary) {
+	    		if (multiByteCharset && ! (binary || isBinCSV())) {
 	    			return Options.TEXT_STORAGE;
 	    		}
 			}
@@ -1145,7 +1146,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 			return Options.getValue(isCsv);
 		case Options.OPT_IS_TEXT_EDITTING_POSSIBLE:
 			int fs = getFileStructure();
-			if (isBinary() || isBinCSV() || multiLineField) {
+			if (binary || isBinCSV() || multiLineField) {
 				return Options.NO;
 			}
 			switch (fs) {

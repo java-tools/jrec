@@ -202,10 +202,11 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 						final RecordDetail.FieldDetails[] pFields,
 						final int pRecordStyle,
 						final RecordSelection selection,
-						final int childId
+						final int childId,
+						final boolean embeddedCr
 						) {
 		this(pRecordName, pRecordType, pDelim,
-			 pQuote, pFontName, pFields, pRecordStyle, childId, false);
+			 pQuote, pFontName, pFields, pRecordStyle, childId, embeddedCr);
 
 		recordSelection = selection;
 	}

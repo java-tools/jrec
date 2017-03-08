@@ -219,9 +219,7 @@ public abstract class AbsDB<record extends AbsRecord> {
 	     }
 
 	     try {
-	         if (isPrepareNeeded(insertStatement)) {
-	             insertStatement = connect.getUpdateConnection().prepareStatement(insertSQL);
-	         }
+	    	 prepareInsert();
 
 	         setSQLParams(insertStatement, val, true, 1);
 
@@ -239,6 +237,25 @@ public abstract class AbsDB<record extends AbsRecord> {
 	         }
 	     }
 	     return true;
+	 }
+	 
+	 public final void prepareInsert() throws SQLException {
+		 if (isPrepareNeeded(insertStatement)) {
+             insertStatement = connect.getUpdateConnection().prepareStatement(insertSQL);
+         }
+	 }
+	 
+	 public final void batchInsert(record val) throws SQLException {
+         setSQLParams(insertStatement, val, true, 1);
+
+         insertStatement.addBatch();
+
+         val.setUpdateStatus(AbsRecord.UNCHANGED);
+         val.setNew(false);
+	 }
+
+	 public final void executeBatchInsert() throws SQLException {
+		 insertStatement.executeBatch();
 	 }
 
 

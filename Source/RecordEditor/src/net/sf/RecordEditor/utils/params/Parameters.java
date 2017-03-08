@@ -247,6 +247,10 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String RECENT_PROTO_DIRS         = "RecentProtoImbedDirs.";
     
     public static final String LIST_SAVE_FILES           = "SaveAs.";
+    
+    public static final String COMMIT_COUNT = "CommitCount";
+    public static final String FETCH_SIZE = "FetchSize";
+
 
 	public static String LANG_FILE_PREFIX = "ReMsgs_";
 	

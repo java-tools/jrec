@@ -33,6 +33,7 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 
 	protected boolean toLoad = true;
 	protected boolean cellEditable = false;
+//	protected boolean changed = false;
 
 	protected JFrame frame = null;
 
@@ -76,6 +77,7 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 	        Collections.sort(lines, comparator);
 	    }
 		toLoad = false;
+//		changed = false;
 	}
 
 
@@ -143,6 +145,7 @@ public abstract class AbsDBTableModel<record extends AbsRecord> extends Abstract
 			lines.add(val);
 		}
 	}
+
 
 
 	/**

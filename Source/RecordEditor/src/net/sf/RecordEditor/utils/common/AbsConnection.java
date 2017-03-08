@@ -13,4 +13,6 @@ public interface AbsConnection {
 
 	public void free();
 
+	public void checkPoint();
+
 }

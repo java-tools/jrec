@@ -551,7 +551,7 @@ public class FilterDetails {
      * @param values external XML Layout interface to be used to update the filter
      */
     public final void updateFromExternalLayout(Layout values) {
-    	int i, j, k, idx;
+    	int i, j;
     	Record rec;
 		FilterField filterFld;
 		FieldTest tst;
@@ -572,6 +572,8 @@ public class FilterDetails {
 		if (values.records == null
 		||  values.records.size() == 0) {
 			init();
+		} else if (recordNo.length == 1 && values.records.size() - start == 1) {
+			matchRecord(0, start, values.records.get(start));
 		} else {
 			for (i = 0; i < recordNo.length; i++) {
 				String s = layout.getRecord(i).getRecordName();
@@ -579,40 +581,7 @@ public class FilterDetails {
 				for (j = start; j < values.records.size(); j++) {
 					rec = values.records.get(j);
 					if (rec.name.equalsIgnoreCase(s)) {
-						if (rec.include == null || rec.include) {
-							recordNo[i] = 0;
-						}
-						if (inGroup != null) {
-							inGroup[i] = rec.inGroup == null || rec.inGroup;
-						}
-						if (rec.fields == null || rec.fields.length == 0) {
-							fields[i] = null;
-						} else {
-							initFieldRow(i);
-
-                            for (k = 0; k < rec.fields.length; k++) {
-                            	idx = layout.getRecord(i).getFieldIndex(rec.fields[k]);
-                            	fields[i][idx] = 0;
-                            }
-						}
-
-						if (rec.fieldTest != null && rec.fieldTest.size() > 0) {
-							AbstractRecordDetail recDtl = layout.getRecord(i);
-
-							for (k = 0; k < rec.fieldTest.size(); k++) {
-								tst = rec.fieldTest.get(k);
-								filterFld = new FilterField(filterType == FT_GROUP);
-								filterFld.setFieldNumber(recDtl.getFieldIndex(tst.fieldName));
-								filterFld.setOperator(Compare.getOperator(tst.operator));
-								filterFld.setValue(tst.value);
-
-								if ("Or".equalsIgnoreCase(tst.booleanOperator)) {
-									filterFld.setBooleanOperator(Common.BOOLEAN_OPERATOR_OR);
-								}
-
-								filterFields.setFilterField(i, k, filterFld);
-							}
-						}
+						matchRecord(i, j, rec);
 
 						break;
 					}
@@ -623,7 +592,7 @@ public class FilterDetails {
 		if (filterType == FT_GROUP && values.records != null && values.records.size() >= 0
 		&& values.records.get(0).fieldTest != null) {
 			int recNo;
-			for (k = 0; k < values.records.get(0).fieldTest.size(); k++) {
+			for (int k = 0; k < values.records.get(0).fieldTest.size(); k++) {
 				tst = values.records.get(0).fieldTest.get(k);
 				recNo = layout.getRecordIndex(tst.recordName);
 				filterFld = FilterField.newGroupFilterFields();
@@ -642,6 +611,46 @@ public class FilterDetails {
 			}
 		}
     }
+
+	private void matchRecord(int recNumber1, int recNumber2, Record rec) {
+		int idx;
+		FilterField filterFld;
+		FieldTest tst;
+		if (rec.include == null || rec.include) {
+			recordNo[recNumber1] = recNumber2;
+		}
+		if (inGroup != null) {
+			inGroup[recNumber1] = rec.inGroup == null || rec.inGroup;
+		}
+		if (rec.fields == null || rec.fields.length == 0) {
+			fields[recNumber1] = null;
+		} else {
+			initFieldRow(recNumber1);
+
+		    for (int k = 0; k < rec.fields.length; k++) {
+		    	idx = layout.getRecord(recNumber1).getFieldIndex(rec.fields[k]);
+		    	fields[recNumber1][idx] = 0;
+		    }
+		}
+
+		if (rec.fieldTest != null && rec.fieldTest.size() > 0) {
+			AbstractRecordDetail recDtl = layout.getRecord(recNumber1);
+
+			for (int k = 0; k < rec.fieldTest.size(); k++) {
+				tst = rec.fieldTest.get(k);
+				filterFld = new FilterField(filterType == FT_GROUP);
+				filterFld.setFieldNumber(recDtl.getFieldIndex(tst.fieldName));
+				filterFld.setOperator(Compare.getOperator(tst.operator));
+				filterFld.setValue(tst.value);
+
+				if ("Or".equalsIgnoreCase(tst.booleanOperator)) {
+					filterFld.setBooleanOperator(Common.BOOLEAN_OPERATOR_OR);
+				}
+
+				filterFields.setFilterField(recNumber1, k, filterFld);
+			}
+		}
+	}
 
     private void initFieldRow(int row) {
 
@@ -698,8 +707,13 @@ public class FilterDetails {
 				recordNo[i] = -1;
 			}
 			if (values2.records == null || values2.records.size() == 0) {
-				for (i = 0; i < recordNo.length; i++) {
-					setUpRecord(i);
+				if (recordNo.length == 1 && layout2.getRecordCount() == 1) {
+					recordNo[0] = 0;
+					updateRecordsFields(0);
+				} else {
+					for (i = 0; i < recordNo.length; i++) {
+						setUpRecord(i);
+					}
 				}
 			} else {
 				for (i = 0; i < values1.records.size(); i++) {

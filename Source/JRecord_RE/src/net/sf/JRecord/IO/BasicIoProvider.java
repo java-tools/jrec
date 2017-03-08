@@ -94,7 +94,7 @@ public abstract class BasicIoProvider implements AbstractLineIOProvider {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public LineProvider getLineProvider(IBasicFileSchema schema) {
-		return getLineProvider(schema.getFileStructure(), schema.getFontName(), schema.isBinary());
+		return getLineProvider(schema.getFileStructure(), schema.getFontName(), schema.useByteRecord());
 	}
 	
 	

@@ -33,6 +33,7 @@ import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.common.ReConnection;
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.jdbc.AbsRecord;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 
 /**
@@ -43,6 +44,8 @@ import net.sf.RecordEditor.utils.jdbc.AbsRecord;
  */
 public class ExtendedRecordDB extends RecordDB {
 
+	private static int commitCount = -11;
+	
 	private ChildRecordsDB childDb = null;
     private RecordFieldsDB fieldDb = null;
     private boolean recSelWarn;
@@ -156,12 +159,15 @@ public class ExtendedRecordDB extends RecordDB {
 		fieldDb.setParams(rec.getRecordId());
 
 		fieldDb.open();
-		field = fieldDb.fetch();
-		while (field != null) {
+		while ((field = fieldDb.fetch()) != null) {
 			rec.addRecordField(field.getValue());
-			field = fieldDb.fetch();
 		}
+		fieldDb.close();
 	}
+
+	
+	   
+
 
 
 	/**
@@ -239,8 +245,9 @@ public class ExtendedRecordDB extends RecordDB {
 			super.insert(val);
 		}
 
-        updateChildSegments(val.getValue());
-        writeFields(val.getValue());
+        ExternalRecord xRec = val.getValue();
+		updateChildSegments(xRec);
+        writeFields(xRec);
 
         super.setDoFree(free);
     }
@@ -251,7 +258,7 @@ public class ExtendedRecordDB extends RecordDB {
      *
      * @param rec record to be saved
      */
-    public void updateChildSegments(ExternalRecord rec) {
+    private void updateChildSegments(ExternalRecord rec) {
     	boolean free = super.isSetDoFree(false);
 
     	int i;
@@ -303,17 +310,17 @@ public class ExtendedRecordDB extends RecordDB {
 //    		}
     	}
 
-    	if (rec.getNumberOfRecordFields() > 0) {
-    		RecordFieldsDB db = new RecordFieldsDB();
-    		db.setDoFree(false);
-    		db.setConnection(this.connect);
-    		db.setParams(rec.getRecordId());
-    		db.deleteAll();
-
-    		for (i = 0; i < rec.getNumberOfRecordFields(); i++) {
-    			db.insert(new RecordFieldsRec(rec.getRecordField(i)));
-    		}
-    	}
+//    	if (rec.getNumberOfRecordFields() > 0) {
+//    		RecordFieldsDB db = new RecordFieldsDB();
+//    		db.setDoFree(false);
+//    		db.setConnection(this.connect);
+//    		db.setParams(rec.getRecordId());
+//    		db.deleteAll();
+//
+//    		for (i = 0; i < rec.getNumberOfRecordFields(); i++) {
+//    			db.insert(new RecordFieldsRec(rec.getRecordField(i)));
+//    		}
+//    	}
     	super.setDoFree(free);
     }
 
@@ -453,19 +460,104 @@ public class ExtendedRecordDB extends RecordDB {
     	if (count > 0) {
     		RecordFieldsRec field;
     		RecordFieldsDB db = new RecordFieldsDB();
+			long ct = System.currentTimeMillis();
+
+    		System.out.println("Starting Writing fields ... " + ct);
     		db.setDoFree(false);
     		db.setConnection(this.connect);
 
+    		long ct2 = System.currentTimeMillis();
+    		System.out.println("Starting Writing fields ... " + (ct2 - ct));
+    		ct = ct2;
     		db.setParams(rec.getRecordId());
     		db.deleteAll();
 
-    		for (int i = 0; i < count; i++) {
-    			field = new RecordFieldsRec(rec.getRecordField(i));
-    			field.setNew(true);
-    			db.insert(field);
+    		int commitCount = getCommitCount();
+    		
+    		ct2 = System.currentTimeMillis();
+    		System.out.println("Get Next Key ... " + (ct2 - ct));
+    		ct = ct2;
+    		int key = db.getNextKey();
+    		if ( commitCount == 0) {
+	    		for (int i = 0; i < count; i++) {
+	    			field = new RecordFieldsRec(rec.getRecordField(i));
+	    			field.setNew(true);
+	    			db.insert(field, key++);
+	    		}
+    		} else {
+
+//          This may work better !!!, needs testing !!!!
+//    		
+
+    			System.out.println("Commit Count = " + commitCount  );
+	    		int cc = 0;
+	    		
+	    		try {
+	    			int iii = 0;
+	    			db.getConnect().checkPoint();
+	    			db.setAutoCommit(false);
+					db.prepareInsert();
+					for (int i = 0; i < count; i++) {
+						if (cc++ > commitCount) {
+							db.executeBatchInsert();
+							db.commit();
+							cc = 0;
+							long ct1 = System.currentTimeMillis();
+							if (iii++ % 4 == 0) System.out.println();
+							System.out.print("\t" + i + "> " + (ct1 - ct));
+							ct = ct1;
+						}
+						field = new RecordFieldsRec(rec.getRecordField(i));
+						field.getValue().setSubKey(key++);
+						field.setNew(true);
+						db.batchInsert(field);
+					}
+					db.executeBatchInsert();
+					db.commit();
+					db.getConnect().checkPoint();
+					System.out.print("\t" + (System.currentTimeMillis() - ct));
+		   			System.out.println("Commit Count = " + commitCount + ", " + count  );
+				} catch (SQLException e) {
+					Common.logMsg("Db Error: " + e, null);
+	    		} finally {
+	    			db.setAutoCommit(true);
+				}
+	    		
+	       		
+//	    		boolean doCommit = db.setAutoCommit(false);
+//    			System.out.println("Commit Count = " + commitCount + "; DoCommit= " + doCommit );
+//	    		int cc = 0;
+//	    		
+//	    		for (int i = 0; i < count; i++) {
+//	    			field = new RecordFieldsRec(rec.getRecordField(i));
+//	    			field.setNew(true);
+//	    			db.insert(field, key++);
+//	    			if (doCommit && cc++ > commitCount) {
+//	    				db.commit();
+//	    				cc = 0;
+//	    			}
+//	    		}
+//	    		
+//	       		db.setAutoCommit(true);
+
     		}
     	}
     	super.setDoFree(free);
+    }
+    
+    private static int getCommitCount() {
+    	if (commitCount < 0) {
+    		int cc = 0;
+    		String s = Parameters.getString(Parameters.COMMIT_COUNT);
+    		if (s != null && s.length() > 0) {
+    			try {
+					cc = Integer.parseInt(s);
+				} catch (Exception e) {	}
+    		}
+    		commitCount = cc;
+    	}
+    	
+    	return commitCount;
     }
 
     public void delete(int recordId) {
@@ -524,7 +616,8 @@ public class ExtendedRecordDB extends RecordDB {
 		fieldDb = null;
     }
     
-    private void getSystemName(RecordRec rec) {
+    @SuppressWarnings("deprecation")
+	private void getSystemName(RecordRec rec) {
     	int system = rec.getSystem();
     	if (systemNamesMap == null) {
     		TIntObjectHashMap<String> sysNamesMap = new TIntObjectHashMap<String>(30);
@@ -572,6 +665,7 @@ public class ExtendedRecordDB extends RecordDB {
 	 * Set the System Id based on the System Name
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public final void updateSystemCode(ExternalRecord rec) throws SQLException {
 
 		int i, ckey;

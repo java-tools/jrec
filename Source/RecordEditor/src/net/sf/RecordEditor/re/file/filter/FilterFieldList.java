@@ -44,7 +44,7 @@ public class FilterFieldList extends FilterFieldBaseList {
      *
      * @param recordLayout record Layout
      */
-    public FilterFieldList(@SuppressWarnings("rawtypes") final AbstractLayoutDetails recordLayout) {
+    public FilterFieldList(final AbstractLayoutDetails recordLayout) {
         super(FIELD_FILTER_COLUMN_HEADINGS, false);
         int i;
 

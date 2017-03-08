@@ -22,6 +22,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineCompare;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.External.base.ExternalConversion;
+import net.sf.JRecord.cg.schema.LayoutDef;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
@@ -98,6 +99,8 @@ public class ScriptData {
 	
 	public final int currentRecordNumber;
 	
+	public final AbstractLayoutDetails layout;
+	
 	private List<FileBeingEditted> fileList;
 
 
@@ -138,11 +141,13 @@ public class ScriptData {
 			this.fileLines = null;
 			this.inputFile = null;
 			this.file = null;
+			this.layout = null;
 		} else {
 			this.file      = view.getBaseFile(); 
 			this.viewLines = Collections.unmodifiableList(view.getLines());
 			this.fileLines = Collections.unmodifiableList(this.file.getLines());
 			this.inputFile = view.getFileNameNoDirectory();
+			this.layout    = view.getLayout();
 			
 			if (selectedList == null || selectedList.size() == 0) {
 				tmpSelected = view.getView(EMPTY_ARRAY);
@@ -737,6 +742,13 @@ public class ScriptData {
 		return openReFile.openFile(fileName, layoutName);
 	}
 
+	
+	public LayoutDef getCodeGenLayoutDef() {
+		if (layout == null || !(layout instanceof LayoutDetail)) {
+			return null;
+		}
+		return new LayoutDef((LayoutDetail) layout, layout.getLayoutName(), null);
+	}
 
 	/**
 	 * Directory constants for use in Scripts:

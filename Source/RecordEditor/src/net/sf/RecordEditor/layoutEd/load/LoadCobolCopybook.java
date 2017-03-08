@@ -73,6 +73,7 @@ public class LoadCobolCopybook implements ActionListener{
 //		                systemId,
 //		                cblDtls.msgField);
 
+		        System.out.println("Get XRecord ... " + System.currentTimeMillis());
 		        rec = cblDtls.getXRecord();
 		        if (rec == null) {
 //		        	cblDtls.msgField.logMsg(AbsSSLogger.ERROR, LeMessages.ERROR_LOADING_COPYBOOK.get());
@@ -82,9 +83,10 @@ public class LoadCobolCopybook implements ActionListener{
 			        && rec.getFileStructure() <= Constants.IO_DEFAULT) {
 			        	rec.setFileStructure(fstructure);
 			        }
+			        rec.setNew(true);
 			        
 			        
-
+			        System.out.println("Set connection ... " + System.currentTimeMillis());
 			        db.setConnection(new ReConnection(connectionId));
 
 			        //ap100_updateSystemDelimQuote(db, rec);
@@ -92,6 +94,7 @@ public class LoadCobolCopybook implements ActionListener{
 			        //System.out.println("## " + rec.getRecordId() + " " + rec.getRecordName());
 
 //			        System.out.print("RecordId: " + rec.getRecordId());
+			        System.out.println("Check/update ... " + System.currentTimeMillis());
 			        db.checkAndUpdate(rec);
 //			        System.out.println(" !! " + rec.getRecordId());
 

@@ -391,7 +391,7 @@ implements ChangeListener, StartActionInterface {
 	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
 	 */
 	@Override
-	public void stateChanged(ChangeEvent e) {
+	public final void stateChanged(ChangeEvent e) {
     	if (doListener && (e == null)) {
     		updateLayoutForFile(fileName.getText());
     	}
@@ -404,11 +404,11 @@ implements ChangeListener, StartActionInterface {
     private void updateLayoutForFile(String pFile) {
 	    String recentLayout = recent.getLayoutName(pFile, new File(pFile));
 
-	    if ((! lookupRecentLayouts) ||recentLayout == null || "".equals(recentLayout)) {
+	    if ((! lookupRecentLayouts) || recentLayout == null || "".equals(recentLayout)) {
 	    	getLayoutSelection().notifyFileNameChanged(pFile);
 	    } else {
 	    	setLayout(recentLayout);
-	    	if (recent.isEditorLaunch()) {
+	    	if (recent.isEditorLaunch() && getLayoutSelection().isOkToLoadFile(fileName.getText())) {
 	    	    loadFile(false);
 	    	}
 	    }

@@ -86,10 +86,10 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	private JTextField search      = new JTextField();
 	private JTextField replace     = new JTextField();
 	private LayoutCombo layoutList;
-	private JComboBox fieldList    = new JComboBox();
-	private JComboBox fieldPart    = new JComboBox(Compare.getSearchOptionsForeign());
-	private JComboBox direction    = new JComboBox(SEARCH_DIRECTIONS);
-	private JCheckBox ignoreCase   = new JCheckBox();
+	private JComboBox fieldListCombo       = new JComboBox();
+	private JComboBox compareOperatorCombo = new JComboBox(Compare.FIND_OPERATORS);
+	private JComboBox directionCombo       = new JComboBox(SEARCH_DIRECTIONS);
+	private JCheckBox ignoreCaseChk       = new JCheckBox();
 	private JButton searchBtn;
 	private JButton replaceBtn     = SwingUtils.newButton("Replace");
 	private JButton replaceFindBtn = SwingUtils.newButton("Replace Find");
@@ -140,15 +140,15 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 		layoutList = new LayoutCombo(master.getLayout(), false, true);
 		pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_SEARCH));
-		ignoreCase.setSelected(true);
+		ignoreCaseChk.setSelected(true);
 
 		pnl.addLineRE("Search For", search);
 		pnl.addLineRE("Replace With", replace);
 		pnl.addLineRE("Record Layout", layoutList);
-		pnl.addLineRE("Field", fieldList);
-		pnl.addLineRE("Operator", fieldPart);
-		pnl.addLineRE("Direction", direction);
-		pnl.addLineRE("Ignore Case", ignoreCase);
+		pnl.addLineRE("Field", fieldListCombo);
+		pnl.addLineRE("Operator", compareOperatorCombo);
+		pnl.addLineRE("Direction", directionCombo);
+		pnl.addLineRE("Ignore Case", ignoreCaseChk);
 		pnl.setGapRE(BasePanel.GAP1);
 
 		//searchBtn = pnl.addIconButton(true, 2, Common.getRecordIcon(Common.ID_SEARCH_ICON));
@@ -237,20 +237,20 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	            ap_100_find();
 	        } else if (file.isBrowse()) {
 	            ap_920_setMessage(CAN_NOT_USE_REPLACE_IN_BROWSE_MODE);
-	        } else if (fieldList.getSelectedIndex() == 0) {
+	        } else if (fieldListCombo.getSelectedIndex() == 0) {
 	            ap_920_setMessage(YOU_MUST_SPECIFY_A_FIELD);
 	        } else if (event.getSource() == replaceBtn) {
 	            ap_300_replace();
 	        } else if (event.getSource() == replaceFindBtn) {
 	            ap_200_ReplaceFind();
 	        } else if (event.getSource() == replaceAllBtn) {
-	        	int func = fieldPart.getSelectedIndex();
+	        	int func = getOperatorId();
 	            ap_910_setPosition();
 	            file.replaceAll(
 	                    searchFor,
 	                    replace.getText(),
 	                    pos,
-	                    ignoreCase.isSelected(),
+	                    ignoreCaseChk.isSelected(),
 	                    //(func == 0) || (func == 2),
 	    				func);
 	            file.fireTableDataChanged();
@@ -275,7 +275,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	private final void ap_100_find() {
 
 	    String searchFor = search.getText();
-	    int func = fieldPart.getSelectedIndex();
+	    int func = getOperatorId();
 	    //boolean nextField = func < 2;
 	    //System.out.print("--0 " + pos.row + " " + pos.col + "   ");
 
@@ -303,7 +303,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	 */
 	private final void ap_200_ReplaceFind() throws RecordException {
 
-		int func = fieldPart.getSelectedIndex();
+		int func = getOperatorId();
 		String searchFor = search.getText();
 	    ap_300_replace();
 	    pos.adjustPosition(searchFor.length(), func);
@@ -332,13 +332,13 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	private final void ap_300_replace() throws RecordException {
 
 	    ap_910_setPosition();
-		int func = fieldPart.getSelectedIndex();
+		int func = getOperatorId();
 
 	    file.replace(
 	            search.getText(),
 	            replace.getText(),
 				pos,
-				ignoreCase.isSelected(),
+				ignoreCaseChk.isSelected(),
 //				(func == 0) || (func == 2),
 				func,
 				true);
@@ -348,15 +348,26 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 	        //System.out.println("-- " + pos.row + " " + pos.col);
 	    }
 	}
+	
+
+	private int getOperatorId() {
+		int op= Compare.OP_CONTAINS;
+		Object itm = compareOperatorCombo.getSelectedItem();
+		if (itm != null && itm instanceof Compare.OperatorItem) {
+			op = ((Compare.OperatorItem) itm).operator;
+		}
+		return op;
+	}
+
 
 	/**
 	 * Setup the position
 	 *
 	 */
 	private final void ap_910_setPosition() {
-	    boolean forward = direction.getSelectedIndex() == 0;
+	    boolean forward = directionCombo.getSelectedIndex() == 0;
 	    int row;
-	    int fieldId = fieldList.getSelectedIndex() - 2;
+	    int fieldId = fieldListCombo.getSelectedIndex() - 2;
 	    if (fieldId == -2 && this.file.getLayout().isXml()) {
 	    	fieldId = -1;
 	    }
@@ -429,7 +440,7 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 		    file.find(
 		            searchFor,
 					pos,
-					ignoreCase.isSelected(),
+					ignoreCaseChk.isSelected(),
 		//			(func == 0) || (func == 2),
 					func,
 					true);
@@ -454,18 +465,18 @@ public final class Search extends ReFrame implements ActionListener, ILayoutChan
 
 			//System.out.println("search layout " + idx);
 
-			fieldList.removeAllItems();
-			fieldList.addItem("");
-			fieldList.addItem(ALL_FIELDS);
+			fieldListCombo.removeAllItems();
+			fieldListCombo.addItem("");
+			fieldListCombo.addItem(ALL_FIELDS);
 			if (idx >= 0) {
 				for (i = 0; i < numCols; i++) {
-					fieldList.addItem(file.getColumnName(idx, i));
+					fieldListCombo.addItem(file.getColumnName(idx, i));
 				}
 			}
 			if (Common.OPTIONS.searchAllFields.isSelected()) {
 				fieldListIdx = 1;
 			}
-			fieldList.setSelectedIndex(fieldListIdx);
+			fieldListCombo.setSelectedIndex(fieldListIdx);
 		}
 	}
 

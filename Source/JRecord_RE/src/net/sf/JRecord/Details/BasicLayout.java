@@ -208,5 +208,8 @@ implements AbstractLayoutDetails {
 		return null;
 	}
 
-
+	@Override
+	public  boolean useByteRecord() {
+		return isBinary();
+	}
 }

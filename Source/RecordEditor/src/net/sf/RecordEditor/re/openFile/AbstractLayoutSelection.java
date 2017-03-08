@@ -6,6 +6,7 @@ import javax.swing.JTextArea;
 
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.interfaces.IGetFileName;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.treeCombo.TreeComboFileSelect;
 
@@ -29,6 +30,12 @@ public abstract class AbstractLayoutSelection
 extends ReadLayout implements FormatFileName, ISchemaProvider {
 
 	private StartActionInterface executeAction = null;
+	private IGetFileName fileNameAccess;
+
+	
+	public IGetFileName getFileNameAccess() {
+		return fileNameAccess;
+	}
 
 	/**
 	 * This method adds layout selection fields to the panel
@@ -105,6 +112,10 @@ extends ReadLayout implements FormatFileName, ISchemaProvider {
 	 * @return the layout
 	 */
 	public abstract AbstractLayoutDetails getRecordLayout(String fileName);
+	
+	public boolean isOkToLoadFile(String dataFileName) {
+		return true;
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.RecordEditor.re.openFile.ISchemaProvider#getRecordLayout(java.lang.String, java.lang.String)

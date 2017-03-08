@@ -20,11 +20,13 @@ To Compile The recordEditor you will need
       jibx-run.jar     (lib/jibx-run.jar)     - XML bidings for saving / restoring parameter files
       jlibdiff.jar     (lib/jlibdiff.jar)     - File Compare
       TableLayout.jar  (lib/TableLayout.jar)  - Screen Layout
-      velocity-1.4.jar (lib/velocity-1.4.jar) - Velocity 
-      velocity-dep-1.4.jar (lib/velocity-dep-1.4.jar)
+      velocity-1.7.jar (lib/velocity-1.7.jar) - Velocity 
+      velocity-dep-1.7.jar (lib/velocity-dep-1.7.jar)
 
-      ZCalanedar either    the source in src/ZCalendar                or lib/ZCalendar.jar - Displaying dates 
-      cb2xml     either    the source in src/cb2xml/src directory     or lib/cb2xml.jar    - Cobol Copybooks code
+      ZCalanedar either    the source in ZCalendar                or lib/ZCalendar.jar - Displaying dates 
+      cb2xml     either    the source in cb2xml/src directory     or lib/cb2xml.jar    - Cobol Copybooks code
+      chardet    either    the source in Z_jchardet               or lib/chardet.jar
+      
 
       JRecord Source (in the src/JRecord/src directory)            - Low level access / IO Code
       RecordEditor  Source for the Record Editor

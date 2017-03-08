@@ -136,6 +136,14 @@ public class BasicFileSchema implements IBasicFileSchema {
 //	}
 
 	/* (non-Javadoc)
+	 * @see net.sf.JRecord.Common.IBasicFileSchema#useByteRecord()
+	 */
+	@Override
+	public boolean useByteRecord() {
+		return isBinary();
+	}
+
+	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Common.IBasicFileSchema#getFontName()
 	 */
 	@Override

@@ -7,6 +7,7 @@
 package net.sf.RecordEditor.utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,6 +25,7 @@ import net.sf.JRecord.detailsSelection.Convert;
 import net.sf.JRecord.detailsSelection.RecordSel;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 
 
@@ -41,7 +43,9 @@ public class CopyBookDbReader implements CopyBookInterface {
 	private HashMap<String, RecordDecider> deciderMap = new HashMap<String, RecordDecider>();
     private String message = "";
 
-    private static CopyBookDbReader instance = null;
+    private static final CopyBookDbReader instance = new CopyBookDbReader();
+    
+    private static int fetchSize = -11;
 
     /**
      * Register a record Decider for later use
@@ -390,17 +394,22 @@ public class CopyBookDbReader implements CopyBookInterface {
 		RecordDetail.FieldDetails[] fields = null;
 
 		try {
-			int i;
 			RecordDetail.FieldDetails newFld;
-			ArrayList<RecordDetail.FieldDetails> fieldList = new ArrayList<RecordDetail.FieldDetails>();
+			ArrayList<RecordDetail.FieldDetails> fieldList = new ArrayList<RecordDetail.FieldDetails>(500);
 
-			ResultSet resultset = Common.getDBConnection(dbIndex).createStatement().executeQuery(
+			Statement selectStatement = Common.getDBConnection(dbIndex).createStatement();
+			ResultSet resultset = selectStatement.executeQuery(
 					  "Select Field_Pos, Field_Length, Field_Name, "
 			        +        "Field_Type, Decimal_Pos, Field_Description, "
 			        +        "Cell_Format, Field_Parameter"
 			        + "  FROM Tbl_RF1_RecordFields "
 					+ " WHERE (RecordId=" + recordId + ") "
 					+ " order by Field_Pos ");
+			
+			int fs = getFetchSize();
+			if (fs > 0) {
+				resultset.setFetchSize(fs);
+			}
 
 			while (resultset.next()) {
 			    newFld = new RecordDetail.FieldDetails(resultset.getString(3).trim(),
@@ -411,23 +420,20 @@ public class CopyBookDbReader implements CopyBookInterface {
 			            				 resultset.getInt(7),
 			            				 resultset.getString(8));
 
+				int position = resultset.getInt(1);
 				if (recordType == Common.rtDelimited
 				||  recordType == Common.rtDelimitedAndQuote) {
-				    newFld.setPosOnly(resultset.getInt(1));
+				    newFld.setPosOnly(position);
 				} else {
-				    newFld.setPosLen(resultset.getInt(1),
-							resultset.getInt(2));
+				    newFld.setPosLen(position, resultset.getInt(2));
 				}
 
 			    fieldList.add(newFld);
 			}
 			resultset.close();
 
-			fields = new RecordDetail.FieldDetails[fieldList.size()];
+			fields = fieldList.toArray(new RecordDetail.FieldDetails[fieldList.size()]);
 
-			for (i = 0; i < fields.length; i++) {
-			    fields[i] = fieldList.get(i);
-			}
 			//System.arraycopy(tmpFld, 0, fields, 0, i);
 
 		} catch (Exception ex) {
@@ -438,6 +444,22 @@ public class CopyBookDbReader implements CopyBookInterface {
 		}
 
 		return fields;
+    }
+
+	   
+    private static int getFetchSize() {
+    	if (fetchSize < 0) {
+    		int fs = 0;
+    		String s = Parameters.getString(Parameters.FETCH_SIZE);
+    		if (s != null && s.length() > 0) {
+    			try {
+					fs = Integer.parseInt(s);
+				} catch (Exception e) {	}
+    		}
+    		fetchSize = fs;
+    	}
+    	
+    	return fetchSize;
     }
 
 	/**
@@ -471,10 +493,6 @@ public class CopyBookDbReader implements CopyBookInterface {
 	  * @return instance of CopyBookDbReader
 	  */
 	 public static CopyBookDbReader getInstance() {
-		 if (instance == null) {
-			 instance = new CopyBookDbReader();
-		 }
-
 		 return instance;
 	 }
 }

@@ -50,6 +50,8 @@ public interface IBasicFileSchema {
 	 * @return wether it is a binary record
 	 */
 	public abstract boolean isBinary();
+	
+	public abstract boolean useByteRecord();
 
 //	public abstract boolean isBinCSV();
 

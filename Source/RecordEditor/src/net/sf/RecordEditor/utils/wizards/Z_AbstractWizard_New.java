@@ -338,8 +338,8 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
 
         if (action == ReActionHandler.HELP) {
             pnls[panelNumber].showHelpRE();
-        } else if (displayFrame instanceof ReFrame) {
-        	((ReFrame) displayFrame).executeAction(action);
+        } else if (displayFrame instanceof ReActionHandler) {
+        	((ReActionHandler) displayFrame).executeAction(action);
         }
     }
 
@@ -349,8 +349,8 @@ public abstract class Z_AbstractWizard_New<Details> /*extends ReFrame*/ implemen
     public boolean isActionAvailable(int action) {
 
         return action == ReActionHandler.HELP
-            || ((		displayFrame instanceof ReFrame
-            	&& ((ReFrame) displayFrame).isActionAvailable(action)));
+            || ((		displayFrame instanceof ReActionHandler
+            	&& ((ReActionHandler) displayFrame).isActionAvailable(action)));
     }
 
 	/**

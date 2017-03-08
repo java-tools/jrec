@@ -49,6 +49,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.RecordEditor.jibx.compare.EditorTask;
 import net.sf.RecordEditor.jibx.compare.Layout;
@@ -277,9 +278,12 @@ implements ActionListener, ISaveDetails<EditorTask> {
 					rows = Math.max(rows, recordLayout.getRecord(i).getFieldCount());
 				}
 				height = SwingUtils.calculateTableHeight(rows, desktopHeight / 2);
+				
+				Dimension preferredSize = fieldTbl.getPreferredSize();
+				//fieldTbl.setPreferredSize(new Dimension(preferredSize.width, height));
 				desktopHeight -= height;
 
-				pnl2.addComponentRE(1, 3, height, BasePanel.GAP1,
+				pnl2.addComponentRE(1, 3, BasePanel.FILL, BasePanel.GAP1,
 				         BasePanel.FULL, BasePanel.FULL,
 				         fieldTbl);
 
@@ -407,6 +411,10 @@ implements ActionListener, ISaveDetails<EditorTask> {
 				        //}
 				        filter.setLayoutIndex(idx);
 				        fieldMdl.fireTableDataChanged();
+				        fieldTbl.revalidate();
+				        
+				        //fieldMdl.fireTableStructureChanged();
+				        //setFieldTableDetails(fieldTbl);
 				        //if (addFieldFilter) {
 				        	filterFieldMdl.fireTableDataChanged();
 				       // }
@@ -484,10 +492,12 @@ implements ActionListener, ISaveDetails<EditorTask> {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	private void buildFieldFilterTable() {
+    	
         TableColumnModel tcm;
         TableColumn tc;
-        DefaultComboBoxModel operatorMdl = new DefaultComboBoxModel
-                (Compare.OPERATOR_STRING_FOREIGN_VALUES);
+        String[] operatorValues = operatorVals(); //Compare.OPERATOR_STRING_FOREIGN_VALUES;
+		DefaultComboBoxModel operatorMdl = new DefaultComboBoxModel
+                (operatorValues);
         ComboBoxRender operatorRendor = new ComboBoxRender(operatorMdl);
         TableCellRenderer fieldRendor = filter.getFilterFieldListMdl().getTableCellRender();
 
@@ -530,9 +540,24 @@ implements ActionListener, ISaveDetails<EditorTask> {
 	  	tc.setCellRenderer(operatorRendor);
 		tc.setCellEditor(
 		    new DefaultCellEditor(
-		        new JComboBox(Compare.OPERATOR_STRING_FOREIGN_VALUES)));
+		        new JComboBox(operatorValues)));
 
 		tcm.getColumn(valueId).setPreferredWidth(VALUE_WIDTH);
+    }
+    
+    private String[] operatorVals() {
+    	int j = 0;
+    	String[] ret = new String[Compare.OPERATOR_STRING_FOREIGN_VALUES.length];
+    	
+    	for (int i = 0; i < ret.length; i++) {
+    		if (! Constants.NUM_EQ.equals(Compare.OPERATOR_STRING_VALUES[i])) {
+    			ret[j++] = Compare.OPERATOR_STRING_FOREIGN_VALUES[i];
+    			if (i == Compare.OP_EQUALS) {
+    				ret[j++] = Constants.NUM_EQ;
+    			}
+    		}
+    	}
+    	return ret;
     }
 
     /**

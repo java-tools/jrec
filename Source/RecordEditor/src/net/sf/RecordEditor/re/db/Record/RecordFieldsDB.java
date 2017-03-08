@@ -12,6 +12,7 @@ import java.sql.SQLException;
 
 import net.sf.RecordEditor.utils.jdbc.AbsDB;
 import net.sf.RecordEditor.utils.lang.LangConversion;
+import net.sf.RecordEditor.utils.params.Parameters;
 
 /**
  * This class provides DB Access using
@@ -41,6 +42,7 @@ import net.sf.RecordEditor.utils.lang.LangConversion;
 
 public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
 
+	private static int fetchSize = -121;
 
   private static final String[] COLUMN_NAMES = LangConversion.convertColHeading(
 			"DB-RecordFields Columns",
@@ -137,11 +139,32 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
 
 
           rsCursor  = sqlCursor.executeQuery();
+		  int fs = getFetchSize();
+		  if (fs > 0) {
+			rsCursor.setFetchSize(fs);
+		  }
+
           message = "";
       } catch (Exception ex) {
            setMessage(ex.getMessage(), ex);
       }
   }
+  
+  private static int getFetchSize() {
+  	if (fetchSize < 0) {
+  		int fs = 0;
+  		String s = Parameters.getString(Parameters.FETCH_SIZE);
+  		if (s != null && s.length() > 0) {
+  			try {
+					fs = Integer.parseInt(s);
+				} catch (Exception e) {	}
+  		}
+  		fetchSize = fs;
+  	}
+  	
+  	return fetchSize;
+  }
+
 
 
 //  /**
@@ -220,7 +243,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
       statement.setInt(idx++, val.getValue().getSubKey());
 
       if (insert) {
-      statement.setInt(idx++, paramRecordId);
+    	  statement.setInt(idx++, paramRecordId);
       }
 
       return idx;
@@ -278,7 +301,7 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
   /**
    * This method gets the next key
    */
-  private int getNextKey() {
+  protected int getNextKey() {
       final String sql = "Select max(Sub_Key) From  Tbl_RF1_RecordFields "
                    +  " Where RecordId= ? "
                  ;
@@ -311,6 +334,26 @@ public class RecordFieldsDB  extends AbsDB<RecordFieldsRec> {
       super.setDoFree(free);
   }
 
+
+
+  /**
+   *  This method inserts one record
+   *
+   *  @param val value to be inserted
+   */
+  public void insert(RecordFieldsRec value, int key) {
+      //RecordFieldsRec val = (RecordFieldsRec) value;
+
+      int i = 0;
+      boolean free = super.isSetDoFree(false);
+
+      value.getValue().setSubKey(key++);
+      while ((i++ < 10) && (! tryToInsert(value))) {
+          value.getValue().setSubKey(key++);
+      }
+
+      super.setDoFree(free);
+  }
 
 
 

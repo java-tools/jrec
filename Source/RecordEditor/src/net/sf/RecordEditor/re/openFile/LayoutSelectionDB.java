@@ -6,6 +6,9 @@ package net.sf.RecordEditor.re.openFile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -17,11 +20,14 @@ import javax.swing.JTextArea;
 import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.LayoutDetail;
+import net.sf.JRecord.Details.RecordDetail;
+import net.sf.RecordEditor.layoutWizard.FileAnalyser;
 import net.sf.RecordEditor.utils.CopyBookInterface;
 import net.sf.RecordEditor.utils.LayoutItem;
 import net.sf.RecordEditor.utils.SystemItem;
 import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
+import net.sf.RecordEditor.utils.common.StreamUtil;
 import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.msg.UtMessages;
 import net.sf.RecordEditor.utils.swing.BasePanel;
@@ -41,19 +47,21 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 
 	private static final String ALL_SYSTEMS = LangConversion.convertComboItms("Layout Selection", "<All>");
-	private JComboBox   dbCombo     = new JComboBox();
-	private JComboBox   systemCombo = new JComboBox();
-	private JComboBox   layoutCombo = new JComboBox();
-	private JTextArea   description = new JTextArea();
+	private final JComboBox   dbCombo     = new JComboBox();
+	private final JComboBox   systemCombo = new JComboBox();
+	private final JComboBox   layoutCombo = new JComboBox();
+	private final JTextArea   description = new JTextArea();
 	
-	private JLabel      fontLbl     =new JLabel("Encoding");
-	private FontCombo   fontCombo   = new FontCombo();
-	private JTextArea   message = null;
+	private final JLabel      fontLbl     = new JLabel("Encoding");
+	private final FontCombo   fontCombo   = new FontCombo();
+	private       JTextArea   message;
 
-	private JButton reload = SwingUtils.newButton(
+	private final JButton     reload = SwingUtils.newButton(
 			"Reload from DB",
 			Common.getRecordIcon(Common.ID_RELOAD_ICON));
 
+	
+	private TreeComboFileSelect filenameCombo;
 	private ArrayList<SystemItem> systems = new ArrayList<SystemItem>();
 	private ArrayList<LayoutItem> layouts = new ArrayList<LayoutItem>();
 
@@ -66,7 +74,20 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 	private String lastLayoutName = "";
 	private AbstractLayoutDetails lastLayout = null;
+	
+	private boolean fontRequired = false;
+	private String lastFileName, lastFontName;
 
+	public LayoutSelectionDB(ZTstLayoutSelectionDbFields tstFlds, 
+			final CopyBookInterface pInterfaceToCopyBooks, boolean doPrimingRead) {
+		this(pInterfaceToCopyBooks, doPrimingRead);
+		
+		tstFlds.dbCombo = dbCombo;
+		tstFlds.fontCombo = fontCombo;
+		tstFlds.fontLbl = fontLbl;
+		tstFlds.layoutCombo = layoutCombo;
+		tstFlds.reload = reload;
+	}
 
 	/**
 	 * Creating the File & record selection screen
@@ -114,17 +135,19 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	@Override
 	public void addLayoutSelection(BasePanel pnl, TreeComboFileSelect file,
 			JPanel goPanel, JButton layoutCreate1, JButton layoutCreate2) {
+		
+		filenameCombo = file;
 
 		JButton tmpBtn = new JButton("XX");
-		pnl.addLineRE("Data Base", dbCombo, reload);
-		pnl.addLineRE("System", systemCombo,tmpBtn);
+		pnl.addLineRE(    "Data Base", dbCombo, reload);
+		pnl.addLineRE(       "System", systemCombo,tmpBtn);
 		pnl.addLineRE("Record Layout", layoutCombo, layoutCreate1);
 		if (layoutCreate2 != null) {
-		    pnl.addLineRE("", null, layoutCreate2);
+		    pnl.addLineRE(         "", null, layoutCreate2);
 		}
-		pnl.addLineRE(fontLbl, fontCombo);
+		pnl.addLineRE(        fontLbl, fontCombo);
 		pnl.setGapRE(BasePanel.GAP0);
-		pnl.addLineRE("Description", description, goPanel);
+		pnl.addLineRE(  "Description", description, goPanel);
 
 		double size = 0;
 		if (goPanel != null) {
@@ -156,7 +179,35 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		&&  (selected = selectedItem.toString()).length() > 0) {
 			LayoutDetail layout = copyBookInterface.getLayout(selected);
 			
-			visible = CommonBits.isFontRequired(layout.getFileStructure());
+			if (layout != null) {
+				visible = CommonBits.isFontRequired(layout.getFileStructure());
+				
+				if (visible) {	
+					String fontName = layout.getFontName();
+					File file;
+					String filename;
+					
+					if (filenameCombo != null
+					&& (file = new File((filename = filenameCombo.getText()))).exists()) {
+						if (filename.equals(lastFileName)) {
+	//						fontName = lastFontName;
+						} else {
+							try {
+								byte[] fileBytes = StreamUtil.read(new FileInputStream(file), 0x40000);
+								FileAnalyser fa = FileAnalyser.getAnaylserNoLengthCheck(fileBytes, "40");
+	//							fontName = fa.getFontName();
+								fontCombo.setFontList(fa.getCharsetDetails().likelyCharsets);
+								
+								lastFileName = filename;
+								lastFontName = fa.getFontName();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					fontCombo.setText(fontName);
+				}
+			}
 		}
 		fontLbl.setVisible(visible);
 		fontCombo.setVisible(visible);
@@ -291,6 +342,13 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 
 	@Override
+	public boolean isOkToLoadFile(String dataFileName) {
+
+		getRecordLayout((String) layoutCombo.getSelectedItem(), dataFileName);
+		return ! fontRequired;
+	}
+
+	@Override
 	public void forceLayoutReload() {
 		lastLayoutName = "";
 	}
@@ -303,27 +361,78 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	public final AbstractLayoutDetails getRecordLayout(String layoutName, String fileName) {
 		AbstractLayoutDetails ret = null;
 
+		fontRequired = false;
 		if (layoutName == null || layoutName.equals("")) {
 			Common.logMsg("No Layout Entered", null);
-		} else if (loadFromFile && lastLayoutName.equals(layoutName)){
-			ret = lastLayout;
 		} else {
-		//	try {
-			lastLayout = copyBookInterface.getLayout(layoutName);
-		//	} catch (Exception e) {
-		//		e.printStackTrace();
-		//	}
-			if (lastLayout == null) {
-				message.setText(
-						UtMessages.LAYOUT_CANT_BE_LOADED.get(layoutName)
-						+ "\n " + copyBookInterface.getMessage());
+			String newFont = fontCombo.getText();
+			if (loadFromFile && lastLayoutName.equals(layoutName)
+				   &&  lastLayout != null
+				   && (  (! fontCombo.isVisible())
+					  ||  lastLayout.getFontName().equalsIgnoreCase(newFont) )) {
+				ret = lastLayout;
 			} else {
-				lastLayoutName = layoutName;
-				lastLayout = getFileBasedLayout(fileName, lastLayout);
+			//	try {
+				lastLayout = copyBookInterface.getLayout(layoutName);
+			//	} catch (Exception e) {
+			//		e.printStackTrace();
+			//	}
+				if (lastLayout == null) {
+					message.setText(
+							UtMessages.LAYOUT_CANT_BE_LOADED.get(layoutName)
+							+ "\n " + copyBookInterface.getMessage());
+				} else {
+					lastLayoutName = layoutName;
+					lastLayout = getFileBasedLayout(fileName, lastLayout);
+					
+					fontRequired = CommonBits.isFontRequired(lastLayout.getFileStructure());
+					if (fontRequired
+					&&  lastLayout.getRecordCount() > 0
+					&&  lastLayout instanceof LayoutDetail) {
+						lastLayout = new LayoutDetail(
+										layoutName, 
+										getRecords((LayoutDetail)lastLayout, newFont),
+										lastLayout.getDescription(), lastLayout.getLayoutType(),
+										lastLayout.getRecordSep(), lastLayout.getEolString(), 
+										newFont, 
+										lastLayout.getDecider(), 
+										CommonBits.translateFileStructureToNotAskFont(lastLayout.getFileStructure()),
+										lastLayout.getMaximumRecordLength());
+					}
+				}
+				ret = lastLayout;
 			}
-			ret = lastLayout;
 		}
 		return ret;
+	}
+	
+	private RecordDetail[] getRecords(LayoutDetail layout, String newFont) {
+		RecordDetail[] newRecs = new RecordDetail[layout.getRecordCount()];
+		for (int i = 0; i < newRecs.length; i++) {
+			RecordDetail rec = layout.getRecord(i);
+			RecordDetail.FieldDetails[] newFlds = new RecordDetail.FieldDetails[rec.getFieldCount()];
+			for (int j = 0; j < newFlds.length; j++) {
+				RecordDetail.FieldDetails field = rec.getField(j);
+				newFlds[j] = new RecordDetail.FieldDetails(
+						field.getName(), field.getDescription(), field.getType(), field.getDecimal(), 
+						newFont, field.getFormat(), field.getParamater());
+				
+				if (field.isFixedFormat()) {
+					newFlds[j].setPosLen(field.getPos(), field.getLen());
+				} else {
+					newFlds[j].setPosOnly(field.getPos());
+				}
+			}
+			
+			newRecs[i] = new RecordDetail(
+						rec.getRecordName(), rec.getRecordType(), 
+						rec.getDelimiterUneditted(), rec.getQuoteUneditted(), 
+						newFont, newFlds,
+						rec.getRecordStyle(), rec.getRecordSelection(),
+						rec.getChildId(), rec.isEmbeddedNewLine());
+		}
+		
+		return newRecs;
 	}
 
 

@@ -2352,7 +2352,7 @@ public class FileView	extends 			AbstractTableModel
 
 		int size = lines.size();
 		if (eofCheck 
-		&& (size < 5000 || (lines instanceof DataStoreStd && lines.size() < 50000))) {
+		&& (size < 100000 || (lines instanceof DataStoreStd && lines.size() < 500000))) {
 			FileSearch fs = FileSearch	.newFileSearch(this, searchFor, pos, ignoreCase, operator, false);
 			fs.doSearch();
 			

@@ -330,7 +330,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 		        			break;
 		        		}
 		            	if (recordDetail.isBinary(k)) {
-		            		binary = recordDetail.isBinary(k);
+		            		binary |= recordDetail.isBinary(k);
 		            		binField = true;
 		            	}
 		            	if (p > recordDetail.getField(k).getPos()) {
@@ -454,6 +454,19 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
     public boolean isBinary() {
         return binary || binaryRecord;
     }
+
+
+	@Override
+	public boolean useByteRecord() {
+		
+		switch (fileStructure) {
+		case Constants.IO_BIN_TEXT:
+		case Constants.IO_FIXED_LENGTH:
+			return true;
+		}
+		return binary || binaryRecord;
+	}
+
 
     public boolean isFixedLength() {
     	return fixedLength;

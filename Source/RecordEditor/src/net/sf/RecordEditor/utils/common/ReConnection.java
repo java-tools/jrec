@@ -31,6 +31,11 @@ public class ReConnection implements AbsConnection {
 
 		return false;
 	}
+	
+	@Override
+	public void checkPoint() {
+		Common.checkpoint(dbIndex);
+	}
 
 	public static ReConnection getConnection(int dbIdx) {
 		return new ReConnection(dbIdx);

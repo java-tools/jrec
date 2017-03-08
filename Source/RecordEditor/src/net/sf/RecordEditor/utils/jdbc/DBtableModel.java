@@ -18,7 +18,7 @@ import javax.swing.JFrame;
  *
  */
 @SuppressWarnings("serial")
-public class DBtableModel<record extends AbsRecord> extends AbsDBTableModel<record> {
+public class DBtableModel<Record extends AbsRecord> extends AbsDBTableModel<Record> {
 
     private int emptyColumns = 0;
 
@@ -27,7 +27,7 @@ public class DBtableModel<record extends AbsRecord> extends AbsDBTableModel<reco
 	 *
 	 * @param db DB SQL access
 	 */
-	public DBtableModel(final AbsDB<record> db) {
+	public DBtableModel(final AbsDB<Record> db) {
 		super(db);
 	}
 
@@ -38,7 +38,7 @@ public class DBtableModel<record extends AbsRecord> extends AbsDBTableModel<reco
 	 * @param jframe  Frame where any field error dialogs are displayed
 	 * @param db      DB SQL access
 	 */
-	public DBtableModel(final JFrame jframe, final AbsDB<record> db) {
+	public DBtableModel(final JFrame jframe, final AbsDB<Record> db) {
 		super(jframe, db);
 	}
 
@@ -125,7 +125,10 @@ public class DBtableModel<record extends AbsRecord> extends AbsDBTableModel<reco
 		if (val == null) {
 			dataBase.setMessage("DBtableModel: Tried to set a value to null", null);
 		} else if (col >= 0 && (col < dataBase.getColumnCount())) {
-			(lines.get(row)).setField(frame, col, val);
+			Record record = lines.get(row);
+			
+//			changed = changed || val.equals(record.getField(col));
+			record.setField(frame, col, val);
 			fireTableCellUpdated(row, col);
 		}
 	}

@@ -60,8 +60,9 @@ public class LayoutSelectionPoTipCreator implements
 		}
 
 
-		public void notifyFileNameChanged(String newFileName) {
-		}
+//		public void notifyFileNameChanged(String newFileName) {
+//			super.notifyFileNameChanged(newFileName);
+//		}
 
 
 		@Override
@@ -98,8 +99,9 @@ public class LayoutSelectionPoTipCreator implements
 		}
 
 
-		public void notifyFileNameChanged(String newFileName) {
-		}
+//		public void notifyFileNameChanged(String newFileName) {
+//			super.notifyFileNameChanged(newFileName);
+//		}
 
 
 		@Override

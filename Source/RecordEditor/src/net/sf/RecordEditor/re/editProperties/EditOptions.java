@@ -238,11 +238,12 @@ public class EditOptions {
         {Parameters.EDIT_RAW_TEXT,  "Allow the user to edit file as Raw Text ??", null, EditPropertiesPnl.FLD_BOOLEAN,  "Allow Editting Raw Text",},
         {Parameters.CSV_SHOW_FILECHOOSER_OPTIONS,  "Show File Options on Csv Open Screen", null, EditPropertiesPnl.FLD_BOOLEAN,  "Show File Options on Csv Open",},
         {Parameters.OPEN_IN_LAST_DIRECTORY,  "Open program using Last used Directory (instead of the default Directory)", null, EditPropertiesPnl.FLD_BOOLEAN,  "Open in Last Directory",},
+        {Parameters.BYPASS_RECSVEDIT_PREVIEW, "Bypass ReCsvEdit preview screen when starting with a file", null, EditPropertiesPnl.FLD_BOOLEAN, "Bypass ReCsvEdit preview screen", },
 
         {"", "", null, EditPropertiesPnl.FLD_EMPTY, null},
         {Parameters.FILE_CHOOSER_OPTION, "Type of FileCooser to use: Normal, Extended, or choose based on Look and feel", null, EditPropertiesPnl.FLD_LIST, "File Chooser Type", EXTENDED_FILE_CHOOSER},
         {Parameters.FILE_CHOOSER_CSV_EDIT, "Type of FileCooser to use: Normal, Extended, or choose based on Look and feel / screen size", null, EditPropertiesPnl.FLD_LIST, "File Chooser Type (Csv Editor)", EXTENDED_FILE_CHOOSER},
-   		
+  		
     };
 
     private String fileDescription

@@ -78,7 +78,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	private boolean fontRequired = false;
 	private String lastFileName, lastFontName;
 
-	public LayoutSelectionDB(ZTstLayoutSelectionDbFields tstFlds, 
+	public LayoutSelectionDB(TstLayoutSelectionDbFields tstFlds, 
 			final CopyBookInterface pInterfaceToCopyBooks, boolean doPrimingRead) {
 		this(pInterfaceToCopyBooks, doPrimingRead);
 		

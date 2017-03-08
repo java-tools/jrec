@@ -134,10 +134,10 @@ public class GenericCsvReader extends DelegateReader {
 
 			pnl.setHelpURLre(Common.formatHelpURL(Common.HELP_GENERIC_CSV));
 
-			csvTab.csvDetails.go.addActionListener(this);
-			csvTab.csvDetails.cancel.addActionListener(this);
-			csvTab.unicodeCsvDetails.go.addActionListener(this);
-			csvTab.unicodeCsvDetails.cancel.addActionListener(this);
+			csvTab.csvDetails.goBtn.addActionListener(this);
+			csvTab.csvDetails.cancelBtn.addActionListener(this);
+			csvTab.unicodeCsvDetails.goBtn.addActionListener(this);
+			csvTab.unicodeCsvDetails.cancelBtn.addActionListener(this);
 
 			pnl.addComponentRE(
 					1, 5, BasePanel.PREFERRED, BasePanel.GAP1,
@@ -158,17 +158,17 @@ public class GenericCsvReader extends DelegateReader {
 		@Override
 		public void actionPerformed(ActionEvent e)   {
 
-			finnished(e.getSource() == csvTab.csvDetails.go
-			  || e.getSource() == csvTab.unicodeCsvDetails.go);
+			finnished(e.getSource() == csvTab.csvDetails.goBtn
+			  || e.getSource() == csvTab.unicodeCsvDetails.goBtn);
 
 		}
 		
 
 		private void finnished(boolean isOk) {
-			csvTab.csvDetails.go.removeActionListener(this);
-			csvTab.csvDetails.cancel.removeActionListener(this);
-			csvTab.unicodeCsvDetails.go.removeActionListener(this);
-			csvTab.unicodeCsvDetails.cancel.removeActionListener(this);
+			csvTab.csvDetails.goBtn.removeActionListener(this);
+			csvTab.csvDetails.cancelBtn.removeActionListener(this);
+			csvTab.unicodeCsvDetails.goBtn.removeActionListener(this);
+			csvTab.unicodeCsvDetails.cancelBtn.removeActionListener(this);
 			ok = isOk;
 
 			this.setVisible(false); 

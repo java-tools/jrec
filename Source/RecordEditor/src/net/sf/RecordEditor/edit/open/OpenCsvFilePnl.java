@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
@@ -33,6 +34,8 @@ import net.sf.RecordEditor.re.openFile.RecentFilesList;
 import net.sf.RecordEditor.re.util.csv.CsvSelectionPanel;
 import net.sf.RecordEditor.re.util.csv.CsvTabPane;
 import net.sf.RecordEditor.re.util.csv.FilePreview;
+import net.sf.RecordEditor.re.util.csv.SchemaSelection;
+import net.sf.RecordEditor.re.util.fw.FixedWidthSelectionPane;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.interfaces.IGetFileName;
 import net.sf.RecordEditor.utils.lang.LangConversion;
@@ -161,7 +164,8 @@ implements OpenFileInterface, FormatFileName, IGetSchema, IGetFileName {
             final String fileName,
             final String propertiesFiles,
             AbstractLineIOProvider pIoProvider,
-            boolean fixedXmlTabs) {
+            boolean fixedXmlTabs,
+            boolean edit) {
         String defaultDirectory = Common.OPTIONS.DEFAULT_FILE_DIRECTORY.get();
 
         ioProvider = pIoProvider;
@@ -238,6 +242,18 @@ implements OpenFileInterface, FormatFileName, IGetSchema, IGetFileName {
 
         if (file != null && file.isFile()) {
             readFilePreview(file, true);
+            if (edit || "Y".equalsIgnoreCase(Parameters.getString(Parameters.BYPASS_RECSVEDIT_PREVIEW))) {
+            	FilePreview selectedCsvDetails = csvTabDtls.getSelectedCsvDetails();
+            	if (selectedCsvDetails instanceof FixedWidthSelectionPane || selectedCsvDetails instanceof SchemaSelection) {
+            		
+            	} else {
+            		SwingUtilities.invokeLater(new Runnable() {
+						@Override public void run() {
+							openFile(false);
+						}
+					});
+            	}
+            }
         }
     }
 

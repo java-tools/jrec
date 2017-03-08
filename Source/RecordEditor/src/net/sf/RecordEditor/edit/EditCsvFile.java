@@ -87,7 +87,7 @@ public class EditCsvFile extends EditRec  {
 	 */
 	public EditCsvFile(final String pInFile,
 	        	      final int pInitialRow) {
-		this(pInFile, pInitialRow, ReIOProvider.getInstance());
+		this(pInFile, pInitialRow, ReIOProvider.getInstance(), false);
 	}
 
 	/**
@@ -101,7 +101,8 @@ public class EditCsvFile extends EditRec  {
 	 */
     public EditCsvFile(final String pInFile,
      	   final int pInitialRow,
-    	   final AbstractLineIOProvider pIoProvider) {
+    	   final AbstractLineIOProvider pIoProvider,
+    	         boolean edit) {
         super(false, "reCsv Editor", Common.CSV_PROGRAM_ID, 
         		new NewCsvAction(), 
         		true);
@@ -162,7 +163,8 @@ public class EditCsvFile extends EditRec  {
         				pInFile,
         				recentFileName,
         				pIoProvider,
-        				true);
+        				true,
+        				edit);
 
 //        long time1 = System.nanoTime();
 //        System.out.println("EditCsvFile: Create OpenFile");
@@ -315,7 +317,7 @@ public class EditCsvFile extends EditRec  {
 					String fileName = args.getDfltFile();
 			   		showTips = fileName == null || "".equals(fileName);
 
-					new EditCsvFile(fileName, args.getInitialRow(), ReIOProvider.getInstance());
+					new EditCsvFile(fileName, args.getInitialRow(), ReIOProvider.getInstance(), args.edit);
 					    	//new CopyBookDbReader());
 					//long time2 = System.nanoTime();
 

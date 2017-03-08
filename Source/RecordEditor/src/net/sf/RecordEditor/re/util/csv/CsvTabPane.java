@@ -419,8 +419,8 @@ public class CsvTabPane implements FormatFileName {
 	}
 	
 	public final void setGoVisible(boolean visible) {
-		csvDetails.go.setVisible(visible);
-		unicodeCsvDetails.go.setVisible(visible);
+		csvDetails.goBtn.setVisible(visible);
+		unicodeCsvDetails.goBtn.setVisible(visible);
 	}
 //
 //	public LayoutDetail getLayout(String font, byte[] recordSep) {

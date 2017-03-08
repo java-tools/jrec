@@ -85,6 +85,7 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String FILE_CHOOSER_EXTENDED    = "E";
     public static final String FILE_CHOOSER_OPTION      = "FileChooserOpt";
     public static final String FILE_CHOOSER_CSV_EDIT    = "FileChooserCsvEdOpt";
+    public static final String BYPASS_RECSVEDIT_PREVIEW = "BypassReCsvEditPreview";
     public static final String PO_EDIT_OPEN_FUZZY_VIEW  = "PoFuzzyView";
     public static final String PO_EDIT_CHILD_SCREEN_POS = "PoChildPos";
     public static final String CHILD_SCREEN_RIGHT = "R";

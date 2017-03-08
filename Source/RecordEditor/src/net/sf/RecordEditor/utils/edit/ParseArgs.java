@@ -32,7 +32,9 @@ public class ParseArgs {
 	private String schemaName = "";
 	private String db = "";
 	private String paramFilename = "";
-	private boolean overWiteOutputFile =false;
+	private boolean overWiteOutputFile = false;
+	
+	public final boolean edit;
 
 	
 	    
@@ -43,12 +45,14 @@ public class ParseArgs {
 		}
 		this.dfltFile = fileName;
 		this.schemaName = schemaName;
+		this.edit = false;
 	}
 
 
 
 	public ParseArgs(String schemaName) {
 		this.schemaName = schemaName;
+		this.edit = false;
 	}
 	
 	/**
@@ -60,6 +64,7 @@ public class ParseArgs {
 		int i;
 		int cat = IS_A_FILE;
 		String ucArg;
+		boolean edit = false;
 
 		if ((args != null) && (args.length > 0)) {
 			for (i = 0; i < args.length; i++) {
@@ -70,6 +75,10 @@ public class ParseArgs {
 					cat = IS_A_FILE;
 				} else if (ucArg.equals("-OVERWRITE")) {
 					overWiteOutputFile = true;
+					cat = IS_UNKNOWN;
+				} else if (ucArg.equals("-EDIT")) {
+					edit = true;
+					cat = IS_UNKNOWN;
 				} else if (ucArg.equals("-DB")) {
 					cat = IS_A_DB;
 				} else if (ucArg.equals("-PARAMETERFILE")) {
@@ -117,6 +126,7 @@ public class ParseArgs {
 			}
 			//System.out.println("++>> " + dfltFile + " " + (new File(dfltFile)).exists());
 		}
+		this.edit = edit;
     }
     
     /**

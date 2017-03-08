@@ -86,8 +86,8 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
     public JCheckBox checkTypes = new JCheckBox();
     public JCheckBox embeddedCrJCheck = new JCheckBox();
 
-    public JButton go = SwingUtils.newButton("Go");
-    public JButton cancel = SwingUtils.newButton("Cancel");
+    public JButton goBtn = SwingUtils.newButton("Go");
+    public JButton cancelBtn = SwingUtils.newButton("Cancel");
     private JButton wizardBtn;
 
     private JTable linesTbl = new JTable();
@@ -283,7 +283,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	@Override
 	public JButton getGoButton() {
-		return go;
+		return goBtn;
 	}
 
 
@@ -524,14 +524,14 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 			addLineRE(       "Names on Line", fieldNamesOnLine, wizardBtn);
 		}
 		if (showCancel) {
-			addLineRE("Line Number of Names", nameLineNoTxt, go)	      .setGapRE(BasePanel.GAP);
+			addLineRE("Line Number of Names", nameLineNoTxt, goBtn)	      .setGapRE(BasePanel.GAP);
 			addLineRE(    "set Column Types", checkTypes);
-			addLineRE(  "embedded New Lines", embeddedCrJCheck, cancel);
+			addLineRE(  "embedded New Lines", embeddedCrJCheck, cancelBtn);
 			setGapRE(BasePanel.GAP);
 		} else {
 			addLineRE("Line Number of Names", nameLineNoTxt);
 			addLineRE(    "set Column Types", checkTypes);
-			addLineRE(  "embedded New Lines", embeddedCrJCheck, go);
+			addLineRE(  "embedded New Lines", embeddedCrJCheck, goBtn);
 			setGapRE(BasePanel.GAP1);
 		}
 

@@ -32,6 +32,7 @@ public class CsvOpenAction extends ReAbstractAction {
 								net.sf.RecordEditor.utils.params.Parameters
 										.getApplicationDirectory() + "CsvFiles.txt",
 								ioProvider,
+								false,
 								false);
 
 //long time1 = System.nanoTime();

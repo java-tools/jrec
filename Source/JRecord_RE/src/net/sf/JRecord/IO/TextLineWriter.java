@@ -44,13 +44,14 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
+import net.sf.JRecord.CsvParser.ICsvCharLineParser;
 import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 
 /**
  * This class writes "Line's" to a text file
@@ -154,17 +155,17 @@ public class TextLineWriter extends AbstractLineWriter {
         int i;
 
 		AbstractRecordDetail rec = layout.getRecord(0);
-        ICsvLineParser parser = ParserManager.getInstance().get(layout.getRecord(0).getRecordStyle());
-        String delim = layout.getRecord(0).getDelimiter();
+        ICsvCharLineParser parser = CsvParserManagerChar.getInstance().get(layout.getRecord(0).getRecordStyle());
+        CsvCharDetails delim = layout.getRecord(0).getDelimiterDetails();
 
-        String quote = "";
+        CsvCharDetails quote = CsvCharDetails.EMPTY_QUOTE;
 
         ArrayList<String> colNames = new ArrayList<String>();
 
         if (parser == null) {
         	parser = BasicCsvLineParser.getInstance();
         } else if (parser.isQuoteInColumnNames()) {
-        	quote = layout.getRecord(0).getQuote();
+        	quote = layout.getRecord(0).getQuoteDefinition();
         }
 
         for (i = 0; i < rec.getFieldCount(); i++) {

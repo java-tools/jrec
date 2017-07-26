@@ -29,6 +29,7 @@ import java.io.IOException;
 
 import net.sf.JRecord.ByteIO.CsvByteReader;
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 import net.sf.JRecord.zTest.Common.TestCommonCode;
 import junit.framework.TestCase;
 
@@ -83,10 +84,10 @@ public class TstCsvByteReader03 extends TestCase {
 					for (int l = 0; l < files01.length; l++) {
 						String rest = i + ", " + j + ", " + CHARSETS[k] + ", " + l;
 						tstFile("01a " + rest,
-								new CsvByteReader(CHARSETS[k], ",", "'", null, false),
+								newCsvByteReader(CHARSETS[k], ",", "'", null, false),
 								EOLS[i], EOLS[j], CHARSETS[k], files01[l]);
 						tstFile("01b " + rest,
-								new CsvByteReader(CHARSETS[k], ",", "'", "''", false),
+								newCsvByteReader(CHARSETS[k], ",", "'", "''", false),
 								EOLS[i], EOLS[j], CHARSETS[k], files01[l]);
 					}
 				}
@@ -106,7 +107,7 @@ public class TstCsvByteReader03 extends TestCase {
 							System.out.println();
 							System.out.println("  ---------------------------- ");
 							tstFile("02) " + rest,
-									new CsvByteReader(CHARSETS[k], ",", "'", "''", false),
+									newCsvByteReader(CHARSETS[k], ",", "'", "''", false),
 									EOLS[i], EOLS[j], CHARSETS[k], files02[l]);
 						}
 					}
@@ -114,6 +115,16 @@ public class TstCsvByteReader03 extends TestCase {
 			}
 		}
 	}
+	
+
+	private CsvByteReader newCsvByteReader(String charSet, String fieldSep, String quote, String quoteEsc, boolean useStdEolCheck) {
+		
+		return new CsvByteReader(
+				charSet, 
+				CsvCharDetails.newDelimDefinition(fieldSep, charSet).asBytes(), CsvCharDetails.newQuoteDefinition(quote, charSet).asBytes(),
+				quoteEsc, useStdEolCheck);
+	}
+
 	private void tstFile(String id, CsvByteReader r, String eol1, String eol2, String charset, String[] f)
 			throws IOException {
 		String[] ff = new String[f.length + 5];

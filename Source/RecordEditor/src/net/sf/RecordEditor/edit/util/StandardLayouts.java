@@ -42,17 +42,17 @@ public final class StandardLayouts {
 			"Generic Csv"
 			);
 
-	private static final ExternalRecord delimiterLayoutForEditor = getExternal(
-				  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-				+ "<RECORD RECORDNAME=\"XDelimiter\"  DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"Text_Unicode\""
-				+ "        STYLE=\"0\" RECORDTYPE=\"Delimited\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" >"
-				+ "	<FIELDS>"
-				+ "		<FIELD NAME=\"Delimiter\" DESCRIPTION=\"Field Delimiter\" POSITION=\"1\" TYPE=\"Char\"/>"
-				+ "		<FIELD NAME=\"Delimiter Name\" DESCRIPTION=\"Longer more descriptive Name. You only need to enter if different from the delimiter\" POSITION=\"2\" TYPE=\"Char\"/>"
-				+ "	</FIELDS>"
-				+ "</RECORD>",
-				"Delimiter"
-	);
+//	private static final ExternalRecord delimiterLayoutForEditor = getExternal(
+//				  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+//				+ "<RECORD RECORDNAME=\"XDelimiter\"  DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"Text_Unicode\""
+//				+ "        STYLE=\"0\" RECORDTYPE=\"Delimited\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" >"
+//				+ "	<FIELDS>"
+//				+ "		<FIELD NAME=\"Delimiter\" DESCRIPTION=\"Field Delimiter\" POSITION=\"1\" TYPE=\"Char\"/>"
+//				+ "		<FIELD NAME=\"Delimiter Name\" DESCRIPTION=\"Longer more descriptive Name. You only need to enter if different from the delimiter\" POSITION=\"2\" TYPE=\"Char\"/>"
+//				+ "	</FIELDS>"
+//				+ "</RECORD>",
+//				"Delimiter"
+//	);
 
 	public final LayoutDetail getXmlLayout() {
 		return getLayout(xmlExternalRec);
@@ -62,9 +62,6 @@ public final class StandardLayouts {
 		return getLayout(genericCsvExternalRec);
 	}
 
-	public final LayoutDetail delimiterLayoutForEditor() {
-		return getLayout(delimiterLayoutForEditor);
-	}
 	public final AbstractLayoutDetails getCsvLayoutNamesFirstLine(String delim, String charset, String quote, boolean embeddedCr) {
 		return  getLayout(
 					getCsvExternal("CSV_NAME_1ST_LINE", delim, charset, quote, embeddedCr)
@@ -72,6 +69,22 @@ public final class StandardLayouts {
 	}
 
 
+	public final LayoutDetail getCsvCharLayoutForEditor(String name) {
+		return getLayout(
+					getExternal(
+						  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+						+ "<RECORD RECORDNAME=\"XDelimiter\"  DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"Text_Unicode\""
+						+ "        STYLE=\"0\" RECORDTYPE=\"Delimited\" LIST=\"Y\" QUOTE=\"\" RecSep=\"default\" >"
+						+ "	<FIELDS>"
+						+ "		<FIELD NAME=\"" + name + "\" DESCRIPTION=\"" + name + "value \" POSITION=\"1\" TYPE=\"Char\"/>"
+						+ "		<FIELD NAME=\"" + name + " Name\" DESCRIPTION=\"Longer more descriptive Name. You only need to enter if different from the " + name + "\" POSITION=\"2\" TYPE=\"Char\"/>"
+						+ "	</FIELDS>"
+						+ "</RECORD>",
+						name
+			   ));
+	}
+	
+	
 //	public final AbstractLayoutDetails getCsvLayout(List<ExternalField> fields, String delim, String quote, boolean embeddedCr) {
 //		return getCsvLayout(fields, "Default", delim, null, quote, embeddedCr);
 //	}
@@ -164,7 +177,7 @@ public final class StandardLayouts {
 	}
 
 
-	private LayoutDetail getLayout(ExternalRecord rec) {
+	private static LayoutDetail getLayout(ExternalRecord rec) {
 		LayoutDetail ret = null;
 		try {
 			ret = rec.asLayoutDetail();

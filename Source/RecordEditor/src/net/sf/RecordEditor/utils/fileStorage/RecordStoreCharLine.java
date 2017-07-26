@@ -254,7 +254,7 @@ public class RecordStoreCharLine implements ISimpleRecStore, IDocumentRecordStor
 
 			if (s.length() != length) {
 				Common.logMsgRaw(
-						LangConversion.convert(
+						LangConversion.convertMsg(
 								"Error uncompressing chunk expected {0} but was {1}",
 								new Object[] {length, s.length()}),
 						null);

@@ -535,7 +535,7 @@ public class EditRec extends ReMainFrame  {
             			sysTypes.registerFormat(formatIds[i], fmt);
             		} catch (Exception e) {
             			Common.logMsgRaw(
-            					LangConversion.convert(
+            					LangConversion.convertMsg(
             							"Error Defining Type > {0} class={1} {2}",
             							new Object[] {
             									formatIds[i],

@@ -457,7 +457,7 @@ public class FileView	extends 			AbstractTableModel
 				boolean checkFileStructureStd = layout.getOption(Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES) == Options.YES;
 				boolean checkFileStructureX = layout.getOption(Options.OPT_CHECK_4_STANDARD_FILE_STRUCTURES2) == Options.YES;
 				if (checkFileStructureStd || checkFileStructureX) {
-					byte[] data = StreamUtil.read(new FileInputStream(fileName), 16000);
+					byte[] data = StreamUtil.read(new FileInputStream(fileName), 33000);
 
 					if (data != null && data.length > 0) {
 						FileAnalyser fileAnaylser = FileAnalyser.getAnaylserNoLengthCheck(data, "");
@@ -1803,7 +1803,7 @@ public class FileView	extends 			AbstractTableModel
 		if (num > limit) {
 			num = limit;
 			Common.logMsgRaw(
-					LangConversion.convert(
+					LangConversion.convertMsg(
 							"Copy limit of {0} exceeded; only the first {1} lines copied",
 							new Object[] {limit, limit}),
 					null);

@@ -22,7 +22,9 @@ import net.sf.JRecord.cg.common.CCode;
 import net.sf.JRecord.cg.details.ArgumentOption;
 import net.sf.JRecord.cg.details.ConstantVals;
 import net.sf.JRecord.cg.details.IGenerateOptions;
-import net.sf.JRecord.cg.details.TemplateDtls; 
+import net.sf.JRecord.cg.details.TemplateDtls;
+import net.sf.JRecord.cg.nameConversion.IFieldNameConversion;
+import net.sf.JRecord.cg.nameConversion.FieldNameConversionManager;
 import net.sf.JRecord.cg.schema.CodeGenFileName;
 import net.sf.JRecord.cg.schema.LayoutDef;
 import net.sf.JRecord.cg.velocity.GenerateVelocity;
@@ -36,6 +38,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.ManagerCombo;
 
 /**
  * This class asks the user for CodeGen options.
@@ -52,6 +55,7 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 	
 	private JEditorPane tips;
 	private final JTextField packageIdTxt = new JTextField(50);
+	private final ManagerCombo fieldNameConversionCombo = ManagerCombo.newCombo(FieldNameConversionManager.getInstance());
 	private final JCheckBox deleteOutputDirChk = new JCheckBox();
 	private final JCheckBox showCsvWizardChk = new JCheckBox();
 //	private FileSelectCombo outputDirectory;
@@ -71,13 +75,15 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 	private final BasicLayoutCallback callback;
 	private WizardFileLayoutCsv wiz;
 	
+	private IFieldNameConversion conversion = FieldNameConversionManager.getCurrentConversion();
+	
 	public CodeGenOptions(LayoutDetail schema, String template, String templateResourceDir, String dataFileName,
 			BasicLayoutCallback callback) {
 		super();
 
 		this.schema = schema;
 		this.templateDtls = new TemplateDtls(null, template, templateResourceDir);
-		this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), CCode.string2JavaId(schema.getLayoutName()));
+		//this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), conversion.string2JavaId(schema.getLayoutName()));
 		this.dataFileName = new CodeGenFileName(dataFileName);
 		this.callback = callback;
 			
@@ -100,6 +106,17 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 	    
 	    deleteOutputDirChk.setSelected(true);
 	    showCsvWizardChk.setSelected(false);
+	    
+	    try {
+	    	String s = Parameters.getString(Parameters.FIELD_NAME_CONVERSION_IDX);
+	    	if (s != null && s.length() > 0) {
+	    		int idx = Integer.parseInt(s);
+	    		if (idx >= 0 && idx < fieldNameConversionCombo.getItemCount()) {
+	    			fieldNameConversionCombo.setSelectedIndex(idx);
+	    		}
+	    	}
+	    } catch (Exception e) {
+		}
 	}
 	
 //	private void assignDir(FileSelectCombo dir, String s) {
@@ -116,13 +133,18 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 	         	1, 3, BasePanel.FILL, BasePanel.GAP0,
 		        BasePanel.FULL, BasePanel.FULL,
 		        tips)
-		     .setGapRE(BaseHelpPanel.GAP2);
+		     .setGapRE(BaseHelpPanel.GAP0)
+		  .addLineRE("Field Name Conversion", fieldNameConversionCombo)
+		  .setGapRE(BaseHelpPanel.GAP0);
+
 		if (templateDtls.hasOption(TemplateDtls.T_REQUIRE_PACKAGE_ID)) {
 			codeGenOptionPnl
 		     .setFieldsToActualSize();
 			codeGenOptionPnl
-			  .addLineRE(      "Package Id", packageIdTxt)			.setFieldsToFullSize();
+			  .addLineRE(      "Package Id", packageIdTxt);
 		}
+		
+		codeGenOptionPnl.setFieldsToFullSize();
 		codeGenOptionPnl
 		  .addLineRE("Output Directory", cgx.outputDirectory)
 		  .addLineRE("Directory Extension", cgx.outputExtensionTxt)
@@ -201,6 +223,14 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 		String packageId = packageIdTxt.getText();
 		String schemaName = layoutDef.getJavaName();
 		
+		int fldNameIdx = fieldNameConversionCombo.getSelectedIndex();
+		FieldNameConversionManager.setCurrentConversion(fldNameIdx);
+		Parameters.setProperty(Parameters.FIELD_NAME_CONVERSION_IDX, Integer.toString(fldNameIdx));
+
+		
+		this.conversion = FieldNameConversionManager.getCurrentConversion();
+		this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), conversion.string2JavaId(schema.getLayoutName()));
+		
 		outputDir = cgx.getOutputDir(templateDtls.language, templateDtls.template, schemaName);
 		
 		
@@ -240,7 +270,7 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 	public void setRecordLayout(int layoutId, String layoutName, String filename) {
 		
 		this.schema = wiz.getWizardDetails().createRecordLayout().asLayoutDetail();
-		this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), CCode.string2JavaId(schema.getLayoutName()));
+		this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), conversion.string2JavaId(schema.getLayoutName()));
 		generateCode();
 		if (callback != null) {
 			callback.setRecordLayout(layoutId, layoutName, filename);

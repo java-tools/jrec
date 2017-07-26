@@ -138,7 +138,7 @@ public class UpdateCsvLayout implements ActionListener, IChildDisplay {
 
 	private void init_setupScreen() {
 		BasePanel pnl = new BasePanel();
-		delimiter  = layout.getDelimiter();
+		delimiter  = layout.getDelimiterDetails().jrDefinition();
 		quote  = layout.getRecord(0).getQuote();
 
 		init_setupTablePopup();

@@ -43,9 +43,9 @@ import java.util.List;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
+import net.sf.JRecord.CsvParser.ICsvCharLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.Details.AbstractRecordDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineProvider;
@@ -53,6 +53,7 @@ import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.charIO.ICharReader;
 import net.sf.JRecord.charIO.StandardCharReader;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 
 
 /**
@@ -66,8 +67,8 @@ public class TextLineReader extends BasicTextLineReader {
 	private static boolean DEFAULT_NAMES_IN_FILE = false;
 	private final boolean namesInFile;
 
-    private String defaultDelim  = ",";
-    private String defaultQuote  = "'";
+    private CsvCharDetails defaultDelim  = CsvCharDetails.COMMA_DELIMITER;
+    private CsvCharDetails defaultQuote  = CsvCharDetails.SINGLE_QUOTE;
     private final ICharReader reader ;
 
 
@@ -163,8 +164,8 @@ public class TextLineReader extends BasicTextLineReader {
         int parser    = 0;
         int structure = Constants.IO_NAME_1ST_LINE;
         String param  = "";
-        String delim  = defaultDelim;
-        String quote  = defaultQuote;
+        CsvCharDetails delim  = defaultDelim;
+        CsvCharDetails quote  = defaultQuote;
 
         byte[] recordSep = Constants.SYSTEM_EOL_BYTES;
         boolean embeddedCr = false;
@@ -175,9 +176,9 @@ public class TextLineReader extends BasicTextLineReader {
 	    		structure = ts;
 	    	}
 
-	    	delim     = getLayout().getDelimiter();
+	    	delim     = getLayout().getDelimiterDetails();
 	        rec = getLayout().getRecord(0);
-	        quote     = rec.getQuote();
+	        quote     = rec.getQuoteDefinition();
 	        parser    = rec.getRecordStyle();
 
 	        fieldType = Type.ftChar;
@@ -230,7 +231,7 @@ public class TextLineReader extends BasicTextLineReader {
     public static LayoutDetail createLayout(String line, AbstractRecordDetail rec,
     		byte[] recordSep,
     		int structure,
-            String fontName, String delimiter, String quote, int style,
+            String fontName, CsvCharDetails delimiter, CsvCharDetails quote, int style,
             int defaultFieldType, int defaultDecimal, int defaultFormat, String defaultParam,
             boolean embeddedCr) throws IOException {
 
@@ -242,7 +243,7 @@ public class TextLineReader extends BasicTextLineReader {
         IFieldDetail fldDetail;
 
         if (line != null) {
-        	ICsvLineParser parser = ParserManager.getInstance().get(style);
+        	ICsvCharLineParser parser = CsvParserManagerChar.getInstance().get(style);
         	List<String> colNames = parser.getColumnNames(line, new CsvDefinition(delimiter, quote));
 
 
@@ -274,7 +275,7 @@ public class TextLineReader extends BasicTextLineReader {
             }
 
             recs[0] = new RecordDetail("", "", "", Constants.rtDelimited,
-                    delimiter, quote, fontName, flds, style, 0, embeddedCr);
+                    delimiter.jrDefinition(), quote.jrDefinition(), fontName, flds, style, 0, embeddedCr);
 
             try {
                 ret =
@@ -296,12 +297,12 @@ public class TextLineReader extends BasicTextLineReader {
      * @param theDefaultDelim new default field delimeter
      */
 	public void setDefaultDelim(String theDefaultDelim) {
-		this.defaultDelim = theDefaultDelim;
+		this.defaultDelim = CsvCharDetails.newDelimDefinition(theDefaultDelim, "");
 	}
 
 
 	public void setDefaultQuote(String theDefaultQuote) {
-		this.defaultQuote = theDefaultQuote;
+		this.defaultQuote = CsvCharDetails.newQuoteDefinition(theDefaultQuote, "");
 	}
 
 
@@ -309,7 +310,7 @@ public class TextLineReader extends BasicTextLineReader {
 	 * @return the defaultDelim
 	 */
 	public String getDefaultDelim() {
-		return defaultDelim;
+		return defaultDelim.asString();
 	}
 
 
@@ -317,7 +318,7 @@ public class TextLineReader extends BasicTextLineReader {
 	 * @return the defaultQuote
 	 */
 	public String getDefaultQuote() {
-		return defaultQuote;
+		return defaultQuote.asString();
 	}
 
 }

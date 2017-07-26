@@ -199,17 +199,17 @@ implements AbstractLayoutDetails {
 		return Options.UNKNOWN;
 	}
 
+//
+//	/* (non-Javadoc)
+//	 * @see net.sf.JRecord.Details.IBasicFileSchema#getQuote()
+//	 */
+//	@Override
+//	public String getQuote() {
+//		return null;
+//	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.Details.IBasicFileSchema#getQuote()
-	 */
 	@Override
-	public String getQuote() {
-		return null;
-	}
-
-	@Override
-	public  boolean useByteRecord() {
+	public boolean useByteRecord() {
 		return isBinary();
 	}
 }

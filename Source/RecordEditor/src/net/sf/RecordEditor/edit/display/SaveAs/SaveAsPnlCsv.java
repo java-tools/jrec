@@ -17,6 +17,7 @@ import net.sf.RecordEditor.edit.util.StandardLayouts;
 import net.sf.RecordEditor.re.fileWriter.FieldWriter;
 import net.sf.RecordEditor.re.fileWriter.WriterBuilder;
 import net.sf.RecordEditor.re.openFile.RecentFiles;
+import net.sf.RecordEditor.re.util.csv.CsvCode;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 
@@ -57,15 +58,18 @@ public class SaveAsPnlCsv extends SaveAsPnlBase {
 
 	public void save(String selection, OutputStream outStream) throws IOException, RecordException {
 		String fontname = getCharset();
-		String fieldSeperator = Conversion.decodeFieldDelim(delimiterCombo.getDelimiter(), fontname);
+		String fieldSeperator = CsvCode.checkDelimiter(delimiterCombo.getDelimiter(), fontname);
 
+		fieldSeperator = Conversion.decodeCsvField(fieldSeperator, fontname, '\t');
+
+		
 		if (fieldSeperator != null && fieldSeperator.toLowerCase().startsWith("x'") && Conversion.isMultiByte(fontname)) {
 			throw new RecordException("Hex seperators can not be used with a multibyte charset");
 		}
 
 
 		FieldWriter writer = WriterBuilder.newCsvWriter(outStream, fieldSeperator, fontname,
-									Conversion.decodeCharStr(getQuote(), fontname),
+									Conversion.decodeCharStr(getQuote(), fontname, '"'),
 									quoteAllTextFields.isSelected(),
 									getIncludeFields());
 

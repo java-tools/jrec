@@ -64,7 +64,7 @@ public class FileWriter {
 		int bufSize = calcBufferSize(defaultBufSize, totalSize);
 		
 		if (Common.OPTIONS.overWriteOutputFile.isSelected() || (! backup) ) {
-			if (backup && Parameters.JAVA_VERSION > 6.9999) {
+			if (backup && Parameters.JAVA_VERSION > 1.69999) {
 				copyFile(fileName, fileName + "~");
 			}
 
@@ -105,7 +105,7 @@ public class FileWriter {
 	 * @param oFname
 	 */
 	private void copyFile(String oFname, String newName) {
-		if (Parameters.JAVA_VERSION > 6.9999) {
+		if (Parameters.JAVA_VERSION > 1.69999) {
 			try {
 				java.nio.file.Files.copy(java.nio.file.Paths.get(oFname), java.nio.file.Paths.get(newName), StandardCopyOption.REPLACE_EXISTING);
 			} catch (Throwable e1) {

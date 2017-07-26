@@ -58,6 +58,7 @@ import net.sf.JRecord.External.Def.BasicConversion;
 import net.sf.JRecord.charIO.CsvCharReader;
 import net.sf.JRecord.charIO.ICharReader;
 import net.sf.JRecord.charIO.StandardCharReader;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 
 /**
  * LineIOprovider - This class returns a LineIO class appropriate for
@@ -215,19 +216,21 @@ public class StandardLineIOProvider extends BasicIoProvider {
 	}
 
 	private static IByteReader getCsvReader(IBasicFileSchema schema, boolean namesOnFirstLine) {
-		String quote = schema.getQuote();
+		CsvCharDetails quoteDetails = schema.getQuoteDetails();
+		String quote = quoteDetails.asString();	
 		if (quote == null || quote.length() == 0) {
 			return new ByteTextReader(schema.getFontName());
 		}
-		return new CsvByteReader(schema.getFontName(), schema.getDelimiter(), quote, quote + quote, namesOnFirstLine);
+		return new CsvByteReader(schema.getFontName(), schema.getDelimiterDetails().asBytes(), quoteDetails.asBytes(), quote + quote, namesOnFirstLine);
 	}
 
 	private static ICharReader getCsvCharReader(IBasicFileSchema schema, boolean namesOnFirstLine) {
-		String quote = schema.getQuote();
+		CsvCharDetails quoteDetails = schema.getQuoteDetails();
+		String quote = quoteDetails.asString();
 		if (quote == null || quote.length() == 0) {
-			return new StandardCharReader();
+			return new StandardCharReader(); 
 		}
-		return new CsvCharReader(schema.getDelimiter(), quote, quote + quote, namesOnFirstLine);
+		return new CsvCharReader(schema.getDelimiterDetails().asString(), quote, quote + quote, namesOnFirstLine);
 	}
 
 	/* (non-Javadoc)

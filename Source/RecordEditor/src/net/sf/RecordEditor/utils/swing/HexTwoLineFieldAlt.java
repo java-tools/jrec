@@ -130,7 +130,7 @@ public class HexTwoLineFieldAlt extends JTable implements AbstractHexDisplay {
 				}
 				fireTableCellUpdated(1 - rowIndex, columnIndex);
 			} catch (Exception e) {
-				ret = LangConversion.convert(
+				ret = LangConversion.convertMsg(
 						"Error Converting Hex; {0} value={1} Message:",
 						new Object[] {rowIndex, value});
 

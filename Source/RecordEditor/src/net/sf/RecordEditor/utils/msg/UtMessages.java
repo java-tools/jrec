@@ -1,5 +1,6 @@
 package net.sf.RecordEditor.utils.msg;
 
+import net.sf.RecordEditor.utils.lang.LangConversion;
 import net.sf.RecordEditor.utils.screenManager.ReMsg;
 import net.sf.RecordEditor.utils.screenManager.ReMsgId;
 
@@ -50,6 +51,16 @@ public class UtMessages {
 			  "Copybook {0} does not exist");
 	public final static ReMsg FILE_IS_DIRECTORY = new ReMsg(
 			  "File {0} is a direcory");
+	
+	
+	public static final ReMsg INVALID_HEX_STRING = new ReMsg(LangConversion.ST_ERROR, "Invalid {0} - Invalid  hex string: {1}");
+	public static final ReMsg INVALID_HEX_WITH_MULTIBYTE_FONT = new ReMsg(
+			LangConversion.ST_ERROR, "Invalid {0}, you can not use the hex format: {2} with a multibyte character-set {1}");
+	public static final ReMsg INVALID_UNICODE_CHAR = new ReMsg("Invalid unicode: {0}, should be like \\u000A");
+	public static final ReMsg SHOULD_BE_HEX_OR_SINGLE_CHARCTER
+		= new ReMsg(LangConversion.ST_ERROR, "Invalid {0}, should be a single character or a hex character or a unicode Character");
+	public static final ReMsg SHOULD_BE_QUOTE
+	= new ReMsg(LangConversion.ST_ERROR, "Invalid {0}, should be a character String or a hex character or a Unicode character");
 
 	public static final ReMsgId FIELD_COLOR_TIP     = new ReMsgId("FieldColorTip", 
 					"<h3>Field Colors</h3>"

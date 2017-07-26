@@ -39,10 +39,10 @@ public interface IBasicLayout extends IBasicFileSchema {
 	public abstract byte[] getRecordSep();
 
 	
-	/**
-	 * get the field delimiter
-	 * @return the field delimeter
-	 */
-	public abstract byte[] getDelimiterBytes();
+//	/**
+//	 * get the field delimiter
+//	 * @return the field delimeter
+//	 */
+//	public abstract byte[] getDelimiterBytes();
 
 }

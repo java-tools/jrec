@@ -27,6 +27,7 @@ package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.AbstractRecordX;
 import net.sf.JRecord.Common.IFieldDetail;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 
 /**
  * Description of one record-type in the File
@@ -153,14 +154,15 @@ extends AbstractRecordX<AbstractRecordDetail.FieldDetails> {
 	 */
 	public abstract int[] getWidths();
 
-	/**
-	 * Get the Field Delimiter (ie Tab / Comma etc in CSV files)
-	 *
-	 * @return Returns the delimiter.
-	 */
-	public abstract String getDelimiter();
+	public abstract CsvCharDetails getDelimiterDetails();
+//	/**
+//	 * Get the Field Delimiter (ie Tab / Comma etc in CSV files)
+//	 *
+//	 * @return Returns the delimiter.
+//	 */
+//	public abstract String getDelimiter();
 	
-	public abstract String getDelimiterUneditted();
+//	public abstract String getDelimiterUneditted();
 
 //	/**
 //	 * @see net.sf.JRecord.Common.AbstractRecord#getQuote()

@@ -37,7 +37,7 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
@@ -173,7 +173,7 @@ public class DbCsvCopybookLoader extends BaseCopybookLoader {
 							rec.setDelimiter(",");
 							rec.setListChar("Y");
 							rec.setQuote("\"");
-							rec.setRecordStyle(ParserManager.DB_CSV_PARSER);
+							rec.setRecordStyle(CsvParserManagerChar.DB_CSV_PARSER);
 							rec.setSystemName(system.trim());
 
 							lastSystem = system;

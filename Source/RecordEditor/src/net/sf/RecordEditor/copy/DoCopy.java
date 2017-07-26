@@ -280,7 +280,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 
 							out.setField(i2, toFields[i], o);
 						} catch (Exception e) {
-							String em = LangConversion.convert(
+							String em = LangConversion.convertMsg(
 									"Error Line {0} Field Number {1} - {2} : {3}",
 									new Object[] {lineNo, i, e.getMessage(), o});
 							if (fieldErrorStream == null) {
@@ -536,7 +536,7 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 				} catch (Exception e) {
 					//e.printStackTrace();
 					Common.logMsgRaw(
-							LangConversion.convert(
+							LangConversion.convertMsg(
 									"Error in Field {0} {1} : {2}",
 									new Object[] {in.getLayout().getRecord(idx).getField(i).getName(),
 												  e.getMessage(),
@@ -568,9 +568,9 @@ private static final String CAN_NOT_LOCATE_RECORD = "Can not locate record: > {0
 		//OutputStream fileWriter = new FileOutputStream(cpy.newFile.name);
 		FieldWriter writer = WriterBuilder.newCsvWriter(
 				new FileOutputStream(cpy.newFile.name), 
-				Conversion.decodeFieldDelim(cpy.delimiter, cpy.font), 
+				Conversion.decodeCsvField(cpy.delimiter, cpy.font, '\t'), 
 				cpy.font, 
-				Conversion.decodeCharStr(cpy.quote, cpy.font), 
+				Conversion.decodeCharStr(cpy.quote, cpy.font, '"'), 
 				false, null);
 		reader = ioProvider.getLineReader(dtl1);
 

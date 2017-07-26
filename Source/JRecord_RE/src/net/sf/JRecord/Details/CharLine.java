@@ -31,9 +31,9 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.CsvDefinition;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
+import net.sf.JRecord.CsvParser.ICsvCharLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.Details.RecordDetail.FieldDetails;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeChar;
@@ -243,14 +243,14 @@ public class CharLine extends BasicLine<CharLine>  {
 			} 
 			updateData(field.getPos(), field.getLen(), s);
 		} else {
-	        ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
+	        ICsvCharLineParser parser = CsvParserManagerChar.getInstance().get(field.getRecord().getRecordStyle());
 	        Type typeVal = TypeManager.getSystemTypeManager().getType(field.getType());
 	        String s = typeVal.formatValueForRecord(field, value.toString());
 	    	ICsvDefinition csvDef;
 	    	if (field.getRecord() instanceof ICsvDefinition) {
 	    		csvDef = (ICsvDefinition) field.getRecord();
 	    	} else {
-	    		csvDef = new CsvDefinition(layout.getDelimiter(), field.getQuote());
+	    		csvDef = new CsvDefinition(layout.getDelimiterDetails(), field.getQuoteDefinition());
 	    	}
 
             data =

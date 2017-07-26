@@ -9,7 +9,7 @@ public class EditCommon {
 
 	public static void doStandardInit() {
 		String s;
-		net.sf.JRecord.CsvParser.ParserManager.setUseNewCsvParsers(true);
+//		net.sf.JRecord.CsvParser.ParserManager.setUseNewCsvParsers(true);
 	    CommonBits.setUseCsvLine(false);
 
 		if (Conversion.DEFAULT_CHARSET_DETAILS.isMultiByte) {

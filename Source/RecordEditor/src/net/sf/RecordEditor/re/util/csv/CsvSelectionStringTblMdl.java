@@ -13,12 +13,13 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordRunTimeException;
 import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.ICsvCharLineParser;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.charIO.CsvCharReader;
 import net.sf.JRecord.charIO.ICharReader;
 import net.sf.JRecord.charIO.StandardCharReader;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 import net.sf.RecordEditor.utils.common.Common;
 
 @SuppressWarnings("serial")
@@ -36,7 +37,7 @@ public class CsvSelectionStringTblMdl
 	private String seperator = "";
 	private String quote = "";
 	private String charset = "";
-	private ParserManager parserManager;
+	private CsvParserManagerChar parserManager;
 	private int parserType = 0;
 
 	private boolean namesOnLine;
@@ -51,13 +52,13 @@ public class CsvSelectionStringTblMdl
 
 
 	public CsvSelectionStringTblMdl() {
-		this(ParserManager.getInstance());
+		this(CsvParserManagerChar.getInstance());
 	}
 	/**
 	 * CsvSelection Table model
 	 * @param theParserManager CSV parser manager
 	 */
-	public CsvSelectionStringTblMdl(ParserManager theParserManager) {
+	public CsvSelectionStringTblMdl(CsvParserManagerChar theParserManager) {
 		super();
 		parserManager = theParserManager;
 	}
@@ -116,7 +117,7 @@ public class CsvSelectionStringTblMdl
 				lines2hide = 1;
 			}
 
-			ICsvLineParser p = parserManager.get(parserType);
+			ICsvCharLineParser p = parserManager.get(parserType);
 			List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), getCsvDef());
 //					new CsvDefinition(seperator, quote, embeddedCr));
 			columnNames = new String[colnames.size()] ;
@@ -245,7 +246,7 @@ public class CsvSelectionStringTblMdl
         String s = "";
         if ((rowIndex < lines2display - lines2hide)
         && columnIndex < columnCount) {
-        	ICsvLineParser p = getParser();
+        	ICsvCharLineParser p = getParser();
             s = p.getField(
             		columnIndex,
             		lines[rowIndex + lines2hide],
@@ -259,8 +260,8 @@ public class CsvSelectionStringTblMdl
 	private CsvDefinition getCsvDef() {
 		if (csvDef == null) {
 			csvDef = new CsvDefinition(
-					Conversion.decodeFieldDelim(seperator, charset),
-					Conversion.decodeCharStr(quote, charset),
+					CsvCharDetails.newDelimDefinition(seperator, charset),
+					CsvCharDetails.newQuoteDefinition(quote, charset),
 					embeddedCr);
 		}
 		
@@ -281,7 +282,7 @@ public class CsvSelectionStringTblMdl
 		char b = ',';
 		if (seperator != null
 		&& seperator.length() > 0) {
-			b = getCsvDef().getDelimiter().charAt(0);
+			b = getCsvDef().getDelimiterDetails().asChar();
 		}
 		return new CsvAnalyser(lines, getLines2display(), charset, b, embeddedCr);
 	}
@@ -292,7 +293,7 @@ public class CsvSelectionStringTblMdl
 	 * Get the index of the parser
 	 * @return
 	 */
-	private ICsvLineParser getParser() {
+	private ICsvCharLineParser getParser() {
 		return parserManager.get(parserType);
 	}
 
@@ -302,22 +303,23 @@ public class CsvSelectionStringTblMdl
 			lines = new String[LINES_TO_READ];
 			int i = 0;
 			InputStream in = new ByteArrayInputStream(data);
-			String q = getCsvDef().getDelimiter();
+			String q = getCsvDef().getDelimiterDetails().asString();
 			String quoteEsc = quote == null ? "" : q + q;
 			if (Conversion.isMultiByte(charset)) {
 				ICharReader r;
 
 				if (embeddedCr) {
-					r = new CsvCharReader(getCsvDef().getDelimiter(), q, quoteEsc, namesOnLine);
+					r = new CsvCharReader(getCsvDef().getDelimiterDetails().asString(), q, quoteEsc, namesOnLine);
 				} else {
 					r = new StandardCharReader();
 				}
 
 				try {
+					String s;
 					r.open(in, charset);
 
-					while (i < lines.length && (lines[i] = r.read()) != null) {
-						i +=1;
+					while (i < lines.length && (s = r.read()) != null) {
+						lines[i++] = s;
 					}
 					r.close();
 				} catch (Exception e) {
@@ -329,7 +331,9 @@ public class CsvSelectionStringTblMdl
 				byte[] b;
 
 				if (embeddedCr) {
-					r = new CsvByteReader(charset, getCsvDef().getDelimiter(), getCsvDef().getQuote(), quoteEsc, namesOnLine);
+					r = new CsvByteReader(charset, 
+							getCsvDef().getDelimiterDetails().asBytes(), getCsvDef().getQuoteDefinition().asBytes(), 
+							quoteEsc, namesOnLine);
 				} else {
 					r = new ByteTextReader(charset);
 				}
@@ -347,7 +351,7 @@ public class CsvSelectionStringTblMdl
 				}
 			}
 
-			lines2display = i;
+			lines2display = Math.max(0, i);
 		}
 	}
 }

@@ -47,10 +47,15 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 
 	private static final String ALL_SYSTEMS = LangConversion.convertComboItms("Layout Selection", "<All>");
+//	private static final String DETERMINE_FILE_STRUCTURE = LangConversion.convert("determine structure from file");
+	
+	
 	private final JComboBox   dbCombo     = new JComboBox();
 	private final JComboBox   systemCombo = new JComboBox();
 	private final JComboBox   layoutCombo = new JComboBox();
 	private final JTextArea   description = new JTextArea();
+	
+//	private final JCheckBox   checkFileStructureCheck = new JCheckBox(DETERMINE_FILE_STRUCTURE);
 	
 	private final JLabel      fontLbl     = new JLabel("Encoding");
 	private final FontCombo   fontCombo   = new FontCombo();
@@ -76,6 +81,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	private AbstractLayoutDetails lastLayout = null;
 	
 	private boolean fontRequired = false;
+//	private boolean fileExists = false;
 	private String lastFileName, lastFontName;
 
 	public LayoutSelectionDB(TstLayoutSelectionDbFields tstFlds, 
@@ -142,9 +148,12 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 		pnl.addLineRE(    "Data Base", dbCombo, reload);
 		pnl.addLineRE(       "System", systemCombo,tmpBtn);
 		pnl.addLineRE("Record Layout", layoutCombo, layoutCreate1);
-		if (layoutCreate2 != null) {
+		if (layoutCreate2 == null) {
+//		    pnl.addLineRE(         "", checkFileStructureCheck);
+		} else {
 		    pnl.addLineRE(         "", null, layoutCreate2);
 		}
+		pnl.setGapRE(BasePanel.GAP0);
 		pnl.addLineRE(        fontLbl, fontCombo);
 		pnl.setGapRE(BasePanel.GAP0);
 		pnl.addLineRE(  "Description", description, goPanel);
@@ -160,6 +169,7 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 
 //		fontLbl.setVisible(false);
 //		fontCombo.setVisible(false);
+//		checkFileStructureCheck.setVisible(false);
 		tmpBtn.setVisible(false);
 		
 		layoutCombo.addActionListener(new ActionListener() {
@@ -331,6 +341,11 @@ public class LayoutSelectionDB extends AbstractLayoutSelection implements Action
 	}
 
 
+
+//	@Override
+//	public void notifyFileNameChanged(String newFileName, boolean fileExists) {
+//		this.fileExists = fileExists;
+//	}
 
 	/**
 	 * Get Layout details

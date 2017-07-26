@@ -42,27 +42,27 @@ public class EditCsvLists implements ISaveOptions {
 	public static EditCsvLists newDelimiterEditor(EditParams params) {
 		return new EditCsvLists(
 						params,
-						true,
 						LangConversion.convertId(
 		        				LangConversion.ST_MESSAGE, 
 		        				"DelimEditTip", 
 		        				csvFieldDescription),
 		        		UtMessages.SAVE_DELIM_CHANGES.get("Csv Field Delimiter"),
 		                "Save Standard Csv Delimiters",
-		                CsvTextItem.DELIMITER
+		                CsvTextItem.DELIMITER,
+		                '\t'
 				);
 	}
 	public static EditCsvLists newQuoteEditor(EditParams params) {
 		return new EditCsvLists(
 						params,
-						false,
 						LangConversion.convertId(
 								LangConversion.ST_MESSAGE, 
 								"QuoteEditTip", 
 								csvQuoteDescription),
 						UtMessages.SAVE_DELIM_CHANGES.get("Csv Quote Characters"),
 						"Save Standard Csv Quote characters",
-		                CsvTextItem.QUOTE);
+		                CsvTextItem.QUOTE,
+		                '"');
 	}
 	
 	
@@ -87,24 +87,26 @@ public class EditCsvLists implements ISaveOptions {
 	//JFrame frame = new JFrame();
 	private JEditorPane tips;
 	public final BaseHelpPanel panel = new BaseHelpPanel("EditDelimiters");
-	final LayoutDetail delimSchema = StandardLayouts.getInstance().delimiterLayoutForEditor();
+	final LayoutDetail delimSchema;// = StandardLayouts.getInstance().delimiterLayoutForEditor();
 	final FileView view;
 	LineListReItems listScreen;
 	
-	private final boolean allowHexValues;
 	private final String askToSaveMsg, askToSaveTitle;
 	private final EditParams params;
 	private final CsvTextItem.CsvList listInterface;
+	private final char defaultChar;
 	
 	private EditCsvLists(
-			EditParams params, boolean allowHexValues, String tip,
-			String askToSaveMsg, String askToSaveTitle, CsvTextItem.CsvList listInterface) {
+			EditParams params, String tip,
+			String askToSaveMsg, String askToSaveTitle, CsvTextItem.CsvList listInterface, char defaultChar) {
 		this.params = params;
-		this.allowHexValues = allowHexValues;
+//		this.allowHexValues = allowHexValues;
 		this.askToSaveMsg = askToSaveMsg;
 		this.askToSaveTitle = askToSaveTitle;
 		this.listInterface = listInterface;
+		this.delimSchema = StandardLayouts.getInstance().getCsvCharLayoutForEditor(listInterface.name); 
 		this.view = loadView(new FileView(delimSchema, LineIOProvider.getInstance(), false));
+		this.defaultChar = defaultChar;
 		
 		init_100_defineFields(tip);
 		init_200_layoutScreen();
@@ -215,13 +217,13 @@ public class EditCsvLists implements ISaveOptions {
 						doAdd = false;
 						errors.append("Row " + i + " (" + description +") has no character value\n");
 					}
-				} else 	if (allowHexValues) {
-					if (val.charAt(0) != 'x' && val.charAt(0) != 'X' && Conversion.decodeChar(val, "").length != 1) {
+				} else { //	if (allowHexValues) {
+					if (val.charAt(0) != 'x' && val.charAt(0) != 'X' && Conversion.decodeChar(val, "", defaultChar).length != 1) {
 						errors.append("Row " + i + " Only the first character will be used: \"" + val + "\"\n");
 					}
-				} else if ((val.toLowerCase().startsWith("x'"))){
-					doAdd = false;
-					errors.append("Row " + i +"  Rejected: " + val + ", " + description + "; hex values are not allowed\n");
+//				} else if ((val.toLowerCase().startsWith("x'"))){
+//					doAdd = false;
+//					errors.append("Row " + i +"  Rejected: " + val + ", " + description + "; hex values are not allowed\n");
 				}
 				
 				if (doAdd) {

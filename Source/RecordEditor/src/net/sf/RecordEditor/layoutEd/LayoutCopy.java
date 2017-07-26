@@ -164,13 +164,13 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 		        	dbTo.close();
 				} else if (toIdx == to.fileOption) {
 					CopybookWriter writer = writerManager.get(to.outputFormat.getSelectedIndex());
-					String dir = to.outputDirectory.getText();
-					if (dir != null && (dir.endsWith("/*") || dir.endsWith("\\*"))) {
-						dir = dir.substring(0,dir.length() - 1);
-					}
-					if (dir != null && (! "".equals(dir)) && (! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
-						dir = dir + Common.FILE_SEPERATOR;
-					}
+					String dir = fixDir(to.outputDirectory.getText());
+//					if (dir != null && (dir.endsWith("/*") || dir.endsWith("\\*"))) {
+//						dir = dir.substring(0,dir.length() - 1);
+//					}
+//					if (dir != null && (! "".equals(dir)) && (! dir.endsWith("/")) && (! dir.endsWith("\\"))) {
+//						dir = dir + Common.FILE_SEPERATOR;
+//					}
 
 					while (r != null) {
 						writer.writeCopyBook(dir, r.getValue(), Common.getLogger());
@@ -188,8 +188,10 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 						ext = "." + ext;
 					}
 
+					String dir = fixDir(to.outputDirectory.getText());
+
 					while (r != null) {
-						outputFile = to.outputDirectory.getText()
+						outputFile = dir
 						  + ExternalConversion.copybookNameToFileName(r.getRecordName())
 						  + ext;
 
@@ -212,6 +214,20 @@ public class LayoutCopy extends ReFrame  implements ActionListener {
 
 		Common.setDoFree(free, toIdx);
 		Common.setDoFree(free, toIdx);
+	}
+
+
+	protected String fixDir(String dir) {
+		if (dir == null) {
+			dir = "";
+		}
+		if (dir.endsWith("*")) {
+			dir = dir.substring(0, dir.length() -1);
+		}
+		if ((! dir.endsWith("\\")) || (! dir.endsWith("/"))) {
+			dir = dir + Common.FILE_SEPERATOR;
+		}
+		return dir;
 	}
 
 

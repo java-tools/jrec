@@ -93,6 +93,10 @@ extends ReadLayout implements FormatFileName, ISchemaProvider {
 	 */
 	public abstract boolean setLayoutName(String layoutName);
 
+	public void notifyFileNameChanged(String newFileName, boolean fileExists) {
+
+	}
+
 	/**
 	 *
 	 * @param newFileName

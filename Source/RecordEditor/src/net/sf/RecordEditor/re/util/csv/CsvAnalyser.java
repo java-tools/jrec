@@ -22,6 +22,8 @@ import net.sf.RecordEditor.utils.swing.common.CsvTextItem;
  */
 public class CsvAnalyser {
 
+	private static final char DEFAULT_QUOTE_CHAR = '"';
+	private static final char DEFAULT_FIEL_DELIMETER_CHAR = '\t';
 	public static final int COLUMN_NAMES_YES   = 1;
 	public static final int COLUMN_NAMES_NO    = 2;
 	public static final int COLUMN_NAMES_MAYBE = 3;
@@ -218,11 +220,11 @@ public class CsvAnalyser {
 
 	private char getSeperatorString(String[] lines, int numberOfLines) {
 
-		int i,j, k;
+		int i,j;
 		String s;
 		
 		//List<TextItems> csvDelimiterList = TextItems.DELIMITER.getCsvList(false, false);
-		CharData delimiterCharDtls = toCharArray(CsvTextItem.DELIMITER.getCsvList(false, false), STANDARD_FIELD_DELIMITERS, font);
+		CharData delimiterCharDtls = toCharArray(CsvTextItem.DELIMITER.getCsvList(false, false), STANDARD_FIELD_DELIMITERS, font, '\t');
 //		char[] sepChars = delimiterCharDtls.chars;
 //		int[] count = new int[sepChars.length];
 
@@ -249,12 +251,12 @@ public class CsvAnalyser {
 		int seperatorIdx = getSeperatorIdx(delimiterCharDtls.count, numberOfLines, delimiterCharDtls.spaceIdx);
 		seperatorId = delimiterCharDtls.items[seperatorIdx].value;
 
-		CharData quoteDtls = toCharArray(CsvTextItem.QUOTE.getCsvList(false, false), STANDARD_QUOTES, font);
+		CharData quoteDtls = toCharArray(CsvTextItem.QUOTE.getCsvList(false, false), STANDARD_QUOTES, font, '"');
 		//char[] quoteChars = new char[csvQuoteList.size()];
 //		int[] quoteCount = new int[quoteDtls.length];
-		char last;
+
 		char sepChar = delimiterCharDtls.chars[seperatorIdx];
-		char firstChar;
+
 //		TIntObjectHashMap<Integer> specialCount = new TIntObjectHashMap<Integer>(SPECIAL_CHARS.length * 2);
 //		for (char c : SPECIAL_CHARS) {
 //			specialCount.put(c, 0);
@@ -276,9 +278,9 @@ public class CsvAnalyser {
 
 		for (i = 0; i < numberOfLines; i++) {
 			if (lines[i] != null && lines[i].length() > 0) {
-				last = 0;
+//				last = 0;
 //				System.out.println();
-				firstChar = lines[i].charAt(0);
+//				firstChar = lines[i].charAt(0);
 				for (j = 0; j < lines[i].length() - 1; j++) {
 					char charAt = lines[i].charAt(j);
 					if (j == 0 || j == lines[i].length() - 1) {
@@ -339,14 +341,14 @@ public class CsvAnalyser {
 		return sepChar; //sepChars[seperatorIdx];
 	}
 	
-	protected static CharData toCharArray(List<CsvTextItem> items, char[] extra, String font) {
+	protected static CharData toCharArray(List<CsvTextItem> items, char[] extra, String font, char defaultChar) {
 
 		CharData cd = new CharData(new char[items.size() + (extra == null ? 0 : extra.length)], null, null);
 		char[] chars = new char[items.size() + (extra == null ? 0 : extra.length)];
 		int j=0;
 		for (CsvTextItem t : items) {
 			try {
-				char[] decodeChars = Conversion.decodeChar(t.value, font);
+				char[] decodeChars = Conversion.decodeChar(t.value, font, defaultChar);
 				if (decodeChars.length == 1) {
 					if (decodeChars[0] == ' ') {
 						cd.spaceIdx = j;
@@ -384,7 +386,7 @@ public class CsvAnalyser {
 	}
 	
 	
-	protected static CharData toByteArray(List<CsvTextItem> items, char[] extra, String font, boolean multiByte) {
+	protected static CharData toByteArray(List<CsvTextItem> items, char[] extra, String font, boolean multiByte, char defaultChar) {
 
 		int num = items.size() + (extra == null ? 0 : extra.length);
 		CharData cd = new CharData(null, new byte[num], new byte[num][]);
@@ -395,7 +397,7 @@ public class CsvAnalyser {
 		for (CsvTextItem t : items) {
 			try {
 				if (t.isText) {
-					char[] decodeChar = Conversion.decodeChar(t.value, font);
+					char[] decodeChar = Conversion.decodeChar(t.value, font, defaultChar);
 					byte[] decodeBytes = Conversion.getBytes(new String(decodeChar), font);
 					if (multiByte || decodeBytes.length == 1) {
 						if (decodeChar[0] == ' ') {
@@ -486,7 +488,7 @@ public class CsvAnalyser {
 		String[] sep = /*(String[])*/ Common.FIELD_SEPARATOR_LIST1_VALUES;
 
 //		int st = 2;
-		CharData quoteDtls = toByteArray(CsvTextItem.QUOTE.getCsvList(false, false), STANDARD_QUOTES, font, true);
+		CharData quoteDtls = toByteArray(CsvTextItem.QUOTE.getCsvList(false, false), STANDARD_QUOTES, font, true, '"');
 		
 //		byte[][] quoteBytes = new byte[charDtls.length][];
 		int[] quoteCount = new int[quoteDtls.getLength()];
@@ -495,7 +497,7 @@ public class CsvAnalyser {
 			numberOfLines = lines.length;
 		}
 		
-		CharData charDtls = toByteArray(CsvTextItem.DELIMITER.getCsvList(false, true), STANDARD_FIELD_DELIMITERS, font, false);
+		CharData charDtls = toByteArray(CsvTextItem.DELIMITER.getCsvList(false, true), STANDARD_FIELD_DELIMITERS, font, false, '\t');
 //		char[] delimiterCharArray = charDtls;
 //		byte[] sepBytes = getBytes(csvDelimiterList, delimiterCharArray, font);
 
@@ -587,7 +589,7 @@ public class CsvAnalyser {
 
 	public static String getSeperator(byte[][] lines, int numberOfLines, String font) {
 
-		CharData charDtls = toByteArray(CsvTextItem.DELIMITER.getCsvList(false, true), STANDARD_FIELD_DELIMITERS, font, false);
+		CharData charDtls = toByteArray(CsvTextItem.DELIMITER.getCsvList(false, true), STANDARD_FIELD_DELIMITERS, font, false, DEFAULT_FIEL_DELIMETER_CHAR);
 
 		int seperatorIndex = getSeperatorIndex2(lines, numberOfLines, font, charDtls);
 		return seperatorIndex < 0 || seperatorIndex > charDtls.getLength()
@@ -652,7 +654,7 @@ public class CsvAnalyser {
 //	}
 
 	private static int getSeperatorIndex2(byte[][] lines, int numberOfLines, String font, CharData charDtls) {
-		int i,j, k;
+		int i;
 //		int[] count = new int[charDtls.length];
 //		int[] lineCount = new int[charDtls.length];
 //		String[] sep = /*(String[])*/ Common.FIELD_SEPARATOR_LIST1_VALUES.clone();
@@ -835,7 +837,7 @@ public class CsvAnalyser {
 
 		if (quote == null || quote.length() == 0) {
 			int j, k, l;
-			CharData quoteDtls = toCharArray(CsvTextItem.QUOTE.getCsvList(false, false), STANDARD_QUOTES, font);
+			CharData quoteDtls = toCharArray(CsvTextItem.QUOTE.getCsvList(false, false), STANDARD_QUOTES, font, DEFAULT_QUOTE_CHAR);
 
 			for (i = 0; i < lines.size(); i++) {
 				line = lines.get(i);

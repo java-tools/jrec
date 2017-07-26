@@ -49,7 +49,7 @@ public class CsvDocView extends PlainView {
 			doc = (IReDocument) document;
 			dsContent = doc.getDataStoreContent();
 			schema = dsContent.getFileView().getLayout();
-			quote = schema.getQuote();
+			quote = schema.getQuoteDetails().asString();
 		}
 	}
 
@@ -79,7 +79,7 @@ public class CsvDocView extends PlainView {
         long lineStart = pos.getLineStartRE();
         AbstractLayoutDetails layout = pos.getLineRE().getLayout();
         int[] lengths;
-        int sepLength = layout.getDelimiter().length();
+        int sepLength = layout.getDelimiterDetails().asString().length();
         
         doc.getText(p0, p1 - p0, segment);
         initialOffset = segment.offset;
@@ -97,7 +97,7 @@ public class CsvDocView extends PlainView {
         		lengths[i] = line.getFieldValue(recId, i).asString().length(); 
         	}
         } else {
-        	String delimiter = schema.getDelimiter();
+        	String delimiter = schema.getDelimiterDetails().asString();
 			String chk = quote + delimiter;
         	String tl = line.getFullLine();
         	boolean quoteLen1  = quote.length() == 1;

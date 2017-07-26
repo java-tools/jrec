@@ -468,10 +468,15 @@ public class CblLoadData implements IGetXRecord {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			int systemId = 0;
+			Object sys;
+			if (system != null && (sys = system.getSelectedItem()) != null && sys instanceof Integer) {
+				systemId = ((Integer) sys).intValue();
+			}
 			xRec = cb2XmlLoader.loadDOMCopyBook(document, s, split, 
 					connectionId, fontNameCombo.getText(), 
 					dialectCombo.getSelectedValue(),
-					((Integer) system.getSelectedItem()).intValue());
+					systemId);
 		}
 		
 		if (xRec != null) {

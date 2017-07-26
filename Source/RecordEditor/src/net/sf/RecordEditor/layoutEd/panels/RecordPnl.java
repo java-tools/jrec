@@ -38,7 +38,8 @@ import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.Common.RecordException;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Types.Type;
@@ -59,6 +60,7 @@ import net.sf.RecordEditor.re.db.Record.RecordSelectionRec;
 import net.sf.RecordEditor.re.db.Table.TableDB;
 import net.sf.RecordEditor.re.db.Table.TableRec;
 import net.sf.RecordEditor.re.util.ReIOProvider;
+import net.sf.RecordEditor.re.util.csv.CsvCode;
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.LayoutConnection;
 import net.sf.RecordEditor.utils.MenuPopupListener;
@@ -130,7 +132,7 @@ public class RecordPnl extends BaseHelpPanel
 
 	private BmKeyedComboBox sfSystem;
 	private BmKeyedComboModel<AbsRowList> styleModel = new BmKeyedComboModel<AbsRowList>(
-			new ManagerRowList(ParserManager.getInstance(), false));
+			new ManagerRowList(CsvParserManagerChar.getInstance(), false));
 	private BmKeyedComboBox sfRecordStyle = new BmKeyedComboBox(styleModel, false);
 	private JCheckBox sfList = new JCheckBox();
 	private JTextField sfCopyBook  = new JTextField(60);
@@ -671,20 +673,14 @@ public class RecordPnl extends BaseHelpPanel
 				currVal.getValue().setDelimiter("" + (String) sfDelimiter.getDelimiter());
 			} else if (v.length() == 1) {
 				currVal.getValue().setDelimiter(v);
-			} else if ((v.length() == 5) && v.toLowerCase().startsWith("x'") && v.endsWith("'") ){
+			} else {
 				try {
-					Conversion.getByteFromHexString(v);
-					//Integer.parseInt(v.substring(2, 3), 16);
-					currVal.getValue().setDelimiter(v);
+					currVal.getValue().setDelimiter(CsvCode.checkDelimiter(v, null));
 				} catch (Exception e) {
 					sfDelimTxt.requestFocus();
 					currVal.setUpdateSuccessful(false);
-					Common.logMsg(AbsSSLogger.ERROR, "Invalid Delimiter - Invalid  hex string:", v.substring(2, 3), null);
+					Common.logMsg(AbsSSLogger.ERROR, e.getMessage(), null);
 				}
-			} else {
-				currVal.setUpdateSuccessful(false);
-				Common.logMsg("Invalid Delimiter, should be a single character or a hex character: " + v, null);
-				sfDelimTxt.requestFocus();
 			}
 		} catch (Exception ex) {
 			currVal.setUpdateSuccessful(false);

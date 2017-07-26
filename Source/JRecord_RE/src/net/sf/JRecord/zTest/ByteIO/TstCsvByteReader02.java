@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 import net.sf.JRecord.ByteIO.CsvByteReader;
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 import net.sf.JRecord.zTest.Common.TestCommonCode;
 import junit.framework.TestCase;
 
@@ -87,9 +88,9 @@ public class TstCsvByteReader02 extends TestCase {
 		for (String eol : eols) {
 			k = 0;
 			CsvByteReader[] readers = {
-					new CsvByteReader("", ",", null, null, true),
-					new CsvByteReader("", ",", "'", null, true),
-					new CsvByteReader("", ",", "'", "''", true),
+					newCsvByteReader("", ",", null, null, true),
+					newCsvByteReader("", ",", "'", null, true),
+					newCsvByteReader("", ",", "'", "''", true),
 			};
 			for (CsvByteReader r : readers) {
 				//System.out.println(eol.getBytes()[0]);
@@ -110,12 +111,12 @@ public class TstCsvByteReader02 extends TestCase {
 
 			CsvByteReader[] readers = {
 					//new CsvByteReader("", ",", "'", null),
-					new CsvByteReader("", ",", "'", "''", true),
+					newCsvByteReader("", ",", "'", "''", true),
 			};
 			CsvByteReader[] readers1 = {
 					//new CsvByteReader("", ",", "'", null),
-					new CsvByteReader("", ",", "\"", "\"\"", true),
-					new CsvByteReader("", ",", "\"", "\\\"", true),
+					newCsvByteReader("", ",", "\"", "\"\"", true),
+					newCsvByteReader("", ",", "\"", "\\\"", true),
 			};
 
 			System.out.print("== Eol:");
@@ -138,6 +139,13 @@ public class TstCsvByteReader02 extends TestCase {
 		}
 	}
 
+	private CsvByteReader newCsvByteReader(String charSet, String fieldSep, String quote, String quoteEsc, boolean useStdEolCheck) {
+		
+		return new CsvByteReader(
+				charSet, 
+				CsvCharDetails.newDelimDefinition(fieldSep, charSet).asBytes(), CsvCharDetails.newQuoteDefinition(quote, charSet).asBytes(),
+				quoteEsc, useStdEolCheck);
+	}
 
 	private void tstFile2(String id, CsvByteReader r, String[] f, String eol) throws IOException {
 		String[] n = new String[f.length];

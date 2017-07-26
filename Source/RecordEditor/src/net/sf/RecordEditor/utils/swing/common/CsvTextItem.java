@@ -22,9 +22,9 @@ public class CsvTextItem {
   	public final static String[] CSV_QUOTE_VALUES = Common.QUOTE_VALUES.clone();
 	
 	public static final CsvList DELIMITER
-			= new CsvList(FIELD_SEPARATOR_LIST_VALUES, FIELD_SEPARATOR_TEXT, Parameters.CSV_DELIMITER_CHARS);
+			= new CsvList(FIELD_SEPARATOR_LIST_VALUES, FIELD_SEPARATOR_TEXT, Parameters.CSV_DELIMITER_CHARS, "Delimiter");
 	public static final CsvList QUOTE
-			= new CsvList(CSV_QUOTE_VALUES, CSV_QUOTE_LIST, Parameters.CSV_QUOTE_CHARS);
+			= new CsvList(CSV_QUOTE_VALUES, CSV_QUOTE_LIST, Parameters.CSV_QUOTE_CHARS, "Quote");
 
 	public final String value, text;
   	public final boolean isText, isDefault, isNone;
@@ -213,11 +213,13 @@ public class CsvTextItem {
     public static class CsvList {
     	private final String[] values, text;
     	private final String paramCode;
+    	public final String name;
     	
-    	CsvList(String[] values, String[] text, String paramCode) {
+    	CsvList(String[] values, String[] text, String paramCode, String name) {
     		this.values = values;
     		this.text = text;
     		this.paramCode = paramCode;
+    		this.name = name;
     	}
     	
     	public List<CsvTextItem> getCsvList(boolean includeDefault, boolean includeHexDelims) {

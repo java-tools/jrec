@@ -30,12 +30,16 @@ import java.io.FileReader;
 import java.util.StringTokenizer;
 
 import junit.framework.TestCase;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.CsvParser.ICsvCharLineParser;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
+import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.External.RecordEditorXmlLoader;
+import net.sf.JRecord.IO.AbstractLineWriter;
+import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.JRecord.IO.TextLineReader;
 import net.sf.JRecord.IO.TextLineWriter;
 import net.sf.JRecord.zTest.Common.TstConstants;
@@ -120,6 +124,11 @@ public class TstCsvWrite  extends TestCase {
 
 		layout = writeFile2(filename, style, type, nameFirstLine);
 		checkCsvFile(filename, style, type, "backward", nameFirstLine, layout);
+
+		layout = writeFile3(filename, style, type, nameFirstLine);
+		
+		checkCsvFile(filename, style, type, "bincsv", nameFirstLine, layout);
+
 	}
 
 	private LayoutDetail writeFile1(String filename, String style, String type, boolean namesFirstLine)  throws Exception {
@@ -158,6 +167,37 @@ public class TstCsvWrite  extends TestCase {
 
 
 
+	private LayoutDetail writeFile3(String filename, String style, String type, boolean namesFirstLine)  throws Exception {
+		
+		String d = toHex('\t');
+		String q = toHex('\'');
+		int fs = namesFirstLine ? Constants.IO_BIN_NAME_1ST_LINE : Constants.IO_BIN_TEXT;
+		
+		LayoutDetail layout = getLayout(style, type, Integer.toString(fs), d, q);
+		AbstractLine line = new Line(layout);
+		AbstractLineWriter writer = LineIOProvider.getInstance().getLineWriter(layout.getFileStructure());
+		
+		writer.open(filename);
+		for (int i = 0; i < lines.length; i++) {
+			for (int j = lines[i].length -1; j>= 0; j--) { 
+				line.setField(0, j, lines[i][j]);
+			}
+			writer.write(line);
+		}
+		writer.close();	
+		
+		return layout;
+	}
+	
+	private String toHex(char c) {
+		StringBuilder b = new StringBuilder(5).append("x'");
+		String s = Integer.toHexString(c);
+		if (s.length() == 1) {
+			b.append('0');
+		}
+		return b.append(s).append('\'').toString();
+	}
+
 	private void checkCsvFile(String filename, String style, String type, String code,
 			boolean namesFirstLine, LayoutDetail layout)   throws Exception {
 
@@ -171,7 +211,7 @@ public class TstCsvWrite  extends TestCase {
 
 		if (namesFirstLine) {
 			RecordDetail rec = layout.getRecord(0);
-			ICsvLineParser parser = ParserManager.getInstance().get(rec.getRecordStyle());
+			ICsvCharLineParser parser = CsvParserManagerChar.getInstance().get(rec.getRecordStyle());
 			String quote = "";
 			String name, name1;
 			tok = new StringTokenizer(reader.readLine(), "\t");
@@ -245,6 +285,8 @@ public class TstCsvWrite  extends TestCase {
 				+ "  Style: " + style + " , type: " + type, isOk);
 		System.out.println("Tested " + code
 				+ "  Style: " + style + " , type: " + type);
+		
+		reader.close();
 	}
 
 	private boolean checkStr(String t, String s, String pos) {
@@ -257,8 +299,14 @@ public class TstCsvWrite  extends TestCase {
 	}
 
 	private LayoutDetail getLayout(String style, String type) throws Exception {
-		String c = "<RECORD RECORDNAME=\"csv_DTAR020\" COPYBOOK=\"csv_DTAR020\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"CSV_NAME_1ST_LINE\""
-			+ "       STYLE=\"" + style + "\" RECORDTYPE=\"GroupOfRecords\" LIST=\"Y\" QUOTE=\"'\" RecSep=\"default\">"
+		return getLayout(style, type, "CSV_NAME_1ST_LINE", "&lt;Tab&gt;", "'");
+	}
+	
+	private LayoutDetail getLayout(String style, String type, String fileStructure, 
+			String delim, String quote) throws Exception {
+		String c = "<RECORD RECORDNAME=\"csv_DTAR020\" COPYBOOK=\"csv_DTAR020\" DELIMITER=\""+ delim + "\""
+			+ "       FILESTRUCTURE=\"" + fileStructure + "\" QUOTE=\"" + quote +  "\""
+			+ "       STYLE=\"" + style + "\" RECORDTYPE=\"GroupOfRecords\" LIST=\"Y\"  RecSep=\"default\">"
 			+ "	<RECORDS>"
 			+ "		<RECORD RECORDNAME=\"\" COPYBOOK=\"csv_DTAR020_\" DELIMITER=\"&lt;Tab&gt;\" FILESTRUCTURE=\"CSV_NAME_1ST_LINE\" STYLE=\"" + style + "\" "
 			+ "	        	RECORDTYPE=\"Delimited\" LIST=\"N\" QUOTE=\"'\" RecSep=\"default\">"

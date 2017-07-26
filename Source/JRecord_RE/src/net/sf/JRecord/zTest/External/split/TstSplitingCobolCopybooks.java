@@ -39,19 +39,19 @@ import junit.framework.TestCase;
 public class TstSplitingCobolCopybooks extends TestCase {
 
 	private RecordDtls[] ExpectedRecords = {
-			new RecordDtls("EXAMPLE-HEADER-RECORD", 
+			new RecordDtls("-HEADER-RECORD", 
 					  new FieldDtls("HDR-RECORD-TYPE", 1, 1, 0), new FieldDtls("HDR-CREATION-YYYYMMDD", 2, 8, 25), new FieldDtls("HDR-CREATION-HHMISS", 10, 6, 25)
 					, new FieldDtls("HDR-PRD-START-YYYYMMDD", 16, 8, 25), new FieldDtls("HDR-PRD-START-HHMISS", 24, 6, 25), new FieldDtls("HDR-PRD-END-YYYYMMDD", 30, 8, 25)
 					, new FieldDtls("HDR-PRD-END-HHMISS", 38, 6, 25), new FieldDtls("HDR-ASSET-NUMBER", 44, 9, 0), new FieldDtls("HDR-FILE-SEQUENCE", 53, 6, 0)
 					, new FieldDtls("HDR-FILE-NAME", 59, 40, 0), new FieldDtls("HDR-SOURCE-CODE", 99, 4, 0), new FieldDtls("HDR-DESTINATION-CODE", 103, 4, 0)
 			), 
-			new RecordDtls("SUB-HEADER-RECORD", 
+			new RecordDtls("-HEADER-RECORD", 
 					  new FieldDtls("SHDR-RECORD-CODE", 1, 1, 0), new FieldDtls("SHDR-RECORD-INDEX", 2, 1, 0), new FieldDtls("SHDR-DATA-TEXT", 3, 104, 0)
 			), 
-			new RecordDtls("DETAIL-DATA-RECORD", 
+			new RecordDtls("-DATA-RECORD", 
 					  new FieldDtls("DDR-RECORD-TYPE", 1, 1, 0), new FieldDtls("DDR-DATA-TEXT", 2, 105, 0)
 			), 
-			new RecordDtls("TRAILER-RECORD", 
+			new RecordDtls("-RECORD", 
 					  new FieldDtls("TLR-RECORD-TYPE", 1, 1, 0), new FieldDtls("TLR-LIFE-CYCLE", 2, 1, 0), new FieldDtls("TLR-RECORD-COUNT", 3, 9, 25)
 					, new FieldDtls("TLR-FILE-NUMBER", 12, 4, 25), new FieldDtls("TLR-FILE-COUNT", 16, 4, 25), new FieldDtls("TLR-CONTROL-TOTAL-1", 20, 15, 0)
 					, new FieldDtls("TLR-CONTROL-TOTAL-2", 35, 15, 0), new FieldDtls("TLR-CONTROL-TOTAL-3", 50, 15, 0), new FieldDtls("TLR-CONTROL-TOTAL-4", 65, 15, 0)
@@ -91,7 +91,7 @@ public class TstSplitingCobolCopybooks extends TestCase {
     	for (int i = 0; i < schema.getRecordCount(); i++) {
     		RecordDetail record = schema.getRecord(i);
 
-    		assertEquals(ExpectedRecords[i].recordName, record.getRecordName());
+    		assertTrue(record.getRecordName().endsWith(ExpectedRecords[i].recordName));
     		pref = "";
 
 			for (int j = 0; j < record.getFieldCount(); j++) {

@@ -251,6 +251,7 @@ public final class Parameters implements ExternalReferenceConstants {
     
     public static final String COMMIT_COUNT = "CommitCount";
     public static final String FETCH_SIZE = "FetchSize";
+    public static final String FIELD_NAME_CONVERSION_IDX = "FldNameConvIdx";
 
 
 	public static String LANG_FILE_PREFIX = "ReMsgs_";
@@ -307,7 +308,15 @@ public final class Parameters implements ExternalReferenceConstants {
 		
 		try {
 			vs = System.getProperty("java.version");
-			f = Float.parseFloat(vs.substring(0, vs.lastIndexOf('.')));
+			String vs2 = vs;
+			int pos = vs2.indexOf('.');
+			if (pos >= 0) {
+				int end = vs2.indexOf('.', pos+1);
+				if (end >= 0) {
+					vs2 = vs.substring(0, end);
+				}
+			}
+			f = Float.parseFloat(vs2);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

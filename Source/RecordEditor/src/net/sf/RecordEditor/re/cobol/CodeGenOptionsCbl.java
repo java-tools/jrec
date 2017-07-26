@@ -34,6 +34,7 @@ import net.sf.JRecord.cg.details.ArgumentOption;
 import net.sf.JRecord.cg.details.ConstantVals;
 import net.sf.JRecord.cg.details.IGenerateOptions;
 import net.sf.JRecord.cg.details.TemplateDtls;
+import net.sf.JRecord.cg.nameConversion.FieldNameConversionManager;
 import net.sf.JRecord.cg.schema.CodeGenFileName;
 import net.sf.JRecord.cg.schema.LayoutDef;
 import net.sf.JRecord.cg.velocity.GenerateVelocity;
@@ -46,6 +47,7 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.ManagerCombo;
 import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
 
 public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISetVisible {
@@ -67,6 +69,7 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 	private Vector<ExtendedOpt> templates = new Vector<ExtendedOpt>(Arrays.asList(TEMPLATE_OPTIONS));
 	//private DefaultComboBoxModel<ExtendedOpt> templateMdl = new DefaultComboBoxModel<CodeGenOptions.ExtendedOpt>(TEMPLATE_OPTIONS);
 	private JComboBox<ExtendedOpt> templateCombo = new JComboBox<ExtendedOpt>();
+	private final ManagerCombo fieldNameConversionCombo = ManagerCombo.newCombo(FieldNameConversionManager.getInstance());
 	private JTextField packageIdTxt = new JTextField(50);
 //	private FileSelectCombo outputDirectory;
 	private final CodeGenExport cgx = new CodeGenExport();
@@ -116,6 +119,18 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 	    codeGenOptionPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_GEN_TEMPLATE));
 	    
 	    deleteOutputDirChk.setSelected(true);
+	    
+	    
+	    try {
+	    	String s = Parameters.getString(Parameters.FIELD_NAME_CONVERSION_IDX);
+	    	if (s != null && s.length() > 0) {
+	    		int idx = Integer.parseInt(s);
+	    		if (idx >= 0 && idx < fieldNameConversionCombo.getItemCount()) {
+	    			fieldNameConversionCombo.setSelectedIndex(idx);
+	    		}
+	    	}
+	    } catch (Exception e) {
+		}
 	}
 	
 	private void assignDir(FileSelectCombo dir, String s) {
@@ -134,9 +149,10 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 		        tips)
 		     .setGapRE(BaseHelpPanel.GAP1)
 		  .addLineRE("Template Directory", templateDirectory)
-		     .setGapRE(BaseHelpPanel.GAP0)
-		     .setFieldsToActualSize();
+		  .setFieldsToActualSize();
 		codeGenOptionPnl
+		  .addLineRE("Field Name Conversion", fieldNameConversionCombo)
+		     .setGapRE(BaseHelpPanel.GAP0)
 		  .addLineRE(        "Template", templateCombo)			
 		  .addLineRE(      "Package Id", packageIdTxt)			.setFieldsToFullSize();
 		codeGenOptionPnl
@@ -191,6 +207,11 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 		try {
 			String packageId = packageIdTxt.getText();
 			String template = templateCombo.getSelectedItem().toString();
+			
+			int fldNameIdx = fieldNameConversionCombo.getSelectedIndex();
+			FieldNameConversionManager.setCurrentConversion(fldNameIdx);
+			
+			Parameters.setProperty(Parameters.FIELD_NAME_CONVERSION_IDX, Integer.toString(fldNameIdx));
 	
 			templateDtls = new TemplateDtls(templateDirectory.getText(), template);
 			

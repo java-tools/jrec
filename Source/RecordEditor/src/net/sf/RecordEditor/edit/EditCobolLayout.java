@@ -215,7 +215,7 @@ public class EditCobolLayout extends EditRec {
 			Common.OPTIONS.fileWizardAvailable.set(true);
 			Common.OPTIONS.standardEditor.set(true);
 			Common.OPTIONS.addTextDisplay.set(true);
-			net.sf.JRecord.CsvParser.ParserManager.setUseNewCsvParsers(true);
+//			net.sf.JRecord.CsvParser.ParserManager.setUseNewCsvParsers(true);
 
 			CheckUserData.setUseCsvLine();
 			CheckUserData.checkAndCreate();

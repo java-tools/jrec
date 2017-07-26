@@ -293,7 +293,7 @@ public class EditCsvFile extends EditRec  {
 			Common.OPTIONS.addTextDisplay.set(true);
 		    Common.OPTIONS.loadPoScreens.set(true);
 		    Common.setDBstatus(false);
-		    net.sf.JRecord.CsvParser.ParserManager.setUseNewCsvParsers(true);
+//		    net.sf.JRecord.CsvParser.ParserManager.setUseNewCsvParsers(true);
 		    
 		    CheckUserData.setUseCsvLine();
 			CheckUserData.checkAndCreate(CheckUserData.EXTRACT_USER, false, null);;

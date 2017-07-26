@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.ExternalRecord;
@@ -86,16 +86,16 @@ public class TstCsvLineLQ3 extends TestCase {
 	};
 
 	private static final int[] CSV_PARSERS = {
-		ParserManager.BASIC_EMBEDDED_CR,
-		ParserManager.BASIC_EMBEDDED_CR_NAMES_IN_QUOTES,
-		ParserManager.STANDARD_EMBEDDED_CR,
-		ParserManager.STANDARD_EMBEDDED_CR_NAMES_INQUOTE,
+		CsvParserManagerChar.BASIC_EMBEDDED_CR,
+		CsvParserManagerChar.BASIC_EMBEDDED_CR_NAMES_IN_QUOTES,
+		CsvParserManagerChar.STANDARD_EMBEDDED_CR,
+		CsvParserManagerChar.STANDARD_EMBEDDED_CR_NAMES_INQUOTE,
 	};
 
 
 	private static final int[] STANDARD_CSV_PARSERS = {
-		ParserManager.STANDARD_EMBEDDED_CR,
-		ParserManager.STANDARD_EMBEDDED_CR_NAMES_INQUOTE,
+		CsvParserManagerChar.STANDARD_EMBEDDED_CR,
+		CsvParserManagerChar.STANDARD_EMBEDDED_CR_NAMES_INQUOTE,
 	};
 
 	String[] x1 = {
@@ -219,7 +219,12 @@ public class TstCsvLineLQ3 extends TestCase {
 				for (int k = 0; k < CHARSETS.length; k++) {
 					LayoutDetail d = TestCommonCode.getCsvLayout(FILE_STRUCTURES[i], CHARSETS[k], ",", "''",
 							true, CSV_PARSERS[j]);
-					int c = 0;
+					
+					int c = 1;
+//					tstFile("x1 a " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, EOLS[2]);
+//					tstFile2("x1 b " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, EOLS[c]);
+					c = 0;
+
 
 					if (CHARSETS[k].startsWith("CP")) { // EBCDIC - no \r char
 						tstFile("x1 a " + c + " " + i + ", " + j + ", " + k + " : ", x1, d, "\n");
@@ -242,7 +247,7 @@ public class TstCsvLineLQ3 extends TestCase {
 		for (int i = 0; i < FILE_STRUCTURES.length; i++) {
 			for (int k = 0; k < CHARSETS.length; k++) {
 				LayoutDetail d = TestCommonCode.getCsvLayout(FILE_STRUCTURES[i], CHARSETS[k], ",", "\"\"",
-						true, ParserManager.STANDARD_EMBEDDED_CR_NAMES_TXT_INQUOTE);
+						true, CsvParserManagerChar.STANDARD_EMBEDDED_CR_NAMES_TXT_INQUOTE);
 				int c = 0;
 
 				for (String eol : EOLS) {
@@ -389,8 +394,8 @@ public class TstCsvLineLQ3 extends TestCase {
 		StringBuilder b = new StringBuilder();
 
 		String q = "";
-		if (d.getRecord(0).getRecordStyle() == ParserManager.STANDARD_EMBEDDED_CR_NAMES_TXT_INQUOTE) {
-			q = d.getQuote();
+		if (d.getRecord(0).getRecordStyle() == CsvParserManagerChar.STANDARD_EMBEDDED_CR_NAMES_TXT_INQUOTE) {
+			q = d.getQuoteDetails().asString();
 		}
 		b.append(q +"0" + q);
 		for (int i = 1; i < c; i++) {
@@ -454,13 +459,14 @@ public class TstCsvLineLQ3 extends TestCase {
 
 		int j = 0;
 		AbstractLineReader r2 = ioP.getLineReader(d);
-		r2.open(new ByteArrayInputStream(bout), d);
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(bout);
+		r2.open(inputStream, d);
 		while ((l = r2.read()) != null) {
 			assertEquals("WriteRead Tst " + id + " ~ " + j, lines.get(j++).getFullLine(), l.getFullLine());
 		}
 		j = 0;
 		r = ioP.getLineReader(dd);
-		r.open(new ByteArrayInputStream(bout), dd);
+		r.open(inputStream, dd);
 		while ((l = r.read()) != null) {
 			assertEquals("WriteRead Tst " + id + " ~ " + j, lines.get(j++).getFullLine(), l.getFullLine());
 		}

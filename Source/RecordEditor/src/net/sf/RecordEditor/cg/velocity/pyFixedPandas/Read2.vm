@@ -1,0 +1,81 @@
+import pandas as pd
+#set ($schemaDef = ${generateOptions.schemaDefinition})
+#set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+#set ( $sep = "             " )
+#set ( $count = 1 )
+colspecs = [
+#foreach ($f in ${r.getFields()})${sep}#*
+  *##set ( $pos = ${f.fieldDetail.getPos()} - 1)#*
+  *#(${pos},${f.fieldDetail.getEnd()})#*
+  *##set ( $sep = "," )#*
+  *##set ( $count = $count + 1 )#*
+  *##if ( $count > 5 )
+
+        #*
+        *##set ( $count = 1 )
+    #end
+#end
+   ]
+#set ( $sep = " " )
+header = [
+#foreach($f in ${r.getFields()})
+          ${sep}'${f.getSqlName()}'
+#*  *##set ( $sep = "," )
+#end
+         ]
+df = pd.read_fwf("${generateOptions.getDataFileName().getEscapedFileName()}",colspecs=colspecs, names=header)
+
+# ------------------------------------------------------------------------
+
+import pandas as pd
+#set ($schemaDef = ${generateOptions.schemaDefinition})
+#set ($r = ${generateOptions.schemaDefinition.getRecords().get(0)})
+
+
+class ColumnDef:   
+    def __init__(self, pName, pos, pLen):
+        self.name = pName
+        self.position = pos
+        self.length = pLen
+        
+class FixedRecord:
+    def __init__(self, columns):
+        self.columns = columns
+        self.columnSpec = []
+        self.fieldNames = []
+        
+        for col in columns:
+            self.columnSpec.append((col.position, col.position + col.length))
+            self.fieldNames.append(col.name)
+
+class RecordDef:
+#foreach ($f in ${r.getFields()})#*
+  *##set ( $pos = ${f.fieldDetail.getPos()} - 1)
+    ${f.javaName} = ColumnDef('${f.getSqlName()}', ${pos}, ${f.fieldDetail.getLen()})
+#end
+
+#set ( $sep = "                 " )
+#set ( $count = 1 )            
+    columnList = [
+#foreach ($f in ${r.getFields()})${sep}#*
+  *#${f.javaName}#*
+  *##set ( $sep = "," )#*
+  *##set ( $count = $count + 1 )#*
+  *##if ( $count > 4 )
+
+            #*
+        *##set ( $count = 1 )
+    #end
+#end
+   ]
+
+   
+if __name__ == "__main__":
+    cols=RecordDef()
+    record=FixedRecord(cols.columnList)
+
+    df = pd.read_fwf("${generateOptions.getDataFileName().getEscapedFileName()}",colspecs=record.columnSpec, names=record.fieldNames)
+
+#if ( ${r.getFields().size()} > 0 )
+    print(df[cols.${r.getFields().get(0).javaName}.name])
+#end

@@ -26,6 +26,7 @@
 package net.sf.JRecord.zTest.ByteIO;
 
 import net.sf.JRecord.ByteIO.CsvByteReader;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 import junit.framework.TestCase;
 
 public class TstCsvByteReader01 extends TestCase {
@@ -76,8 +77,11 @@ public class TstCsvByteReader01 extends TestCase {
 	private static class CC extends CsvByteReader {
 
 		public CC(String charSet, String fieldSep, String quote, String quoteEsc) {
-			super(charSet, fieldSep, quote, quoteEsc, true);
+			super(	charSet,  
+					CsvCharDetails.newDelimDefinition(fieldSep, charSet).asBytes(), CsvCharDetails.newQuoteDefinition(quote, charSet).asBytes(),
+					quoteEsc, true);
 		}
+
 
 		public void setBuffer(byte[] buf) {
 			System.arraycopy(buf, 0, super.buffer, 0, buf.length);

@@ -40,14 +40,15 @@ import net.sf.JRecord.Common.BasicKeyedField;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
+import net.sf.JRecord.CsvParser.ICsvCharLineParser;
 import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.JRecord.Option.IRecordPositionOption;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.JRecord.cgen.defc.IRecordDetail4gen;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
 import net.sf.JRecord.detailsSelection.RecordSelection;
 
@@ -99,12 +100,13 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 	//private String selectionValue;
 	private RecordSelection recordSelection = new RecordSelection();
 
-	private String  delimiterUneditted;
-	private String  delimiter;
+	//private String  delimiterUneditted;
+	//private String  delimiter;
+	private CsvCharDetails delimiter, quote;
 	private int     length = 0;
 //	private int     minumumPossibleLength;
 	private String  fontName;
-	private final String quote, quoteUneditted;
+	//private final String quote, quoteUneditted;
 
 	private int     recordStyle;
 
@@ -239,8 +241,8 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 		this.recordType = pRecordType;
 
 		this.fields   = pFields;
-		this.quote    = Conversion.decodeCharStr(pQuote, pFontName);
-		this.quoteUneditted = pQuote;
+		this.quote    = CsvCharDetails.newQuoteDefinition(pQuote, pFontName);
+		//this.quoteUneditted = pQuote;
 		this.fontName = pFontName;
 		this.recordStyle = pRecordStyle;
 		this.childId = childId;
@@ -251,8 +253,8 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 		    fieldCount -= 1;
 		}
 
-		delimiterUneditted = pDelim;
-		delimiter = Conversion.decodeFieldDelim(pDelim, pFontName);
+		//delimiterUneditted = pDelim;
+		delimiter = CsvCharDetails.newDelimDefinition(pDelim, pFontName);
 
 		//System.out.println("Quote 1 ==>" + pQuote + "<==");
 		for (j = 0; j < fieldCount; j++) {
@@ -264,7 +266,7 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 		}
 //		minumumPossibleLength = length;
 
-		ICsvLineParser parser = ParserManager.getInstance().get(pRecordStyle);
+		ICsvCharLineParser parser = CsvParserManagerChar.getInstance().get(pRecordStyle);
 		if (parser != null && parser instanceof BasicCsvLineParser) {
 			BasicCsvLineParser bp = (BasicCsvLineParser) parser;
 			delimiterOrganisation = bp.delimiterOrganisation;
@@ -272,13 +274,13 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 	}
 
 
-	protected ICsvLineParser getCsvParser() {
-		ICsvLineParser parser = null;
+	protected ICsvCharLineParser getCsvParser() {
+		ICsvCharLineParser parser = null;
 
 		switch (recordType) {
 		case Constants.rtDelimited:
 		case Constants.rtDelimitedAndQuote:
-			parser = ParserManager.getInstance().get(recordStyle);
+			parser = CsvParserManagerChar.getInstance().get(recordStyle);
 		}
 		return parser;
 	}
@@ -452,36 +454,31 @@ implements AbstractRecordDetail,  ICsvDefinition, IRecordDetail4gen {
 	 * @see net.sf.JRecord.Details.AbstractRecordDetail#getDelimiter()
 	 */
     public String getDelimiter() {
+        return delimiter.asString();
+    }
+    public CsvCharDetails getDelimiterDetails() {
         return delimiter;
     }
 
-    protected void setDelimiter(String delimiter) {
-		this.delimiter = Conversion.decodeFieldDelim(delimiter, fontName);
-		this.delimiterUneditted = delimiter;
+
+
+    protected void setDelimiter(CsvCharDetails delimiter) {
+		this.delimiter = delimiter;
+		
 	}
 
 
-	/**
-	 * @return the delimiterUneditted
-	 */
-	public final String getDelimiterUneditted() {
-		return delimiterUneditted;
-	}
 
 	/**
 	 * @see net.sf.JRecord.Common.AbstractRecord#getQuote()
 	 */
     public String getQuote() {
-        return quote;
+        return quote.asString();
     }
 
-
-	/**
-	 * @return the quoteUneditted
-	 */
-	public final String getQuoteUneditted() {
-		return quoteUneditted;
-	}
+    public CsvCharDetails getQuoteDefinition() {
+        return quote;
+    }
 
 
 	/* (non-Javadoc)

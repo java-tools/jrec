@@ -292,7 +292,7 @@ public class SaveAsPnlFileStructure extends SaveAsPnlBase {
 			}
 			records[i] = new RecordDetail(
 					fromRecord.getRecordName(), fromRecord.getRecordType(),
-					fromRecord.getDelimiterUneditted(), fromRecord.getQuoteUneditted(), 
+					fromRecord.getDelimiterDetails().jrDefinition(), fromRecord.getQuoteDefinition().jrDefinition(), 
 					font, flds, 
 					fromRecord.getRecordStyle(), childId, false);
 		}

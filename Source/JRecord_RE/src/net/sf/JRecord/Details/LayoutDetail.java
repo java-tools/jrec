@@ -52,14 +52,16 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.CsvParser.CsvDefinition;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
-import net.sf.JRecord.CsvParser.BinaryCsvParser;
+import net.sf.JRecord.CsvParser.ICsvByteLineParser;
+import net.sf.JRecord.CsvParser.ICsvCharLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
+import net.sf.JRecord.CsvParser.CsvParserManagerByte;
 import net.sf.JRecord.Types.ISizeInformation;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 import net.sf.JRecord.cgen.defc.ILayoutDetails4gen;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 
 
 
@@ -111,7 +113,7 @@ import net.sf.JRecord.cgen.defc.ILayoutDetails4gen;
 public class LayoutDetail
 extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 
-	
+
 	private String layoutName;
 	private String description;
 	private byte[] recordSep;
@@ -127,7 +129,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	private HashSet<String> duplicateFieldNames = null;
 
 	private HashMap<String, IFieldDetail> fieldNameMap = null;
-	private String delimiter = "";
+	private CsvCharDetails delimiter;
 	private int fileStructure, recordFileStructure = -1;
 
 	private int recordCount, lineNumberOfFieldNames = 1;
@@ -285,6 +287,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
         boolean namesFirstLine = CommonBits.areFieldNamesOnTheFirstLine(fileStructure);       
         boolean tmpCsv = false;
         boolean tmpMultiLine = false;
+        delimiter = CsvCharDetails.newDelimDefinition("\t", fontName);
 	    for (j = 0; j < recordCount; j++) {
 	    	recordDetail = pRecords[j];
 	    	if (recordDetail != null) {
@@ -303,14 +306,14 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 			        if (recordDetail.isDelimited()) {
 			        	fixedLength = false;
 			            if (first) {
-			                delimiter = recordDetail.getDelimiter();
+			                delimiter = recordDetail.getDelimiterDetails();
 			                first = false;
-			            } else if (! delimiter.equals(recordDetail.getDelimiter())) {
+			            } else if (! delimiter.equals(recordDetail.getDelimiterDetails())) {
 			                throw new RuntimeException(
 			                        	"only one field delimiter may be used in a Detail-Group "
-			                        +   "you have used \'" + delimiter
+			                        +   "you have used \'" + delimiter.jrDefinition()
 			                        +   "\' and \'"
-			                        +  recordDetail.getDelimiter() + "\'"
+			                        +  recordDetail.getDelimiterDetails().jrDefinition() + "\'"
 			                );
 			            }
 			            if (recordFileStructure < 0) {
@@ -576,8 +579,10 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
         }
 
         if (isBinCSV()) {
-        	//System.out.print(" 3 ");
-        	String value = (new BinaryCsvParser(delimiter)).getValue(record, field);
+//        	//System.out.print(" 3 ");
+//        	String value = (new BinaryCsvParser(delimiter.asByte())).getValue(record, field);
+        	ICsvByteLineParser parser = CsvParserManagerByte.getInstance().get(field.getRecord().getRecordStyle());
+        	String value = parser.getField(field.getPos() - 1, record, getCsvDef(field));
 
         	return formatField(field,  type, value);
         } else {
@@ -585,10 +590,10 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
         }
     }
 
-    public final Object formatCsvField(IFieldDetail field,  int type, String value) {
-        String val = "";
-    	ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
-    	val = parser.getField(field.getPos() - 1, value, getCsvDef(field));
+    public final Object formatCsvField(IFieldDetail field,  int type, String line) {
+
+    	ICsvCharLineParser parser = CsvParserManagerChar.getInstance().get(field.getRecord().getRecordStyle());
+    	String val = parser.getField(field.getPos() - 1, line, getCsvDef(field));
 
         return formatField(field,  type, val);
     }
@@ -663,8 +668,6 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
             record = TypeManager.getSystemTypeManager().getType(type)
             				    .setField(record, field.getPos(), field, value);
         } else  {
-            String font = field.getFontName();
-            ICsvLineParser parser = ParserManager.getInstance().get(field.getRecord().getRecordStyle());
 
             Type typeVal = TypeManager.getSystemTypeManager().getType(type);
             String s = "";
@@ -691,16 +694,28 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
             	s = typeVal.formatValueForRecord(field, value.toString());
             }
             //System.out.println(" ---> setField ~ " + delimiter + " ~ " + s + " ~ " + new String(record));
-            if  (isBinCSV()) {
-             	record = (new BinaryCsvParser(delimiter)).updateValue(record, field, s);
-            } else {
-            	String newLine = parser.setField(field.getPos() - 1,
-	            		typeVal.getFieldType(),
-	            		Conversion.toString(record, font),
-	            		getCsvDef(field), s);
-
-                record = Conversion.getBytes(newLine, font);
-            }
+        	ICsvByteLineParser parser = CsvParserManagerByte.getInstance().get(field.getRecord().getRecordStyle(), isBinCSV());
+         	record = parser.setFieldByteLine(field.getPos() - 1,
+            		typeVal.getFieldType(),
+            		record,
+            		getCsvDef(field), s);
+//            if  (isBinCSV()) {
+//            	ICsvByteLineParser parser = CsvParserManagerByte.getInstance().get(field.getRecord().getRecordStyle());
+//             	record = parser.setFieldByteLine(field.getPos() - 1,
+//	            		typeVal.getFieldType(),
+//	            		record,
+//	            		getCsvDef(field), s);
+//
+//            } else {
+//		          String font = field.getFontName();
+//                ICsvCharLineParser parser = CsvParserManagerChar.getInstance().get(field.getRecord().getRecordStyle());
+//                String newLine = parser.setField(field.getPos() - 1,
+//	            		typeVal.getFieldType(),
+//	            		Conversion.toString(record, font),
+//	            		getCsvDef(field), s);
+//
+//                record = Conversion.getBytes(newLine, font);
+//            }
         }
         //System.out.println(" ---> setField ~ Done");
         return record;
@@ -728,24 +743,24 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
     		
     		ret = record.getFieldCount();
     		if (record.isDelimited()) {
-    			ICsvLineParser parser = ParserManager.getInstance().get(record.getRecordStyle());
+    			ICsvCharLineParser parser = CsvParserManagerChar.getInstance().get(record.getRecordStyle());
 
-    			ret = parser.getFieldList(line, getCsvDef(record, record.getQuote())).size();
+    			ret = parser.getFieldList(line, getCsvDef(record, record.getQuoteDefinition())).size();
     		}
     	}
     	return ret;
     }
     
     private ICsvDefinition getCsvDef(IFieldDetail field) {
-    	return getCsvDef(field.getRecord(), field.getQuote());
+    	return getCsvDef(field.getRecord(), field.getQuoteDefinition());
     }
     
-    public final ICsvDefinition getCsvDef(AbstractRecord rec, String quote) {
+    public final ICsvDefinition getCsvDef(AbstractRecord rec, CsvCharDetails quote) {
     	ICsvDefinition csvDef;
     	if (rec instanceof ICsvDefinition) {
     		csvDef = (ICsvDefinition) rec;
     	} else {
-    		csvDef = new CsvDefinition(delimiter, quote);
+    		csvDef = new CsvDefinition(delimiter, quote); 
     	}
     	return csvDef;
     }
@@ -831,26 +846,26 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	/* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getDelimiter()
 	 */
-    public String getDelimiter() {
+    public CsvCharDetails getDelimiterDetails() {
         return delimiter;
     }
 
 
 
-
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.Details.AbstractLineDetails#getDelimiterBytes()
-	 */
-    public byte[] getDelimiterBytes() {
-    	byte[] ret;
-    	if (isBinCSV()) {
-    		ret = new byte[1];
-    		ret[0] = Conversion.getByteFromHexString(delimiter);
-    	} else {
-    		ret = Conversion.getBytes(delimiter, fontName);
-    	}
-        return ret;
-    }
+//
+//	/* (non-Javadoc)
+//	 * @see net.sf.JRecord.Details.AbstractLineDetails#getDelimiterBytes()
+//	 */
+//    public byte[] getDelimiterBytes() {
+//    	byte[] ret;
+//    	if (isBinCSV()) {
+//    		ret = new byte[1];
+//    		ret[0] = Conversion.getByteFromHexString(delimiter);
+//    	} else {
+//    		ret = Conversion.getBytes(delimiter, fontName);
+//    	}
+//        return ret;
+//    }
 
 
     /**
@@ -858,13 +873,13 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
      * @param delimiter new delimiter
      */
     public void setDelimiter(String delimiter) {
-    	String delim = Conversion.decodeFieldDelim(delimiter, fontName);
+    	
+    	this.delimiter = CsvCharDetails.newDelimDefinition(delimiter, fontName);
     	if (this.records != null) {
     		for (int i = 0; i < records.length; i++) {
-    			records[i].setDelimiter(delim);
+    			records[i].setDelimiter(this.delimiter);
     		}
     	}
-		this.delimiter = delim;
 	}
 
 
@@ -958,11 +973,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#isBinCSV()
 	 */
 	public boolean isBinCSV() {
-		boolean ret = false;
-		if (delimiter != null && delimiter.length() > 1) {
-			ret = delimiter.toLowerCase().startsWith("x'");
-		}
-		return ret;
+		return delimiter.isBin() || getQuoteDetails().isBin();
 	}
 
 
@@ -1079,7 +1090,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 				IFieldDetail field = r.getField(i);
 				if (field.getPos() < 1) {
 					throw new RuntimeException(
-							BasicTranslation.getTrans().convert(
+							BasicTranslation.getTrans().convertMsg(
 									BasicTranslation.ST_ERROR,
 									"Invalid field position for Record: {0} {1}, it should be greater than zero and not {2}",
 									new Object[] {r.getRecordName(), field.getName(), field.getPos()}));
@@ -1243,17 +1254,27 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 		}
 	}
 
-
-	/* (non-Javadoc)
-	 * @see net.sf.JRecord.Details.IBasicFileSchema#getQuote()
-	 */
+	
+	
 	@Override
-	public String getQuote() {
+	public CsvCharDetails getQuoteDetails() {
 		if (recordCount > 0) {
-			return getRecord(0).getQuote();
+			return getRecord(0).getQuoteDefinition();
 		}
 		return null;
 	}
+
+
+//	/**
+//	 * @see net.sf.JRecord.Details.IBasicFileSchema#getQuote()
+//	 */
+//	@Override
+//	public String getQuote() {
+//		if (recordCount > 0) {
+//			return getRecord(0).getQuote();
+//		}
+//		return null;
+//	}
 }
 
 

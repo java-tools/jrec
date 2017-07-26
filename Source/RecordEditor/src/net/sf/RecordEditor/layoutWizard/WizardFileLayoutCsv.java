@@ -44,8 +44,8 @@ public class WizardFileLayoutCsv extends WizardFileLayoutBase {
 		wizardDetails.layoutName = (new File(fileName)).getName() + ".xml";
 		wizardDetails.layoutDirectory = Parameters.getFileName(Parameters.COPYBOOK_DIRECTORY);
 		wizardDetails.fontName = layout.getFontName();
-		wizardDetails.quote = layout.getQuote();
-		wizardDetails.fieldSeperator = layout.getDelimiter();
+		wizardDetails.quote = layout.getQuoteDetails().jrDefinition();
+		wizardDetails.fieldSeperator = layout.getDelimiterDetails().jrDefinition();
 		wizardDetails.fileStructure = layout.getFileStructure();
 		wizardDetails.fieldNamesOnLine = CommonBits.areFieldNamesOnTheFirstLine(wizardDetails.fileStructure);
 		wizardDetails.embeddedCr = CommonBits.isEmbeddedCrSupported(wizardDetails.fileStructure);

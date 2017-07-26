@@ -6,7 +6,6 @@ import java.io.OutputStream;
 
 import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.Conversion;
-import net.sf.RecordEditor.utils.common.Common;
 
 public class FixedWriter extends BaseWriter {
 
@@ -34,22 +33,24 @@ public class FixedWriter extends BaseWriter {
 		
 		eolBytes = CommonBits.getEolBytes(null, "", font);
 				//Conversion.getBytes(System.getProperty("line.separator"), font);
-		fieldSepByte = Conversion.getBytes(delimiter, font);
+		fieldSepByte = Conversion.getCsvDelimBytes(delimiter, fontName, '\t');
 
-		if ("<tab>".equalsIgnoreCase(delimiter)) {
-			fieldSepByte = Conversion.getBytes("\t", font);
-		} else if ("<space>".equalsIgnoreCase(delimiter)) {
-			fieldSepByte = Conversion.getBytes(" ", font);
-		} else if (delimiter != null && delimiter.toLowerCase().startsWith("x'")) {
-			try {
-				fieldSepByte = new byte[1];
-				fieldSepByte[0] = Conversion.getByteFromHexString(delimiter);
-				
-			} catch (Exception e) {
-				Common.logMsg("Invalid Hex Seperator", null);
-				e.printStackTrace();
-			}
-		}
+//		fieldSepByte = Conversion.getBytes(delimiter, font);
+//
+//		if ("<tab>".equalsIgnoreCase(delimiter)) {
+//			fieldSepByte = Conversion.getBytes("\t", font);
+//		} else if ("<space>".equalsIgnoreCase(delimiter)) {
+//			fieldSepByte = Conversion.getBytes(" ", font);
+//		} else if (delimiter != null && delimiter.toLowerCase().startsWith("x'")) {
+//			try {
+//				fieldSepByte = new byte[1];
+//				fieldSepByte[0] = Conversion.getByteFromHexString(delimiter);
+//				
+//			} catch (Exception e) {
+//				Common.logMsg("Invalid Hex Seperator", null);
+//				e.printStackTrace();
+//			}
+//		}
 		
 		sep = noBytes;
 	}

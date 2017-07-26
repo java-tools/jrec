@@ -65,7 +65,9 @@ public class GenericCsvReader extends DelegateReader {
 	 	len = inStream.read(fileData);
 	 	inStream.reset();
 	 	
-	 	if (fileData.length > len) {
+	 	if (len < 1) {
+	 		fileData = new byte[0];
+	 	} else if (fileData.length > len) {
 	 		byte[] t = new byte[len];
 	 		System.arraycopy(fileData, 0, t, 0, len);
 	 		fileData = t;

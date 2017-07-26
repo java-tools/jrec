@@ -235,7 +235,7 @@ public class FullEditor extends EditRec {
 			Common.OPTIONS.standardEditor.set(true);
 			Common.OPTIONS.addTextDisplay.set(true);
 			Common.OPTIONS.loadPoScreens.set(true);	
-			net.sf.JRecord.CsvParser.ParserManager.setUseNewCsvParsers(true);
+//			net.sf.JRecord.CsvParser.ParserManager.setUseNewCsvParsers(true);
 			
 			CheckUserData.checkAndCreate();
 			CheckUserData.setUseCsvLine();

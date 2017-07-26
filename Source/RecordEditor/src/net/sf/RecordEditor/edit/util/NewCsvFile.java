@@ -9,14 +9,13 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import net.sf.JRecord.Common.Constants;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
@@ -38,6 +37,7 @@ import net.sf.RecordEditor.utils.swing.BmKeyedComboBox;
 import net.sf.RecordEditor.utils.swing.BmKeyedComboModel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.ComboBoxs.DelimiterCombo;
+import net.sf.RecordEditor.utils.swing.ComboBoxs.QuoteCombo;
 
 
 /**
@@ -56,7 +56,7 @@ public class NewCsvFile {
 	public final BaseHelpPanel panel = new BaseHelpPanel();
 
 	private BmKeyedComboModel styleModel = new BmKeyedComboModel(new ManagerRowList(
-			ParserManager.getInstance(), false));
+			CsvParserManagerChar.getInstance(), false));
 
 	private ColumnNameMdl colNameMdl = new ColumnNameMdl();
 
@@ -67,7 +67,7 @@ public class NewCsvFile {
 	private JCheckBox  unicodeChk	 = new JCheckBox();
 	private FontCombo  fontCombo	 = new FontCombo();
 	private DelimiterCombo fieldSep  = DelimiterCombo.NewDelimCombo();
-	private JComboBox  quote		 = new JComboBox(Common.QUOTE_LIST);
+	private QuoteCombo  quote		 = QuoteCombo.newCombo();
     private BmKeyedComboBox parser   = new BmKeyedComboBox(styleModel, false);
 
 	//private JLabel     colNamesLbl   = new JLabel("Column Names:");
@@ -175,7 +175,7 @@ public class NewCsvFile {
 		String s;
 		byte[] eol = Common.SYSTEM_EOL_BYTES;
 		String font = fontCombo.getText();
-		String q   = Common.QUOTE_VALUES[quote.getSelectedIndex()];
+		String q   = quote.getQuote();
 		String sep = fieldSep.getDelimiter();
 		int structure = STRUCTURES[toInt(unicodeChk.isSelected())]
 		                          [toInt(namesChk.isSelected())];

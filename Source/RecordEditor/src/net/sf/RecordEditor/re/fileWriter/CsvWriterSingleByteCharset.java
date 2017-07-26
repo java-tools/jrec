@@ -1,7 +1,6 @@
 package net.sf.RecordEditor.re.fileWriter;
 
 import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -47,29 +46,33 @@ public class CsvWriterSingleByteCharset extends BaseWriter {
 
 		eolBytes = CommonBits.getEolBytes(null, "", font);
 				//Conversion.getBytes(System.getProperty("line.separator"), font);
-		fieldSepByte = Conversion.getBytes(delimiter, font);
-		fieldSep = delimiter;
-
-		if ("<tab>".equalsIgnoreCase(delimiter)) {
-			fieldSepByte = Conversion.getBytes("\t", font);
-			fieldSep = "\t";
-		} else if ("<space>".equalsIgnoreCase(delimiter)) {
-			fieldSepByte = Conversion.getBytes(" ", font);
-			fieldSep = " ";
-		} else if (delimiter != null && delimiter.toLowerCase().startsWith("x'")) {
-			try {
-				fieldSepByte = new byte[1];
-				fieldSepByte[0] = Conversion.getByteFromHexString(delimiter);
-				try {
-					fieldSep = new String(fieldSepByte);
-				} catch (Exception e) {
-					fieldSep = "";
-				}
-			} catch (Exception e) {
-				Common.logMsg("Invalid Hex Seperator", null);
-				e.printStackTrace();
-			}
-		}
+		
+		fieldSepByte = Conversion.getCsvDelimBytes(delimiter, fontName, '\"');
+		fieldSep = Conversion.decodeCharStr(delimiter, fontName, '\"');
+		
+//		fieldSepByte = Conversion.getBytes(delimiter, font);
+//		fieldSep = delimiter;
+//
+//		if ("<tab>".equalsIgnoreCase(delimiter)) {
+//			fieldSepByte = Conversion.getBytes("\t", font);
+//			fieldSep = "\t";
+//		} else if ("<space>".equalsIgnoreCase(delimiter)) {
+//			fieldSepByte = Conversion.getBytes(" ", font);
+//			fieldSep = " ";
+//		} else if (delimiter != null && delimiter.toLowerCase().startsWith("x'")) {
+//			try {
+//				fieldSepByte = new byte[1];
+//				fieldSepByte[0] = Conversion.getByteFromHexString(delimiter);
+//				try {
+//					fieldSep = new String(fieldSepByte);
+//				} catch (Exception e) {
+//					fieldSep = "";
+//				}
+//			} catch (Exception e) {
+//				Common.logMsg("Invalid Hex Seperator", null);
+//				e.printStackTrace();
+//			}
+//		}
 
 		sep = noBytes;
 	}
@@ -125,7 +128,7 @@ public class CsvWriterSingleByteCharset extends BaseWriter {
 						StringBuilder b = new StringBuilder(field);
 						Conversion.replace(b, fieldSep, "");
 						Common.logMsgRaw(
-								LangConversion.convert(
+								LangConversion.convertMsg(
 										"Warning: on line {0} Field {1} Seperator {2} Dropped",
 										new Object[] {lineNo, fieldNo , fieldSep}),
 								null);

@@ -876,18 +876,24 @@ public final class Conversion {
     }
 
 
-    public static byte[] getCsvDelimBytes(String s, String font) {
+    public static byte[] getCsvDelimBytes(String s, String font, char defaultChar) {
     	byte[] ret = null;
 
     	if (s != null) {
-			if (s.length() > 1 && (s.charAt(0) == 'x' || s.charAt(0) == 'X')) {
+			if (isHexDefinition(s)) {
 				ret = new byte[] {Conversion.getByteFromHexString(s)};
 			} else {
+				s = decodeCsvField(s, font, defaultChar);
 				ret = Conversion.getBytes(s, font);
 			}
     	}
 		return ret;
     }
+
+
+	public static boolean isHexDefinition(String s) {
+		return s.length() > 1 && (s.charAt(0) == 'x' || s.charAt(0) == 'X');
+	}
 
     public static byte getByteFromHexString(String s) {
     	int len = s.length(); 
@@ -898,13 +904,14 @@ public final class Conversion {
 		return (byte) b;
     }
 
+
 	/**
 	 * Decode the fieldDelimiter (keep hex strings e.g. x'00') as strings
 	 * @param pDelim delimiter string
 	 * @param fontName fontName
 	 * @return decoded fieldDelimiter
 	 */
-	public final static String decodeFieldDelim(String pDelim, String fontName) {
+	public final static String decodeCsvField(String pDelim, String fontName, char defaultChar) {
 		String delimiter = pDelim;
 
 		if ((pDelim == null)   
@@ -916,7 +923,7 @@ public final class Conversion {
 		} else if (pDelim.equalsIgnoreCase("<space>") ) {
 			delimiter = " ";			
 		} else {
-			delimiter = Conversion.decodeCharStr(pDelim, fontName);
+			delimiter = Conversion.decodeCharStr(pDelim, fontName, defaultChar);
 		}
 		return delimiter;
 	}
@@ -932,7 +939,7 @@ public final class Conversion {
 	 * @return character decoded character.
 	 * @throws NumberFormatException
 	 */
-	public static String decodeCharStr(String charId, String font) {
+	public static String decodeCharStr(String charId, String font, char defaultChar) {
 		int charLength = charId.length();
 		
 		if (charLength == 1) {
@@ -942,7 +949,7 @@ public final class Conversion {
 		} else if ( "<space>".equalsIgnoreCase(charId) ) {
 			charId = " ";
 		} else if (charLength > 1 && charLength < 7 ) {
-			charId = new String(decodeChar(charId, font));
+			charId = new String(decodeChar(charId, font, defaultChar));
 		}
 		
 		return charId;
@@ -959,7 +966,7 @@ public final class Conversion {
     	return delim;
 	}
 
-	public static char[] decodeChar(String charId, String font) {
+	public static char[] decodeChar(String charId, String font, char defaultChar) {
 		char[] ch = charId.toCharArray();
 		int charLength = charId.length();
 		
@@ -971,8 +978,10 @@ public final class Conversion {
 			char ch1 = charId.charAt(1);
 			switch (ch0) {
 			case '<':
-				if ("<tab>".equalsIgnoreCase(charId) || "<default>".equalsIgnoreCase(charId)) {
+				if ("<tab>".equalsIgnoreCase(charId) ) {
 					ch = TAB_ARRAY;
+				} else if ("<default>".equalsIgnoreCase(charId)) {
+					ch = new char[]{defaultChar}; 
 				} else if ( "<space>".equalsIgnoreCase(charId) ) {
 					ch = new char[]{' '};
 				} 

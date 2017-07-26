@@ -32,9 +32,9 @@ import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Common.RecordException;
-import net.sf.JRecord.CsvParser.BinaryCsvParser;
+import net.sf.JRecord.CsvParser.ICsvByteLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
+import net.sf.JRecord.CsvParser.CsvParserManagerByte;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.detailsSelection.RecordSelection;
 
@@ -282,23 +282,36 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine>, IColumnInse
 	public void deleteColumns(int[] cols) {
 		int idx = getPreferredLayoutIdx();
 		if (layout.getOption(Options.OPT_IS_CSV) == Options.YES && idx >= 0) {
-			if (layout.isBinCSV()) {
-				BinaryCsvParser cp = new BinaryCsvParser(layout.getDelimiter());
-				String font = layout.getFontName();
-				setData(cp.formatFieldList(removeCols(cp.getFieldList(getData(), font), cols), font));
-			} else {
-				RecordDetail record = layout.getRecord(idx);
-				ICsvLineParser csvParser = record.getCsvParser();
-				if (csvParser != null) {
-					ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuote());
-					List<String> fieldList = removeCols(csvParser.getFieldList(getFullLine(), csvDef), cols);
-					setData(csvParser.formatFieldList(fieldList, csvDef, getFieldsType(record)));
-				}
+			RecordDetail record = layout.getRecord(idx);
+			ICsvByteLineParser csvParser = CsvParserManagerByte.getInstance().get(record.getRecordStyle(), layout.isBinCSV());
+			if (csvParser != null) {
+				ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuoteDetails());
+				List<String> fieldList = removeCols(csvParser.getFieldList(getData(), csvDef), cols);
+				setData(csvParser.formatFieldListByte(fieldList, csvDef, getFieldsType(record)));
 			}
+//			if (layout.isBinCSV()) {
+////				BinaryCsvParser cp = new BinaryCsvParser(layout.getDelimiterDetails().asByte());
+////				String font = layout.getFontName();
+////				setData(cp.formatFieldList(removeCols(cp.getFieldList(getData(), font), cols), font));
+//				ICsvByteLineParser csvParser = CsvParserManagerByte.getInstance().get(record.getRecordStyle());
+//				if (csvParser != null) {
+//					ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuoteDetails());
+//					List<String> fieldList = removeCols(csvParser.getFieldList(getData(), csvDef), cols);
+//					setData(csvParser.formatFieldListByte(fieldList, csvDef, getFieldsType(record)));
+//				}
+//
+//			} else {
+//				ICsvCharLineParser csvParser = record.getCsvParser();
+//				if (csvParser != null) {
+//					ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuoteDetails());
+//					List<String> fieldList = removeCols(csvParser.getFieldList(getFullLine(), csvDef), cols);
+//					setData(csvParser.formatFieldList(fieldList, csvDef, getFieldsType(record)));
+//				}
+//			}
 		}
 	}
 
-	private List<String> removeCols(List<String> fieldList, int[] cols) {
+	private <T> List<T> removeCols(List<T> fieldList, int[] cols) {
 		for (int i = cols.length - 1; i>= 0; i--) {
 			fieldList.remove(cols[i]);
 		}
@@ -311,21 +324,28 @@ implements AbstractLine, ISetLineProvider<LayoutDetail, ActualLine>, IColumnInse
 		int maxColCount = 0;
 		if (layout.getOption(Options.OPT_IS_CSV) == Options.YES && idx >= 0) {
 			RecordDetail record = layout.getRecord(idx);
-			if (layout.isBinCSV()) {
-				BinaryCsvParser cp = new BinaryCsvParser(layout.getDelimiter());
-				String font = layout.getFontName();
-				List<String> fieldList = addCols(cp.getFieldList(getData(), font), column, colValues);;
-				setData(cp.formatFieldList(fieldList, font));
+			ICsvByteLineParser csvParser = CsvParserManagerByte.getInstance().get(record.getRecordStyle(), layout.isBinCSV());
+			if (csvParser != null) {
+				ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuoteDetails());
+				List<String> fieldList = addCols(csvParser.getFieldList(getData(), csvDef), column, colValues);;
+				setData(csvParser.formatFieldListByte(fieldList, csvDef, getFieldsType(record)));
 				maxColCount = Math.max(maxColCount, fieldList.size());
-			} else {
-				ICsvLineParser csvParser = record.getCsvParser();
-				if (csvParser != null) {
-					ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuote());
-					List<String> fieldList = addCols(csvParser.getFieldList(getFullLine(), csvDef), column, colValues);;
-					setData(csvParser.formatFieldList(fieldList, csvDef, getFieldsType(record)));
-					maxColCount = Math.max(maxColCount, fieldList.size());
-				}
 			}
+//			if (layout.isBinCSV()) {
+//				BinaryCsvParser cp = new BinaryCsvParser(layout.getDelimiterDetails().asByte());
+//				String font = layout.getFontName();
+//				List<String> fieldList = addCols(cp.getFieldList(getData(), font), column, colValues);;
+//				setData(cp.formatFieldList(fieldList, font));
+//				maxColCount = Math.max(maxColCount, fieldList.size());
+//			} else {
+//				ICsvCharLineParser csvParser = record.getCsvParser();
+//				if (csvParser != null) {
+//					ICsvDefinition csvDef = layout.getCsvDef(record, layout.getQuoteDetails());
+//					List<String> fieldList = addCols(csvParser.getFieldList(getFullLine(), csvDef), column, colValues);;
+//					setData(csvParser.formatFieldList(fieldList, csvDef, getFieldsType(record)));
+//					maxColCount = Math.max(maxColCount, fieldList.size());
+//				}
+//			}
 			for (int i = record.getFieldCount() + 1; i <= maxColCount; i++) {
 				RecordDetail.FieldDetails f = new RecordDetail.FieldDetails("Column_" + i, "", Type.ftChar, 0, layout.getFontName(), 0, "");
 				f.setPosOnly(i);

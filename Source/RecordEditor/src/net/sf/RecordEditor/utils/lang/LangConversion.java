@@ -65,8 +65,8 @@ public class LangConversion {
 	}
 
 
-	public static String convert(int type, String s, Object[] params) {
-		return conv.convert(type, s, params);
+	public static String convertMsg(int type, String s, Object... params) {
+		return conv.convertMsg(type, s, params);
 	}
 
 
@@ -127,7 +127,7 @@ public class LangConversion {
 		return conv.convert(s);
 	}
 
-	public static String convert(String msg, Object[] params) {
+	public static String convertMsg(String msg, Object... params) {
 		return MessageFormat.format(convert(ST_MESSAGE, msg), params);
 	}
 

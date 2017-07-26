@@ -582,13 +582,16 @@ public class BaseCb2xmlLoader<XRecord extends BaseExternalRecord<XRecord>>  {
                         	}
                         }
 
-                        int size = currentLayout.fields.size();
-                        currentLayout.fields.ensureCapacity(size + childOccurs);
-		
+                        int size = 0;
+                        if (currentLayout != null && currentLayout.fields != null) {
+	                        size = currentLayout == null || currentLayout.fields == null ? 0 : currentLayout.fields.size();
+	                        
+	                        currentLayout.fields.ensureCapacity(size + childOccurs);
+                        }
                         for (int j = 0; j < childOccurs; j++) {
-                        	if (j == 1) {
-                        		currentLayout.fields.ensureCapacity(size + (currentLayout.fields.size() - size) * childOccurs);
-                        	}
+//	                        	if (j == 1) {
+//	                        		currentLayout.fields.ensureCapacity(size + (currentLayout.fields.size() - size) * childOccurs);
+//	                        	}
                             if (nameSuffix.equals("")) {
                                 newSuffix = Integer.toString(j);
                             } else {
@@ -603,6 +606,7 @@ public class BaseCb2xmlLoader<XRecord extends BaseExternalRecord<XRecord>>  {
                             
                             insertXMLcopybook(copyBookPref,  childElement, basePosition + j * length, newSuffix, dependOnDtls);
                         }
+                        
                     } else {
                         insertElement(childElement, copyBookPref, nameSuffix, basePosition, dependOnParentDtls);
                         insertXMLcopybook(copyBookPref, childElement, basePosition, nameSuffix, dependOnParentDtls);

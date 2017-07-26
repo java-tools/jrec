@@ -91,7 +91,7 @@ public final class Common implements Constants {
     Dimension size = new Dimension(adv+2, hgt+2);
      */
 
-	public static final String CURRENT_VERSION = "00982";
+	public static final String CURRENT_VERSION = "00983";
 	
 	public static final int BOOLEAN_OPERATOR_OR  = 0;
     public static final int BOOLEAN_OPERATOR_AND = 1;

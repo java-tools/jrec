@@ -11,12 +11,13 @@ import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.ByteIO.CsvByteReader;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordRunTimeException;
-import net.sf.JRecord.CsvParser.BasicCsvLineParser;
-import net.sf.JRecord.CsvParser.BinaryCsvParser;
+import net.sf.JRecord.CsvParser.BasicCsvByteLineParserExtended;
 import net.sf.JRecord.CsvParser.CsvDefinition;
-import net.sf.JRecord.CsvParser.ICsvLineParser;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.ICsvByteLineParser;
+import net.sf.JRecord.CsvParser.ICsvDefinition;
+import net.sf.JRecord.CsvParser.CsvParserManagerByte;
 import net.sf.JRecord.Log.AbsSSLogger;
+import net.sf.JRecord.definitiuons.CsvCharDetails;
 import net.sf.RecordEditor.utils.common.Common;
 
 
@@ -34,7 +35,6 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 	private String seperator = "";
 	private byte sepByte;
 	private String quote = "";
-	private ParserManager parserManager;
 	private int parserType = 0;
 
 	private int lines2hide = 0;
@@ -50,17 +50,17 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 
 
 		public CsvSelectionTblMdl() {
-			this(ParserManager.getInstance());
+			//this(CsvParserManagerChar.getInstance());
 		}
 
-		/**
-		 * CsvSelection Table model
-		 * @param theParserManager CSV parser manager
-		 */
-		public CsvSelectionTblMdl(ParserManager theParserManager) {
-			super();
-			parserManager = theParserManager;
-		}
+//		/**
+//		 * CsvSelection Table model
+//		 * @param theParserManager CSV parser manager
+//		 */
+//		public CsvSelectionTblMdl(CsvParserManagerChar theParserManager) {
+//			super();
+//			parserManager = theParserManager;
+//		}
 
 		/* (non-Javadoc)
 		 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
@@ -82,28 +82,38 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		public final void setupColumnCount() {
 
 			columnCount = 1;
-			if (isBinSeperator()) {
-				for (int i = lines2hide; i < lines2display; i++) {
-					columnCount = Math.max(columnCount,
-							(new BinaryCsvParser(sepByte)).countTokens(lines[i]));
-				}
-			} else {
-				BasicCsvLineParser parser = new BasicCsvLineParser(false);
-				CsvDefinition csvDef = getCsvDef();
-				for (int i = lines2hide; i < lines2display; i++) {
-					columnCount = Math.max(
-									columnCount,
-									parser.getFieldCount(getLine(i), csvDef));
-				}
+			BasicCsvByteLineParserExtended parser = new BasicCsvByteLineParserExtended(false);
+			CsvDefinition csvDef = getCsvDef();
+			for (int i = lines2hide; i < lines2display; i++) {
+				columnCount = Math.max(
+								columnCount,
+								parser.getFieldCount(lines[i], csvDef));
 			}
+//			if (isBinSeperator()) {
+//				for (int i = lines2hide; i < lines2display; i++) {
+//					columnCount = Math.max(columnCount,
+//							(new BinaryCsvParser(sepByte)).countTokens(lines[i]));
+//				}
+//			} else {
+//				BasicCsvLineParser parser = new BasicCsvLineParser(false);
+//				CsvDefinition csvDef = getCsvDef();
+//				for (int i = lines2hide; i < lines2display; i++) {
+//					columnCount = Math.max(
+//									columnCount,
+//									parser.getFieldCount(getLine(i), csvDef));
+//				}
+//			}
 		}
+
+
 
 		/**
 		 * Get the index of the parser
 		 * @return
 		 */
-		private ICsvLineParser getParser() {
-			return parserManager.get(parserType);
+		private ICsvByteLineParser getCsvByteParser() {
+			return CsvParserManagerByte.getInstance()
+						.get(parserType, isBinSeperator() || CsvCode.isHex(quote));
 		}
 
 
@@ -132,13 +142,15 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
             String s = "";
             if ((rowIndex < lines2display - lines2hide)
             && columnIndex < columnCount) {
-            	if (isBinSeperator()) {
-            		s = (new BinaryCsvParser(getCsvDef().getDelimiter()))
-            				.getValue(lines[rowIndex + lines2hide], columnIndex + 1, charset);
-            	} else {
-	            	//AbstractParser p = getParser();
-	                s = getParser().getField(columnIndex, getLine(rowIndex + lines2hide), getCsvDef());
-            	}
+            	s = getCsvByteParser()
+            			.getField(columnIndex, lines[rowIndex + lines2hide], getCsvDef());
+//            	if (isBinSeperator()) {
+//            		s = (new BinaryCsvParser(getCsvDef().getDelimiterDetails().asByte()))
+//            				.getValue(lines[rowIndex + lines2hide], columnIndex + 1, charset);
+//            	} else {
+//	            	//AbstractParser p = getParser();
+//	                s = getCsvCharParser().getField(columnIndex, getLine(rowIndex + lines2hide), getCsvDef());
+//            	}
             }
 
             return s;
@@ -201,14 +213,17 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
     			lines = new byte[LINES_TO_READ][];
     			int i = 0;
     			InputStream in = new ByteArrayInputStream(data);
-    			String q = getCsvDef().getQuote();
+    			CsvCharDetails quoteDefinition = getCsvDef().getQuoteDefinition();
+				String q = quoteDefinition.asString();
     			String quoteEsc = quote == null ? "" : q + q;
 
 				BaseByteTextReader r;
 				byte[] b;
 
 				if (embeddedCr) {
-					r = new CsvByteReader(charset, getCsvDef().getDelimiter(), q, quoteEsc, namesOnLine);
+					r = new CsvByteReader(charset, 
+							getCsvDef().getDelimiterDetails().asBytes(), quoteDefinition.asBytes(), 
+							quoteEsc, namesOnLine);
 				} else {
 					r = new ByteTextReader(charset);
 				}
@@ -225,7 +240,7 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 					e.printStackTrace();
 				}
 
-				lines2display = Math.max(0, i - 1);
+				lines2display = Math.max(0, i);
 			}
     	}
 
@@ -347,23 +362,24 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		private void setupColumnNames() {
 			lines2hide = 0;
 			if (namesOnLine && lines[0].length >= lineNoFieldNames) {
-				int i;
 
 				if (lineNoFieldNames == 1) {
 					lines2hide = 1;
 				}
-				if (isBinSeperator()) {
-					BinaryCsvParser bParser = new BinaryCsvParser(getCsvDef().getDelimiter());
-					columnNames = new String[bParser.countTokens(lines[lineNoFieldNames - 1])] ;
-					for (i = 0; i < columnNames.length; i++) {
-						columnNames[i] = bParser.getValue(lines[lineNoFieldNames - 1], i+1, charset);
-					}
-				} else {
-					ICsvLineParser p = parserManager.get(parserType);
-					List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), getCsvDef());
-					columnNames = new String[colnames.size()] ;
-					columnNames = colnames.toArray(columnNames);
-				}
+				ICsvByteLineParser p = getCsvByteParser();
+				List<String> colnames = p.getColumnNames(lines[lineNoFieldNames - 1], getCsvDef());
+				columnNames = colnames.toArray(new String[colnames.size()]);
+//				if (isBinSeperator()) {
+//					BinaryCsvParser bParser = new BinaryCsvParser(getCsvDef().getDelimiterDetails().asByte());
+//					columnNames = new String[bParser.countTokens(lines[lineNoFieldNames - 1])] ;
+//					for (i = 0; i < columnNames.length; i++) {
+//						columnNames[i] = bParser.getValue(lines[lineNoFieldNames - 1], i+1, charset);
+//					}
+//				} else {
+//					ICsvCharLineParser p = parserManager.get(parserType);
+//					List<String> colnames = p.getColumnNames(getLine(lineNoFieldNames - 1), getCsvDef());
+//					columnNames = colnames.toArray(new String[colnames.size()]);
+//				}
 			}
 		}
 
@@ -373,8 +389,9 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 		private CsvDefinition getCsvDef() {
 			if (csvDef == null) {
 				csvDef = new CsvDefinition(
-									Conversion.decodeFieldDelim(seperator, Conversion.DEFAULT_ASCII_CHARSET), 
-									Conversion.decodeCharStr(quote, Conversion.DEFAULT_ASCII_CHARSET));
+									CsvCharDetails.newDelimDefinition(seperator, charset), 
+									CsvCharDetails.newDelimDefinition(quote, charset),
+									ICsvDefinition.NORMAL_SPLIT, -1, charset, false);
 			}
 			
 			return csvDef;
@@ -395,13 +412,13 @@ public class CsvSelectionTblMdl extends AbstractTableModel implements AbstractCs
 			if (seperator != null
 			&& seperator.length() > 0
 			&& ! isBinSeperator()) {
-				b = getCsvDef().getDelimiter().getBytes()[0];
+				b = getCsvDef().getDelimiterDetails().asByte();
 			}
 			return new CsvAnalyser(getLines(), getLines2display(), charset, b, embeddedCr);
 		}
 
 		private boolean isBinSeperator() {
-			return seperator != null && seperator.toLowerCase().startsWith("x'");
+			return CsvCode.isHex(seperator);
 		}
 
 

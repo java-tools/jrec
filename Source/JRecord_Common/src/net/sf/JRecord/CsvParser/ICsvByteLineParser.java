@@ -40,7 +40,7 @@ import java.util.List;
  * @author Bruce Martin
  *
  */
-public interface ICsvLineParser {
+public interface ICsvByteLineParser {
 
 	/**
 	 * Controls whether Column names on the first line are in Quotes
@@ -55,7 +55,7 @@ public interface ICsvLineParser {
      * @param csvDefinition Csv details like delimiter, quote etc
      * @return requested field
 	 */
-    public abstract String getField(int fieldNumber, String line, ICsvDefinition csvDefinition);
+    public abstract String getField(int fieldNumber, byte[] line, ICsvDefinition csvDefinition);
 
 
     /**
@@ -67,7 +67,7 @@ public interface ICsvLineParser {
      * @param newValue new value of the field
      * @return updated line
      */
-    public abstract String setField(int fieldNumber, int fieldType, String line, ICsvDefinition csvDefinition, String newValue);
+    public abstract byte[] setFieldByteLine(int fieldNumber, int fieldType, byte[] line, ICsvDefinition csvDefinition, String newValue);
 
     /**
      * Get all the fields in a line
@@ -75,7 +75,7 @@ public interface ICsvLineParser {
      * @param csvDefinition Csv-Definition
      * @return list of fields
      */
-    public abstract List<String> getFieldList(String line,  ICsvDefinition csvDefinition);
+    public abstract List<String> getFieldList(byte[] line,  ICsvDefinition csvDefinition);
     
     
     /**
@@ -86,7 +86,7 @@ public interface ICsvLineParser {
      *
      * @return list of column names
      */
-    public List<String> getColumnNames(String line, ICsvDefinition csvDefinition);
+    public List<String> getColumnNames(byte[] line, ICsvDefinition csvDefinition);
 
 
     /**
@@ -97,16 +97,16 @@ public interface ICsvLineParser {
      *
      * @return column name line
      */
-    public String getColumnNameLine(List<String> names, ICsvDefinition csvDefinition);
+    public byte[] getColumnNameByteLine(List<String> names, ICsvDefinition csvDefinition);
 
-    /**
-     * Get The file Structure (i.e. Reader / Writer for the CSV file)
-     * @param csvDefinition Csv Definition details.
-     * @param namesOnFirstLine wether names are on the first line 
-     * @return calculate the file-structure (or file organisation)
-     */
-    public int getFileStructure(ICsvDefinition csvDefinition, boolean namesOnFirstLine, boolean binary) ;
-    
+//    /**
+//     * Get The file Structure (i.e. Reader / Writer for the CSV file)
+//     * @param csvDefinition Csv Definition details.
+//     * @param namesOnFirstLine wether names are on the first line 
+//     * @return calculate the file-structure (or file organisation)
+//     */
+//    public int getFileStructure(ICsvDefinition csvDefinition, boolean namesOnFirstLine, boolean binary) ;
+//    
 
 	/**
 	 * Format field list as a Csv Line
@@ -115,6 +115,6 @@ public interface ICsvLineParser {
 	 * @param fieldTypes Field types
 	 * @return Formatted Csv line
 	 */
-	public String formatFieldList(List<? extends Object> fields, ICsvDefinition lineDef, int[] fieldTypes);
+	public byte[] formatFieldListByte(List<? extends Object> fields, ICsvDefinition lineDef, int[] fieldTypes);
 
 }

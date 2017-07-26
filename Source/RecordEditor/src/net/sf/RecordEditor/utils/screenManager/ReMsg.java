@@ -47,7 +47,7 @@ public final class ReMsg implements IMessage {
 	 */
 	@Override
 	public final String get(Object... params) {
-		return LangConversion.convert(msgType, msg, params);
+		return LangConversion.convertMsg(msgType, msg, params);
 	}
 
 }

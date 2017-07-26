@@ -565,7 +565,7 @@ public class FileAnalyser {
     			}
        			blockLength = (new BigInteger(bdwLength)).intValue();
        			if (blockLength + 8 < data.length) {
-       				if (data[blockLength + 7] == 0 && data[blockLength + 8] == 0) {
+       				if (data[blockLength + 6] == 0 && data[blockLength + 7] == 0) {
        					ret = super.check(data);
        				}
        			} else {

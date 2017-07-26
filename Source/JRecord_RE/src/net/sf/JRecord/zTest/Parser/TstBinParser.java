@@ -33,6 +33,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.CsvParser.BinaryCsvParser;
 import junit.framework.TestCase;
 
+@SuppressWarnings("deprecation")
 public class TstBinParser extends TestCase {
 	private static final String[][] flds = {
 		{""},
@@ -57,6 +58,7 @@ public class TstBinParser extends TestCase {
 	private static String[] charsets = {"", "CP037"};
 
 
+
 	public void testGetValue() {
 			
 		for (byte j = 0; j < 3; j ++) {
@@ -78,6 +80,7 @@ public class TstBinParser extends TestCase {
 		}
 	}
 	
+
 
 	public void testGetFieldList() {
 		
@@ -102,6 +105,7 @@ public class TstBinParser extends TestCase {
 		}
 	}
 
+
 	public void testUpdateValue() {
 		
 		for (byte j = 0; j < 3; j ++) {
@@ -122,6 +126,7 @@ public class TstBinParser extends TestCase {
 		}
 	}
 	
+
 
 	public void testFormatFieldList() {
 		

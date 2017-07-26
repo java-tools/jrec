@@ -144,7 +144,7 @@ public abstract class BasicTrans implements ITranslation {
 	}
 
 	@Override
-	public final String convert(int type, String s, Object[] params) {
+	public final String convertMsg(int type, String s, Object[] params) {
 		return MessageFormat.format(convert(type, s), params);
 	}
 

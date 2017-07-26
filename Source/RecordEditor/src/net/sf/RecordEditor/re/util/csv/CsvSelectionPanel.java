@@ -29,12 +29,13 @@ import javax.swing.text.JTextComponent;
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.CsvParser.ParserManager;
+import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.Details.IGetSchema;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Types.Type;
-import net.sf.JRecord.cg.common.CCode;
+import net.sf.JRecord.cg.nameConversion.IFieldNameConversion;
+import net.sf.JRecord.cg.nameConversion.FieldNameConversionManager;
 import net.sf.RecordEditor.utils.MenuPopupListener;
 import net.sf.RecordEditor.utils.charsets.FontCombo;
 import net.sf.RecordEditor.utils.common.Common;
@@ -60,7 +61,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 	private boolean isByteBased = true;
 
-	private ParserManager parserManager = ParserManager.getInstance();
+	private CsvParserManagerChar parserManager = CsvParserManagerChar.getInstance();
 	private MenuPopupListener popup;
 	private String	lastFont = null,
 					lastSeperator = null,
@@ -308,7 +309,7 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 		this.dataLines = dataLines;
 
-		tblMdl = new CsvSelectionTblMdl(parserManager);
+		tblMdl = new CsvSelectionTblMdl();
 		tblMdl.setLines(dataLines, font);
 		tblMdl.setFieldLineNo(getFieldLineNo());
 
@@ -444,14 +445,14 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 	private void setTblMdl(boolean useByteMdl, String font) {
 
 		if (useByteMdl) {
-			tblMdl = new CsvSelectionTblMdl(parserManager);
+			tblMdl = new CsvSelectionTblMdl();
 		} else {
 			tblMdl = new CsvSelectionStringTblMdl(parserManager);
 		}
 
 		tblMdl.setParserType(((Integer) parseType.getSelectedItem()).intValue());
-		tblMdl.setQuote(Conversion.decodeCharStr(getQuote(), font));
-		tblMdl.setSeperator(getSeperator());
+		tblMdl.setQuote(Conversion.decodeCharStr(getQuote(), font, '"'));
+		tblMdl.setSeperator(getSeperator()); 
 		tblMdl.setDataFont(data, font,
 				embeddedCrJCheck.isSelected());
 	}
@@ -686,13 +687,14 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 
 		if (v.length() < 2) {
 			ret = true;
-		} else if (singleByte && isValidTextBinarySep()) {
+		} else if (singleByte && ( CsvCode.isHex(v) || CsvCode.isUnicode(v))) {
 			try {
-				Conversion.getByteFromHexString(v);
+				CsvCode.checkDelimiter(v, null);
 				ret = true;
 			} catch (Exception e) {
-				setMessageTxtRE("Invalid Delimiter - Invalid  hex string:", v.substring(2, 3));
+				setMessageTxtRE("Invalid Delimiter - " + e.getMessage());
 			}
+			
 		} else if (singleByte) {
 			setMessageTxtRE("Invalid Delimiter, should be a single character or a hex character");
 		} else {
@@ -702,15 +704,9 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
 		return ret;
 	}
 
-	private boolean isValidTextBinarySep() {
-		String v = fieldSepTxt.getText();
-		return ((v.length() == 5) && v.toLowerCase().startsWith("x'") && v.endsWith("'"));
-	}
-
 
 	private boolean isBinarySep() {
-		String v = getSeperator();
-		return (v.toLowerCase().startsWith("x'") && v.endsWith("'"));
+		return CsvCode.isLikelyHex(getSeperator()) || CsvCode.isLikelyHex(getQuote());
 	}
 
 	/* (non-Javadoc)
@@ -880,9 +876,10 @@ public class CsvSelectionPanel extends BaseHelpPanel implements FilePreview {
         	if (pos > 0) {
         		fname = fname.substring(0, pos);
         	}
-        	String javaId = CCode.string2JavaId(fname);
-			layoutName = CCode.toClassName(javaId);
-        	recordName = "Rec" + CCode.toSuffix(javaId);
+            IFieldNameConversion conversion = FieldNameConversionManager.STD_CBL_FIELD_NAME_CONVERSION;
+        	String javaId = conversion.string2JavaId(fname);
+			layoutName = conversion.toClassName(javaId);
+        	recordName = "Rec" + conversion.toSuffix(javaId);
         }
         recs[0] = new RecordDetail(recordName, "", "", Constants.rtDelimited,
         		getSeperator(),  getQuote(), font, flds,

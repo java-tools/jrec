@@ -113,7 +113,7 @@ public class CsvWriterDoubleByteCharset extends BaseWriter {
 						StringBuilder b = new StringBuilder(field);
 						Conversion.replace(b, fieldSep, "");
 						Common.logMsgRaw(
-								LangConversion.convert(
+								LangConversion.convertMsg(
 										"Warning: on line {0} Field {1} Seperator {2} Dropped",
 										new Object[] {lineNo, fieldNo , fieldSep}),
 								null);

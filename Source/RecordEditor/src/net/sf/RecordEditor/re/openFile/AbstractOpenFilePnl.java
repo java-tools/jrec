@@ -402,13 +402,16 @@ implements ChangeListener, StartActionInterface {
      * @param pFile file to find the layout for
      */
     private void updateLayoutForFile(String pFile) {
-	    String recentLayout = recent.getLayoutName(pFile, new File(pFile));
+	    File f = new File(pFile);
+		String recentLayout = recent.getLayoutName(pFile, f);
 
-	    if ((! lookupRecentLayouts) || recentLayout == null || "".equals(recentLayout)) {
-	    	getLayoutSelection().notifyFileNameChanged(pFile);
+    	AbstractLayoutSelection layoutSel = getLayoutSelection();
+    	layoutSel.notifyFileNameChanged(pFile, f.exists());
+	    if ((! lookupRecentLayouts) || recentLayout == null || recentLayout.length() == 0) {
+			layoutSel.notifyFileNameChanged(pFile);
 	    } else {
 	    	setLayout(recentLayout);
-	    	if (recent.isEditorLaunch() && getLayoutSelection().isOkToLoadFile(fileName.getText())) {
+	    	if (recent.isEditorLaunch() && layoutSel.isOkToLoadFile(fileName.getText())) {
 	    	    loadFile(false);
 	    	}
 	    }

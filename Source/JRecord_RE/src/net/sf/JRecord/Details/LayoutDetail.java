@@ -41,6 +41,7 @@ package net.sf.JRecord.Details;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.sf.JRecord.Common.AbstractRecord;
@@ -60,8 +61,8 @@ import net.sf.JRecord.CsvParser.CsvParserManagerByte;
 import net.sf.JRecord.Types.ISizeInformation;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
-import net.sf.JRecord.cgen.defc.ILayoutDetails4gen;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.cgen.def.ILayoutDetails4gen;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 
 
 
@@ -114,13 +115,12 @@ public class LayoutDetail
 extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 
 
+	private static final String DUPLICATE_FIELD_NAME_EXTENSION = "~";
 	private String layoutName;
 	private String description;
 	private byte[] recordSep;
 	private int layoutType;
 	// private RecordDetail[] records;
-	private boolean binary = false, binaryRecord = false;
-	private final boolean binaryField, hasRedefine;
 	private String fontName = "";
 	private String eolString;
 	//private TypeManager typeManager;
@@ -136,6 +136,8 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
 
 	private boolean treeStructure = false;
 
+	private boolean binary = false, binaryRecord = false;
+	private final boolean binaryField, hasRedefine;
 	private boolean allowChildren =false;
 	private boolean fixedLength = true;
 	private boolean useThisLayout = false;
@@ -766,6 +768,20 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
     }
 
 
+    public final List<IFieldDetail> getFieldListForName(String fieldName) {
+    	ArrayList<IFieldDetail> flds = new ArrayList<IFieldDetail>();
+    	
+    	IFieldDetail f = getFieldFromName(fieldName);
+    	int idx = 1;
+    	String nameTmp = fieldName + DUPLICATE_FIELD_NAME_EXTENSION;
+    	while (f != null) {
+    		flds.add(f);
+    		f = getFieldFromName(nameTmp + (idx++));
+    	}
+    	
+    	return flds;
+    }
+    
     /* (non-Javadoc)
 	 * @see net.sf.JRecord.Details.AbstractLineDetails#getFieldFromName(java.lang.String)
 	 */
@@ -809,7 +825,7 @@ extends BasicLayout<RecordDetail> implements ILayoutDetails4gen {
     			    fld = records[i].getField(j);
     			    nameTmp = fld.getName();
     			    name = nameTmp;
-    			    nameTmp = nameTmp + "~";
+    			    nameTmp = nameTmp + DUPLICATE_FIELD_NAME_EXTENSION;
     			    k = 1;
     			    while (fieldNameMap.containsKey(name.toUpperCase())) {
     			    	name = nameTmp + k++;

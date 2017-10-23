@@ -32,10 +32,8 @@ import net.sf.RecordEditor.utils.screenManager.ReMainFrame;
 import net.sf.RecordEditor.utils.swing.BasePanel;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 import net.sf.RecordEditor.utils.swing.treeCombo.FileSelectCombo;
-import net.sf.cb2xml.Cb2Xml2;
-import net.sf.cb2xml.CopyBookAnalyzer;
+import net.sf.cb2xml.Cb2Xml3;
 import net.sf.cb2xml.def.Cb2xmlConstants;
-import net.sf.cb2xml.def.NumericDefinition;
 
 
 public class DisplayCobolCopybook implements ActionListener {
@@ -108,9 +106,11 @@ public class DisplayCobolCopybook implements ActionListener {
 			AbstractLine aLine;
 
 
-
-			CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
-			xml = Cb2Xml2.convertToXMLString( Cb2Xml2.convertToXMLDOM(file));
+			xml = Cb2Xml3.newBuilder(file)
+						.setDialect(conv)
+						.asXmlString();
+			//CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
+			//xml = Cb2Xml2.convertToXMLString( Cb2Xml2.convertToXMLDOM(file));
 
 			reader.open(new ByteArrayInputStream(xml.getBytes()), getXmlLayout(incComments));  //(LayoutDetail) null);
 

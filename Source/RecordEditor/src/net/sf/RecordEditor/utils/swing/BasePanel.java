@@ -1251,6 +1251,12 @@ public class BasePanel extends JPanel {
 			}
 		}
 	}
+	
+	public void setAddFillToEnd(boolean addFillToEnd) {
+		this.addFillToEnd = addFillToEnd;
+	}
+	
+
 
 	private static class ComponentToAdd {
 		
@@ -1279,9 +1285,5 @@ public class BasePanel extends JPanel {
 		}
 	}
 
-	public void setAddFillToEnd(boolean addFillToEnd) {
-		this.addFillToEnd = addFillToEnd;
-	}
-	
 	
 }

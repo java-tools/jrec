@@ -42,6 +42,7 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JMenu;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
@@ -382,6 +383,13 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
 //        	setLayoutIdx();
 //        }
 
+        
+        SwingUtilities.invokeLater(new Runnable() {			
+			@Override public void run() {
+				Common.calcColumnWidths(tblDetails, 2);
+			}
+		});
+
     }
 
 
@@ -655,7 +663,7 @@ implements AbstractFileDisplayWithFieldHide, TableModelListener, AbstractCreateC
         } else {
     	   buildDestinationMenus();
         }
-    }
+     }
 
 
 	private void setKeylistner(JTable tbl) {

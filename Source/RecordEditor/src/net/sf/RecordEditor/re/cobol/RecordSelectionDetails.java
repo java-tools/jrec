@@ -32,7 +32,7 @@ public class RecordSelectionDetails {
 	}
 	
 	public boolean setFieldValue(int idx, int fieldNumber, String value) {
-		return setRecordSelection(idx, 0, value);
+		return setRecordSelection(idx, fieldNumber, value);
 	}
 
 	private String getRecordSelection(int recordIdx, int fieldIdx) {

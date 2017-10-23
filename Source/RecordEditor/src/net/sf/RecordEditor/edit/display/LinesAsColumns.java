@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
@@ -54,14 +55,21 @@ public class LinesAsColumns extends BaseLineAsColumn implements TableModelListen
 		super(screenName, viewOfFile, viewOfFile == viewOfFile.getBaseFile(), true, true);
 
 		BaseHelpPanel actualPnl = getActualPnl();
-		
-	    init_100_SetupJtables(viewOfFile, actualPnl);
 
-	    actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_COLUMN_VIEW));
+		init_100_SetupJtables(viewOfFile, actualPnl);
 
-	    actualPnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
-	                         BasePanel.FULL, BasePanel.FULL,
-	                         tblScrollPane);
+		actualPnl.setHelpURLre(Common.formatHelpURL(Common.HELP_COLUMN_VIEW));
+
+		actualPnl.addComponentRE(1, 5, BasePanel.FILL, BasePanel.GAP,
+				BasePanel.FULL, BasePanel.FULL,
+				tblScrollPane);
+
+		SwingUtilities.invokeLater(new Runnable() {			
+			@Override public void run() {
+				Common.calcColumnWidths(tblDetails, 2);
+			}
+		});
+
 	}
 
 

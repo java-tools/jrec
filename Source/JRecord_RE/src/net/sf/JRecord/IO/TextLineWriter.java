@@ -51,7 +51,7 @@ import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.AbstractRecordDetail;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 
 /**
  * This class writes "Line's" to a text file

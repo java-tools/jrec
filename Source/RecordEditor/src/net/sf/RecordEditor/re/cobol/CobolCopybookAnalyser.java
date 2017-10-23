@@ -6,14 +6,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import javax.xml.stream.XMLStreamException;
 
-import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.AbstractLine;
@@ -23,18 +20,10 @@ import net.sf.JRecord.External.Cb2xmlLoader;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.Def.ExternalField;
-import net.sf.JRecord.ExternalRecordSelection.ExternalFieldSelection;
-import net.sf.JRecord.ExternalRecordSelection.ExternalGroupSelection;
-import net.sf.JRecord.ExternalRecordSelection.ExternalSelection;
-import net.sf.JRecord.Numeric.ConversionManager;
-import net.sf.JRecord.Numeric.Convert;
 import net.sf.RecordEditor.layoutWizard.Details;
 import net.sf.RecordEditor.layoutWizard.FieldSearch;
 import net.sf.RecordEditor.layoutWizard.RecordDefinition;
-import net.sf.cb2xml.Cb2Xml2;
-import net.sf.cb2xml.CopyBookAnalyzer;
 import net.sf.cb2xml.def.Cb2xmlConstants;
-import net.sf.cb2xml.def.NumericDefinition;
 import net.sf.cb2xml.sablecc.lexer.LexerException;
 import net.sf.cb2xml.sablecc.parser.ParserException;
 
@@ -47,28 +36,34 @@ import net.sf.cb2xml.sablecc.parser.ParserException;
  */
 public class CobolCopybookAnalyser {
 
-	private final Document document;
+	//private final Document document;
+//    private List<? extends IItem> cobolItems;
+//    private ICb2XmlBuilder bldr;
+	CobolCopybookReader copybookRead = new CobolCopybookReader();
 	private final String copybookName;
 	
 	private int split = CopybookLoader.SPLIT_NONE;
-	private final int dialect;
+//	private final int dialect;
 	
 	public static CobolCopybookAnalyser analyserForCopybookFile(String fileName, int dialect, boolean checkForMultipleRecords) 
-	throws FileNotFoundException, ParserException, LexerException, IOException {
+	throws FileNotFoundException, ParserException, LexerException, IOException, XMLStreamException {
 		return new CobolCopybookAnalyser(new FileReader(fileName), Conversion.getCopyBookId(fileName), dialect, checkForMultipleRecords);
 	}
 	
 	
 	protected CobolCopybookAnalyser(Reader copybookReader, String copybookName, int dialect, boolean checkForMultipleRecords) 
-	throws ParserException, LexerException, IOException {
+	throws ParserException, LexerException, IOException, XMLStreamException {
 		
 		this.copybookName = copybookName;
-		this.dialect = dialect;
+//		this.dialect = dialect;
+//		
+//		Convert conv = ConversionManager.getInstance().getConverter4code(dialect) ;
+//		CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
+//
+//		document = Cb2Xml2.convert(copybookReader, copybookName, false, Cb2xmlConstants.USE_STANDARD_COLUMNS);
 		
-		Convert conv = ConversionManager.getInstance().getConverter4code(dialect) ;
-		CopyBookAnalyzer.setNumericDetails((NumericDefinition) conv.getNumericDefinition());
+		copybookRead.readCobol(copybookReader, copybookName, dialect, Cb2xmlConstants.USE_STANDARD_COLUMNS);
 
-		document = Cb2Xml2.convert(copybookReader, copybookName, false, Cb2xmlConstants.USE_STANDARD_COLUMNS);
 
 		if (checkForMultipleRecords) {
 			checkForMultipleRecords();
@@ -80,93 +75,82 @@ public class CobolCopybookAnalyser {
 	 */
 	private void checkForMultipleRecords() {
 		
-		NodeList childNodes = document.getChildNodes();
-		int count01 = 0;
-		
-		int lastNodeIdx = childNodes.getLength() - 1;
-		for (int i = lastNodeIdx; i >= 0; i--) {
-			org.w3c.dom.Node node = childNodes.item(i);
-			if (node != null && node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-		       Element childElement = (Element) node;
-		       NodeList nl = childElement.getChildNodes();
-		       for (int j = nl.getLength() - 1; j >= 0; j--) {
-					org.w3c.dom.Node n = nl.item(j);
-					if (n != null && n.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-			           Element ce = (Element) n;
-			           if (ce.getAttribute(Cb2xmlConstants.LEVEL).equals("01")) {
-			        	   if (count01++ > 0) {
-			        		   split = CopybookLoader.SPLIT_01_LEVEL;
-			        		   return;
-			        	   }
-			           }
-					}
-		       }
-			}
+		int tmpSplit = copybookRead.checkForMultipleRecords();
+		if (tmpSplit >= 0) {
+			split = tmpSplit;
 		}
-		
-		if (childNodes.getLength() == 0) {return;};
-		boolean isRedefine = false;
-		
-		org.w3c.dom.Node node = childNodes.item(lastNodeIdx);
-		while (node != null) {
-			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-			    Element childElement = (Element) node;
-			    if ((childElement.hasAttribute(Cb2xmlConstants.REDEFINES))) {
-			    	String sLength = childElement.getAttribute(Cb2xmlConstants.STORAGE_LENGTH);
-			    	if (sLength != null && sLength.length() > 0) {
-				    	try {
-				    		isRedefine = Integer.parseInt(sLength) > 10;
-				    	}	catch (Exception e) { 	}
-			    	}
-			    	break;
-			    }
-			}
-		    NodeList cn = node.getChildNodes();
-		    node = cn == null || cn.getLength() == 0
-		    			? null
-		    			: cn.item(cn.getLength() - 1);
-		}
-		
-		if (isRedefine ) {
-			int i = 0;
-			NodeList childNodes2 = childNodes.item(0).getChildNodes();
-			int lastNode = childNodes2.getLength();
-			do {
-				node = childNodes2.item(i++);
-			} while (i < lastNode 
-				&&   (! nodeHasChildren(node))
-				&&   (! hasPicture(node))
-				    ); 
-			while (node != null && nodeHasChildren(node) && (! hasPicture(node))) {
-				node = node.getChildNodes().item(0);
-			}
-			
-			if (node != null && hasPicture(node)) {
-				String n = ((Element) node).getAttribute(Cb2xmlConstants.NAME);
-				if (n != null && n.toLowerCase().endsWith("-type") ) {
-					split = CopybookLoader.SPLIT_REDEFINE;
-				}
-			}
-		}
+
+//		NodeList childNodes = document.getChildNodes();
+//		int count01 = 0;
+//		
+//		int lastNodeIdx = childNodes.getLength() - 1;
+//		for (int i = lastNodeIdx; i >= 0; i--) {
+//			org.w3c.dom.Node node = childNodes.item(i);
+//			if (node != null && node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+//		       Element childElement = (Element) node;
+//		       NodeList nl = childElement.getChildNodes();
+//		       for (int j = nl.getLength() - 1; j >= 0; j--) {
+//					org.w3c.dom.Node n = nl.item(j);
+//					if (n != null && n.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+//			           Element ce = (Element) n;
+//			           if (ce.getAttribute(Cb2xmlConstants.LEVEL).equals("01")) {
+//			        	   if (count01++ > 0) {
+//			        		   split = CopybookLoader.SPLIT_01_LEVEL;
+//			        		   return;
+//			        	   }
+//			           }
+//					}
+//		       }
+//			}
+//		}
+//		
+//		if (childNodes.getLength() == 0) {return;};
+//		boolean isRedefine = false;
+//		
+//		org.w3c.dom.Node node = childNodes.item(lastNodeIdx);
+//		while (node != null) {
+//			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+//			    Element childElement = (Element) node;
+//			    if ((childElement.hasAttribute(Cb2xmlConstants.REDEFINES))) {
+//			    	String sLength = childElement.getAttribute(Cb2xmlConstants.STORAGE_LENGTH);
+//			    	if (sLength != null && sLength.length() > 0) {
+//				    	try {
+//				    		isRedefine = Integer.parseInt(sLength) > 10;
+//				    	}	catch (Exception e) { 	}
+//			    	}
+//			    	break;
+//			    }
+//			}
+//		    NodeList cn = node.getChildNodes();
+//		    node = cn == null || cn.getLength() == 0
+//		    			? null
+//		    			: cn.item(cn.getLength() - 1);
+//		}
+//		
+//		if (isRedefine ) {
+//			int i = 0;
+//			NodeList childNodes2 = childNodes.item(0).getChildNodes();
+//			int lastNode = childNodes2.getLength();
+//			do {
+//				node = childNodes2.item(i++);
+//			} while (i < lastNode 
+//				&&   (! nodeHasChildren(node))
+//				&&   (! hasPicture(node))
+//				    ); 
+//			while (node != null && nodeHasChildren(node) && (! hasPicture(node))) {
+//				node = node.getChildNodes().item(0);
+//			}
+//			
+//			if (node != null && hasPicture(node)) {
+//				String n = ((Element) node).getAttribute(Cb2xmlConstants.NAME);
+//				if (n != null && n.toLowerCase().endsWith("-type") ) {
+//					split = CopybookLoader.SPLIT_REDEFINE;
+//				}
+//			}
+//		}
 	}
 	
 
-	/**
-	 * @param node
-	 * @return
-	 */
-	private boolean hasPicture(org.w3c.dom.Node node) {
-		return node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE
-		    && ((Element) node).hasAttribute(Cb2xmlConstants.PICTURE);
-	}
-
-	/**
-	 * @param node
-	 * @return
-	 */
-	private boolean nodeHasChildren(org.w3c.dom.Node node) {
-		return node.getChildNodes() != null && node.getChildNodes().getLength() > 0;
-	}
 	
 	
 	public static ExternalField getSelectionField(ExternalRecord xRecord, RecordSelectionDetails recSel, String s) {
@@ -200,6 +184,7 @@ public class CobolCopybookAnalyser {
 					for (int j = 0; j < r.getNumberOfRecordFields(); j++) {
 						ExternalField f = r.getRecordField(j);
 						if (f.getPos() > selField.getPos()) {
+							recSel.setFieldName(i, selField.getName());
 							break;
 						} else if (f.getPos() == selField.getPos() && f.getLen() == selField.getLen()) {
 							recSel.setFieldName(i, f.getName());
@@ -341,65 +326,73 @@ public class CobolCopybookAnalyser {
 			int systemId,
 			int defaultRow) {
 		
-		if (document != null && xRec == null) {
-			xRec = cb2XmlLoader.loadDOMCopyBook(
-						document, copybookName, split, 
-						connectionId, font, 
-						dialect,
-						systemId);
-		}
+
+//		if (copybookRead.hasCobolData() && xRec == null) {
+//			xRec = cb2XmlLoader.loadDOMCopyBook(
+//						document, copybookName, split, 
+//						connectionId, font, 
+//						dialect,
+//						systemId);
+//		}
+//		
+//		if (xRec != null) {
+//			int num = Math.min(xRec.getNumberOfRecords(), recordSelection.size()); 
+//			
+//			if (fileStructure != Constants.IO_DEFAULT) {
+//				xRec.setFileStructure(fileStructure);
+//			}
+//			for (int i = 0; i < num; i++) {
+//				ExternalRecord rec = xRec.getRecord(i);
+//				String fieldName = recordSelection.getFieldName(i);
+//				if (num > 1 && fieldName.length() > 0) {
+//					ExternalSelection fs = null;
+//					//ExternalFieldSelection fs = new ExternalFieldSelection(getRecordSelection(i, 0), getRecordSelection(i, 1));
+//					ArrayList<ExternalFieldSelection> fl = new ArrayList<ExternalFieldSelection>(RecordSelectionDetails.FIELD_VALUE_COUNT);
+//					for (int j = 0; j < RecordSelectionDetails.FIELD_VALUE_COUNT; j++) {
+//						String fieldValue = recordSelection.getFieldValue(i, j); 
+//						if (fieldValue.length() > 0) {
+//							fl.add(new ExternalFieldSelection(fieldName, fieldValue));
+//						}
+//					}
+//
+//					switch (fl.size()) {
+//					case 0:
+//						break;
+//					case 1:
+//						fs = fl.get(0);
+//						break;
+//					default:
+//						fs = ExternalGroupSelection.newOr(fl.toArray(new ExternalFieldSelection[fl.size()]));
+//					}
+//					rec.setRecordSelection(fs);
+//				}
+//				if (fileStructure != Constants.IO_DEFAULT) {
+//					rec.setFileStructure(fileStructure);
+//				}
+//				rec.setDefaultRecord(false);
+//			}
+//
+//			if (defaultRow >= 0 && defaultRow < xRec.getNumberOfRecords()) {
+//				xRec.getRecord(defaultRow).setDefaultRecord(true);
+//			}
+//		}
 		
-		if (xRec != null) {
-			int num = Math.min(xRec.getNumberOfRecords(), recordSelection.size()); 
-			
-			if (fileStructure != Constants.IO_DEFAULT) {
-				xRec.setFileStructure(fileStructure);
-			}
-			for (int i = 0; i < num; i++) {
-				ExternalRecord rec = xRec.getRecord(i);
-				String fieldName = recordSelection.getFieldName(i);
-				if (num > 1 && fieldName.length() > 0) {
-					ExternalSelection fs = null;
-					//ExternalFieldSelection fs = new ExternalFieldSelection(getRecordSelection(i, 0), getRecordSelection(i, 1));
-					ArrayList<ExternalFieldSelection> fl = new ArrayList<ExternalFieldSelection>(RecordSelectionDetails.FIELD_VALUE_COUNT);
-					for (int j = 0; j < RecordSelectionDetails.FIELD_VALUE_COUNT; j++) {
-						String fieldValue = recordSelection.getFieldValue(i, j); 
-						if (fieldValue.length() > 0) {
-							fl.add(new ExternalFieldSelection(fieldName, fieldValue));
-						}
-					}
+		xRec = copybookRead.getXRecord(
+				cb2XmlLoader, xRec, connectionId, 
+				split, systemId, 
+				fileStructure, dialect, defaultRow,  
+				font, copybookName, recordSelection);
 
-					switch (fl.size()) {
-					case 0:
-						break;
-					case 1:
-						fs = fl.get(0);
-						break;
-					default:
-						fs = ExternalGroupSelection.newOr(fl.toArray(new ExternalFieldSelection[fl.size()]));
-					}
-					rec.setRecordSelection(fs);
-				}
-				if (fileStructure != Constants.IO_DEFAULT) {
-					rec.setFileStructure(fileStructure);
-				}
-				rec.setDefaultRecord(false);
-			}
-
-			if (defaultRow >= 0 && defaultRow < xRec.getNumberOfRecords()) {
-				xRec.getRecord(defaultRow).setDefaultRecord(true);
-			}
-		}
 		return xRec;
 	}
 
 	
 
-
-	public Document getDocument() {
-		return document;
-	}
-
+//
+//	public Document getDocument() {
+//		return document;
+//	}
+//
 	public int getSplit() {
 		return split;
 	}

@@ -2,6 +2,10 @@ package net.sf.cb2xml.util;
 
 import java.io.PrintStream;
 
+import net.sf.cb2xml.def.Cb2xmlConstants;
+import net.sf.cb2xml.def.DialectManager;
+import net.sf.cb2xml.def.IDialect;
+
 public class Parms {
 
 	public static final String FONT_PRM = "-font";
@@ -9,25 +13,35 @@ public class Parms {
 	public static final String XML_PRM = "-xml";
 	public static final String DEBUG_PRM = "-debug";
 	public static final String INDENT_XML_PRM = "-indentxml";
+	public static final String XML_FORMAT_PRM = "-xmlformat";
+	public static final String STACK_SIZE_PRM = "-stacksize";
+	public static final String DIALECT_PRM = "-dialect";
 	
 	private static final int FONT_IDX = 0;
 	private static final int COBOL_IDX = 1;
 	private static final int XML_IDX = 2;
 	private static final int DEBUG_IDX = 3;
 	private static final int INDENT_IDX = 4;
-
+	private static final int XML_FORMAT_IDX = 5;
+	private static final int STACK_SIZE_IDX = 6;
+	private static final int DIALECT_IDX = 7;
 	
 	private static final String[] ARG_NAMES = {
-			FONT_PRM, COBOL_PRM, XML_PRM, DEBUG_PRM, INDENT_XML_PRM,
+			FONT_PRM, COBOL_PRM, XML_PRM, DEBUG_PRM, INDENT_XML_PRM, XML_FORMAT_PRM, STACK_SIZE_PRM, DIALECT_PRM,
 	};
-	
+	private static final IDialect[] ALL_DIALECTS = {
+			DialectManager.MAINFRAME_COBOL, DialectManager.GNU_COBOL, DialectManager.FUJITSU_COBOL
+	};
 	public final String font, cobol, xml;
 	public final boolean debug, indentXml;
+	public final Cb2xmlConstants.Cb2xmlXmlFormat xmlFormat;
+	public final long stackSize;
 	public boolean ok = true;
+	public final IDialect dialect;
 	
 	
 	public Parms(String[] args) {
-		String[] v = {null, null, null, null, null, null};
+		String[] v = {null, null, null, null, null, null, null};
 		PrintStream p = System.err;
 		
 		if (args == null || args.length == 0 || args[0] == null) {
@@ -48,6 +62,51 @@ public class Parms {
 		xml = v[XML_IDX];
 		debug = v[DEBUG_IDX] != null && (! v[DEBUG_IDX].toLowerCase().startsWith("f"));
 		indentXml = v[INDENT_IDX] != null;
+		xmlFormat = "2017".equals(v[XML_FORMAT_IDX]) || "new".equalsIgnoreCase(v[XML_FORMAT_IDX])
+						? Cb2xmlConstants.Cb2xmlXmlFormat.FORMAT_2017
+						: Cb2xmlConstants.Cb2xmlXmlFormat.CLASSIC;
+		
+		int ss = -1;
+		if (v[STACK_SIZE_IDX] == null) {
+			
+		} else if ("normal".equals(v[STACK_SIZE_IDX])) {
+			ss = 0;
+		} else {
+			try {
+				ss = Integer.parseInt(v[STACK_SIZE_IDX]) * 1024 * 1024;
+			} catch (Exception e) {
+				ok = false;
+				System.err.println();
+				System.err.println("Invalid Stacksize: " + v[STACK_SIZE_IDX] + "it should be normal or the number of megabytes");
+				System.err.println();
+			}
+		}
+		stackSize = ss;
+		
+		IDialect d = DialectManager.MAINFRAME_COBOL;
+		String dialectStr = v[DIALECT_IDX];
+		if (dialectStr == null || dialectStr.length() == 0 || dialectStr.startsWith("m") || dialectStr.startsWith("M")) {
+			
+		} else if (dialectStr.toLowerCase().startsWith("gnu_")) {
+			d = DialectManager.GNU_COBOL;
+		} else if (dialectStr.toLowerCase().startsWith("f")) {
+			d = DialectManager.FUJITSU_COBOL;
+		} else {
+			boolean looking = true;
+			for (IDialect dialect : ALL_DIALECTS) {
+				if (dialect.getNumericDefinition().getName().equalsIgnoreCase(dialectStr)) {
+					d = dialect;
+					looking = false;
+				}
+			}
+			if (looking) {
+				ok = false;
+				System.err.println();
+				System.err.println("Invalid Cobol Dialect: " + dialectStr + "it should be Mainframe, Gnu_Cobol or Fujitsu");
+				System.err.println();
+			}
+		}
+		dialect = d;
 		ok = ok && cobol != null;
 		
 		if (ok) {
@@ -67,14 +126,15 @@ public class Parms {
 	}
 	
 	private String[] getAttrs(String[] args) {
-		String[] v = {null, null, null, null, null, null};
+		String[] v = new String[ARG_NAMES.length + 1];
 		String lcArg;
 		String sep = "";
 		StringBuilder b = new StringBuilder();
 		int idx = ARG_NAMES.length;
 		
+		
 		for (int i = 0; i < args.length; i++) {
-			lcArg = args[i].toLowerCase();
+			lcArg = args[i] == null ? "" : args[i].toLowerCase();
 			if (lcArg.startsWith("-")) {
 				v[idx] = b.toString();
 				b.setLength(0);
@@ -102,8 +162,10 @@ public class Parms {
 		return v;
 	}
 	
-	private static void printMsg(PrintStream out) {
-		out.println("Usage:\n\n  Either:"
+	private static void printMsg(PrintStream output) {
+		output.println();
+		output.print(
+				  "Usage:\n\n  Either:"
 				+ "\n\tcb2xml <copybookFileName> [debug]"
 				+ "\n  or:"
 				+ "\n\tcb2xml <attributes>\n "
@@ -113,6 +175,14 @@ public class Parms {
 				+ "\n\t-font - Font of Characterset of the copybook"
 				+ "\n\t-debug - true:  run in debug mode"
 				+ "\n\t-indentXml - indent (or format) the generated Xml "
+				+ "\n\t-XmlFormat - for the new Xml format: old or 2017 (for the new 2017 format) default ald "
+				+ "\n\t-StackSize - Stack Size (in megabytes (or normal to use the default) "
+				+ "\n\t-Dialect   - Cobol Dialect: "
 		);
+		for (IDialect dialect : ALL_DIALECTS) {
+			output.print( dialect.getNumericDefinition().getName() + "\t");
+		}
+		output.println();
+		output.println();
 	}
 }

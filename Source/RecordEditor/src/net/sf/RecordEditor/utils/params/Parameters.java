@@ -200,6 +200,9 @@ public final class Parameters implements ExternalReferenceConstants {
     public static final String XSLT_JAR_LIST 	 	   = "XsltJars.";
     public static final String XML_EXPORT_DIRS 	 	   = "XmlExportDirs.";
     public static final String OUTPUT_SCHEMA_LIST 	   = "OutputSchemas.";
+    public static final String XML_DIR_LIST 	       = "XmlDirs.";
+    public static final String XML_DIR_LIST1	       = "XmlDirs1.";
+    public static final String XML_DIR_FILTER	       = "XmlDirFilter";
 
     public static final String DEFAULT_DATABASE        = "DefaultDB";
     public static final String DEFAULT_IO       	   = "DefaultIO";

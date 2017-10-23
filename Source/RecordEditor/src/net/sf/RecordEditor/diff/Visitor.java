@@ -18,6 +18,7 @@ public class Visitor extends HunkVisitor {
 	private int newPos = 1;
 	
 	private boolean fin = false;
+	private boolean different = false;
 	
 	
 	public Visitor(LineBufferedReader oldReader, LineBufferedReader newReader) {
@@ -46,7 +47,7 @@ public class Visitor extends HunkVisitor {
 
 		copy(   newChanged, newR, arg0.lowLine(1), arg0.highLine(1), LineCompare.INSERT);
 		addNull(oldChanged, arg0.lowLine(1), arg0.highLine(1), LineCompare.INSERT);
-		
+		different = true;
 //		System.out.println("Insert Add Null " + (arg0.highLine(1) - arg0.lowLine(1) + 1 )
 //				+ " " + arg0.highLine(1) + " " + arg0.lowLine(1));
 
@@ -91,9 +92,9 @@ public class Visitor extends HunkVisitor {
 			addNull(oldChanged, 1, count, LineCompare.INSERT);			
 			addNull(oldList, 1, count, LineCompare.INSERT);			
 		}
-		
+		different = true;
 //		System.out.println(">>>> " + oldList.size() + " " + newList.size());
-}
+	}
 
 	@Override
 	public void visitHunkDel(HunkDel arg0) {
@@ -111,6 +112,7 @@ public class Visitor extends HunkVisitor {
 		System.out.println("Delete Add Null " + (arg0.highLine(0) - arg0.lowLine(0) + 1 )
 				+ " " + arg0.highLine(0) + " " + arg0.lowLine(0));
 		addNull(newChanged, arg0.lowLine(0), arg0.highLine(0), LineCompare.DELETED);
+		different = true;
 	}
 	
 	
@@ -209,5 +211,9 @@ public class Visitor extends HunkVisitor {
 			copyOld(oldPos, oldR.getCount(), oldId);
 			copyNew(newPos, newR.getCount(), newId);
 		}
+	}
+
+	public boolean isDifferent() {
+		return different || oldR.getCount() != newR.getCount();
 	}
 }

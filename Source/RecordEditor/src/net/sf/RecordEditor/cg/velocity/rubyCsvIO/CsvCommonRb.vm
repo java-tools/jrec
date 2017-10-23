@@ -26,7 +26,7 @@ class indexs:
 #*  *##end
         ]
 #end
-#set ($q = "${generateOptions.schemaDefinition.schema.getQuote()}")
+#set ($q = "${generateOptions.schemaDefinition.schema.getQuoteDetails().asString()}")
 #if ($q == "'")
 #*  *##set ($q = ", quotechar='\\''")
 #elseif ($q != "")

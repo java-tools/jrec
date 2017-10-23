@@ -1,11 +1,18 @@
 package net.sf.RecordEditor.diff;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import jlibdiff.Diff;
+import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLayoutDetails;
+import net.sf.JRecord.Details.AbstractLine;
+import net.sf.JRecord.Details.AbstractRecordDetail;
+import net.sf.JRecord.IO.AbstractLineIOProvider;
+import net.sf.JRecord.IO.AbstractLineReader;
+import net.sf.JRecord.IO.LineIOProvider;
 import net.sf.RecordEditor.jibx.compare.DiffDefinition;
 import net.sf.RecordEditor.re.openFile.ISchemaProvider;
 import net.sf.RecordEditor.utils.common.Common;
@@ -151,19 +158,101 @@ public class DoCompare  {
 	}
 
 
+	public final void compare1Layout(AbstractLayoutDetails dtl, String oldFile, String newFile)
+	throws IOException {
+		LineBufferedReader oldReader = new LineBufferedReader(
+				oldFile, dtl, null, null, false);
+		if (dtl.getFileStructure() == Constants.IO_XML_BUILD_LAYOUT) {
+			dtl = oldReader.getLayout();
+		}
+		LineBufferedReader newReader = new LineBufferedReader(
+				newFile, dtl, null, null, false);
+
+		String oldFn = new File(oldFile).getName();
+		String newFn = new File(newFile).getName();
+		
+		if (! oldFn.equalsIgnoreCase(newFn)) {
+			oldFn = oldFn + " ~ " + newFn;
+		}
+		
+		Visitor vis = getVisitor(oldReader, newReader);
+
+		new TableDisplay("Compare: " + oldFn, oldReader.getFilteredLayout(),
+				vis.getOldList(),    vis.getNewList(),
+				vis.getOldChanged(), vis.getNewChanged(), true);
+	}
+
+
 	public final void compare1Layout(LineBufferedReader oldReader, LineBufferedReader newReader)
 	throws IOException {
 
+		Visitor vis = getVisitor(oldReader, newReader);
+
+		new TableDisplay("Single Layout Compare", oldReader.getFilteredLayout(),
+				vis.getOldList(),    vis.getNewList(),
+				vis.getOldChanged(), vis.getNewChanged(), true);
+	}
+
+	private Visitor getVisitor(LineBufferedReader oldReader, LineBufferedReader newReader) throws IOException {
 		Diff diff = new Diff();
 		Visitor vis = new Visitor(oldReader, newReader);
 
 		//System.out.println("Starting ... ");
 		diff.diffBuffer(oldReader, newReader);
 		diff.accept(vis);
+		return vis;
+	}
+	
+	public final boolean isDifferent1Layout(AbstractLayoutDetails dtl, String filename1, String filename2)
+	throws IOException {
 
-		new TableDisplay("Single Layout Compare", oldReader.getFilteredLayout(),
-				vis.getOldList(),    vis.getNewList(),
-				vis.getOldChanged(), vis.getNewChanged(), true);
+		AbstractLineIOProvider ioProvider = LineIOProvider.getInstance();
+
+		AbstractLineReader reader1 = ioProvider.getLineReader(dtl);
+
+		AbstractLine line1, line2;
+		Object o1, o2;
+		
+		reader1.open(filename1);
+		
+		line1 = reader1.read();
+		boolean ok = true;
+
+		AbstractLineReader reader2 = ioProvider.getLineReader(dtl);
+		if (dtl.getFileStructure() == Constants.IO_XML_BUILD_LAYOUT) {
+			dtl = reader1.getLayout();
+		}
+		reader2.open(filename2, dtl);
+
+		while ((line2 = reader2.read()) != null && line1 != null && ok) {
+			int recordIdx = line1.getPreferredLayoutIdx();
+			if (recordIdx != line2.getPreferredLayoutIdx()) {
+				ok = false;
+			} else {
+				recordIdx = Math.max(0, recordIdx);
+				AbstractRecordDetail r = dtl.getRecord(recordIdx);
+				for (int i = 0; ok && i < r.getFieldCount(); i++ ) {
+					o1 = line1.getField(recordIdx, i);
+					o2 = line2.getField(recordIdx, i);
+					
+					ok = o1 == o2 || (o1 != null && o1.equals(o2));
+					if (! ok) { 
+						System.out.println("====>> " + i);
+					}
+				}
+				if (! ok) {
+					System.out.println(line1.getFullLine());
+					System.out.println(line2.getFullLine());
+				}
+			}
+			line1 = reader1.read();
+		}
+		ok = ok && (line1 == line2); // sneaky test of line1 == null && line2 == null
+		
+		reader1.close();
+		reader2.close();
+		
+		return ! ok;
 	}
 
 

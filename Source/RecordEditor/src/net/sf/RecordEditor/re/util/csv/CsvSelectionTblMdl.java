@@ -17,7 +17,7 @@ import net.sf.JRecord.CsvParser.ICsvByteLineParser;
 import net.sf.JRecord.CsvParser.ICsvDefinition;
 import net.sf.JRecord.CsvParser.CsvParserManagerByte;
 import net.sf.JRecord.Log.AbsSSLogger;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 import net.sf.RecordEditor.utils.common.Common;
 
 

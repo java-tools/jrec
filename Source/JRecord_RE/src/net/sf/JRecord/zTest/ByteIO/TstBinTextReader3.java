@@ -35,7 +35,7 @@ import net.sf.JRecord.ByteIO.AbstractByteReader;
 import net.sf.JRecord.ByteIO.ByteTextReader;
 import net.sf.JRecord.ByteIO.CsvByteReader;
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 import junit.framework.TestCase;
 
 /**

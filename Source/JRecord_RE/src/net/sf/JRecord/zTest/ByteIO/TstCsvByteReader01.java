@@ -26,7 +26,7 @@
 package net.sf.JRecord.zTest.ByteIO;
 
 import net.sf.JRecord.ByteIO.CsvByteReader;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 import junit.framework.TestCase;
 
 public class TstCsvByteReader01 extends TestCase {

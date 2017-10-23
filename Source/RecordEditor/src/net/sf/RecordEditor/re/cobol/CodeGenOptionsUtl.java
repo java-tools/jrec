@@ -71,7 +71,7 @@ public class CodeGenOptionsUtl implements IGenerateOptions, ActionListener {
 	public CodeGenOptionsUtl(CblLoadData data, String template, String templateBase) {
 		super();
 		this.data = data;
-		this.templateDtls = new TemplateDtls(null, template, templateBase);
+		this.templateDtls = new TemplateDtls(null, template, templateBase, false);
 			
 		init_100_setupFields();
 		init_200_LayoutScreen();
@@ -162,7 +162,7 @@ public class CodeGenOptionsUtl implements IGenerateOptions, ActionListener {
 		}
 		
 		ExternalRecord xRecord = data.getXRecordJR(data.dropCopybookNameChk.isSelected());
-		
+		templateDtls.setMultiRecord(xRecord.getNumberOfRecords() > 1);
 		
 		
 		layoutDef = new LayoutDef(
@@ -171,7 +171,7 @@ public class CodeGenOptionsUtl implements IGenerateOptions, ActionListener {
 
 		String schemaName = layoutDef.getJavaName();
 		
-		outputDir = cgx.getOutputDir(templateDtls.language, templateDtls.template, schemaName);
+		outputDir = cgx.getOutputDir(templateDtls.getLanguage(), templateDtls.template, schemaName);
 
 //		if (isMissing(packageId)) {
 //			packageId = Parameters.getString(Parameters.CODEGEN_PACKAGEID);

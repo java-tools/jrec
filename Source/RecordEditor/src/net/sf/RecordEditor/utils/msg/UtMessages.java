@@ -86,6 +86,13 @@ public class UtMessages {
 		  + "for the change to come into affect."
 	);
 	
+	public final static ReMsgId DIRECTORY_COMPARE_MSG = new ReMsgId(
+	  		"DirCompareMsg",
+	  		  "<p>This screen lists all the files in the directories being Compared.<br/>"
+	  		+ "If the files are different they will have an <font bgcolor=\"orange\"><b>Orange backGround</b></font>.<br/>"
+	  		+ "You can click on a file to see the file compare</p>"
+	  		+"<ul><li>Left Directory: <b>{0}</b><li>Right Directory: <b>{1}</ul>"
+	);
 	
 	public final static ReMsgId COBOL_IMPORT_MSG = new ReMsgId(
 	  		"CobolImportMsg",

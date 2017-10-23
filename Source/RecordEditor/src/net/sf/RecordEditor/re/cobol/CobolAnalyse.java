@@ -123,7 +123,7 @@ public class CobolAnalyse extends ReFrame implements ActionListener {
 
 		this.connectionId = pConnectionId;
 
-		this.cblDtls = new CblLoadData(connectionId, cblDtlPnl, copybookParseChanged, copybookAttrChanged); 
+		this.cblDtls = new CblLoadData(connectionId, cblDtlPnl, copybookParseChanged, copybookAttrChanged, true); 
 
  
 		init_100_BasicInit(helpUrl);

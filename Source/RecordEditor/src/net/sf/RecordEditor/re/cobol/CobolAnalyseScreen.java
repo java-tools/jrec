@@ -105,7 +105,8 @@ public class CobolAnalyseScreen extends ReFrame implements ActionListener {
 //						   final BasicLayoutCallback callback,
 						   final JMenuBar optionMenu,
 						   final JButton actionBtn,
-						   final String helpUrl)  {
+						   final String helpUrl,
+						         boolean useRecordEditorDb)  {
 		super((optionMenu==null? COBOL_LAYOUT : COBOL_GEN) + " " + pDBid,
 			   "", null);
 		boolean free = Common.isSetDoFree(false);
@@ -123,9 +124,9 @@ public class CobolAnalyseScreen extends ReFrame implements ActionListener {
 
 		this.connectionId = pConnectionId;
 
-		this.cblDtls = new CblLoadData(connectionId, cblDtlPnl, copybookParseChanged, copybookAttrChanged); 
+		this.cblDtls = new CblLoadData(connectionId, cblDtlPnl, copybookParseChanged, copybookAttrChanged, useRecordEditorDb); 
 
- 
+  
 		init_100_BasicInit(helpUrl);
 		
 		init_200_LayoutScreen(optionMenu, actionBtn);

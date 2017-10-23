@@ -96,12 +96,12 @@ public class XmlLineReader extends StandardLineReader {
     	boolean startDocumentPresent;
 
 
-    	try {
-    		f = XMLInputFactory.newInstance();
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		f = XMLInputFactory.newInstance("javax.xml.stream.XMLInputFactory", this.getClass().getClassLoader());
-		}
+//    	try {
+    	f = XMLInputFactory.newInstance();
+//    	} catch (Exception e) {
+//    		e.printStackTrace();
+//    		f = XMLInputFactory.newInstance("javax.xml.stream.XMLInputFactory", this.getClass().getClassLoader());
+//		}
     	//f.setProperty("javax.xml.stream.isReplacingEntityReferences", Boolean.FALSE);
     	//f.setProperty("javax.xml.stream.isNamespaceAware", Boolean.FALSE);
 
@@ -117,11 +117,12 @@ public class XmlLineReader extends StandardLineReader {
     	//System.out.println("====> " + f.getClass().getName());
 
 
-        if (buildLayout || pLayout == null) {
+        if (pLayout == null || (buildLayout && (! pLayout.useThisLayout()))) {
             try {
-            pLayout = new LayoutDetail("XML Document", new RecordDetail[] {null, null, null, null, null},
-                    			"", Constants.RT_XML, null, null, "", null, Constants.IO_XML_BUILD_LAYOUT
-                      );
+	            pLayout = new LayoutDetail("XML Document", new RecordDetail[] {null, null, null, null, null},
+	                    			"", Constants.RT_XML, null, null, "", null, Constants.IO_XML_BUILD_LAYOUT
+	                      );
+	            pLayout.setUseThisLayout(true);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new IOException("Error Creating Layout:" + e.getMessage(), e);

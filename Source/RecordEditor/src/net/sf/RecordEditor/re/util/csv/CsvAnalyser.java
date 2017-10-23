@@ -23,7 +23,7 @@ import net.sf.RecordEditor.utils.swing.common.CsvTextItem;
 public class CsvAnalyser {
 
 	private static final char DEFAULT_QUOTE_CHAR = '"';
-	private static final char DEFAULT_FIEL_DELIMETER_CHAR = '\t';
+	private static final char DEFAULT_FIELD_DELIMETER_CHAR = '\t';
 	public static final int COLUMN_NAMES_YES   = 1;
 	public static final int COLUMN_NAMES_NO    = 2;
 	public static final int COLUMN_NAMES_MAYBE = 3;
@@ -589,7 +589,7 @@ public class CsvAnalyser {
 
 	public static String getSeperator(byte[][] lines, int numberOfLines, String font) {
 
-		CharData charDtls = toByteArray(CsvTextItem.DELIMITER.getCsvList(false, true), STANDARD_FIELD_DELIMITERS, font, false, DEFAULT_FIEL_DELIMETER_CHAR);
+		CharData charDtls = toByteArray(CsvTextItem.DELIMITER.getCsvList(false, true), STANDARD_FIELD_DELIMITERS, font, false, DEFAULT_FIELD_DELIMETER_CHAR);
 
 		int seperatorIndex = getSeperatorIndex2(lines, numberOfLines, font, charDtls);
 		return seperatorIndex < 0 || seperatorIndex > charDtls.getLength()

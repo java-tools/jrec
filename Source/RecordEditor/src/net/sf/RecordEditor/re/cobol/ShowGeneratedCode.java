@@ -25,7 +25,7 @@ import javax.swing.tree.TreePath;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.CsvParser.BasicCsvLineParser;
 import net.sf.JRecord.CsvParser.CsvDefinition;
-import net.sf.JRecord.cg.velocity.GeneratedSkel;
+import net.sf.JRecord.cg.velocity.GeneratedSkelDetails;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.screenManager.ReFrame;
 import net.sf.RecordEditor.utils.swing.BaseHelpPanel;
@@ -46,21 +46,21 @@ public class ShowGeneratedCode {
     private JTextField descriptionTxt = new JTextField();
     private JButton saveBtn = SwingUtils.newButton("Save", Common.getRecordIcon(Common.ID_SAVE_ICON));
    
-    private GeneratedSkel currentSkel;
+    private GeneratedSkelDetails currentSkel;
  
-    public ShowGeneratedCode(List<GeneratedSkel> skels, String schemaName) {
+    public ShowGeneratedCode(List<GeneratedSkelDetails> skels, String schemaName) {
     	init_100_setup(skels);
     	init_200_layoutScreen(schemaName);
     	init_300_listners();
     }
     
-    private void init_100_setup(List<GeneratedSkel> skels) {
+    private void init_100_setup(List<GeneratedSkelDetails> skels) {
     	HashMap<String, SkelNode> nodes = new HashMap<String, ShowGeneratedCode.SkelNode>(40);
     	BasicCsvLineParser p = new BasicCsvLineParser(false);
     	CsvDefinition csvDef = new CsvDefinition("/", "'");
     	SkelNode root = new SkelNode(null, "");
     	
-    	for (GeneratedSkel skel :  skels) {
+    	for (GeneratedSkelDetails skel :  skels) {
     		String[] names = p.split(Conversion.replace(skel.javaFilename, "//", "/").toString(), csvDef, 0);
     		init_110_addNode(root, nodes, skel, names, names.length - 1);
     	}
@@ -93,7 +93,7 @@ public class ShowGeneratedCode {
 	   	this.descriptionTxt.setEditable(false);
     }
     
-    private SkelNode init_110_addNode(SkelNode root, HashMap<String, SkelNode> nodes, GeneratedSkel skel, String[] names, int idx) {
+    private SkelNode init_110_addNode(SkelNode root, HashMap<String, SkelNode> nodes, GeneratedSkelDetails skel, String[] names, int idx) {
     	SkelNode n = new SkelNode(skel, names[idx]);
     	SkelNode parent = root;
     	if (idx > 0) {
@@ -183,7 +183,7 @@ public class ShowGeneratedCode {
 		});
     }
     
-    private void setSkel(GeneratedSkel skel) {
+    private void setSkel(GeneratedSkelDetails skel) {
     	String s = skel.getGeneratedCode();
     	if (s == null) {
 	    	FileReader fr;
@@ -247,9 +247,9 @@ public class ShowGeneratedCode {
     
     @SuppressWarnings("serial")
 	private static class SkelNode extends DefaultMutableTreeNode {
-    	private final GeneratedSkel skel;
+    	private final GeneratedSkelDetails skel;
 
-		protected SkelNode(GeneratedSkel skel, String name) {
+		protected SkelNode(GeneratedSkelDetails skel, String name) {
 			super(name);
 			this.skel = skel;
 		}

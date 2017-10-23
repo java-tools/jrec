@@ -322,7 +322,7 @@ public final class CblRecordPnl {
 				cblDtls.setFieldName(rowIndex, fix(aValue), true);
 				break;
 			default:
-				cblDtls.setFieldValue(rowIndex, columnIndex - 2, fix(aValue), true);
+				cblDtls.setFieldValue(rowIndex, columnIndex - 1, fix(aValue), true);
 			}	
 		}
 		

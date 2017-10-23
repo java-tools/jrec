@@ -27,7 +27,7 @@ package net.sf.JRecord.Details;
 
 import net.sf.JRecord.Common.AbstractRecordX;
 import net.sf.JRecord.Common.IFieldDetail;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 
 /**
  * Description of one record-type in the File

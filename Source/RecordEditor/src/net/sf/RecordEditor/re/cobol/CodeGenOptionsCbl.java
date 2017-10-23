@@ -11,6 +11,7 @@ import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -25,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
@@ -58,6 +60,8 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 		new ExtendedOpt(ArgumentOption.TEMPLATE_STANDARD, ""),
 		new ExtendedOpt(ArgumentOption.TEMPLATE_LINE_WRAPPER, ""),
 		new ExtendedOpt(ArgumentOption.TEMPLATE_STD_POJO, ""),
+		new ExtendedOpt(ArgumentOption.TEMPLATE_POJO, ""),
+		new ExtendedOpt(ArgumentOption.TEMPLATE_POJO_INTERFACE, ""),
 		new ExtendedOpt(ArgumentOption.TEMPLATE_SCHEMA_CLASS, ""),
 		new ExtendedOpt(ArgumentOption.TEMPLATE_JAVA_POJO, ""),
 		new ExtendedOpt(ArgumentOption.TEMPLATE_BASIC, ""),
@@ -151,9 +155,10 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 		  .addLineRE("Template Directory", templateDirectory)
 		  .setFieldsToActualSize();
 		codeGenOptionPnl
+		  .addLineRE(        "Template", templateCombo)			
+		     .setGapRE(BaseHelpPanel.GAP0)
 		  .addLineRE("Field Name Conversion", fieldNameConversionCombo)
 		     .setGapRE(BaseHelpPanel.GAP0)
-		  .addLineRE(        "Template", templateCombo)			
 		  .addLineRE(      "Package Id", packageIdTxt)			.setFieldsToFullSize();
 		codeGenOptionPnl
 		  .addLineRE("Output Directory", cgx.outputDirectory)
@@ -212,8 +217,15 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 			FieldNameConversionManager.setCurrentConversion(fldNameIdx);
 			
 			Parameters.setProperty(Parameters.FIELD_NAME_CONVERSION_IDX, Integer.toString(fldNameIdx));
-	
-			templateDtls = new TemplateDtls(templateDirectory.getText(), template);
+		    Object o = templateCombo.getSelectedItem();
+		    if (o != null) {
+		    	Parameters.setProperty(Parameters.CODEGEN_TEMPLATE, o.toString());
+		    }
+		    
+		    
+			
+			ExternalRecord xRecord = data.getXRecordJR(data.dropCopybookNameChk.isSelected());
+			templateDtls = new TemplateDtls(templateDirectory.getText(), template, xRecord.getNumberOfRecords() > 1);
 			
 			if (! templateDtls.hasOption(TemplateDtls.T_SPLIT_ALLOWED)) {
 				if (data.getSplitOption() != CopybookLoader.SPLIT_NONE) {
@@ -228,8 +240,6 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 				return;
 			}
 			
-			ExternalRecord xRecord = data.getXRecordJR(data.dropCopybookNameChk.isSelected());
-			
 			
 			
 			LayoutDetail schema = xRecord.asLayoutDetail();
@@ -237,8 +247,28 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 			if (! templateDtls.hasOption(TemplateDtls.T_DUPLICATE_FIELD_NAMES)) {
 				Set<String> duplicateFieldNames = schema.getDuplicateFieldNames();
 				if (duplicateFieldNames != null && duplicateFieldNames.size() > 0) {
-					showDuplicateFieldMsg(duplicateFieldNames);
-					return;				
+					boolean ok = true;
+					for (String fn : duplicateFieldNames) {
+						List<IFieldDetail> fields = schema.getFieldListForName(fn);
+						if (ok && fields.size() > 1) {
+							IFieldDetail f = fields.get(0);
+							IFieldDetail tf; 
+							for (int i = 1; i < fields.size(); i++) {
+								tf = fields.get(i);
+								if (f.getPos() != tf.getPos() 
+								|| f.getLen() != tf.getLen() 
+								|| f.getType() != tf.getType()) {
+									ok = false;
+									break;
+								}
+							}
+						}
+					}
+					
+					if (! ok) {
+						showDuplicateFieldMsg(duplicateFieldNames);
+					}
+					//return;				
 				}
 			} else if (isDuplicateArrayFields(schema.getDuplicateFieldNames())) {
 				return;
@@ -249,7 +279,7 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 					null); 
 			String schemaName = layoutDef.getJavaName();
 			
-			outputDir = cgx.getOutputDir(templateDtls.language, templateDtls.template, schemaName);
+			outputDir = cgx.getOutputDir(templateDtls.getLanguage(), templateDtls.template, schemaName);
 	
 	//		if (isMissing(packageId)) {
 	//			packageId = Parameters.getString(Parameters.CODEGEN_PACKAGEID);
@@ -286,7 +316,12 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 //		 .append(template);
 //		outputDir = b.toString();
 			GenerateVelocity gv = new GenerateVelocity(this, Common.OPTIONS.applicationDetails);
-			new ShowGeneratedCode(gv.generatedFiles, layoutDef.getSchemaShortName());
+			
+			if (gv.generatedFiles == null || gv.generatedFiles.size() == 0) {
+				Common.logMsg("Nothing generated ", null);
+			} else {
+				new ShowGeneratedCode(gv.generatedFiles, layoutDef.getSchemaShortName());
+			}
 			dialog.setVisible(false);
 		} catch (Exception e1) {
 			String msg = e1.toString();
@@ -322,7 +357,7 @@ public class CodeGenOptionsCbl implements IGenerateOptions, ActionListener, ISet
 			b.append('\t').append(dupIterator.next());
 		}
 
-		showMessage(b.toString(), "The Cobol Copybook has duplicate Field names which is not allowed for this template");
+		showMessage(b.toString(), "The Cobol Copybook has duplicate Field names, you will need to make changes to the code !!!");
 	}
 
 

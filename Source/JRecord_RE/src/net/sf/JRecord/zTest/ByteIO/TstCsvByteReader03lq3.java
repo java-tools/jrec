@@ -29,7 +29,7 @@ import java.io.IOException;
 
 import net.sf.JRecord.ByteIO.CsvByteReader;
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 import net.sf.JRecord.zTest.Common.TestCommonCode;
 import junit.framework.TestCase;
 

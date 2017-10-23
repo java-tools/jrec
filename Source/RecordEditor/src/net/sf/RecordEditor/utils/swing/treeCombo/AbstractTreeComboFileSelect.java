@@ -53,8 +53,10 @@ public class AbstractTreeComboFileSelect extends TreeCombo implements UpdatableT
 			List<FileTreeComboItem> itms, List<File> directoryList,
 			JButton fileSelBtn, JButton[] btns) { 
 		super("FileNameTxtFld", list2Array(itms), btns /*addToArray(fileSelBtn, btns)*/);
-		fileListBtn = fileSelBtn;
-		dirList = directoryList;
+		this.fileList = itms;
+		this.dirList = directoryList;
+		this.fileListBtn = fileSelBtn;
+
 		if (directoryList == null) {
 			chooseHelper = new FileChooserHelper(this, isOpen, isDirectory, new File[0]);
 		} else {

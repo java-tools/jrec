@@ -47,8 +47,8 @@ import net.sf.JRecord.CsvParser.CsvParserManagerChar;
 import net.sf.JRecord.External.base.ExternalConversion;
 import net.sf.JRecord.Option.IRecordPositionOption;
 import net.sf.JRecord.Types.TypeManager;
-import net.sf.JRecord.cgen.defc.IRecordDetail4gen;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.cgen.def.IRecordDetail4gen;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 import net.sf.JRecord.detailsSelection.FieldSelectX;
 import net.sf.JRecord.detailsSelection.RecordSelection;
 

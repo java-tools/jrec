@@ -68,7 +68,6 @@ public class LineBufferedReader extends BufferedReader {
 		AbstractLineReader reader = ioProvider.getLineReader(dtl);
 		AbstractLine line;
 
-		filteredLayout = dtl;
 		detail = dtl;
 		stripSpaces = stripTrailingSpaces;
 
@@ -84,6 +83,8 @@ public class LineBufferedReader extends BufferedReader {
 			while ((line = reader.read()) != null) {
 				addLine(line);
 			}
+			detail = reader.getLayout();
+			filteredLayout = detail;
 		} else {
 			boolean[] include = new boolean[dtl.getRecordCount()];
 			List<AbstractLine> list;
@@ -125,6 +126,7 @@ public class LineBufferedReader extends BufferedReader {
 						}
 					}
 				}
+				detail = reader.getLayout();
 			}
 		}
 		reader.close();
@@ -250,5 +252,10 @@ public class LineBufferedReader extends BufferedReader {
 	 */
 	public final AbstractLayoutDetails getFilteredLayout() {
 		return filteredLayout;
+	}
+
+
+	public AbstractLayoutDetails getLayout() {
+		return detail;
 	}
 }

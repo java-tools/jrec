@@ -58,7 +58,7 @@ import net.sf.JRecord.External.Def.BasicConversion;
 import net.sf.JRecord.charIO.CsvCharReader;
 import net.sf.JRecord.charIO.ICharReader;
 import net.sf.JRecord.charIO.StandardCharReader;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 
 /**
  * LineIOprovider - This class returns a LineIO class appropriate for

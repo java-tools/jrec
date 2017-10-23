@@ -19,7 +19,7 @@ import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.charIO.CsvCharReader;
 import net.sf.JRecord.charIO.ICharReader;
 import net.sf.JRecord.charIO.StandardCharReader;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 import net.sf.RecordEditor.utils.common.Common;
 
 @SuppressWarnings("serial")

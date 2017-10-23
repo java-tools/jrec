@@ -10,7 +10,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.Option.ICobolSplitOptions;
-import net.sf.RecordEditor.cg.common.CCode;
+import net.sf.JRecord.cg.common.CCode;
 import net.sf.cb2xml.def.Cb2xmlConstants;
 
 

@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+import net.sf.RecordEditor.diff.xml.XmlCompareDirOptions;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelectCreator;
 import net.sf.RecordEditor.re.openFile.AbstractLayoutSelection;
 import net.sf.RecordEditor.re.openFile.LayoutSelectionCsvCreator;
@@ -56,6 +57,7 @@ public class Menu extends ReFrame
 	private JButton csvDbCmp     = new JButton("*");
 	private JButton poCmpBtn     = new JButton("*");
 	private JButton tipCmpBtn    = new JButton("*");
+	private JButton xmlDirCmpBtn = new JButton("*");
 
 	private JButton btnHelp      = SwingUtils.getHelpButton();
 
@@ -115,6 +117,8 @@ public class Menu extends ReFrame
 		pnl.addMenuItemRE("GetText-Po Compare", poCmpBtn);
 		pnl.setGapRE(BasePanel.GAP1);
 		pnl.addMenuItemRE("SwingX-Tip Compare", tipCmpBtn);
+		pnl.setGapRE(BasePanel.GAP1);
+		pnl.addMenuItemRE("Xml Directory Compare", xmlDirCmpBtn);
 		
 		pnl.setGapRE(BasePanel.GAP3);
 
@@ -127,6 +131,7 @@ public class Menu extends ReFrame
 		csvDbCmp.addActionListener(this);
 		tipCmpBtn.addActionListener(this);
 		poCmpBtn.addActionListener(this);
+		xmlDirCmpBtn.addActionListener(this);
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -173,6 +178,8 @@ public class Menu extends ReFrame
 		} else if (e.getSource() == tipCmpBtn) {
 			LayoutSelectionPoTipCreator newTipCreator = LayoutSelectionPoTipCreator.newTipCreator();
 			new CompareSingleLayout("SwingX-Tip Compare Wizard -", newTipCreator.create(), rFiles);
+		} else if (e.getSource() == xmlDirCmpBtn) {
+			new XmlCompareDirOptions(true);
 		} else {
 			AbstractLayoutSelection selection = layoutCreator.create();
 			selection.setDatabaseIdx(dbCombo.getSelectedIndex());

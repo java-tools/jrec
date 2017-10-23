@@ -33,7 +33,7 @@ public class LoadCobolCopybook implements ActionListener{
 		this.layoutCallback = layoutCallback;
 		this.connectionId = connectionId;
 		
-		CobolAnalyseScreen cobAnalysis = new CobolAnalyseScreen(pDBid, connectionId, null, null, null);
+		CobolAnalyseScreen cobAnalysis = new CobolAnalyseScreen(pDBid, connectionId, null, null, null, true);
 		
 		cblDtls = cobAnalysis.cblDtls;
 		

@@ -6,6 +6,7 @@ package net.sf.RecordEditor.diff;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -96,6 +97,8 @@ public class TableDisplay extends AbstractCompareDisplay {
 		render.setSchemaIdx(getLayoutIndex());
 
         setVisible(true);
+        
+        init_200_SetLayout();
 	}
 
 	private void init_100_SetupJtables() {
@@ -140,6 +143,37 @@ public class TableDisplay extends AbstractCompareDisplay {
 	            }
 
 		});
+	}
+
+	private void init_200_SetLayout() {
+		int recordCount = layout.getRecordCount();
+		if (recordCount > 1) {
+			int[] recCount = new int[recordCount];
+			Arrays.fill(recCount, 0);
+			init_210_CountRecords(recCount, displayBefore);
+			
+			init_210_CountRecords(recCount, displayAfter);
+			
+			int idx = 0, count=0;
+			for (int i = 0; i < recCount.length; i++) {
+				if (recCount[i] > count) {
+					count = recCount[i];
+					idx = i;
+				}
+			}
+			
+			super.setLayoutIndex(idx);
+		}
+	}
+	
+	private void init_210_CountRecords(int[] recCount, ArrayList<LineCompare> items ) {
+		int idx;
+		for (LineCompare itm : items) {
+			if (itm != null && itm.line != null 
+			&& (idx = itm.line.getPreferredLayoutIdx()) >= 0 && idx < recCount.length) {
+				recCount[idx] += 1;
+			}
+		}
 	}
 
 	public void setTableFeatures() {

@@ -82,7 +82,9 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 		super();
 
 		this.schema = schema;
-		this.templateDtls = new TemplateDtls(null, template, templateResourceDir);
+		this.templateDtls = new TemplateDtls(
+				null, template, templateResourceDir, 
+				schema != null && schema.getRecordCount() > 1);
 		//this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), conversion.string2JavaId(schema.getLayoutName()));
 		this.dataFileName = new CodeGenFileName(dataFileName);
 		this.callback = callback;
@@ -221,7 +223,6 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String packageId = packageIdTxt.getText();
-		String schemaName = layoutDef.getJavaName();
 		
 		int fldNameIdx = fieldNameConversionCombo.getSelectedIndex();
 		FieldNameConversionManager.setCurrentConversion(fldNameIdx);
@@ -230,8 +231,9 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 		
 		this.conversion = FieldNameConversionManager.getCurrentConversion();
 		this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), conversion.string2JavaId(schema.getLayoutName()));
+		String schemaName = layoutDef.getJavaName();
 		
-		outputDir = cgx.getOutputDir(templateDtls.language, templateDtls.template, schemaName);
+		outputDir = cgx.getOutputDir(templateDtls.getLanguage(), templateDtls.template, schemaName);
 		
 		
 		if (isMissing(outputDir)) {
@@ -270,6 +272,7 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 	public void setRecordLayout(int layoutId, String layoutName, String filename) {
 		
 		this.schema = wiz.getWizardDetails().createRecordLayout().asLayoutDetail();
+		this.templateDtls.setMultiRecord(schema.getRecordCount() > 1);
 		this.layoutDef = new LayoutDef(schema, schema.getLayoutName(), conversion.string2JavaId(schema.getLayoutName()));
 		generateCode();
 		if (callback != null) {

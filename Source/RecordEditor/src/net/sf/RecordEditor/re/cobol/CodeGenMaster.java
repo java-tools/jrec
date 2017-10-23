@@ -94,7 +94,7 @@ public class CodeGenMaster {
 		bar.add(editMenu);
 		bar.add(helpMenu);
 		
-		analysis = new CobolAnalyseScreen("", Common.getConnectionIndex(), bar, genBtn, Common.HELP_JREC_GEN);
+		analysis = new CobolAnalyseScreen("", Common.getConnectionIndex(), bar, genBtn, Common.HELP_JREC_GEN, false);
 	
 		genBtn.addActionListener(genAction);
 	}

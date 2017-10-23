@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 import net.sf.RecordEditor.edit.display.util.OptionPnl;
 import net.sf.RecordEditor.re.file.FileView;
@@ -81,6 +82,12 @@ public class LineListReItems extends BaseLineDisplay {
 
         setLayoutIndex(0);
         setupForChangeOfLayout();
+
+        SwingUtilities.invokeLater(new Runnable() {			
+ 			@Override public void run() {
+ 				Common.calcColumnWidths(tblDetails, 2);
+ 			}
+ 		});
 
 	}
 

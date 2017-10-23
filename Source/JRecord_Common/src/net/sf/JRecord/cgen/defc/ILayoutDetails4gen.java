@@ -23,9 +23,9 @@
  *
  * ------------------------------------------------------------------------ */
       
-package net.sf.JRecord.cgen.defc;
+package net.sf.JRecord.cgen.def;
 
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 
 public interface ILayoutDetails4gen {
 

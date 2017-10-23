@@ -23,13 +23,21 @@
  *
  * ------------------------------------------------------------------------ */
       
-package net.sf.JRecord.cgen.defc;
+package net.sf.JRecord.cgen.def;
 
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Option.IRecordPositionOption;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 import net.sf.JRecord.detailsSelection.RecordSelection;
 
+/**
+ * This is `Record` class used by CodeGen to help generate code.
+ * It is implemented by RecordDetail in both JRecord and JRecord-for-Recordeditor.
+ * This interface allows CodeGen to work with both JRecord and the RecordEditor.
+ * 
+ * @author Bruce Martin
+ *
+ */
 public interface IRecordDetail4gen {
 
 	public abstract int getFieldCount();

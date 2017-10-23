@@ -256,13 +256,17 @@ public final class Conversion {
 	 * @return Field Value (Decimal)
 	 */
 	public static String getDecimal(final byte[] record, final int start, final int fin) {
+		return getDecimalSB(record, start, fin).toString();
+	}
+
+	public static StringBuilder getDecimalSB(final byte[] record, final int start, final int fin) {
 		int i;
 		String s;
-		StringBuffer ret = new StringBuffer(Math.max(1, fin - start));
+		StringBuilder ret = new StringBuilder(3 + Math.max(0, 2 *(fin - start)));
 		int b;
 
 		for (i = start; i < fin; i++) {
-			b = toPostiveByte(record[i]);
+			b = ((int) 255) & record[i]; //toPostiveByte(record[i]);
 			s = Integer.toHexString(b);
 			if (s.length() == 1) {
 				ret.append('0');
@@ -270,9 +274,8 @@ public final class Conversion {
 			ret.append(s);
 		}
 
-		return ret.toString();
+		return ret;
 	}
-
 
 	/**
 	 * Get field Value as a Bit String
@@ -400,29 +403,34 @@ public final class Conversion {
 	public static String getMainframePackedDecimal(final byte[] record,
 	        									   final int start,
 	        									   final int len) {
-	    String hex  = getDecimal(record, start, start + len);
+		StringBuilder hex  = getDecimalSB(record, start, start + len);
 	        //Long.toHexString(toBigInt(start, len).longValue());
-	    String ret  = "";
-	    String sign = "";
+	    String ret  = "0";
 
 	    if (hex.length() > 0) {
-	        switch (hex.substring(hex.length() - 1).toLowerCase().charAt(0)) {
-	            case 'd' : sign = "-";
-	        	case 'a' :
-	        	case 'b' :
-	        	case 'c' :
-	        	case 'e' :
-	        	case 'f' :
-	        	    ret = sign + hex.substring(0, hex.length() - 1);
-	        	break;
-	        	default:
-	        	    ret = hex;
-	        }
+	    	switch (hex.charAt(hex.length() - 1)) {
+	    	case 'D':
+	    	case 'd' : hex.insert(0, '-');
+	    	case 'A' :
+	    	case 'B' :
+	    	case 'C' :
+	    	case 'E' :
+	    	case 'F' :
+	    	case 'a' :
+	    	case 'b' :
+	    	case 'c' :
+	    	case 'e' :
+	    	case 'f' :
+	    		hex.setLength(hex.length() - 1);
+	    		break;
+	    	default:
+	    	}
+    		ret = hex.toString();
 	    }
 
-	    if (ret.length() == 0) {
-	        ret = "0";
-	    }
+//	    if (ret.length() == 0) {
+//	        ret = "0";
+//	    }
 
 	    return ret;
 	}
@@ -581,7 +589,6 @@ public final class Conversion {
 	public static void setBigInt(final byte[] record, int pos, int len, BigInteger val, boolean isPositive) {
 		byte[] bytes = val.toByteArray();
 		int i;
-		byte sb = BYTE_NO_BIT_SET;
 
 		if (bytes.length <= len) {
 		} else if (isPositive && bytes.length == len + 1 && (bytes[0] == 0)){
@@ -597,6 +604,7 @@ public final class Conversion {
 					new Object[] {isPositive, pos, bytes.length , len, bytes[0]});
 		}
 
+		byte sb = BYTE_NO_BIT_SET;
 		if (val.signum() < 0) {
 			sb = BYTE_ALL_BITS_SET;
 		}
@@ -1160,6 +1168,22 @@ public final class Conversion {
 //    }
 	
     /**
+	 * @return the positive0EbcdicZoned
+	 */
+	public static char getPositive0EbcdicZoned() {
+		return positive0EbcdicZoned;
+	}
+
+
+	/**
+	 * @return the negative0EbcdicZoned
+	 */
+	public static char getNegative0EbcdicZoned() {
+		return negative0EbcdicZoned;
+	}
+
+
+	/**
      * Class to hold character-set details
      * 
      * @author Bruce Martin

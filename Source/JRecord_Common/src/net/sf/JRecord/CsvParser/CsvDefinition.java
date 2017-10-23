@@ -29,7 +29,7 @@
 package net.sf.JRecord.CsvParser;
 
 import net.sf.JRecord.Common.Conversion;
-import net.sf.JRecord.definitiuons.CsvCharDetails;
+import net.sf.JRecord.detailsBasic.CsvCharDetails;
 
 /**
  * @author mum
@@ -55,7 +55,7 @@ public class CsvDefinition implements ICsvDefinition {
 	}
 
 	public CsvDefinition(CsvCharDetails delimiter, CsvCharDetails quote) {
-		this(delimiter, quote, ICsvDefinition.NORMAL_SPLIT, -1, Conversion.DEFAULT_ASCII_CHARSET, false);
+		this(delimiter, quote, ICsvDefinition.NORMAL_SPLIT, -1, delimiter.getFont(), false);
 	}
 
 //	public CsvDefinition(String delimiter, String quote, boolean embeddedCR) {

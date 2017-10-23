@@ -1,4 +1,4 @@
-package net.sf.JRecord.definitiuons;
+package net.sf.JRecord.detailsBasic;
 
 import java.util.Arrays;
 
@@ -47,13 +47,14 @@ public final class CsvCharDetails {
 		return new CsvCharDetails(rawValue, font, '\t');
 	}
 
-	private final String definition,  strValue;
+	private final String definition,  strValue, font;
 	private final byte[] bytes;
 	private final char[] chars;
 	private final boolean bin;
 	
 	private CsvCharDetails(String rawValue, String font, char defaultCh) {
 		this.definition = rawValue == "\t" ? "\\t" : rawValue ;
+		this.font = font;
 		//this.fontname = font;
 		
 		bytes = Conversion.getCsvDelimBytes(rawValue, font, defaultCh);	
@@ -64,6 +65,7 @@ public final class CsvCharDetails {
 
 	private CsvCharDetails() {
 		this.definition = "" ;
+		this.font = "";
 		//this.fontname = font;
 		
 		bytes = EMPTY_BYTES;	
@@ -100,18 +102,25 @@ public final class CsvCharDetails {
 		return strValue;
 	}
 	
+	/**
+	 * @deprecated for use in JRecord/RecordEditor only. This method can not <b>relied upon</b>.
+	 */
+	public String getFont() {
+		return font;
+	}
 	
 	public String jrDefinition() {
 		return definition;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof CsvCharDetails) {
 			CsvCharDetails cmp = (CsvCharDetails) obj;
 			return this == cmp
 				|| definition.equals(cmp.definition)
-				|| (bin && strValue.equals(cmp.strValue))
-				|| ((!bin) && Arrays.equals(bytes, cmp.bytes));
+				|| ((!bin) && strValue.equals(cmp.strValue))
+				|| ((bin) && Arrays.equals(bytes, cmp.bytes));
 		}
 		return false;
 	}

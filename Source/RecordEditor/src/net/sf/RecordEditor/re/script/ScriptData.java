@@ -22,7 +22,6 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.LineCompare;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.External.base.ExternalConversion;
-import net.sf.JRecord.cg.schema.LayoutDef;
 import net.sf.RecordEditor.edit.display.BaseDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplay;
 import net.sf.RecordEditor.re.display.AbstractFileDisplayWithFieldHide;
@@ -743,11 +742,11 @@ public class ScriptData {
 	}
 
 	
-	public LayoutDef getCodeGenLayoutDef() {
+	public Object getCodeGenLayoutDef() {
 		if (layout == null || !(layout instanceof LayoutDetail)) {
 			return null;
 		}
-		return new LayoutDef((LayoutDetail) layout, layout.getLayoutName(), null);
+		return new net.sf.JRecord.cg.schema.LayoutDef((LayoutDetail) layout, layout.getLayoutName(), null);
 	}
 
 	/**

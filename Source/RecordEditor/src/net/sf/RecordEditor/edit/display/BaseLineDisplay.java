@@ -63,6 +63,13 @@ public abstract class BaseLineDisplay extends BaseDisplay {
 	) {
 		super(panel, formType, viewOfFile, primary, fullLine, true, prefered, hex, layoutLineOption);
 //				changeRow ? STD_OPTION_PANEL: NO_OPTION_PANEL);
+        
+//        SwingUtilities.invokeLater(new Runnable() {			
+//			@Override public void run() {
+//				Common.calcColumnWidths(tblDetails, 2);
+//			}
+//		});
+
 	}
 
 

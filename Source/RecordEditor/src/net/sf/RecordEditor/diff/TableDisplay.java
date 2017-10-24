@@ -22,6 +22,7 @@ import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.Options;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.swing.BasePanel;
+import net.sf.RecordEditor.utils.swing.LayoutCombo;
 import net.sf.RecordEditor.utils.swing.SwingUtils;
 
 /**
@@ -147,7 +148,8 @@ public class TableDisplay extends AbstractCompareDisplay {
 
 	private void init_200_SetLayout() {
 		int recordCount = layout.getRecordCount();
-		if (recordCount > 1) {
+		LayoutCombo layoutList = super.getLayoutList();
+		if (recordCount > 1 && layoutList != null && layoutList.getPreferedIndex() == 0) {
 			int[] recCount = new int[recordCount];
 			Arrays.fill(recCount, 0);
 			init_210_CountRecords(recCount, displayBefore);

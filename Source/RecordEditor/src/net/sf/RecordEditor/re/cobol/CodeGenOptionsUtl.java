@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.External.ExternalRecord;
-import net.sf.JRecord.cg.common.CCode;
 import net.sf.JRecord.cg.details.ArgumentOption;
 import net.sf.JRecord.cg.details.ConstantVals;
 import net.sf.JRecord.cg.details.IGenerateOptions;
@@ -24,6 +23,7 @@ import net.sf.JRecord.cg.details.TemplateDtls;
 import net.sf.JRecord.cg.schema.CodeGenFileName;
 import net.sf.JRecord.cg.schema.LayoutDef;
 import net.sf.JRecord.cg.velocity.GenerateVelocity;
+import net.sf.JRecord.cgen.support.Code2JRecordConstants;
 import net.sf.RecordEditor.utils.common.Common;
 import net.sf.RecordEditor.utils.lang.ReOptionDialog;
 import net.sf.RecordEditor.utils.params.Parameters;
@@ -291,7 +291,7 @@ public class CodeGenOptionsUtl implements IGenerateOptions, ActionListener {
 			}
 		}
 
-		return new ArgumentOption(Integer.toString(fileStructure), CCode.getJRecordIoTypeName(fileStructure), "", fileStructure);
+		return new ArgumentOption(Integer.toString(fileStructure), Code2JRecordConstants.getJRecordIoTypeName(fileStructure), "", fileStructure);
 	}
 
 
@@ -334,6 +334,6 @@ public class CodeGenOptionsUtl implements IGenerateOptions, ActionListener {
 				return o;
 			}
 		}
-		return ArgumentOption.newFileStructureOpt(Integer.toString(dialect), CCode.getDialectName(dialect), "", dialect);
+		return ArgumentOption.newFileStructureOpt(Integer.toString(dialect), Code2JRecordConstants.getDialectName(dialect), "", dialect);
 	}
 }

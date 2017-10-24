@@ -18,16 +18,16 @@ import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.IFieldDetail;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
-import net.sf.JRecord.cg.common.CCode;
 import net.sf.JRecord.cg.details.ArgumentOption;
 import net.sf.JRecord.cg.details.ConstantVals;
 import net.sf.JRecord.cg.details.IGenerateOptions;
 import net.sf.JRecord.cg.details.TemplateDtls;
-import net.sf.JRecord.cg.nameConversion.IFieldNameConversion;
-import net.sf.JRecord.cg.nameConversion.FieldNameConversionManager;
 import net.sf.JRecord.cg.schema.CodeGenFileName;
 import net.sf.JRecord.cg.schema.LayoutDef;
 import net.sf.JRecord.cg.velocity.GenerateVelocity;
+import net.sf.JRecord.cgen.support.Code2JRecordConstants;
+import net.sf.JRecord.fieldNameConversion.FieldNameConversionManager;
+import net.sf.JRecord.fieldNameConversion.IFieldNameConversion;
 import net.sf.RecordEditor.layoutWizard.WizardFileLayoutCsv;
 import net.sf.RecordEditor.utils.BasicLayoutCallback;
 import net.sf.RecordEditor.utils.common.Common;
@@ -376,7 +376,7 @@ public class CodeGenOptions implements IGenerateOptions, ActionListener, BasicLa
 			}
 		}
 
-		return ArgumentOption.newFileStructureOpt(Integer.toString(fileStructure), CCode.getJRecordIoTypeName(fileStructure), "", 
+		return ArgumentOption.newFileStructureOpt(Integer.toString(fileStructure), Code2JRecordConstants.getJRecordIoTypeName(fileStructure), "", 
 				fileStructure);
 	}
 

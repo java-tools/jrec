@@ -10,7 +10,7 @@ import net.sf.JRecord.External.ExternalRecord;
 import net.sf.JRecord.External.Def.ExternalField;
 import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.Option.ICobolSplitOptions;
-import net.sf.JRecord.cg.common.CCode;
+import net.sf.JRecord.cgen.support.Code2JRecordConstants;
 import net.sf.cb2xml.def.Cb2xmlConstants;
 
 
@@ -67,11 +67,11 @@ public class CblGenJRecord {
 		
 		
 		if (dialect != ICopybookDialects.FMT_MAINFRAME) {
-			b.append("\n                                      .setDialect(" + CCode.getDialectName(dialect) + ")");
+			b.append("\n                                      .setDialect(" + Code2JRecordConstants.getDialectName(dialect) + ")");
 		}
 		
 		if (splitOption != ICobolSplitOptions.SPLIT_NONE) {
-			b.append("\n                                      .setSplitCopybook(" + CCode.getSplitName(splitOption) + ")");
+			b.append("\n                                      .setSplitCopybook(" + Code2JRecordConstants.getSplitName(splitOption) + ")");
 		}
 		
         if (! "".equals(font)) {
@@ -79,7 +79,7 @@ public class CblGenJRecord {
         }
         
 		if (format != Cb2xmlConstants.USE_STANDARD_COLUMNS) {
-			b.append("\n                                      .setCopybookFileFormat(" + CCode.getCopybookFormatName(format) + ")");
+			b.append("\n                                      .setCopybookFileFormat(" + Code2JRecordConstants.getCopybookFormatName(format) + ")");
 		}
 
 		b.append(";\n    AbstractLine line;\n\n");

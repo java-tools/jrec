@@ -88,8 +88,8 @@ public class XmlCompareDir {
 		tipsPane = new JEditorPane(
 						"text/html", 
 						UtMessages.DIRECTORY_COMPARE_MSG.get(
-								dir1Path.getParent().toString(), 
-								dir2Path.getParent().toString()));;
+								dir1Path.toString(), 
+								dir2Path.toString()));;
 
 		
 		Files.walkFileTree(dir1Path, walker);
